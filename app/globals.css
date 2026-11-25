@@ -1,0 +1,45 @@
+:root {
+  --pink: #e5336d;
+  --orange: #ff8a3d;
+  --teal: #0f8b8d;
+  --ink: #22101c;
+  --muted: #7a5a6c;
+  --card: #fff0f4;
+  --rule: #f3dbe4;
+  --ground: #ffffff;
+  --on-pink: #ffffff;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pink: #ff5c8a;
+    --orange: #ff9d5c;
+    --teal: #3cc7c2;
+    --ink: #fbeef3;
+    --muted: #c29bb0;
+    --card: #2a1726;
+    --rule: #3a2435;
+    --ground: #1c0f1a;
+    --on-pink: #1c0f1a;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: 16px;
+}

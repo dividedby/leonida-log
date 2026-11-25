@@ -8,4 +8,7 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Added
 
+- Next.js (App Router) + TypeScript app skeleton with pnpm, ESLint, Prettier, Vitest and `tsc --noEmit`, and a blank Postcard shell (Anton + Work Sans, palette tokens with dark mode).
+- CI: `changes`, lint, typecheck, test, build, gitleaks and the `ci-ok` gate; `format` workflow; Dependabot for GitHub Actions and npm.
+- v1 plan (docs/plans/v1.md), approved.
 - Repo scaffold: CLAUDE.md, CONTEXT.md glossary, design and branding docs, ADRs 0001-0007, agent docs and the Idea Inbox template.

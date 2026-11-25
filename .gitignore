@@ -12,3 +12,4 @@ next-env.d.ts
 *.sqlite
 data/scraped/
 .DS_Store
+AGENTS.md

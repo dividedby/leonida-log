@@ -2,7 +2,7 @@
 
 A phone-first, spoiler-gated guide to GTA 6, built around where you are in the story: what to do before each point of no return, and how to go into the next chapter as strong as possible. It lives at gta.dvdby.cc.
 
-Status: v1 in development. The repo holds design docs and decisions so far; the app lands next.
+Status: v1 in development. App skeleton in place; features land per [docs/plans/v1.md](docs/plans/v1.md).
 
 ## v1
 
@@ -16,9 +16,20 @@ Status: v1 in development. The repo holds design docs and decisions so far; the 
 
 - [docs/design.md](docs/design.md): goals, screens, data model, architecture
 - [docs/branding.md](docs/branding.md): name, logo, palette, type, voice
+- [docs/plans/v1.md](docs/plans/v1.md): v1 delivery plan, one PR per step
 - [docs/adr/](docs/adr/): decisions
 - [CONTEXT.md](CONTEXT.md): glossary
 - [Design reference](https://claude.ai/artifact/FL8isDnFAyobGqPrkFeb9W): the visual source of truth
+
+## Development
+
+Node 24 and pnpm.
+
+```sh
+pnpm install
+pnpm dev
+pnpm test
+```
 
 ## Data
 
