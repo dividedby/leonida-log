@@ -1,15 +1,26 @@
 # Points of no return, keyed by the mission that triggers them.
-# Both gates are listed; items so far exist only for Tourist Trap (items/).
-# "lost" is paraphrased, never copied from a guide. Mission replay doesn't
+# Both gates are listed; items exist for Tourist Trap (items/tourist-trap.yaml)
+# and Checking Out (items/checking-out.yaml).
+# "lost" is paraphrased, never copied from a guide, and lists only what is
+# lost; what a gate needs before it starts lives in the items. Mission replay doesn't
 # exist, so a manual save before each gate is advised (see items/).
+#
+# Verification rule (items carry the verified flag; the same bar applies here):
+# a single source that is AI-drafted or AI-assisted (The Games Wiki says so in
+# its footer; gaming.net too) never counts as one explicit source. Lost-lists
+# resting only on such a source are provisional.
+#
+# Not gates here, on purpose: Sunset (Ch4) and Unfinished Business (Ch5) are
+# flagged by gtabase alone and document no loss; see Open questions in
+# docs/design.md.
 
 gates:
   - mission: tourist-trap
     lost:
       - Cash in your pockets
-      - Jason's Ultimate Edition vehicles
-      - Several hours of free roam as both characters
-      - Access to Jason's original house
+      - Jason's original house, and the cash stashed under its floor
+      - All of Jason's personal vehicles, Ultimate Edition ones included
+      - Free roam as both characters, for several hours
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
@@ -17,10 +28,25 @@ gates:
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
+        title: "gtabase: Tourist Trap mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/articles/how-to-keep-your-money-safe-in-gta-6
+        title: "gtabase: how to keep your money safe in GTA 6"
+        accessed: "2026-11-25"
   - mission: checking-out
     lost:
-      - Your motel home, for good
+      - Your home at the Starlet Motel, for good
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/checking-out
+        title: "gtabase: Checking Out mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"

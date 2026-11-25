@@ -1,0 +1,180 @@
+# Before-you-move-on items for the Checking Out gate.
+# Text is paraphrased in the app's voice, never copied from a guide.
+# verified: true only where two independent sources agree or one non-AI source
+# states it outright. A single source that is AI-drafted or AI-assisted (The
+# Games Wiki says so in its footer; gaming.net too) never counts as that one
+# explicit source, so items resting only on it stay verified: false.
+# visible_after_mission is the earliest sourced mission; where no later mission
+# is sourced it is the first Chapter 2 mission (whats-in-the-bag).
+# Not listed, on purpose: what to do for Lucia during the escape. It can't be
+# described without giving away the mission.
+
+items:
+  - id: save-fifteen-thousand
+    title: Save $15,000
+    category: Money
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: Checking Out won't start until you hold $15,000. No source says it's spent or whether pocket cash counts, so treat it as an entry ticket and keep it in your BuckMe checking account.
+    location: The BuckMe app.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/checking-out
+        title: "gtabase: Checking Out mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+
+  - id: finish-chapter-2-missions
+    title: Finish every other main mission
+    category: General
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: Checking Out also waits for every other available main mission in the chapter. Money alone won't trigger it. Missions can arrive by phone, so sleep to move time on if none are showing.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/checking-out
+        title: "gtabase: Checking Out mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+
+  - id: motel-cards
+    title: Collect cards #1 and #2 in the motel
+    category: Collectibles
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    lost_at_mission: checking-out
+    verified: true
+    how_to: The first two collectible cards are inside the Starlet Motel, and the motel stops being your home at the gate. One guide says each has a second copy elsewhere.
+    location: Starlet Motel.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/checking-out
+        title: "gtabase: Checking Out mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+
+  - id: motel-storage
+    title: Empty the motel's wardrobe and storage
+    category: General
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    lost_at_mission: checking-out
+    verified: true
+    how_to: Wear the outfits you want and take out anything you stored there. You lose the motel as a home at the gate.
+    location: Starlet Motel.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/checking-out
+        title: "gtabase: Checking Out mission"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+
+  - id: moses-car-sales
+    title: Sell cars to Moses
+    category: Money
+    before_gate: checking-out
+    visible_after_mission: moses
+    verified: true
+    how_to: Steal cars with no tracker and sell them for roughly $1,000 to $3,000 each, with about a two-minute cooldown between sales. Take them from the main road in Port Gellhorn rather than near his garage. It's slow for big money but fine for reaching $15,000.
+    location: Moses' auto shop, Port Gellhorn.
+    sources:
+      - url: https://www.powerpyx.com/?p=370489
+        title: "PowerPyx: GTA 6 money guide"
+        accessed: "2026-11-25"
+      - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
+        title: "GTABoom: how to make money fast and early in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: range-focus
+    title: Train Focus at Rodgers Ranch
+    category: Focus
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: Pay the $5 waiver and play the Market Range Beginner challenge. It takes about five seconds, gives Focus every time and repeats if you pick Quit on the results screen. Focus never decays.
+    location: Rodgers Ranch & Shooting Range, north-east edge of Port Gellhorn.
+    sources:
+      - url: https://thephrasemaker.com/2026/11/19/all-stats-how-to-increase-them-in-gta-6/
+        title: "The Phrasemaker: all stats and how to increase them in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
+        title: "PowerPyx: GTA 6 stats guide"
+        accessed: "2026-11-25"
+
+  - id: night-encounter
+    title: Find the secret midnight encounter
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: From Chapter 2 on, go to the Circles of Hell House on Gellhorn Avenue between midnight and 4 AM. Either character can do it, alone. It pays out the Hellspawn Comshot 12 shotgun and a permanent max-health increase. The shotgun isn't added to your inventory by itself, so pick it up before you leave.
+    location: Circles of Hell House, Gellhorn Avenue, northern Port Gellhorn.
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-6-satan-mission-walkthrough-and-hellspawn-shotgun/
+        title: "KeenGamer: GTA 6 Satan mission walkthrough and Hellspawn shotgun"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/weapons/hellspawn-comshot-12
+        title: "gtabase: Hellspawn Comshot 12"
+        accessed: "2026-11-25"
+
+  - id: billy-thrillbillies
+    title: Do Billy's Thrillbillies and Twist Wrist, Smash, Grab
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: Billy's Chapter 2 jobs are optional. Thrillbillies pays up to $2,500 depending on how you place, and Twist Wrist, Smash, Grab pays $2,000. Both help toward the $15,000.
+    sources:
+      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
+        title: "Bloxodes: GTA 6 Strangers & Freaks"
+        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+
+  - id: kyle-mckittrick
+    title: Start Kyle McKittrick's farm jobs
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: false
+    how_to: Check Out McKittrick Farm pays $400. Collect Chemicals for Kyle costs $5,000 up front and pays $1,000 plus mutated strawberries. Bloxodes calls the strawberry boost temporary and re-collectable, while games.gg calls it a permanent Stamina boost. Watch your cash before paying.
+    location: McKittrick Farm.
+    sources:
+      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
+        title: "Bloxodes: GTA 6 Strangers & Freaks"
+        accessed: "2026-11-25"
+      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-endings-choices-and-consequences/
+        title: "games.gg: GTA 6 endings, choices and consequences"
+        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+
+  - id: bret-hunting
+    title: Meet Bret for the hunting jobs (Jason only)
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: false
+    how_to: Veteran Hunted is Jason-only and starts near Mount Kalaga. It pays $500 and hands over a Killtelligence SM-69 sniper, and it starts the hunting line. One checklist places the hunting after the chapter, so treat the timing as approximate.
+    location: Near Mount Kalaga.
+    sources:
+      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
+        title: "Bloxodes: GTA 6 Strangers & Freaks"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/unique-weapons
+        title: "The Games Wiki: unique weapons"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist/
+        title: "PowerPyx: GTA 6 100% completion checklist"
+        accessed: "2026-11-25"

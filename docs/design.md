@@ -62,9 +62,9 @@ This is round 1, option A.
 
 ## Data model (sketch)
 
-- `chapters` (5) and `missions` (91) live together in `missions.yaml`. List position is the canonical order; order is derived on load and never stored, so it can't disagree with the list. Order is the spoiler gate.
+- `chapters` (5) and `missions` (91, KeenGamer's list; gtabase counts 109 entries, see the header of `missions.yaml`) live together in `missions.yaml`. List position is the canonical order; order is derived on load and never stored, so it can't disagree with the list. Order is the spoiler gate.
 - `gates.yaml`: missions that are points of no return, keyed by mission slug, with what you lose (e.g. Tourist Trap → Ultimate Edition vehicles, free roam as both). Both Tourist Trap and Checking Out are listed.
-- `items/<gate-slug>.yaml`, one file per gate: id, title, category, `before_gate` (the gate's mission slug), `visible_after_mission` (the single visibility field), optional `lost_at_mission`, `verified`, `how_to`, optional `location`, `sources[]` (url, title, accessed date). Items exist for Tourist Trap only so far.
+- `items/<gate-slug>.yaml`, one file per gate: id, title, category, `before_gate` (the gate's mission slug), `visible_after_mission` (the single visibility field), optional `lost_at_mission`, `verified`, `how_to`, optional `location`, `sources[]` (url, title, accessed date). Items exist for Tourist Trap and Checking Out; Sunset and Unfinished Business have no gate or items yet (see Open questions).
 - `lib/curated.ts` validates all files and the rules across them (known refs, `visible_after` and `lost_at` no later than the gate, `lost_at` not before `visible_after`) and fails on any issue. `lib/curated-load.ts` reads the files, server only.
 - `lib/gates.ts`: `isVisible`, `nextGate` (a gate you're on isn't passed yet), `lockedSummary` (count plus unlock mission), `missionsInChapter` (ids and numbers), `missionTitle`, `pickerChapters`. It never returns titles, except through `missionTitle`.
 - SQLite via Drizzle (`lib/db/schema.ts`, SQL in `drizzle/`, applied by `pnpm db:migrate`; see ADR 0004). Timestamps are ms-epoch integers. Curated ids (mission and item slugs) are plain text with no foreign key; `lib/db/repository.ts` validates them against curated data before writing.
@@ -108,6 +108,17 @@ This is round 1, option A.
 
 ## Open questions
 
-- What exactly carries over into Chapter 2 (money, weapons, vehicles)? Research.
+Mostly from the 2026-11-25 pre-gate research (all sources are launch-week guides, several single-source or AI-assisted).
+
+- **Sunset (Ch4) and Unfinished Business (Ch5):** gtabase alone flags them as points of no return, and neither documents a loss. Unfinished Business ($150,000 via BuckMe to sign with Abe, "no going back") isn't in KeenGamer's 91-mission list, though PowerPyx and egamers list it as a Ch5 entry; only its gate status is single-source. No gates or items until a second source agrees.
+- **The Cartel Heist (Ch3):** not flagged as a gate, but The Games Wiki and gta.wiki say the Ch3 Vice City home closes after it (gta.wiki names it the Bayside Safehouse, not Crosstown). No player confirmation. Soft gate at best.
+- **Does the BuckMe checking balance survive Tourist Trap?** Unconfirmed, leaning lost: The Games Wiki (AI-drafted) says lost and a 50-hour GameFAQs player advises emptying it; gtabase's money-safety article says checking is lost too, while gtabase's Tourist Trap page, VGC, GTABoom and PowerPyx say only "cash". No player has compared balances. The item stays unverified and advises emptying it.
+- **Tourist Trap trigger:** the same moment under two names. "Take Up Mattia's Offer" is the map marker, and approaching Lucia starts the mission. The marker name is from The Games Wiki only, so that item is unverified.
+- **Carry-over:** bought weapons carry past Tourist Trap (several GameFAQs player reports plus the owned-weapon rules in guides). Ammo, attachments, clothing and registered vehicles are unconfirmed; bought garages are only "no loss reported".
+- **Relationship:** launch guides say no permanent breakup (lowest level is Running on Empty); VGC and games.gg say neglect locks one ending, mechanism unknown. The level-2 name is Partners In Crime (VGC, PlayDay) or Not So Hot (gtabase, Insider Gaming, KeenGamer).
+- **Checking Out's $15,000:** no source says whether it's spent or whether pocket cash counts. The Starlet Motel's location is also disputed (Port Gellhorn vs Kelly County).
+- **Counts that differ:** WAiNK scans (108 or 112), missions (91 or 109), Strangers & Freaks totals, and the Kyle strawberry boost (temporary or permanent).
+- **Placement that differs:** the Shayna pickup (Ch3 or Ch4), Bret's hunting line (Ch2 or after it), and the '67 Dominator Buggy pickup.
+- **Left out for spoiler safety:** the Moreland 850 pickup inside Tourist Trap and what to do for Lucia in Checking Out's escape. Both are mission content, so neither fits a gated item.
 - How the romance/relationship and criminal profile systems work, and what's trackable. Research.
 - How stat decay works.
