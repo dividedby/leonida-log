@@ -28,7 +28,7 @@ Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, Check
 This is round 2, option A.
 
 - **PostcardHeader:** chapter name, current mission, and "Mission N of 22".
-- **ExitSign** for the next point of no return: "EXIT 20 · Tourist Trap · 3 of 6 done".
+- **ExitSign** for the next point of no return: "EXIT 20 · Tourist Trap · 3 of 6 done". The gate's mission is named before it is reached; what happens in it is not (ADR 0002).
 - **StatStrip:** a compact strip with one slim row per character and three mini rings, tapping through to Stats. It's smaller than the round 2 mockup, per the feedback that the 3-stat card takes up too much space.
 - **Up next:** 1-3 open ChecklistRows, with Chips such as "Soon lost".
 - **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2.
@@ -40,8 +40,8 @@ This is round 2, option A.
 - **PostcardHeader:** the Tourist Trap name and "3 of 6 done".
 - **CategoryHeader** for each category, with counts (Stats 2/2, Vehicles 0/1, Focus 0/1, Collectibles 1/1, Money 0/1), and ChecklistRows under each.
 - **Chips:** "Soon lost" for items you lose at the gate, "Research" for unverified items.
-- **LockedRow:** "4 more unlock after Day Release". The item count shows; the content doesn't.
-- Each item opens a detail sheet with how-to, location text and source links.
+- **LockedRow:** "4 more unlock after Day Release", naming the mission that unlocks the earliest locked item for the gate. The item count and that mission title show; the content doesn't (ADR 0002).
+- Each item opens a detail sheet with how-to, location text (when sourced) and source links.
 
 ### Stats
 
@@ -56,15 +56,17 @@ This is round 1, option A.
 
 ### Flows
 
-1. **First run:** pick the current mission (chapter, then mission, both spoiler-safe) and land on Home.
+1. **First run:** pick the current mission and land on Home. Chapters show as "Chapter N" until reached. Within the chosen chapter, missions are listed by number, and a title shows only for the one you select.
 2. **Play session:** open Home, tick items, and log a workout.
 3. **Hitting a point of no return:** finish the list and mark the mission done. The next gate's checklist unlocks.
 
 ## Data model (sketch)
 
-- `chapters` (5) and `missions` (91, ordered). These are the spoiler gates.
-- `gates`: missions that are points of no return, with what you lose (e.g. Tourist Trap → Ultimate Edition vehicles, free roam as both).
-- `items`: title, category, `before_gate`, `visible_after_mission`, `lost_at_mission`, `verified`, `sources[]`.
+- `chapters` (5) and `missions` (91) live together in `missions.yaml`. List position is the canonical order; order is derived on load and never stored, so it can't disagree with the list. Order is the spoiler gate.
+- `gates.yaml`: missions that are points of no return, keyed by mission slug, with what you lose (e.g. Tourist Trap → Ultimate Edition vehicles, free roam as both). Both Tourist Trap and Checking Out are listed.
+- `items/<gate-slug>.yaml`, one file per gate: id, title, category, `before_gate` (the gate's mission slug), `visible_after_mission` (the single visibility field), optional `lost_at_mission`, `verified`, `how_to`, optional `location`, `sources[]` (url, title, accessed date). Items exist for Tourist Trap only so far.
+- `lib/curated.ts` validates all files and the rules across them (known refs, `visible_after` and `lost_at` no later than the gate, `lost_at` not before `visible_after`) and fails on any issue. `lib/curated-load.ts` reads the files, server only.
+- `lib/gates.ts`: `isVisible`, `nextGate` (a gate you're on isn't passed yet), `lockedSummary` (count plus unlock mission), `missionsInChapter` (ids and numbers), `missionTitle`, `pickerChapters`. It never returns titles, except through `missionTitle`.
 - `stats` (per character × stat level) and `workouts` (character, stat, at).
 - `progress`: current mission, item checks.
 - Romance and criminal profile get their own tables once research shows what's trackable.

@@ -50,7 +50,7 @@ An original mark: a sunset disc over a Gulf-teal sea with a single palm, on suns
 ## Voice
 
 - Short, direct, second person. It reads like a friend who already played this part: "Drive the Ultimate Edition cars while you still have them."
-- Spoiler-safe by default: name only missions you've reached, and say "4 more unlock after Day Release" rather than describing them.
+- Spoiler-safe by default: name only missions you've reached, plus the next point of no return and the mission that unlocks hidden items ("4 more unlock after Day Release"), never what's in them (ADR 0002).
 - Say when something is unverified ("needs research") instead of guessing.
 
 ## Do
