@@ -1,0 +1,33 @@
+# Leonida Log
+
+A phone-first, spoiler-gated guide to GTA 6, built around where you are in the story: what to do before each point of no return, and how to go into the next chapter as strong as possible. It lives at gta.dvdby.cc.
+
+Status: v1 in development. The repo holds design docs and decisions so far; the app lands next.
+
+## v1
+
+- **Story position:** set your current mission. Nothing past it renders.
+- **Before you move on:** a checklist for each point of no return, starting with Tourist Trap, grouped by category.
+- **Stats:** Strength, Cardio and Focus for Jason and Lucia, with a manual workout log.
+- **Romance and criminal profile:** research-first sections that fill in as data is curated.
+- The map comes in v2.
+
+## Docs
+
+- [docs/design.md](docs/design.md): goals, screens, data model, architecture
+- [docs/branding.md](docs/branding.md): name, logo, palette, type, voice
+- [docs/adr/](docs/adr/): decisions
+- [CONTEXT.md](CONTEXT.md): glossary
+- [Design reference](https://claude.ai/artifact/FL8isDnFAyobGqPrkFeb9W): the visual source of truth
+
+## Data
+
+Curated, verified data lives in `data/curated/` and is committed. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
+
+## Not affiliated
+
+Leonida Log is a fan-made guide. It is not affiliated with or endorsed by Rockstar Games or Take-Two Interactive, and it uses no official logos or art.
+
+## License
+
+[MIT](LICENSE)
