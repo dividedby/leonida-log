@@ -13,3 +13,5 @@ next-env.d.ts
 data/scraped/
 .DS_Store
 AGENTS.md
+research_notes/
+reports/

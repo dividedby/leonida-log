@@ -1,0 +1,5 @@
+# better-sqlite3 13 ships N-API prebuilds (darwin/linux/win, glibc and musl), loaded
+# on any Node >=22. The implicit node-gyp build is skipped on purpose.
+allowBuilds:
+  better-sqlite3: false
+  esbuild: false

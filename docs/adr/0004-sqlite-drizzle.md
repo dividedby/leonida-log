@@ -16,3 +16,9 @@ Use SQLite via better-sqlite3 with Drizzle ORM and Drizzle migrations. The DB is
 - No separate DB service to run.
 - Single writer: the app and the scraper CLI must not hold long write transactions; WAL mode on.
 - Multi-user would mean revisiting this (Postgres).
+
+## Migrations (2026-11-25)
+
+- Migrations never run at app start, and the scraper never migrates. They run through one explicit step, `pnpm db:migrate` (`scripts/migrate.mjs`: plain Node, Drizzle's better-sqlite3 migrator, reads `DATABASE_PATH`). Deploy runs it before starting the app.
+- drizzle-kit is a dev tool only, used by `pnpm db:generate`; the generated SQL in `drizzle/` is committed.
+- Curated mission and item ids are stored as plain text with no foreign key (curated data is YAML, not in the DB). `lib/db/repository.ts` validates them before writing.

@@ -11,6 +11,8 @@ Node 24 (CI).
 - `pnpm test`: Vitest
 - `pnpm lint`: ESLint
 - `pnpm typecheck`: `tsc --noEmit`
+- `pnpm db:generate`: write a Drizzle migration from `lib/db/schema.ts` into `drizzle/` (commit it)
+- `pnpm db:migrate`: apply migrations to `DATABASE_PATH` (explicit; the app and scrapers never migrate)
 - `pnpm format` / `pnpm format:check`: Prettier (tool defaults, `.prettierrc.json` is `{}`)
 
 ## Rules
