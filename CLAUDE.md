@@ -4,14 +4,14 @@ Leonida Log: phone-first, spoiler-gated GTA 6 guide at gta.dvdby.cc. Read CONTEX
 
 ## Commands
 
-Land with the v1 app scaffold; until then the repo is docs only.
+Node 24 (CI).
 
 - `pnpm dev`: run the app locally
+- `pnpm build`: production build
 - `pnpm test`: Vitest
 - `pnpm lint`: ESLint
 - `pnpm typecheck`: `tsc --noEmit`
-- `pnpm format:check`: Prettier (tool defaults, `.prettierrc.json` is `{}`)
-- `pnpm scrape <source>`: run one scraper against the local database
+- `pnpm format` / `pnpm format:check`: Prettier (tool defaults, `.prettierrc.json` is `{}`)
 
 ## Rules
 
