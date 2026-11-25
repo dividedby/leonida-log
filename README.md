@@ -33,7 +33,7 @@ pnpm test
 
 ## Data
 
-Curated, verified data lives in `data/curated/` and is committed. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
+Curated, verified data lives in `data/curated/` and is committed: `missions.yaml` (chapters and missions in story order), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
 
 ## Not affiliated
 

@@ -1,0 +1,26 @@
+# Points of no return, keyed by the mission that triggers them.
+# Both gates are listed; items so far exist only for Tourist Trap (items/).
+# "lost" is paraphrased, never copied from a guide. Mission replay doesn't
+# exist, so a manual save before each gate is advised (see items/).
+
+gates:
+  - mission: tourist-trap
+    lost:
+      - Cash in your pockets
+      - Jason's Ultimate Edition vehicles
+      - Several hours of free roam as both characters
+      - Access to Jason's original house
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+      - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
+        title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
+        accessed: "2026-11-25"
+  - mission: checking-out
+    lost:
+      - Your motel home, for good
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"

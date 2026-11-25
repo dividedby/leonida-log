@@ -4,10 +4,11 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 
 - **Point of no return (gate):** a mission after which things are lost or locked (e.g. Tourist Trap, mission 20 of Chapter 1). Avoid "checkpoint".
 - **Before-you-move-on checklist:** the items to finish before a gate, grouped by category.
-- **Current mission:** the user's story position; drives all spoiler gating.
+- **Current mission:** the mission the user is on (reached, not completed); drives all spoiler gating. An item is visible when its `visible_after_mission` is at or before it.
 - **Item:** one checklist entry, with category, gate, visibility and sources.
 - **Category:** Stats, Vehicles, Focus, Collectibles, Money, Romance, Criminal profile, and so on.
-- **Locked item:** an item whose `visible_after_mission` is past the current mission. Only the count shows ("4 more unlock after Day Release").
+- **Locked item:** an item whose `visible_after_mission` is past the current mission. Only the count and the unlock mission show ("4 more unlock after Day Release"); content stays hidden.
+- **Unlock mission:** the earliest `visible_after_mission` among a gate's locked items. Its title is the one mission past the current that may be named, along with the next gate.
 - **Soon lost:** an item whose reward or access ends at a gate (`lost_at_mission`).
 - **Curated:** verified data in data/curated, committed.
 - **Candidate:** a scraped fact awaiting review; shown only as "needs research", never as raw scraped text.

@@ -1,0 +1,294 @@
+# Chapters and missions, in story order. List position is the canonical order
+# (mission order is derived from it, never stored here).
+#
+# Source: a single guide, KeenGamer, "GTA 6 walkthrough: all chapters and story
+# missions in order" (Ali Amir, 2026-11-19), accessed 2026-11-25.
+# https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+# Mission titles are facts; no guide text is copied. Order can vary a little in
+# play. Cross-check against a second source when one is read.
+
+chapters:
+  - slug: just-like-paradise
+    title: Just Like Paradise
+  - slug: paradise-lost
+    title: Paradise Lost
+  - slug: tits-ass-drug-money
+    title: Tits Ass Drug Money
+  - slug: vice-city-baby
+    title: Vice City, Baby
+  - slug: top-of-the-world-ma
+    title: Top of the World, Ma
+missions:
+  - slug: prologue
+    title: Prologue
+    chapter: just-like-paradise
+  - slug: gone-fishing
+    title: Gone Fishing
+    chapter: just-like-paradise
+  - slug: gear-up
+    title: Gear Up
+    chapter: just-like-paradise
+  - slug: just-a-scratch
+    title: Just a Scratch
+    chapter: just-like-paradise
+  - slug: lab-fees
+    title: Lab Fees
+    chapter: just-like-paradise
+  - slug: unwanted-attention
+    title: Unwanted Attention
+    chapter: just-like-paradise
+  - slug: pipework
+    title: Pipework
+    chapter: just-like-paradise
+  - slug: hey-arnold
+    title: Hey Arnold!
+    chapter: just-like-paradise
+  - slug: island-dreams
+    title: Island Dreams
+    chapter: just-like-paradise
+  - slug: feng-shui
+    title: Feng Shui
+    chapter: just-like-paradise
+  - slug: coming-home
+    title: Coming Home
+    chapter: just-like-paradise
+  - slug: buck-me
+    title: Buck Me
+    chapter: just-like-paradise
+  - slug: clean-up-after-donnie
+    title: Clean Up After Donnie
+    chapter: just-like-paradise
+  - slug: down-to-earth
+    title: Down to Earth
+    chapter: just-like-paradise
+  - slug: clear-skies
+    title: Clear Skies
+    chapter: just-like-paradise
+  - slug: day-release
+    title: Day Release
+    chapter: just-like-paradise
+  - slug: swamped
+    title: Swamped
+    chapter: just-like-paradise
+  - slug: don-gone
+    title: Don Gone
+    chapter: just-like-paradise
+  - slug: recalibration
+    title: Recalibration
+    chapter: just-like-paradise
+  - slug: tourist-trap
+    title: Tourist Trap
+    chapter: just-like-paradise
+  - slug: home-sweet-home
+    title: Home Sweet Home
+    chapter: just-like-paradise
+  - slug: discharge-time
+    title: Discharge Time
+    chapter: just-like-paradise
+  - slug: whats-in-the-bag
+    title: What's in the Bag?
+    chapter: paradise-lost
+  - slug: ambulance-chaser
+    title: Ambulance Chaser
+    chapter: paradise-lost
+  - slug: just-moved-in
+    title: Just Moved In
+    chapter: paradise-lost
+  - slug: girls-trip
+    title: Girls' Trip
+    chapter: paradise-lost
+  - slug: moses
+    title: Moses
+    chapter: paradise-lost
+  - slug: daily-driver
+    title: Daily Driver
+    chapter: paradise-lost
+  - slug: slam-dunk
+    title: Slam Dunk
+    chapter: paradise-lost
+  - slug: breakfast-run
+    title: Breakfast Run
+    chapter: paradise-lost
+  - slug: coffee-break
+    title: Coffee Break
+    chapter: paradise-lost
+  - slug: afternoon-delight
+    title: Afternoon Delight
+    chapter: paradise-lost
+  - slug: checking-out
+    title: Checking Out
+    chapter: paradise-lost
+  - slug: welcome-to-vice-city
+    title: Welcome to Vice City
+    chapter: tits-ass-drug-money
+  - slug: dealers-choice
+    title: Dealer's Choice
+    chapter: tits-ass-drug-money
+  - slug: meet-the-heders
+    title: Meet the Heders
+    chapter: tits-ass-drug-money
+  - slug: dubious-provenance
+    title: Dubious Provenance
+    chapter: tits-ass-drug-money
+  - slug: mami-knows-best
+    title: Mami Knows Best
+    chapter: tits-ass-drug-money
+  - slug: south-leonida-real-estate
+    title: South Leonida Real Estate
+    chapter: tits-ass-drug-money
+  - slug: tyrone
+    title: Tyrone
+    chapter: tits-ass-drug-money
+  - slug: here-kitty-kitty
+    title: Here, Kitty Kitty
+    chapter: tits-ass-drug-money
+  - slug: car-service
+    title: Car Service
+    chapter: tits-ass-drug-money
+  - slug: top-billing
+    title: Top Billing
+    chapter: tits-ass-drug-money
+  - slug: boobie-time
+    title: Boobie Time
+    chapter: tits-ass-drug-money
+  - slug: first-impressions
+    title: First Impressions
+    chapter: tits-ass-drug-money
+  - slug: caught-slipping
+    title: Caught Slipping
+    chapter: tits-ass-drug-money
+  - slug: crosstown-traffic
+    title: Crosstown Traffic
+    chapter: tits-ass-drug-money
+  - slug: credit-check
+    title: Credit Check
+    chapter: tits-ass-drug-money
+  - slug: steal-the-zorrusso-for-randy
+    title: Steal the Zorrusso for Randy
+    chapter: tits-ass-drug-money
+  - slug: sinfrontera-national-bank
+    title: Sinfrontera National Bank
+    chapter: tits-ass-drug-money
+  - slug: security-expert
+    title: Security Expert
+    chapter: tits-ass-drug-money
+  - slug: ride-or-die
+    title: Ride or Die
+    chapter: tits-ass-drug-money
+  - slug: company-property
+    title: Company Property
+    chapter: tits-ass-drug-money
+  - slug: the-missing-link
+    title: The Missing Link
+    chapter: tits-ass-drug-money
+  - slug: safe-word
+    title: Safe Word
+    chapter: tits-ass-drug-money
+  - slug: cooties
+    title: Cooties
+    chapter: tits-ass-drug-money
+  - slug: bricked-up
+    title: Bricked Up
+    chapter: tits-ass-drug-money
+  - slug: hidden-charges
+    title: Hidden Charges
+    chapter: tits-ass-drug-money
+  - slug: the-cartel-heist
+    title: The Cartel Heist
+    chapter: tits-ass-drug-money
+  - slug: ocean-beach
+    title: Ocean Beach
+    chapter: vice-city-baby
+  - slug: another-life
+    title: Another Life
+    chapter: vice-city-baby
+  - slug: company-cars
+    title: Company Cars
+    chapter: vice-city-baby
+  - slug: lawyer-up
+    title: Lawyer Up
+    chapter: vice-city-baby
+  - slug: party-hard
+    title: Party Hard
+    chapter: vice-city-baby
+  - slug: heavy-lifting
+    title: Heavy Lifting
+    chapter: vice-city-baby
+  - slug: photo-shoot
+    title: Photo/Shoot
+    chapter: vice-city-baby
+  - slug: making-gainz
+    title: Making Gainz
+    chapter: vice-city-baby
+  - slug: watch-it
+    title: Watch It
+    chapter: vice-city-baby
+  - slug: cash-injections
+    title: Cash Injections
+    chapter: vice-city-baby
+  - slug: amateur-hour
+    title: Amateur Hour
+    chapter: vice-city-baby
+  - slug: dirty-work
+    title: Dirty Work
+    chapter: vice-city-baby
+  - slug: too-much-baggage
+    title: Too Much Baggage
+    chapter: vice-city-baby
+  - slug: adventures-in-babysitting
+    title: Adventures in Babysitting
+    chapter: vice-city-baby
+  - slug: fresh-evidence
+    title: Fresh Evidence
+    chapter: vice-city-baby
+  - slug: power-play
+    title: Power Play
+    chapter: vice-city-baby
+  - slug: childs-play
+    title: Child's Play
+    chapter: vice-city-baby
+  - slug: headliners
+    title: Headliners
+    chapter: vice-city-baby
+  - slug: close-surveillance
+    title: Close Surveillance
+    chapter: vice-city-baby
+  - slug: delivery-method
+    title: Delivery Method
+    chapter: vice-city-baby
+  - slug: team-building
+    title: Team Building
+    chapter: vice-city-baby
+  - slug: fully-catered
+    title: Fully Catered
+    chapter: vice-city-baby
+  - slug: vcia-takedown
+    title: VCIA Takedown
+    chapter: vice-city-baby
+  - slug: sunset
+    title: Sunset
+    chapter: vice-city-baby
+  - slug: starting-from-zero
+    title: Starting From Zero
+    chapter: vice-city-baby
+  - slug: bird-in-the-hand
+    title: Bird in the Hand
+    chapter: top-of-the-world-ma
+  - slug: taking-liberties
+    title: Taking Liberties
+    chapter: top-of-the-world-ma
+  - slug: vc-baby
+    title: VC Baby
+    chapter: top-of-the-world-ma
+  - slug: doggie-bag
+    title: Doggie Bag
+    chapter: top-of-the-world-ma
+  - slug: operation-savage-glory
+    title: Operation Savage Glory
+    chapter: top-of-the-world-ma
+  - slug: protective-custody
+    title: Protective Custody
+    chapter: top-of-the-world-ma
+  - slug: the-end-of-the-road
+    title: The End of the Road
+    chapter: top-of-the-world-ma
