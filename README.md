@@ -27,9 +27,12 @@ Node 24 and pnpm.
 
 ```sh
 pnpm install
+DATABASE_PATH=data/local.db pnpm db:migrate
 pnpm dev
 pnpm test
 ```
+
+The database is one SQLite file at `DATABASE_PATH`. Migrations never run at app start: run `pnpm db:migrate` after `pnpm install` and after pulling a new migration. After changing `lib/db/schema.ts`, run `pnpm db:generate` and commit the SQL in `drizzle/`.
 
 ## Data
 

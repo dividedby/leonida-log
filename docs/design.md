@@ -67,8 +67,12 @@ This is round 1, option A.
 - `items/<gate-slug>.yaml`, one file per gate: id, title, category, `before_gate` (the gate's mission slug), `visible_after_mission` (the single visibility field), optional `lost_at_mission`, `verified`, `how_to`, optional `location`, `sources[]` (url, title, accessed date). Items exist for Tourist Trap only so far.
 - `lib/curated.ts` validates all files and the rules across them (known refs, `visible_after` and `lost_at` no later than the gate, `lost_at` not before `visible_after`) and fails on any issue. `lib/curated-load.ts` reads the files, server only.
 - `lib/gates.ts`: `isVisible`, `nextGate` (a gate you're on isn't passed yet), `lockedSummary` (count plus unlock mission), `missionsInChapter` (ids and numbers), `missionTitle`, `pickerChapters`. It never returns titles, except through `missionTitle`.
-- `stats` (per character × stat level) and `workouts` (character, stat, at).
-- `progress`: current mission, item checks.
+- SQLite via Drizzle (`lib/db/schema.ts`, SQL in `drizzle/`, applied by `pnpm db:migrate`; see ADR 0004). Timestamps are ms-epoch integers. Curated ids (mission and item slugs) are plain text with no foreign key; `lib/db/repository.ts` validates them against curated data before writing.
+- `progress`: single row (id = 1), created on the first write. `current_mission` is null until onboarding; `spoiler_mode` is `safe` or `open` (default `safe`); `theme` is `system`, `light` or `dark` (default `system`).
+- `item_checks`: checked item ids with `checked_at`.
+- `stat_levels`: level 0-4 per character × stat (Strength, Cardio, Focus).
+- `workouts`: character, stat, at. Any of the three stats can be logged; only Strength and Cardio slip (ADR 0006).
+- `sources` (url, title, host, fetched_at) and `candidates` (source, gate and category hints, `raw_extract`, status `new`/`promoted`/`rejected`): scraper-owned, server only, `raw_extract` is never rendered. The repository doesn't expose them yet.
 - Romance and criminal profile get their own tables once research shows what's trackable.
 
 ## Data sources and refresh

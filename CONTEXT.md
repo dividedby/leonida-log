@@ -16,3 +16,4 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character.
 - **Workout log:** manual record of training, used to show when Strength or Cardio may slip.
 - **Characters:** Jason, Lucia.
+- **Spoiler mode:** `safe` (hide everything past the current mission) or `open` (show it); stored in `progress`, default `safe`.
