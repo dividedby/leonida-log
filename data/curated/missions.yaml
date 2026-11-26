@@ -6,6 +6,20 @@
 # https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
 # Mission titles are facts; no guide text is copied. Order can vary a little in
 # play. Cross-check against a second source when one is read.
+#
+# Second source, not adopted: gtabase's mission index
+# (https://gtabase.com/gta-6/missions, accessed 2026-11-25) counts 109 story
+# entries plus 26 optional ones, because it lists objective steps (e.g. "Deposit
+# Cash Into BuckMe", "Prepare for Vice City") as missions, and its own chapter
+# table disagrees with its numbered list. It also orders some missions
+# differently from KeenGamer:
+#   - Ch1: Gear Up, Unwanted Attention, Lab Fees, Pipework, Just a Scratch
+#     (KeenGamer: Gear Up, Just a Scratch, Lab Fees, Unwanted Attention, Pipework).
+#   - Ch3: South Leonida Real Estate comes far later (gtabase #70, KeenGamer Ch3 #6).
+#   - Ch5: nine missions, adding Honest Abe and Unfinished Business before
+#     Protective Custody and swapping VC Baby with Doggie Bag.
+# KeenGamer's 91-mission list stays canonical because its entries are whole
+# missions; gate mission numbers (Tourist Trap 20, Checking Out 33) follow it.
 
 chapters:
   - slug: just-like-paradise

@@ -1,6 +1,14 @@
 # Before-you-move-on items for the Tourist Trap gate.
 # Text is paraphrased in the app's voice, never copied from a guide.
-# verified: true only where two sources agree or one states it outright.
+# verified: true only where two independent sources agree or one non-AI source
+# states it outright. A single source that is AI-drafted or AI-assisted (The
+# Games Wiki says so in its footer; gaming.net too) never counts as that one
+# explicit source, so items resting only on it stay verified: false.
+# Where guides disagree (checking balance, card/WAiNK counts) the
+# item stays verified: false and says so.
+# Not listed, on purpose: the Moreland 850 pickup inside Tourist Trap itself.
+# It can't be described without giving away the mission, and it falls after
+# the lock-in point.
 
 items:
   - id: manual-save
@@ -9,24 +17,145 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: true
-    how_to: There's no mission replay, so keep a save you won't overwrite. Do it before you start the next mission.
+    how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Do it before you start the next mission.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
         accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+
+  - id: approach-lucia-last
+    title: Finish this list before the chapter-ending mission
+    category: General
+    before_gate: tourist-trap
+    visible_after_mission: recalibration
+    lost_at_mission: tourist-trap
+    verified: false
+    how_to: When you're ready to end the chapter, the next story marker starts the point of no return and ends free roam. Finish everything here and make your save before you start it.
+    sources:
+      - url: https://thegameswiki.com/gta6/wiki/tourist-trap
+        title: "The Games Wiki: Tourist Trap"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
+        title: "gtabase: Tourist Trap mission"
+        accessed: "2026-11-25"
+      - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
+        title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
+        accessed: "2026-11-25"
+
+  - id: family-savings-goal
+    title: Put $5,000 into Family Savings
+    category: Money
+    before_gate: tourist-trap
+    visible_after_mission: buck-me
+    verified: true
+    how_to: Every guide that gives a target says at least $5,000 before the gate. Family Savings can't be withdrawn or lost, and hitting the goal raises how much your checking account can hold.
+    location: The BuckMe app, once the account is set up.
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
+        title: "gtabase: Tourist Trap mission"
+        accessed: "2026-11-25"
+      - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
+        title: "Bloxodes: GTA 6 missable trophies and missions"
+        accessed: "2026-11-25"
+      - url: https://stack-archive.com/blog/gta-6-money-guide-buckme-family-savings-2026/
+        title: "Stack Archive: GTA 6 money guide, BuckMe and Family Savings"
+        accessed: "2026-11-25"
 
   - id: bank-your-cash
-    title: Bank your cash
+    title: Empty your pockets
     category: Money
     before_gate: tourist-trap
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Move what's in your pockets into the family savings account. The guide suggests keeping at least $5,000 safe.
-    location: Banking, once the account is set up.
+    how_to: Cash in your pockets is lost at the gate. Spend it on things you'll keep or pay it into BuckMe, and keep your pockets at $0. Shops take pocket cash only up to about $999 and bill BuckMe for the rest, so there's no reason to carry any.
+    location: Any ATM, or the ATM Finder in the BuckMe app.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
+        title: "gtabase: Tourist Trap mission"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/?p=369737
+        title: "PowerPyx: GTA 6 BuckMe and banking"
+        accessed: "2026-11-25"
+
+  - id: empty-checking
+    title: Run your checking balance down
+    category: Money
+    before_gate: tourist-trap
+    visible_after_mission: buck-me
+    lost_at_mission: tourist-trap
+    verified: false
+    how_to: Nobody has confirmed whether your BuckMe checking balance survives. One guide says it's lost, a 50-hour player advises leaving nothing in checking, and others only say "cash". Assume it's lost and empty it. Spend it on things you'll keep, such as weapons, or move it into Family Savings if you're happy never to take it back out.
+    location: The BuckMe app.
+    sources:
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
+        title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
+        accessed: "2026-11-25"
+      - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
+        title: "GTABoom: how to make money fast and early in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/?p=369737
+        title: "PowerPyx: GTA 6 BuckMe and banking"
+        accessed: "2026-11-25"
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
+        title: "GameFAQs GTA VI board: tips thread (player reports)"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/articles/how-to-keep-your-money-safe-in-gta-6
+        title: "gtabase: how to keep your money safe in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: spend-on-weapons
+    title: Spend spare cash on weapons
+    category: Money
+    before_gate: tourist-trap
+    visible_after_mission: buck-me
+    verified: true
+    how_to: Bought weapons carry past the gate, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Whether ammo, attachments and clothes carry over is still unconfirmed.
+    location: Ammu-Nation.
+    sources:
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
+        title: "GameFAQs GTA VI board: tips thread (player reports)"
+        accessed: "2026-11-25"
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81215874
+        title: "GameFAQs GTA VI board: end of Chapter 1 thread (player reports)"
+        accessed: "2026-11-25"
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81216507
+        title: "GameFAQs GTA VI board: finished Chapter 1 thread (player reports)"
+        accessed: "2026-11-25"
+      - url: https://games.gg/grand-theft-auto-vi/guides/what-happens-when-you-die-or-get-arrested-in-gta-6/
+        title: "games.gg: what happens when you die or get arrested in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: floor-stash
+    title: Empty the floor stash
+    category: Money
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    lost_at_mission: tourist-trap
+    verified: true
+    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Players report that stash money is gone and can't be recovered afterwards.
+    location: Jason's bedroom.
+    sources:
+      - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
+        title: "GTABoom: how to make money fast and early in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
+        title: "GameFAQs GTA VI board: tips thread (player reports)"
         accessed: "2026-11-25"
 
   - id: ultimate-edition-vehicles
@@ -36,10 +165,33 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Drive the Ultimate Edition cars while you still have them. They're gone after the gate.
+    how_to: Drive the Ultimate Edition cars while you still have them, including the Dinka Enduro and Crest Kayak at the safehouse. VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
+    location: Jason's safehouse.
     sources:
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://www.gtaboom.com/gta-6-ultimate-edition-unlock-guide-5081
+        title: "GTABoom: GTA 6 Ultimate Edition unlock guide"
+        accessed: "2026-11-25"
+
+  - id: skip-car-upgrades
+    title: Skip upgrades on Jason's cars
+    category: Vehicles
+    before_gate: tourist-trap
+    visible_after_mission: just-a-scratch
+    lost_at_mission: tourist-trap
+    verified: false
+    how_to: One guide says anything you buy for Jason's cars goes with them at the gate. Spend on things you'll keep instead.
+    sources:
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-all-14-mod-shop-locations-and-vehicle-customization/
+        title: "KeenGamer: all 14 mod shop locations and vehicle customization"
         accessed: "2026-11-25"
 
   - id: finish-exploring
@@ -86,10 +238,13 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: Practise at the shooting range (a small waiver fee, repeatable), or play golf, pool or fishing. Headshots on psychopath-profile targets count too.
+    how_to: Shooting ranges (a small waiver fee, repeatable), golf, pool, fishing, basketball and meditation all raise it. Earned Focus never decays, so this one can wait.
     sources:
       - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
         title: "PowerPyx: GTA 6 stats guide"
+        accessed: "2026-11-25"
+      - url: https://thephrasemaker.com/2026/11/19/all-stats-how-to-increase-them-in-gta-6/
+        title: "The Phrasemaker: all stats and how to increase them in GTA 6"
         accessed: "2026-11-25"
 
   - id: collect-cards
@@ -98,11 +253,70 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: Pick up all 18. Keep them in the safehouse box until you sell them at the pawn shop. Three in each county is a challenge of its own.
-    location: Safehouse box, then the pawn shop.
+    how_to: There are 18 card sets with 480 cards in all, and each colour variant counts as its own card. You can't buy them. Duplicates sell at pawn shops for roughly $20 to over $1,000, and selling a card doesn't remove it from your progress. One challenge asks for three in each of the five counties. None of it is urgent before the gate.
+    location: Indoors on surfaces and walls, outdoors in yellow phone boxes and on tool boxes.
     sources:
+      - url: https://www.powerpyx.com/gta-6-all-collectible-card-sets-locations/
+        title: "PowerPyx: GTA 6 collectible card sets and locations"
+        accessed: "2026-11-25"
       - url: https://allthings.how/how-many-collectibles-are-in-gta-6-and-where-to-track-them/
         title: "AllThings.how: GTA 6 collectibles guide"
+        accessed: "2026-11-25"
+
+  - id: collections-overview
+    title: Know what the Collections screen tracks
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    verified: false
+    how_to: "Progress > Collections has three tabs: Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); one guide says 112. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. Only the house magazines and the balcony meditation are tied to this gate."
+    location: Pause > Map > Progress > Collections.
+    sources:
+      - url: https://www.powerpyx.com/gta-6-collectible-guide/
+        title: "PowerPyx: GTA 6 collectible guide"
+        accessed: "2026-11-25"
+      - url: https://allthings.how/how-many-collectibles-are-in-gta-6-and-where-to-track-them/
+        title: "AllThings.how: GTA 6 collectibles guide"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+
+  - id: house-magazines
+    title: Grab the magazines in Jason's house
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    lost_at_mission: tourist-trap
+    verified: true
+    how_to: Some magazine pickups sit inside the house and go with it. Magazines spawn elsewhere too and you only need 30 of 34, so this is a small loss.
+    location: Inside Jason's house.
+    sources:
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+      - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
+        title: "Bloxodes: GTA 6 missable trophies and missions"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+
+  - id: donnies-38
+    title: Take Donnie's H&L .38
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: don-gone
+    lost_at_mission: don-gone
+    verified: false
+    how_to: During Don Gone, check the trunk of Donnie's car for the H&L .38 before you leave. It's a unique weapon, so you keep it for good, but you can't get it later.
+    location: The trunk of Donnie's car.
+    sources:
+      - url: https://thegameswiki.com/gta6/wiki/unique-weapons
+        title: "The Games Wiki: unique weapons"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
 
   - id: balcony-meditation
@@ -110,22 +324,76 @@ items:
     category: Romance
     before_gate: tourist-trap
     visible_after_mission: down-to-earth
-    verified: false
-    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. It may count toward a trophy, and it isn't available later.
+    lost_at_mission: tourist-trap
+    verified: true
+    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. It's a nice-to-do. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it. It takes minutes.
     location: Jason's house.
+    sources:
+      - url: https://forum.psnprofiles.com/topic/202457-positive-mental-attitude-trophy-not-missable/
+        title: "PSNProfiles forum: Positive Mental Attitude trophy not missable (player reports)"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-all-meditation-spot-locations/
+        title: "PowerPyx: GTA 6 meditation spot locations"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+
+  - id: house-repairs
+    title: Fix up Jason's house early
+    category: Romance
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    verified: false
+    how_to: Do the repair projects around the house early. They stop being available partway through the chapter.
+    location: Jason's house.
+    sources:
+      - url: https://www.gtabase.com/articles/gta-6/gta-6-jason-and-lucia-s-relationship-system-explained
+        title: "gtabase: Jason and Lucia's relationship system explained"
+        accessed: "2026-11-25"
+      - url: https://www.videogameschronicle.com/guide/gta-6-jasons-house-how-to-fix-all-projects-around-jasons-house/
+        title: "VGC: how to fix all projects around Jason's house"
+        accessed: "2026-11-25"
+      - url: https://www.giga.de/games/gta-6-jasons-haus-und-gelaender-reparieren--01M7SE74N8JMVR9STJ8AH23NHQ
+        title: "GIGA: Jason's house and railing repairs (German)"
+        accessed: "2026-11-25"
+
+  - id: relationship-building
+    title: Build your relationship with Lucia
+    category: Romance
+    before_gate: tourist-trap
+    visible_after_mission: coming-home
+    verified: true
+    how_to: Answer her calls and texts, buy her food, drinks and clothes, do activities together and never leave her behind. Check the level in the Jason & Lucia menu. You can't break up for good, as the lowest level is Running on Empty, but VGC says neglect locks you out of one ending.
+    sources:
+      - url: https://www.gtabase.com/articles/gta-6/gta-6-jason-and-lucia-s-relationship-system-explained
+        title: "gtabase: Jason and Lucia's relationship system explained"
+        accessed: "2026-11-25"
+      - url: https://playday.one/2026/11/19/gta-6-relationship-guide/
+        title: "PlayDay: GTA 6 relationship guide"
+        accessed: "2026-11-25"
+      - url: https://www.videogameschronicle.com/guide/gta-6-jason-lucia-relationship-levels-explained-how-to-improve-jason-and-lucias-relationship/
+        title: "VGC: Jason and Lucia relationship levels explained"
+        accessed: "2026-11-25"
+      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-endings-choices-and-consequences/
+        title: "games.gg: GTA 6 endings, choices and consequences"
+        accessed: "2026-11-25"
+
+  - id: shirley-side-missions
+    title: Do Shirley's two hourglass missions
+    category: Side missions
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    lost_at_mission: tourist-trap
+    verified: true
+    how_to: Look for the hourglass markers and do both, Get Shirley's Rum and Steal the Scooter. Both close when the gate starts. The rum run reportedly rewards Focus and a Professional profile bump, and the scooter lets Jason borrow Shirley's Penumbra. Neither affects trophies or 100%.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
         accessed: "2026-11-25"
-
-  - id: shirley-side-missions
-    title: Do Shirley's side missions
-    category: Side missions
-    before_gate: tourist-trap
-    visible_after_mission: prologue
-    verified: false
-    how_to: Look for the hourglass markers and do both Shirley jobs, the rum run and the scooter. They're missable.
-    sources:
-      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
-        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
+        title: "Bloxodes: GTA 6 Strangers & Freaks"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
+        title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
