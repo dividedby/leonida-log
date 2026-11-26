@@ -4,14 +4,16 @@
 # states it outright. A single source that is AI-drafted or AI-assisted (The
 # Games Wiki says so in its footer; gaming.net too) never counts as that one
 # explicit source, so items resting only on it stay verified: false.
-# Where guides disagree (card/WAiNK counts) the item stays verified: false and
-# says so.
-# Checking balance: Rock Paper Shotgun and allthings.how both say it is lost, so
-# empty-checking is verified. Neither is a before/after test; no player has
-# compared balances.
-# Lock-in: PowerPyx's Recalibration page calls the free roam after Recalibration
-# the last in Chapter 1, and its Tourist Trap page says the lock starts when you
-# go to Lucia. The point of no return starts there, not at Recalibration.
+# Where guides disagree the item stays verified: false and says so.
+# Checking balance: Rock Paper Shotgun and allthings.how both say it is lost, and
+# Playtheory's own save and a Project VI video test show the same, so
+# empty-checking is verified.
+# Lock-in: PowerPyx's Recalibration page says there is no free roam once you
+# start Recalibration (two cross-checks read it). Its Tourist Trap page says the
+# lock starts when you go to Lucia, and VGC and gtabase tie it to Tourist Trap.
+# Items use the earlier, safe line: finish the list and save before you start
+# Recalibration. Still verified: false, as every source is one publisher or a
+# conflicting guide.
 # Not listed, on purpose: the Moreland 850 pickup inside Tourist Trap itself.
 # It can't be described without giving away the mission, and it falls after
 # the lock-in point.
@@ -23,7 +25,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: true
-    how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Make a fresh one before each point of no return. In Chapter 1, make it during your last free roam, before the point of no return starts; the checklist tells you when that is.
+    how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Make a fresh one before each point of no return. In Chapter 1, make it during your last free roam, before you start Recalibration; the checklist tells you when that is.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
@@ -32,14 +34,14 @@ items:
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
         accessed: "2026-11-25"
 
-  - id: approach-lucia-last
-    title: Finish this list before you go to Lucia
+  - id: finish-before-recalibration
+    title: Finish this list before you start Recalibration
     category: General
     before_gate: tourist-trap
-    visible_after_mission: recalibration
+    visible_after_mission: don-gone
     lost_at_mission: tourist-trap
     verified: false
-    how_to: Once Recalibration is done, your next free roam is your last. The point of no return starts when you go to Lucia. Finish everything here and make your save before then.
+    how_to: PowerPyx says there is no free roam once you start Recalibration and calls it your last chance in Chapter 1. Other guides put the lock at Tourist Trap itself, so the safe line is the earlier one. Finish everything here and make your save before you start Recalibration.
     sources:
       - url: https://www.powerpyx.com/gta-6-recalibration-talk-to-lucia-walkthrough/
         title: "PowerPyx: Recalibration (Talk to Lucia) walkthrough"
@@ -109,9 +111,18 @@ items:
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Rock Paper Shotgun and allthings.how both say your BuckMe checking balance is lost and only Family Savings carries over. Spend it on things you'll keep, such as weapons, or move it into Family Savings if you're happy never to take it back out.
+    how_to: Rock Paper Shotgun and allthings.how both say your BuckMe checking balance is lost and only Family Savings carries over. Playtheory's own save and a Project VI test agree, with the balance gone after the chapter change and only the Family Savings money left. Spend it on things you'll keep, such as weapons, or move it into Family Savings if you're happy never to take it back out.
     location: The BuckMe app.
     sources:
+      - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
+        title: "Playtheory Media: before you finish Chapter 1 (own PS5 Pro save)"
+        accessed: "2026-11-25"
+      - url: https://www.youtube.com/watch?v=M22QGseJN9M
+        title: "Project VI (YouTube): GTA 6: 5 Things You Lose Forever After Chapter 1"
+        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
+        title: "KeenGamer: Chapter 2 lost money, what carries over and how to get it back"
+        accessed: "2026-11-25"
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-25"
@@ -131,9 +142,15 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     verified: true
-    how_to: Bought weapons carry past the gate, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Whether ammo, attachments and clothes carry over is still unconfirmed.
+    how_to: Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Whether ammo, attachments and clothes carry over is still unconfirmed.
     location: Ammu-Nation.
     sources:
+      - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
+        title: "Playtheory Media: before you finish Chapter 1 (own PS5 Pro save)"
+        accessed: "2026-11-25"
+      - url: https://outputlag.com/guides/gta-6-weapons-keep-guns/
+        title: "Output Lag: which GTA 6 weapons you keep"
+        accessed: "2026-11-25"
       - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
         title: "GameFAQs GTA VI board: tips thread (player reports)"
         accessed: "2026-11-25"
@@ -145,6 +162,25 @@ items:
         accessed: "2026-11-25"
       - url: https://games.gg/grand-theft-auto-vi/guides/what-happens-when-you-die-or-get-arrested-in-gta-6/
         title: "games.gg: what happens when you die or get arrested in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: half-price-moreland
+    title: Buy the Moreland 850 at half price
+    category: Money
+    before_gate: tourist-trap
+    visible_after_mission: prologue
+    verified: false
+    how_to: Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700. Guides say the half price applies during Gear Up, so buy it then. Bought weapons carry through Tourist Trap.
+    location: Chuck's Tackle & Shot.
+    sources:
+      - url: https://gtavimaps.com/guides/weapons/
+        title: "gtavimaps: GTA 6 weapons guide"
+        accessed: "2026-11-25"
+      - url: https://allthings.how/gta-6-ammu-nation-prices-gun-stats/
+        title: "allthings.how: Ammu-Nation prices and gun stats at Chuck's Tackle & Shot"
+        accessed: "2026-11-25"
+      - url: https://nerdschalk.com/gta-6-chucks-tackle-shot-guns-armor/
+        title: "Nerdschalk: Chuck's Tackle & Shot guns, armor and prices"
         accessed: "2026-11-25"
 
   - id: floor-stash
@@ -177,7 +213,7 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Drive the Ultimate Edition vehicles while you still have them, including the Dinka Enduro and Crest Kayak at the safehouse and the Ganado Retro Build at Coastal Auto Care. VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
+    how_to: Drive the Ultimate Edition vehicles while you still have them, including the Dinka Enduro and Crest Kayak at the safehouse and the Ganado Retro Build at Coastal Auto Care. The Enduro and Kayak are for Chapter 1 only, per the in-game text Output Lag quotes. VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
     location: Jason's safehouse; Coastal Auto Care.
     sources:
       - url: https://www.keengamer.com/articles/guides/how-to-claim-gta-6-ultimate-edition-and-pre-order-rewards/
@@ -191,6 +227,12 @@ items:
         accessed: "2026-11-25"
       - url: https://www.gtaboom.com/gta-6-ultimate-edition-unlock-guide-5081
         title: "GTABoom: GTA 6 Ultimate Edition unlock guide"
+        accessed: "2026-11-25"
+      - url: https://outputlag.com/guides/gta-6-missables/
+        title: "Output Lag: GTA 6 missables"
+        accessed: "2026-11-25"
+      - url: https://grindcoast.com/gta-6-news/gta-6-ultimate-edition-bonuses-by-chapter
+        title: "Grindcoast: GTA 6 Ultimate Edition bonuses by chapter"
         accessed: "2026-11-25"
 
   - id: skip-car-upgrades
@@ -227,10 +269,25 @@ items:
     category: Stats
     before_gate: tourist-trap
     visible_after_mission: prologue
-    verified: false
-    how_to: Lift weights, including the ones on the house terrace, or pay for a studio session. Finish the fitness app workout or the gains don't count.
-    location: House terrace weights and paid studios.
+    verified: true
+    how_to: Lift weights on Jason's back deck or pay for a studio session, and finish the fitness app workout or the gains don't count. Polygon's numbers, which gta6pedia matches, are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym is lost with the house at Tourist Trap, per GameSpot and Game Checklists. One player's PS5 save reports Jason's Strength falling from 4 to 1 at the chapter change; that is a single report.
+    location: Jason's back deck and paid studios.
     sources:
+      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
+        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
+        accessed: "2026-11-25"
+      - url: https://gta6pedia.net/guides/gta-6-workout-strength-cardio-guide/
+        title: "gta6pedia: GTA 6 workout, Strength and Cardio guide"
+        accessed: "2026-11-25"
+      - url: https://www.gamespot.com/articles/all-gym-locations-in-gta-6/
+        title: "GameSpot: all gym locations in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://game-checklists.com/gta6/guides/missables/
+        title: "Game Checklists: GTA 6 missables"
+        accessed: "2026-11-25"
+      - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
+        title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
+        accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
         title: "PowerPyx: GTA 6 stats guide"
         accessed: "2026-11-25"
@@ -240,9 +297,18 @@ items:
     category: Stats
     before_gate: tourist-trap
     visible_after_mission: prologue
-    verified: false
-    how_to: Use the treadmill or a bike, or run, cycle and swim.
+    verified: true
+    how_to: Use the treadmill or a bike, or run, cycle and swim. Polygon gives Cardio the same limits as Strength, and gta6pedia matches it, at about 11% per exercise, nine to a level, a 33% daily cap, a window of about four days before gains are lost, protein halving the wait and a top level of 4. In the same single PS5 save, Jason's Cardio kept its level at the chapter change.
     sources:
+      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
+        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
+        accessed: "2026-11-25"
+      - url: https://gta6pedia.net/guides/gta-6-workout-strength-cardio-guide/
+        title: "gta6pedia: GTA 6 workout, Strength and Cardio guide"
+        accessed: "2026-11-25"
+      - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
+        title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
+        accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
         title: "PowerPyx: GTA 6 stats guide"
         accessed: "2026-11-25"
@@ -252,9 +318,18 @@ items:
     category: Focus
     before_gate: tourist-trap
     visible_after_mission: prologue
-    verified: false
-    how_to: Shooting ranges (a small waiver fee, repeatable), golf, pool, fishing, basketball and meditation all raise it. Earned Focus never decays, so this one can wait.
+    verified: true
+    how_to: Shooting ranges (a small waiver fee, repeatable), golf, pool, fishing, basketball and meditation all raise it. Unlike Strength and Cardio it has no workout window and no daily cap, and earned Focus never decays, so this one can wait. Polygon says each combat hit adds about 1% toward Focus. In one player's PS5 save, Jason's Focus kept its level at the chapter change.
     sources:
+      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
+        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
+        accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
+        title: "IGN: fitness and wellness explained"
+        accessed: "2026-11-25"
+      - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
+        title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
+        accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
         title: "PowerPyx: GTA 6 stats guide"
         accessed: "2026-11-25"
@@ -284,7 +359,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: "Progress > Collections has three tabs: Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); one guide says 112. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. Only the house magazines and the balcony meditation are tied to this gate."
+    how_to: "Progress > Collections has three tabs: Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines and the balcony meditation are tied to this gate."
     location: Pause > Map > Progress > Collections.
     sources:
       - url: https://www.powerpyx.com/gta-6-collectible-guide/
@@ -296,6 +371,30 @@ items:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
         accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-collectible-guide-progress-database/
+        title: "PowerPyx: GTA 6 collectible guide, progress database"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist-guide/
+        title: "PowerPyx: GTA 6 100% completion checklist"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/articles/gta-6/gta-6-100-completion-guide-interactive-checklist
+        title: "gtabase: GTA 6 100% completion guide"
+        accessed: "2026-11-25"
+      - url: https://www.gta6heistguide.com/guides/200-vehicle-models-100-percent
+        title: "gta6heistguide: 200 vehicle models for 100%"
+        accessed: "2026-11-25"
+      - url: https://www.gta6heistguide.com/guides/50-weapons-100-percent
+        title: "gta6heistguide: 50 weapons for 100%"
+        accessed: "2026-11-25"
+      - url: https://gta6hintbook.com/collectibles/base-model-vehicles/
+        title: "GTA6 Hintbook: base model vehicles"
+        accessed: "2026-11-25"
+      - url: https://gtascoop.com/wiki/animals/
+        title: "GTAScoop: GTA 6 animals"
+        accessed: "2026-11-25"
+      - url: https://heistatlas.com/en/database/collectibles/waink-scans/
+        title: "HeistAtlas: WAiNK scans"
+        accessed: "2026-11-25"
 
   - id: house-magazines
     title: Grab the magazines in Jason's house
@@ -303,10 +402,19 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
-    verified: true
-    how_to: Some magazine pickups sit inside the house and go with it. Magazines spawn elsewhere too and you only need 30 of 34, so this is a small loss.
-    location: Inside Jason's house.
+    verified: false
+    how_to: Five magazines sit inside the house and go with it, so read them all before the gate. Orca and Off the Hook have second copies documented elsewhere, though guides disagree on Orca, and Lethal By Design has none documented. Whether the rest can be replaced is unconfirmed, so treat all five as one-time.
+    location: Inside Jason's house. Ashes of Glory in the bedroom, Lethal By Design on the living-room table, Orca A Whole Different Animal by the east window, Off the Hook in the tool shed and Body Copy on the back deck.
     sources:
+      - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
+        title: "PowerPyx: GTA 6 all magazines, books and comics locations"
+        accessed: "2026-11-25"
+      - url: https://cutscenewire.com/games/gta-6/collectibles/gta-6-all-magazines-books-comics-locations/
+        title: "Cutscene Wire: all magazines, books and comics locations"
+        accessed: "2026-11-25"
+      - url: https://game-checklists.com/gta6/magazines-books-comics-checklist/
+        title: "Game Checklists: magazines, books and comics checklist"
+        accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
@@ -323,10 +431,13 @@ items:
     before_gate: tourist-trap
     visible_after_mission: don-gone
     lost_at_mission: don-gone
-    verified: false
+    verified: true
     how_to: During Don Gone, check the trunk of Donnie's car for the H&L .38 before you leave. It's a unique weapon, so you keep it for good, but you can't get it later.
     location: The trunk of Donnie's car.
     sources:
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-25"
       - url: https://gta6story.org/missables/chapter-1
         title: "gta6story.org: Chapter 1 missables"
         accessed: "2026-11-25"
@@ -344,11 +455,14 @@ items:
     visible_after_mission: down-to-earth
     lost_at_mission: tourist-trap
     verified: true
-    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. It's a nice-to-do. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it. It takes minutes.
+    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. It's a nice-to-do you can miss. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it; if you skip it, Learn to Meditate Together turns up later in the story. Most spots take two sessions, one per character, and 15 of the 18 sessions give 100%. This one takes minutes.
     location: Jason's house.
     sources:
       - url: https://forum.psnprofiles.com/topic/202457-positive-mental-attitude-trophy-not-missable/
         title: "PSNProfiles forum: Positive Mental Attitude trophy not missable (player reports)"
+        accessed: "2026-11-25"
+      - url: https://game-checklists.com/gta6/guides/missables/
+        title: "Game Checklists: GTA 6 missables"
         accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-all-meditation-spot-locations/
         title: "PowerPyx: GTA 6 meditation spot locations"
