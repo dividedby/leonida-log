@@ -19,8 +19,8 @@
 #
 # Sunset: the lost list rests only on READY evidence. PowerPyx's Sunset page says
 # most missions after it run before open world (R4-1/7 record 9, page read, no
-# mention of Honest Abe); gtabase's Sunset page calls it a point of no return and
-# says to finish side activities first (R4-3/5 2.3 #30, fetched).
+# mention of Honest Abe); gtabase's Sunset page says starting it moves the story
+# into Chapter 5 and to finish side activities first (R4-3/5 2.3 #30, fetched).
 # NOT listed because needs-confirmation:
 #   - No free roam until Honest Abe exactly (GTA6BUGS relaying one Reddit
 #     reporter, u/WanderW, "Unconfirmed"; Leonida Hub citing RetroBroker).
@@ -43,7 +43,9 @@
 # The Cartel Heist: Beebom, gta.wiki (a fan MediaWiki with revision history) and
 # gta6heists all say the Chapter 3 home is lost once it is done. Metaforge and
 # Game8 put the apartment loss later than the heist, so doing everything before
-# the heist is safe either way.
+# the heist is safe either way. gtabase's Ocean Beach page: the apartment is
+# reachable after the heist and is lost when the next chapter starts; the heist
+# bound in items is kept as the safe line.
 
 gates:
   - mission: tourist-trap
@@ -96,7 +98,7 @@ gates:
         accessed: "2026-11-25"
   - mission: the-cartel-heist
     lost:
-      - Your Chapter 3 home, the Bayside Safehouse, for good
+      - Your Chapter 3 home, the Bayside Safehouse, for good once the next chapter starts (do everything inside it before the heist to be safe)
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
@@ -110,6 +112,9 @@ gates:
       - url: https://www.gta6heists.com/missions/points-of-no-return
         title: "gta6heists: points of no return"
         accessed: "2026-11-25"
+  # Provisional: only PowerPyx states the long free-roam lock; gtabase says only
+  # that Sunset moves the story into Chapter 5 and to finish side activities
+  # first. Gates have no verified flag.
   - mission: sunset
     lost:
       - Free roam, for a long stretch afterwards

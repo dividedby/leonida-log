@@ -11,8 +11,9 @@
 # visible_after_mission for finish-before-sunset and sunset-manual-save has no
 # source; both use ocean-beach, the first Chapter 4 mission.
 # Bad Driver! and Collect Felipe's Gift: gtabase and The Click agree on the Power
-# Play cutoff. PowerPyx places Bad Driver! after Photo Shoot, gtabase after Party
-# Hard; visible_after follows gtabase.
+# Play cutoff; visible_after follows gtabase (after Party Hard).
+# Collect Felipe's Gift: deadline inherited from Bad Driver! (neither gtabase nor
+# PowerPyx states one for the Gift itself); lost_at power-play is the safe bound.
 
 items:
   - id: finish-before-sunset
@@ -23,7 +24,7 @@ items:
     visible_after_mission: ocean-beach
     lost_at_mission: sunset
     verified: true
-    how_to: PowerPyx says most of the missions after Sunset run before open world returns, and gtabase calls Sunset a point of no return and says to finish side activities first. Wrap up any jobs and collectibles you want in free roam before you start it.
+    how_to: PowerPyx says most of the missions after Sunset run before open world returns, and gtabase says starting Sunset moves the story into Chapter 5 and to finish side activities first. Wrap up any jobs and collectibles you want in free roam before you start it.
     sources:
       - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
         title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
@@ -50,21 +51,27 @@ items:
       - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
         title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
         accessed: "2026-11-26"
+      - url: https://www.gtaboom.com/gta-6-has-a-new-save-system-and-will-not-let-you-replay-story-missions-fa48
+        title: "GTABoom: new save system, no mission replay"
+        accessed: "2026-11-26"
 
   - id: bad-driver
-    title: Do Bad Driver! before Power Play
+    title: Do Bad Driver! before it closes
     category: Side missions
     before_gate: sunset
     visible_after_mission: party-hard
     lost_at_mission: power-play
     verified: true
-    how_to: "An optional job that opens after Party Hard and is gone once Power Play starts. You decide Felipe's fate: killing him pays $20,000, and sparing him opens Collect Felipe's Gift. PowerPyx places it after Photo Shoot, so if it hasn't shown by then, keep looking before Power Play."
+    how_to: "An optional job that opens after Party Hard and closes for good a while later, before Sunset. You decide Felipe's fate: killing him pays $20,000, and sparing him opens Collect Felipe's Gift. Start looking as soon as Party Hard is done."
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/bad-driver
         title: "gtabase: Bad Driver! stranger mission"
         accessed: "2026-11-26"
       - url: https://theclick.gg/gta-6-missable-missions/
         title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=369829
+        title: "PowerPyx: Bad Driver! walkthrough"
         accessed: "2026-11-26"
 
   - id: collect-felipes-gift
@@ -73,12 +80,15 @@ items:
     before_gate: sunset
     visible_after_mission: party-hard
     lost_at_mission: power-play
-    verified: true
-    how_to: Only appears if you spare Felipe in Bad Driver!, and it's gone once Power Play starts, so collect it first. It gives a vehicle; guides don't name it.
+    verified: false
+    how_to: Only appears if you spare Felipe in Bad Driver!, and it closes at the same point as that job, before Sunset, so collect it first. It gives a vehicle; guides don't name it.
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/bad-driver
         title: "gtabase: Bad Driver! stranger mission"
         accessed: "2026-11-26"
       - url: https://theclick.gg/gta-6-missable-missions/
         title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=369829
+        title: "PowerPyx: Bad Driver! walkthrough"
         accessed: "2026-11-26"
