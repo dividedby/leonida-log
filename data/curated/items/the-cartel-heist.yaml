@@ -1,0 +1,146 @@
+# Before-you-move-on items for The Cartel Heist gate (Chapter 3 finale).
+# Text is paraphrased in the app's voice, never copied from a guide.
+# verified: true only where two independent sources agree or one non-AI source
+# states it outright. A single source that is AI-drafted or AI-assisted (The
+# Games Wiki says so in its footer; gaming.net too) never counts as that one
+# explicit source, so items resting only on it stay verified: false.
+# visible_after_mission is the earliest sourced mission. The Bayside items use
+# welcome-to-vice-city, which gta.wiki gives as the Bayside Safehouse unlock.
+# Race Against Yago is triggered by the side job Bumper to Bumper, which isn't in
+# our 91-mission list, so it also uses the first Chapter 3 mission. The home goes with the gate, so
+# everything inside it is lost_at_mission: the-cartel-heist.
+# Not listed, on purpose: what happens in The Cartel Heist itself, the $120,000
+# payout, the crates item (Vice Missions only), the bank-job and Yasmani items,
+# and codes (Beebom prints the garage code; the safe code is unverified).
+
+items:
+  - id: vanessas-laptop
+    title: Solve Vanessa's laptop for a free garage and car
+    category: Vehicles
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    lost_at_mission: the-cartel-heist
+    verified: true
+    how_to: In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the Pfister Vanessa's Growler out to register it for free; Beebom prices it at about $22,660. The apartment goes with the gate, so claim the car first.
+    location: Bayside Safehouse bedroom; Del Rio Boulevard Garage, La Perle.
+    sources:
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://gta6playertools.com/guides/chapter-3-missables
+        title: "GTA6PlayerTools: Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: bayside-books
+    title: Read the two books in the Bayside apartment
+    category: Collectibles
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    lost_at_mission: the-cartel-heist
+    verified: true
+    how_to: Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. You can't get back in once the gate passes.
+    location: Bayside Safehouse.
+    sources:
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://gta6playertools.com/guides/chapter-3-missables
+        title: "GTA6PlayerTools: Chapter 3 missables"
+        accessed: "2026-11-25"
+
+  - id: halifax-callback
+    title: Finish things with Halifax
+    category: Side missions
+    before_gate: the-cartel-heist
+    visible_after_mission: dubious-provenance
+    lost_at_mission: the-cartel-heist
+    verified: true
+    how_to: Take Halifax's offer in Dubious Provenance. If you turn him down, he has an optional callback that closes at the gate, so make it before then.
+    sources:
+      - url: https://vicemissions.com/guides/missables
+        title: "Vice Missions: missables"
+        accessed: "2026-11-25"
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: race-against-yago
+    title: Win Race Against Yago when the hourglass appears
+    category: Side missions
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    lost_at_mission: the-cartel-heist
+    verified: true
+    how_to: It's a timed hourglass job in Vice City that pays $3,800 for first place. Race it as soon as the hourglass shows up. It closes with the chapter, and a player-written trophy guide says missing it means Yago's line of jobs can't be finished. The Tab says the reward is a pistol instead of cash, so guides disagree there.
+    sources:
+      - url: https://forum.psnprofiles.com/topic/202512-gta-6-trophy-guide-100-completion-additional-guides-wip/
+        title: "PSNProfiles forum: GTA 6 trophy guide and 100% completion (player WIP)"
+        accessed: "2026-11-25"
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
+        title: "Bloxodes: GTA 6 missable trophies and missions"
+        accessed: "2026-11-25"
+
+  - id: montys-pistol
+    title: Grab Monty's 1992 Pistol in The Missing Link
+    category: Collectibles
+    before_gate: the-cartel-heist
+    visible_after_mission: the-missing-link
+    lost_at_mission: the-missing-link
+    verified: true
+    how_to: After you beat the first enemy in the shootout, go back to the photo room and take the pistol from the floor. It's only there during this mission.
+    location: The photo room.
+    sources:
+      - url: https://vicemissions.com/guides/missables
+        title: "Vice Missions: missables"
+        accessed: "2026-11-25"
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: gils-kalinga
+    title: Crack the practice safe for Gil's Kalinga .50
+    category: Collectibles
+    before_gate: the-cartel-heist
+    visible_after_mission: safe-word
+    lost_at_mission: safe-word
+    verified: true
+    how_to: In Safe Word, finish all three safecracking steps and open the practice safe before you leave. Quit early and you miss Gil's Kalinga .50.
+    sources:
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+
+  - id: boobies-red-bag
+    title: Take Boobie's red bag in Bricked Up
+    category: Money
+    before_gate: the-cartel-heist
+    visible_after_mission: bricked-up
+    lost_at_mission: bricked-up
+    verified: true
+    how_to: Grab the red bag at the end of the table in the first room and bring it back. It holds $3,500.
+    location: Boobie's apartment.
+    sources:
+      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
+        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://gta6playertools.com/guides/chapter-3-missables
+        title: "GTA6PlayerTools: Chapter 3 missables"
+        accessed: "2026-11-25"

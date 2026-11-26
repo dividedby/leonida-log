@@ -4,8 +4,14 @@
 # states it outright. A single source that is AI-drafted or AI-assisted (The
 # Games Wiki says so in its footer; gaming.net too) never counts as that one
 # explicit source, so items resting only on it stay verified: false.
-# Where guides disagree (checking balance, card/WAiNK counts) the
-# item stays verified: false and says so.
+# Where guides disagree (card/WAiNK counts) the item stays verified: false and
+# says so.
+# Checking balance: Rock Paper Shotgun and allthings.how both say it is lost, so
+# empty-checking is verified. Neither is a before/after test; no player has
+# compared balances.
+# Lock-in: PowerPyx's Recalibration page calls the free roam after Recalibration
+# the last in Chapter 1, and its Tourist Trap page says the lock starts when you
+# go to Lucia. The point of no return starts there, not at Recalibration.
 # Not listed, on purpose: the Moreland 850 pickup inside Tourist Trap itself.
 # It can't be described without giving away the mission, and it falls after
 # the lock-in point.
@@ -17,7 +23,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: true
-    how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Do it before you start the next mission.
+    how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Make a fresh one before each point of no return. In Chapter 1, make it during your last free roam, before the point of no return starts; the checklist tells you when that is.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
@@ -27,14 +33,23 @@ items:
         accessed: "2026-11-25"
 
   - id: approach-lucia-last
-    title: Finish this list before the chapter-ending mission
+    title: Finish this list before you go to Lucia
     category: General
     before_gate: tourist-trap
     visible_after_mission: recalibration
     lost_at_mission: tourist-trap
     verified: false
-    how_to: When you're ready to end the chapter, the next story marker starts the point of no return and ends free roam. Finish everything here and make your save before you start it.
+    how_to: Once Recalibration is done, your next free roam is your last. The point of no return starts when you go to Lucia. Finish everything here and make your save before then.
     sources:
+      - url: https://www.powerpyx.com/gta-6-recalibration-talk-to-lucia-walkthrough/
+        title: "PowerPyx: Recalibration (Talk to Lucia) walkthrough"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-tourist-trap-take-up-mattias-offer-walkthrough/
+        title: "PowerPyx: Tourist Trap (Take Up Mattia's Offer) walkthrough"
+        accessed: "2026-11-25"
+      - url: https://completegta6.com/how-to/gta-6-chapter-1-point-of-no-return-tourist-trap/
+        title: "CompleteGTA6: what to do before Tourist Trap"
+        accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/tourist-trap
         title: "The Games Wiki: Tourist Trap"
         accessed: "2026-11-25"
@@ -93,27 +108,21 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
-    verified: false
-    how_to: Nobody has confirmed whether your BuckMe checking balance survives. One guide says it's lost, a 50-hour player advises leaving nothing in checking, and others only say "cash". Assume it's lost and empty it. Spend it on things you'll keep, such as weapons, or move it into Family Savings if you're happy never to take it back out.
+    verified: true
+    how_to: Rock Paper Shotgun and allthings.how both say your BuckMe checking balance is lost and only Family Savings carries over. Spend it on things you'll keep, such as weapons, or move it into Family Savings if you're happy never to take it back out.
     location: The BuckMe app.
     sources:
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
+      - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
+        title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-25"
-      - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
-        title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
-        accessed: "2026-11-25"
-      - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
-        title: "GTABoom: how to make money fast and early in GTA 6"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/?p=369737
-        title: "PowerPyx: GTA 6 BuckMe and banking"
-        accessed: "2026-11-25"
-      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
-        title: "GameFAQs GTA VI board: tips thread (player reports)"
+      - url: https://allthings.how/gta-6-lose-money-after-chapter-1/
+        title: "allthings.how: lose money after Chapter 1"
         accessed: "2026-11-25"
       - url: https://www.gtabase.com/gta-6/articles/how-to-keep-your-money-safe-in-gta-6
         title: "gtabase: how to keep your money safe in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
+        title: "GameFAQs GTA VI board: tips thread (player reports)"
         accessed: "2026-11-25"
 
   - id: spend-on-weapons
@@ -145,9 +154,12 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Players report that stash money is gone and can't be recovered afterwards.
+    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Players report that stash money is gone and can't be recovered afterwards. Jason's separate $5,000 Rainy Day lockbox isn't gone for good, per Rock Paper Shotgun, but don't plan around getting it back.
     location: Jason's bedroom.
     sources:
+      - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
+        title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
+        accessed: "2026-11-25"
       - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
         title: "GTABoom: how to make money fast and early in GTA 6"
         accessed: "2026-11-25"
@@ -165,9 +177,12 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Drive the Ultimate Edition cars while you still have them, including the Dinka Enduro and Crest Kayak at the safehouse. VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
-    location: Jason's safehouse.
+    how_to: Drive the Ultimate Edition vehicles while you still have them, including the Dinka Enduro and Crest Kayak at the safehouse and the Ganado Retro Build at Coastal Auto Care. VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
+    location: Jason's safehouse; Coastal Auto Care.
     sources:
+      - url: https://www.keengamer.com/articles/guides/how-to-claim-gta-6-ultimate-edition-and-pre-order-rewards/
+        title: "KeenGamer: how to claim GTA 6 Ultimate Edition and pre-order rewards"
+        accessed: "2026-11-25"
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
         accessed: "2026-11-25"
@@ -312,6 +327,9 @@ items:
     how_to: During Don Gone, check the trunk of Donnie's car for the H&L .38 before you leave. It's a unique weapon, so you keep it for good, but you can't get it later.
     location: The trunk of Donnie's car.
     sources:
+      - url: https://gta6story.org/missables/chapter-1
+        title: "gta6story.org: Chapter 1 missables"
+        accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/unique-weapons
         title: "The Games Wiki: unique weapons"
         accessed: "2026-11-25"
@@ -396,4 +414,35 @@ items:
         accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+
+  - id: lucias-necklace
+    title: Buy Lucia a necklace
+    category: Romance
+    before_gate: tourist-trap
+    visible_after_mission: feng-shui
+    verified: true
+    how_to: A $475 necklace gives an early relationship boost, so buy it early in the chapter. Guides disagree on how long it stays on sale, so don't leave it until the end.
+    sources:
+      - url: https://gta6story.org/missables/chapter-1
+        title: "gta6story.org: Chapter 1 missables"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions
+        title: "gtabase: story missions list"
+        accessed: "2026-11-25"
+
+  - id: ring-the-bell
+    title: Do Ring the Bell! at the Rusty Anchor
+    category: Side missions
+    before_gate: tourist-trap
+    visible_after_mission: day-release
+    verified: true
+    how_to: It's an optional bar task that guides flag as missable. Cal's text sets it off, and sources differ slightly on exactly when it closes, so do it as soon as it appears.
+    location: The Rusty Anchor bar.
+    sources:
+      - url: https://gta6story.org/missables/chapter-1
+        title: "gta6story.org: Chapter 1 missables"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions
+        title: "gtabase: story missions list"
         accessed: "2026-11-25"

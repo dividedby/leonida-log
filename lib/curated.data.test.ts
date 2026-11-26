@@ -12,13 +12,21 @@ describe("real curated data", () => {
     expect(data.missions).toHaveLength(91);
   });
 
-  it("has Tourist Trap as mission 20 with checklist items, and Checking Out as mission 33", () => {
+  it("has Tourist Trap (20), Checking Out (33) and The Cartel Heist (59) as gates, each with checklist items", () => {
     const order = (mission: string) =>
       data.gates.find((g) => g.mission === mission)?.order;
     expect(order("tourist-trap")).toBe(20);
     expect(order("checking-out")).toBe(33);
-    expect(
-      data.items.filter((i) => i.before_gate === "tourist-trap").length,
-    ).toBeGreaterThan(0);
+    expect(order("the-cartel-heist")).toBe(59);
+    expect(data.gates.map((g) => g.mission)).toEqual([
+      "tourist-trap",
+      "checking-out",
+      "the-cartel-heist",
+    ]);
+    for (const gate of data.gates) {
+      expect(
+        data.items.filter((i) => i.before_gate === gate.mission).length,
+      ).toBeGreaterThan(0);
+    }
   });
 });
