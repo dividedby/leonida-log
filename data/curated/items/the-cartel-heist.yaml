@@ -13,6 +13,9 @@
 # Metaforge and Game8 put it at the start of a later Chapter 4 mission. Doing
 # everything before the heist is safe either way, so items say "before the
 # gate" and never name that mission.
+# Race Against Yago: gtabase and The Click say only the timer ends it; other
+# guides say it closes with the chapter; The Tab says the reward is a pistol, not
+# cash. The item stays unverified and keeps the heist as the safe bound.
 # Not listed, on purpose: what happens in The Cartel Heist itself, the $120,000
 # payout, the crates item (Vice Missions only), the bank-job and Yasmani items,
 # and codes (Beebom prints the garage code; the safe code is unverified).
@@ -92,8 +95,8 @@ items:
     before_gate: the-cartel-heist
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
-    verified: true
-    how_to: It's a timed hourglass job in Vice City that pays $3,800 for first place. Race it as soon as the hourglass shows up. It closes with the chapter, and a player-written trophy guide says missing it means Yago's line of jobs can't be finished. The Tab says the reward is a pistol instead of cash, so guides disagree there.
+    verified: false
+    how_to: It's a timed hourglass job in Vice City that pays $3,800 for first place. Race it as soon as the hourglass shows up. gtabase and The Click say only the timer ends it, while other guides say it closes with the chapter, and a player-written trophy guide says missing it means Yago's line of jobs can't be finished. The Tab says the reward is a pistol instead of cash, so guides disagree there too.
     sources:
       - url: https://forum.psnprofiles.com/topic/202512-gta-6-trophy-guide-100-completion-additional-guides-wip/
         title: "PSNProfiles forum: GTA 6 trophy guide and 100% completion (player WIP)"
@@ -107,6 +110,12 @@ items:
       - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
         title: "Bloxodes: GTA 6 missable trophies and missions"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/race-against-yago
+        title: "gtabase: Race Against Yago mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
 
   - id: montys-pistol
     title: Grab Monty's 1992 Pistol in The Missing Link
@@ -180,3 +189,15 @@ items:
       - url: https://metaforge.app/gta-6/gta-6-chapter-3-missables-point-of-no-return
         title: "Metaforge: Chapter 3 missables and point of no return"
         accessed: "2026-11-25"
+
+  - id: dye-pack-jammer
+    title: Get the Dye Pack Jammer before robbing
+    category: Money
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    verified: true
+    how_to: It's a permanent upgrade, so you only need it once. Have it before you start bank, payday-loan or ATM robberies, because dye packs in the marked cash can ruin the take. Guides place the pickup early in Chapter 3 and disagree on which mission hands it over.
+    sources:
+      - url: https://www.gamespot.com/articles/gta-6-how-to-rob-banks/
+        title: "GameSpot: how to rob banks in GTA 6"
+        accessed: "2026-11-26"

@@ -11,10 +11,11 @@
 # Sources conflict, so no item lists them as lost (see register-car).
 # Thrillbillies and Twist Wrist, Smash, Grab aren't in missions.yaml (the 91
 # list); Polygon lists them as main missions, most guides tag them optional.
-# The mission count is an open question for round 4.
-# Motel magazine: PowerPyx names it "Wizard Wang". Some videos and
-# gta6collectiblesmap say "Children of Wizard Wang"; a round 4 search found that
-# on no read page, so the item uses PowerPyx's name.
+# The mission count is an open question (docs/design.md).
+# Motel magazine: PowerPyx and Game Checklists say "Wizard Wang". Jacob Fox's
+# video description (first-hand; description read, not the on-screen text), two
+# other videos and gta6collectiblesmap say "Children of Wizard Wang". The item
+# keeps "Wizard Wang" until someone reads the on-screen text.
 # delights-pool uses lost_at_mission: afternoon-delight although the closure is
 # temporary (Game8, Vice Keys and Game Checklists all say it reopens later).
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
@@ -26,8 +27,8 @@ items:
     category: Money
     before_gate: checking-out
     visible_after_mission: whats-in-the-bag
-    verified: true
-    how_to: Checking Out won't start until you hold $15,000. No source says it's spent or whether pocket cash counts, so treat it as an entry ticket and keep it in your BuckMe checking account.
+    verified: false
+    how_to: gtabase says Checking Out won't start until you hold $15,000 and have finished every other main mission. IGN says the $15,000 isn't necessary and only makes the mission unlock sooner. Nobody has tested it first-hand, so aim for $15,000 in your BuckMe checking account to be safe. No source says it's spent or whether pocket cash counts.
     location: The BuckMe app.
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
@@ -36,6 +37,9 @@ items:
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Checking_Out_Walkthrough
+        title: "IGN: Checking Out walkthrough"
+        accessed: "2026-11-26"
 
   - id: finish-chapter-2-missions
     title: Finish every other main mission
@@ -92,6 +96,9 @@ items:
       - url: https://www.ign.com/wikis/gta-6/All_Vice_City_Narcos_Basketball_Card_Locations
         title: "IGN: all Vice City Narcos basketball card locations"
         accessed: "2026-11-25"
+      - url: https://www.youtube.com/watch?v=o5Najqm2tog
+        title: "Jacob Fox (YouTube): Starlet Motel cards and magazines, first-hand; description read"
+        accessed: "2026-11-26"
 
   - id: motel-storage
     title: Empty the motel's wardrobe and storage
@@ -254,8 +261,8 @@ items:
     category: Side missions
     before_gate: checking-out
     visible_after_mission: whats-in-the-bag
-    verified: false
-    how_to: Check Out McKittrick Farm pays $400. Collect Chemicals for Kyle costs $5,000 up front and pays $1,000 plus mutated strawberries. Bloxodes calls the strawberry boost temporary and re-collectable, while games.gg calls it a permanent Stamina boost. Watch your cash before paying.
+    verified: true
+    how_to: "Check Out McKittrick Farm pays $400. Collect Chemicals for Kyle pays $1,000 and gives mutated strawberries. The $5,000 price is only one option: IGN lists $5,000, $3,000 or free by negotiating, so you can start it without paying. Game8 and games.gg say the first strawberry permanently raises max Stamina and later ones are temporary buffs of unknown length; Bloxodes calls the whole effect temporary."
     location: McKittrick Farm.
     sources:
       - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
@@ -267,6 +274,12 @@ items:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/McKittrick_Farm_Walkthrough
+        title: "IGN: McKittrick Farm walkthrough"
+        accessed: "2026-11-26"
+      - url: https://game8.co/games/GTA-6/archives/639194
+        title: "Game8: Kyle's strawberry and Collect Chemicals for Kyle"
+        accessed: "2026-11-26"
 
   - id: bret-hunting
     title: Meet Bret for the hunting jobs (Jason only)

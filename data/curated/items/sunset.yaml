@@ -1,0 +1,84 @@
+# Before-you-move-on items for the Sunset gate.
+# Text is paraphrased in the app's voice, never copied from a guide.
+# verified: true only where two independent sources agree or one non-AI source
+# states it outright. A single source that is AI-drafted or AI-assisted (The
+# Games Wiki says so in its footer; gaming.net too) never counts as that one
+# explicit source, so items resting only on it stay verified: false.
+# Items here close before the gate in Chapter 4 or advise on the gate itself.
+# Not listed, on purpose: manual-save loss, the $0 checking freeze and what is
+# taken or returned (needs confirmation, see gates.yaml); nothing names a mission
+# after Sunset.
+# visible_after_mission for finish-before-sunset and sunset-manual-save has no
+# source; both use ocean-beach, the first Chapter 4 mission.
+# Bad Driver! and Collect Felipe's Gift: gtabase and The Click agree on the Power
+# Play cutoff. PowerPyx places Bad Driver! after Photo Shoot, gtabase after Party
+# Hard; visible_after follows gtabase.
+
+items:
+  - id: finish-before-sunset
+    title: Finish free roam before Sunset
+    category: General
+    before_gate: sunset
+    # Visibility point not sourced; first Chapter 4 mission.
+    visible_after_mission: ocean-beach
+    lost_at_mission: sunset
+    verified: true
+    how_to: PowerPyx says most of the missions after Sunset run before open world returns, and gtabase calls Sunset a point of no return and says to finish side activities first. Wrap up any jobs and collectibles you want in free roam before you start it.
+    sources:
+      - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
+        title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/sunset
+        title: "gtabase: Sunset mission"
+        accessed: "2026-11-26"
+
+  - id: sunset-manual-save
+    title: Make a manual save before Sunset
+    category: General
+    before_gate: sunset
+    # Visibility point not sourced; set to ocean-beach per lead decision.
+    visible_after_mission: ocean-beach
+    verified: true
+    how_to: There's no mission replay, so keep a save you won't overwrite. Make a fresh manual save during your last free roam before Sunset, since free roam stays closed for a long stretch afterwards.
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
+        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
+        title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
+        accessed: "2026-11-26"
+
+  - id: bad-driver
+    title: Do Bad Driver! before Power Play
+    category: Side missions
+    before_gate: sunset
+    visible_after_mission: party-hard
+    lost_at_mission: power-play
+    verified: true
+    how_to: "An optional job that opens after Party Hard and is gone once Power Play starts. You decide Felipe's fate: killing him pays $20,000, and sparing him opens Collect Felipe's Gift. PowerPyx places it after Photo Shoot, so if it hasn't shown by then, keep looking before Power Play."
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/bad-driver
+        title: "gtabase: Bad Driver! stranger mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+
+  - id: collect-felipes-gift
+    title: Collect Felipe's Gift
+    category: Side missions
+    before_gate: sunset
+    visible_after_mission: party-hard
+    lost_at_mission: power-play
+    verified: true
+    how_to: Only appears if you spare Felipe in Bad Driver!, and it's gone once Power Play starts, so collect it first. It gives a vehicle; guides don't name it.
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/bad-driver
+        title: "gtabase: Bad Driver! stranger mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
