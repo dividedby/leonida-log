@@ -63,7 +63,11 @@ function oneOf<T extends string>(
  */
 export function createRepository(db: Db, curated: CuratedData) {
   const missionSlugs = new Set(curated.missions.map((m) => m.slug));
-  const itemIds = new Set(curated.items.map((i) => i.id));
+  // Optional missions are derived checklist rows, ticked like items.
+  const itemIds = new Set([
+    ...curated.items.map((i) => i.id),
+    ...curated.optionalMissions.map((o) => o.slug),
+  ]);
 
   function upsertProgress(
     patch: Partial<Progress>,

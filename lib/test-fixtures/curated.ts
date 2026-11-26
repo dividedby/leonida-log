@@ -35,9 +35,31 @@ function item(
   };
 }
 
+function optional(
+  slug: string,
+  chapter: string,
+  opensAfter: string,
+  closesAt: string,
+  extra: Obj = {},
+): Obj {
+  return {
+    slug,
+    title: `Optional ${slug}`,
+    chapter,
+    kind: "optional",
+    character: "jason",
+    opens_after: opensAfter,
+    closes_at: closesAt,
+    sources: [source],
+    ...extra,
+  };
+}
+
 /**
- * Valid raw curated input: 2 chapters, 8 missions (m1-m4, m5-m8), gates at m3
- * and m7. A fresh copy per call so tests can mutate it freely.
+ * Valid raw curated input: 2 chapters, 8 main missions (m1-m4, m5-m8), gates
+ * at m3 and m7, and 4 optionals listed after the mains: o1 (opens m1, closes
+ * m3), o2 (opens o1, closes m3), o3 (opens m2, closes m7), o4 (opens m5,
+ * never closes). A fresh copy per call so tests can mutate it freely.
  */
 export function fixtureRaw(): FixtureRaw {
   return {
@@ -57,6 +79,10 @@ export function fixtureRaw(): FixtureRaw {
           title: `Mission ${slug}`,
           chapter: "second-chapter",
         })),
+        optional("o1", "first-chapter", "m1", "m3"),
+        optional("o2", "first-chapter", "o1", "m3"),
+        optional("o3", "first-chapter", "m2", "m7"),
+        optional("o4", "second-chapter", "m5", "never"),
       ],
     },
     gates: {

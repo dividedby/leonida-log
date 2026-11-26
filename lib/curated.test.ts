@@ -28,6 +28,65 @@ describe("parseCurated", () => {
     expect(data.items).toHaveLength(5);
   });
 
+  it("derives optional missions: anchor via the chain, order, and no closing order for never", () => {
+    const { optionalMissions } = parseCurated(fixtureRaw());
+    expect(
+      optionalMissions.map((o) => [
+        o.slug,
+        o.opensAnchor,
+        o.opensOrder,
+        o.closesAt,
+        o.closesOrder,
+      ]),
+    ).toEqual([
+      ["o1", "m1", 1, "m3", 3],
+      ["o2", "m1", 1, "m3", 3],
+      ["o3", "m2", 2, "m7", 7],
+      ["o4", "m5", 5, "never", null],
+    ]);
+    expect(optionalMissions[0]).toMatchObject({
+      title: "Optional o1",
+      kind: "optional",
+      chapter: "first-chapter",
+      character: "jason",
+    });
+  });
+
+  it("sorts optional missions by opens order, then file order", () => {
+    const raw = fixtureRaw();
+    raw.missions.missions = [
+      ...raw.missions.missions.slice(0, 8),
+      ...raw.missions.missions.slice(8).reverse(),
+    ];
+    expect(parseCurated(raw).optionalMissions.map((o) => o.slug)).toEqual([
+      "o2",
+      "o1",
+      "o3",
+      "o4",
+    ]);
+  });
+
+  it("leaves main order, chapter order, counts and gate order unchanged by optionals, wherever they are listed", () => {
+    const withoutOptionals = fixtureRaw();
+    withoutOptionals.missions.missions =
+      withoutOptionals.missions.missions.slice(0, 8);
+    // Optionals that open at mains only, so they stay valid with no chain.
+    const interleaved = withoutOptionals.missions.missions.slice();
+    const base = fixtureRaw().missions.missions;
+    interleaved.splice(0, 0, base[11]);
+    interleaved.splice(3, 0, base[8]);
+    interleaved.splice(7, 0, base[10]);
+
+    const plain = parseCurated(withoutOptionals);
+    const raw = fixtureRaw();
+    raw.missions.missions = interleaved;
+    const mixed = parseCurated(raw);
+
+    expect(mixed.missions).toEqual(plain.missions);
+    expect(mixed.chapters).toEqual(plain.chapters);
+    expect(mixed.gates).toEqual(plain.gates);
+  });
+
   it("sorts gates by mission order regardless of file order", () => {
     const raw = fixtureRaw();
     raw.gates.gates.reverse();
@@ -147,6 +206,101 @@ describe("parseCurated", () => {
       edit: (r) => (r.itemFiles.m3.items[1].lost_at_mission = "m4"),
       error: "is lost after its gate",
     },
+    {
+      name: "optional without opens_after",
+      edit: (r) => delete r.missions.missions[8].opens_after,
+      error: "missions.yaml: missions.8.opens_after",
+    },
+    {
+      name: "optional without closes_at",
+      edit: (r) => delete r.missions.missions[8].closes_at,
+      error: "missions.yaml: missions.8.closes_at",
+    },
+    {
+      name: "optional without character",
+      edit: (r) => delete r.missions.missions[8].character,
+      error: "missions.yaml: missions.8.character",
+    },
+    {
+      name: "optional without sources",
+      edit: (r) => delete r.missions.missions[8].sources,
+      error: "missions.yaml: missions.8.sources",
+    },
+    {
+      name: "optional with empty sources",
+      edit: (r) => (r.missions.missions[8].sources = []),
+      error: "missions.yaml: missions.8.sources",
+    },
+    {
+      name: "main mission with closes_at",
+      edit: (r) => (r.missions.missions[0].closes_at = "m3"),
+      error: "missions.yaml: missions.0.closes_at",
+    },
+    {
+      name: "main mission with a note",
+      edit: (r) => (r.missions.missions[0].note = "Hello."),
+      error: "missions.yaml: missions.0.note",
+    },
+    {
+      name: "unknown kind",
+      edit: (r) => (r.missions.missions[8].kind = "side-quest"),
+      error: "missions.yaml: missions.8.kind",
+    },
+    {
+      name: "mission slug never (reserved)",
+      edit: (r) => (r.missions.missions[11].slug = "never"),
+      error: "missions.yaml: missions.11.slug",
+    },
+    {
+      name: "unknown opens_after",
+      edit: (r) => (r.missions.missions[8].opens_after = "nope"),
+      error: 'unknown opens_after "nope"',
+    },
+    {
+      name: "unknown closes_at",
+      edit: (r) => (r.missions.missions[8].closes_at = "nope"),
+      error: 'unknown closes_at "nope"',
+    },
+    {
+      name: "closes_at naming an optional",
+      edit: (r) => (r.missions.missions[8].closes_at = "o2"),
+      error: 'closes_at "o2" which is an optional mission',
+    },
+    {
+      name: "opens_after later than closes_at",
+      edit: (r) => (r.missions.missions[8].opens_after = "m4"),
+      error: 'opens_after "m4" which is later than closes_at "m3"',
+    },
+    {
+      name: "opens_after cycle",
+      edit: (r) => (r.missions.missions[8].opens_after = "o2"),
+      error: "opens_after cycle",
+    },
+    {
+      name: "closes_at after the last gate",
+      edit: (r) => (r.missions.missions[11].closes_at = "m8"),
+      error: 'closes_at "m8" which is after the last gate',
+    },
+    {
+      name: "item id equal to an optional slug",
+      edit: (r) => (r.itemFiles.m3.items[0].id = "o1"),
+      error: 'item id "o1" is also a mission slug',
+    },
+    {
+      name: "item id equal to a main slug",
+      edit: (r) => (r.itemFiles.m3.items[0].id = "m4"),
+      error: 'item id "m4" is also a mission slug',
+    },
+    {
+      name: "optional with an unknown chapter",
+      edit: (r) => (r.missions.missions[8].chapter = "nope"),
+      error: 'mission "o1" has unknown chapter "nope"',
+    },
+    {
+      name: "gate on an optional",
+      edit: (r) => (r.gates.gates[0].mission = "o1"),
+      error: 'gate mission "o1" is not a mission',
+    },
   ];
 
   it.each(invalid)("rejects $name", ({ edit, error }) => {
@@ -167,6 +321,12 @@ describe("parseCurated", () => {
     } catch (error) {
       expect((error as CuratedValidationError).issues).toHaveLength(2);
     }
+  });
+
+  it("accepts opens_after equal to closes_at", () => {
+    const raw = fixtureRaw();
+    raw.missions.missions[8].opens_after = "m3";
+    expect(() => parseCurated(raw)).not.toThrow();
   });
 
   it("accepts lost_at equal to visible_after and to the gate", () => {

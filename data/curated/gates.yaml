@@ -6,6 +6,13 @@
 # lost; what a gate needs before it starts lives in the items. Mission replay doesn't
 # exist, so a manual save before each gate is advised (see items/).
 #
+# The app shows each lost entry as a countdown ("Closes in N missions", "Do this
+# before your next story mission"), computed from the gate's mission, and only
+# for the next gate. A lost entry therefore never names a mission (ADR 0002,
+# second amendment, 2026-11-26); lib/curated.data.test.ts enforces it. Optional
+# missions that close at or before a gate are not listed here: they live in
+# missions.yaml and the app derives their rows.
+#
 # Verification rule (items carry the verified flag; the same bar applies here):
 # a single source that is AI-drafted or AI-assisted (The Games Wiki says so in
 # its footer; gaming.net too) never counts as one explicit source. Lost-lists
@@ -13,9 +20,8 @@
 #
 # Not a gate here, on purpose: Unfinished Business (Ch5). Signing Abe's deal
 # loses checking and pocket cash, while Family Savings is protected and returned
-# later (Output Lag, PowerPyx, both read). Owner decision: it waits for the
-# mission-kinds PR; it is not a recap mission, see docs/design.md. It doesn't go
-# into item text.
+# later (Output Lag, PowerPyx, both read). Whether it becomes a gate is still
+# pending the owner; it is not a recap mission, see docs/design.md. It doesn't go into item text.
 #
 # Sunset: the lost list rests only on READY evidence. PowerPyx's Sunset page says
 # most missions after it run before open world (R4-1/7 record 9, page read, no
@@ -98,7 +104,7 @@ gates:
         accessed: "2026-11-25"
   - mission: the-cartel-heist
     lost:
-      - Your Chapter 3 home, the Bayside Safehouse, for good once the next chapter starts (do everything inside it before the heist to be safe)
+      - Your Chapter 3 home, the Bayside Safehouse, for good once the next chapter starts (finish everything inside it first, to be safe)
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
