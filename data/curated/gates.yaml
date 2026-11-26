@@ -1,7 +1,7 @@
 # Points of no return, keyed by the mission that triggers them.
-# Three gates are listed; items exist for Tourist Trap (items/tourist-trap.yaml),
-# Checking Out (items/checking-out.yaml) and The Cartel Heist
-# (items/the-cartel-heist.yaml).
+# Four gates are listed; items exist for Tourist Trap (items/tourist-trap.yaml),
+# Checking Out (items/checking-out.yaml), The Cartel Heist
+# (items/the-cartel-heist.yaml) and Sunset (items/sunset.yaml).
 # "lost" is paraphrased, never copied from a guide, and lists only what is
 # lost; what a gate needs before it starts lives in the items. Mission replay doesn't
 # exist, so a manual save before each gate is advised (see items/).
@@ -11,18 +11,30 @@
 # its footer; gaming.net too) never counts as one explicit source. Lost-lists
 # resting only on such a source are provisional.
 #
-# Not gates here, on purpose (owner decision: no new gates this round; both wait
-# for round 4). Round 3 cross-checks make both look like points of no return:
-#   - Sunset (Ch4): no free roam and no manual save from Sunset until Honest Abe
-#     (GTA6BUGS, Leonida Hub citing RetroBroker; the manual-save part is one
-#     reporter's claim). BuckMe checking shows $0 until Operation Savage Glory
-#     (gameta, Leonida Hub, gta6helphub). Weapons, equipment and outfits are
-#     returned after Operation Savage Glory (PowerPyx); where they are taken is
-#     unconfirmed. Whether Suite 701 stops being a base is disputed.
-#   - Unfinished Business (Ch5): signing Abe's deal loses checking and pocket
-#     cash, while Family Savings is protected and returned later (Output Lag,
-#     PowerPyx, both read).
-# Neither goes into item text. See Open questions in docs/design.md.
+# Not a gate here, on purpose: Unfinished Business (Ch5). Signing Abe's deal
+# loses checking and pocket cash, while Family Savings is protected and returned
+# later (Output Lag, PowerPyx, both read). Owner decision: it waits for the
+# mission-kinds PR; it is not a recap mission, see docs/design.md. It doesn't go
+# into item text.
+#
+# Sunset: the lost list rests only on READY evidence. PowerPyx's Sunset page says
+# most missions after it run before open world (R4-1/7 record 9, page read, no
+# mention of Honest Abe); gtabase's Sunset page calls it a point of no return and
+# says to finish side activities first (R4-3/5 2.3 #30, fetched).
+# NOT listed because needs-confirmation:
+#   - No free roam until Honest Abe exactly (GTA6BUGS relaying one Reddit
+#     reporter, u/WanderW, "Unconfirmed"; Leonida Hub citing RetroBroker).
+#   - Manual saves reported blocked (one player report, the same reporter).
+#   - BuckMe checking reportedly shows $0 until Operation Savage Glory, then
+#     returns (gameta, Leonida Hub, gta6helphub; the cross-check treats these as
+#     guides only). Use "frozen", not "lost", if it is added later.
+#   - Weapons, equipment and outfits taken at Sunset and returned at Operation
+#     Savage Glory (PowerPyx; where they are taken is unconfirmed).
+#   - Suite 701 as a base (disputed).
+#   - gtasixvicecity maps the point of no return to the mission after Sunset.
+# PowerPyx says Sunset moves the game into Chapter 5, while missions.yaml
+# (KeenGamer) puts one more mission in Chapter 4, so the lost text avoids
+# chapter numbers.
 #
 # Tourist Trap: PowerPyx's Recalibration page says there is no free roam once
 # you start Recalibration (two cross-checks read it), while its Tourist Trap page
@@ -98,3 +110,13 @@ gates:
       - url: https://www.gta6heists.com/missions/points-of-no-return
         title: "gta6heists: points of no return"
         accessed: "2026-11-25"
+  - mission: sunset
+    lost:
+      - Free roam, for a long stretch afterwards
+    sources:
+      - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
+        title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/sunset
+        title: "gtabase: Sunset mission"
+        accessed: "2026-11-26"

@@ -17,6 +17,11 @@
 # Not listed, on purpose: the Moreland 850 pickup inside Tourist Trap itself.
 # It can't be described without giving away the mission, and it falls after
 # the lock-in point.
+# Outfits: Playtheory's own save kept only the starting outfit; gameta says
+# wardrobe-saved accessories can be had again; IGN's Tourist Trap walkthrough and
+# KeenGamer say cosmetics carry over, so bought-outfits stays unverified.
+# Donnie's Drop-Off: Game8 says it ends after Swamped; lost_at uses Swamped, the
+# safe line.
 
 items:
   - id: manual-save
@@ -190,7 +195,7 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Players report that stash money is gone and can't be recovered afterwards. Jason's separate $5,000 Rainy Day lockbox isn't gone for good, per Rock Paper Shotgun, but don't plan around getting it back.
+    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Players report that stash money is gone and can't be recovered afterwards. Jason's separate $5,000 Rainy Day lockbox can be recovered after the chapter change (Rock Paper Shotgun), unlike cash you hid under the floorboard yourself.
     location: Jason's bedroom.
     sources:
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
@@ -270,7 +275,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: true
-    how_to: Lift weights on Jason's back deck or pay for a studio session, and finish the fitness app workout or the gains don't count. Polygon's numbers, which gta6pedia matches, are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym is lost with the house at Tourist Trap, per GameSpot and Game Checklists. One player's PS5 save reports Jason's Strength falling from 4 to 1 at the chapter change; that is a single report.
+    how_to: Lift weights on Jason's back deck or pay for a studio session, and finish the fitness app workout or the gains don't count. Polygon's numbers, which gta6pedia matches, are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym is lost with the house at Tourist Trap, per GameSpot and Game Checklists. GameSight's own PS5 gameplay (a video and a matching article) shows Jason's Strength falling from 4 to 1 at the chapter change, with Cardio and Focus reported kept and no figures given; it's one creator's save, so Chapter 1 Strength gains shouldn't be counted on.
     location: Jason's back deck and paid studios.
     sources:
       - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
@@ -291,6 +296,9 @@ items:
       - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
         title: "PowerPyx: GTA 6 stats guide"
         accessed: "2026-11-25"
+      - url: https://www.youtube.com/watch?v=CK_1xnGLZ8g
+        title: "GameSight (YouTube): Strength resets in Chapter 2, own PS5 gameplay, 3:29"
+        accessed: "2026-11-26"
 
   - id: cardio
     title: Train Cardio
@@ -550,8 +558,9 @@ items:
     category: Side missions
     before_gate: tourist-trap
     visible_after_mission: day-release
+    lost_at_mission: swamped
     verified: true
-    how_to: It's an optional bar task that guides flag as missable. Cal's text sets it off, and sources differ slightly on exactly when it closes, so do it as soon as it appears.
+    how_to: An optional bar task that guides flag as missable. Cal's text sets it off after Day Release, and it closes once you meet Brian for Swamped (gtabase and The Click), so do it before then. It unlocks a Rusty Anchor shirt and cap.
     location: The Rusty Anchor bar.
     sources:
       - url: https://gta6story.org/missables/chapter-1
@@ -560,3 +569,69 @@ items:
       - url: https://www.gtabase.com/gta-6/missions
         title: "gtabase: story missions list"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/ring-the-bell
+        title: "gtabase: Ring the Bell! mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+
+  - id: clock-out
+    title: Take Lucia's call for Clock Out
+    category: Side missions
+    before_gate: tourist-trap
+    visible_after_mission: day-release
+    verified: true
+    how_to: Lucia calls during the day after Day Release and starts a timed job. Be there before 4 pm in-game or it fails. Guides don't say when it stops being offered, so do it the same day.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/clock-out
+        title: "gtabase: Clock Out mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+
+  - id: get-lucias-clothes
+    title: Do Get Lucia's Clothes
+    category: Romance
+    before_gate: tourist-trap
+    visible_after_mission: feng-shui
+    verified: false
+    how_to: PowerPyx lists this optional errand for Lucia among the Chapter 1 missions before Coming Home. No guide says when it closes, so do it before you finish Coming Home to be safe.
+    sources:
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist-guide/
+        title: "PowerPyx: GTA 6 100% completion checklist and guide"
+        accessed: "2026-11-26"
+
+  - id: donnies-drop-off
+    title: Sell found narcotics to Donnie
+    category: Money
+    before_gate: tourist-trap
+    # Visibility point not sourced; placeholder at the opening mission.
+    visible_after_mission: prologue
+    lost_at_mission: swamped
+    verified: true
+    how_to: Donnie's Drop-Off pays more for narcotics than Brian's and stops after Swamped. Sell any drug packages you find to Donnie before you finish Swamped; only Brian's lower-paying drop-off is left afterwards.
+    sources:
+      - url: https://game8.co/games/GTA-6/archives/638531
+        title: "Game8: missables and points of no return"
+        accessed: "2026-11-26"
+
+  - id: bought-outfits
+    title: Treat bought outfits as at risk
+    category: General
+    before_gate: tourist-trap
+    visible_after_mission: buck-me
+    lost_at_mission: tourist-trap
+    verified: false
+    how_to: "Bought outfits are likely lost: Playtheory's own save kept only the starting outfit after the chapter change. Hats and glasses saved to the wardrobe appear to stay (gameta). IGN says cosmetics carry over, so the evidence conflicts; don't count on keeping outfits you buy."
+    sources:
+      - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
+        title: "Playtheory Media: before you finish Chapter 1 (own PS5 Pro save)"
+        accessed: "2026-11-25"
+      - url: https://gameta.gg/gta6/guides/missables/
+        title: "gameta: GTA 6 missables"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Tourist_Trap_Walkthrough
+        title: "IGN: Tourist Trap walkthrough"
+        accessed: "2026-11-26"
