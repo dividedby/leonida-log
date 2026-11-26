@@ -9,10 +9,14 @@
 # Race Against Yago is triggered by the side job Bumper to Bumper, which isn't in
 # our 91-mission list, so it also uses the first Chapter 3 mission. The home goes with the gate, so
 # everything inside it is lost_at_mission: the-cartel-heist.
-# Timing: Beebom, Wanted State and gta6heists put the apartment loss at the heist;
-# Metaforge and Game8 put it at the start of a later Chapter 4 mission. Doing
-# everything before the heist is safe either way, so items say "before the
-# gate" and never name that mission.
+# Timing: gtabase says the apartment is reachable after the heist and is lost when
+# the next chapter starts; Beebom (self-contradicting), Wanted State,
+# gta6playertools and gta6heists put the loss at or right after the heist;
+# Metaforge and Game8 (unread by the reviewer) put it later. LOST stays
+# the-cartel-heist as the safe bound; items say 'before the heist' and never name
+# the next chapter's first mission.
+# Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
+# cutoffs live in lost_at_mission.
 # Race Against Yago: gtabase and The Click say only the timer ends it; other
 # guides say it closes with the chapter; The Tab says the reward is a pistol, not
 # cash. The item stays unverified and keeps the heist as the safe bound.
@@ -28,7 +32,7 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the Pfister Vanessa's Growler out to register it for free; Beebom prices it at about $22,660. The apartment goes with the gate, so claim the car first.
+    how_to: In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the Pfister Vanessa's Growler out to register it for free; Beebom prices it at about $22,660. The apartment is lost for good once the next chapter starts, so claim the car before the heist to be safe.
     location: Bayside Safehouse bedroom; Del Rio Boulevard Garage, La Perle.
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
@@ -40,6 +44,9 @@ items:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
         title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/ocean-beach
+        title: "gtabase: Ocean Beach mission"
+        accessed: "2026-11-26"
 
   - id: bayside-books
     title: Read the two magazines in the Bayside apartment
@@ -48,7 +55,7 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: These are the two Bayside magazines. Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. You can't get back in once the gate passes. Some guides put the apartment loss later than the heist rather than at it, so read them before the heist either way.
+    how_to: These are the two Bayside magazines. Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. gtabase says you lose access once the next chapter starts, while other guides say the heist itself, so read them before the heist to be safe.
     location: Bayside Safehouse.
     sources:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
@@ -69,6 +76,9 @@ items:
       - url: https://game8.co/games/GTA-6/archives/639182
         title: "Game8: Bayside apartment access"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/ocean-beach
+        title: "gtabase: Ocean Beach mission"
+        accessed: "2026-11-26"
 
   - id: halifax-callback
     title: Finish things with Halifax
@@ -77,7 +87,7 @@ items:
     visible_after_mission: dubious-provenance
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: Take Halifax's offer in Dubious Provenance. If you turn him down, he has an optional callback that closes at the gate, so make it before then.
+    how_to: Halifax has a three-part job that starts in Dubious Provenance. If you didn't hand him the statue in Part 1, call him back before Chapter 3 ends to unlock Parts 2 and 3. Guides differ on which branch carries the callback, and it closes at the gate, so make it before then.
     sources:
       - url: https://vicemissions.com/guides/missables
         title: "Vice Missions: missables"
@@ -144,7 +154,7 @@ items:
     visible_after_mission: safe-word
     lost_at_mission: safe-word
     verified: true
-    how_to: In Safe Word, finish all three safecracking steps and open the practice safe before you leave. Quit early and you miss Gil's Kalinga .50.
+    how_to: In Safe Word, finish all three safecracking steps and open the practice safe before you leave; $1,500 in cash comes with the rifle. Beebom says quitting early forfeits it, while gtabase says you can return to practise before the heist, so don't rely on that.
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
@@ -152,6 +162,9 @@ items:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
         title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/safe-word
+        title: "gtabase: Safe Word mission"
+        accessed: "2026-11-26"
 
   - id: boobies-red-bag
     title: Take Boobie's red bag in Bricked Up
@@ -166,9 +179,12 @@ items:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
         title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
         accessed: "2026-11-25"
-      - url: https://gta6playertools.com/guides/chapter-3-missables
-        title: "GTA6PlayerTools: Chapter 3 missables"
-        accessed: "2026-11-25"
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/bricked-up
+        title: "gtabase: Bricked Up mission"
+        accessed: "2026-11-26"
 
   - id: y-hotel-cars
     title: Take the Y Hotel driveway cars
@@ -177,7 +193,7 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: The cars on the Y Hotel driveway can only be taken before the gate, so take them while free roam lasts. Guides differ slightly on whether the cutoff is the heist starting or finishing, so don't wait.
+    how_to: The cars on the Y Hotel driveway can only be taken before Chapter 4 starts, per Beebom, which the other guides appear to trace back to. Take them before the gate while free roam lasts.
     location: Y Hotel driveway.
     sources:
       - url: https://wantedstate.com/gta-6/how-to/missables/
@@ -194,10 +210,19 @@ items:
     title: Get the Dye Pack Jammer before robbing
     category: Money
     before_gate: the-cartel-heist
-    visible_after_mission: welcome-to-vice-city
+    visible_after_mission: credit-check
     verified: true
-    how_to: It's a permanent upgrade, so you only need it once. Have it before you start bank, payday-loan or ATM robberies, because dye packs in the marked cash can ruin the take. Guides place the pickup early in Chapter 3 and disagree on which mission hands it over.
+    how_to: "Credit Check hands it over: take the Dye Pack Jammer from the desk in the mission. Banks and payday-loan stores pay out marked bills that you can't fence without it, so have it before you rob them."
     sources:
       - url: https://www.gamespot.com/articles/gta-6-how-to-rob-banks/
         title: "GameSpot: how to rob banks in GTA 6"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=372653
+        title: "PowerPyx: Credit Check walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/credit-check
+        title: "gtabase: Credit Check mission"
+        accessed: "2026-11-26"
+      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-money-laundering-explained/
+        title: "games.gg: money laundering explained"
         accessed: "2026-11-26"

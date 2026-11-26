@@ -32,22 +32,29 @@ describe("real curated data", () => {
     }
   });
 
-  // ADR 0002: item text may not name a mission after its gate.
-  // Ch5 missions outside the Story Recap list come after every gate.
+  // ADR 0002 (amended 2026-11-26): item text may not name a mission after the
+  // item's visible_after_mission, except its own gate's title. Ch5 missions
+  // outside the Story Recap list come after every gate.
   const offListLate = ["Honest Abe", "Pay Abe's Fee", "Unfinished Business"];
-  it("no item text names a mission after its gate", () => {
-    const gateOrder = new Map(data.gates.map((g) => [g.mission, g.order]));
+  const norm = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+  it("no item text names a mission after its visible_after_mission, except its own gate", () => {
+    const order = new Map(data.missions.map((m) => [m.slug, m.order]));
     const leaks: string[] = [];
     for (const item of data.items) {
-      const limit = gateOrder.get(item.before_gate) ?? 0;
-      const text =
-        `${item.title} ${item.how_to} ${item.location ?? ""}`.toLowerCase();
-      const later = [
-        ...data.missions.filter((m) => m.order > limit).map((m) => m.title),
+      const visible = order.get(item.visible_after_mission) ?? 0;
+      const banned = [
+        ...data.missions
+          .filter((m) => m.order > visible && m.slug !== item.before_gate)
+          .map((m) => m.title),
         ...offListLate,
       ];
-      for (const title of later) {
-        if (text.includes(title.toLowerCase())) {
+      const text = norm(`${item.title} ${item.how_to} ${item.location ?? ""}`);
+      for (const title of banned) {
+        if (text.includes(norm(title))) {
           leaks.push(`${item.id} names ${title}`);
         }
       }
