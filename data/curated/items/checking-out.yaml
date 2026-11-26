@@ -6,6 +6,9 @@
 # explicit source, so items resting only on it stay verified: false.
 # visible_after_mission is the earliest sourced mission; where no later mission
 # is sourced it is the first Chapter 2 mission (whats-in-the-bag).
+# Registered cars: Leonida Streets says registered vehicles are kept at Checking
+# Out; one Reddit comment (unverified, unusable alone) says they're impounded.
+# Sources conflict, so no item lists them as lost (see register-car).
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
 
@@ -45,15 +48,18 @@ items:
         accessed: "2026-11-25"
 
   - id: motel-cards
-    title: Collect cards #1 and #2 in the motel
+    title: Collect the 3 cards and 2 magazines in the motel
     category: Collectibles
     before_gate: checking-out
     visible_after_mission: whats-in-the-bag
     lost_at_mission: checking-out
     verified: true
-    how_to: The first two collectible cards are inside the Starlet Motel, and the motel stops being your home at the gate. One guide says each has a second copy elsewhere.
-    location: Starlet Motel.
+    how_to: The Starlet Motel holds three collectible cards, Vicki, Victor Maravilla and Bryson Powers, plus two magazines. The motel stops being your home at the gate. One guide says each card has a second copy elsewhere.
+    location: Starlet Motel. Vicki is in the office bathroom, Victor Maravilla in the communal kitchen fridge and Bryson Powers in the laundry room washing machine. The magazines are at the reception desk and the cafeteria counter.
     sources:
+      - url: https://leonidastreets.com/gta-6-checking-out-walkthrough/
+        title: "Leonida Streets: Checking Out walkthrough"
+        accessed: "2026-11-25"
       - url: https://www.gtabase.com/gta-6/missions/checking-out
         title: "gtabase: Checking Out mission"
         accessed: "2026-11-25"
@@ -177,4 +183,58 @@ items:
         accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-100-completion-checklist/
         title: "PowerPyx: GTA 6 100% completion checklist"
+        accessed: "2026-11-25"
+
+  - id: register-car
+    title: Register a car with Moses and add garages
+    category: Vehicles
+    before_gate: checking-out
+    visible_after_mission: moses
+    verified: false
+    how_to: Get the car resprayed at Moses' shop, then register it. KeenGamer says the first registration is free, and each one after that costs a fee based on the car's value. You need an empty garage slot, and the property app sells more. Sources disagree on whether registered cars survive Checking Out, so don't rely on it.
+    location: Moses' auto shop, Port Gellhorn.
+    sources:
+      - url: https://www.keengamer.com/articles/guides/gta-vi-how-to-register-personal-cars-and-vehicles/
+        title: "KeenGamer: GTA VI how to register personal cars and vehicles"
+        accessed: "2026-11-25"
+      - url: https://www.eurogamer.net/gta-6-register-cars
+        title: "Eurogamer: how to register cars in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://gtaculture.com/guides/gta-6-keep-register-sell-stolen-cars
+        title: "GTACulture: keep, register and sell stolen cars"
+        accessed: "2026-11-25"
+      - url: https://leonidastreets.com/gta-6-checking-out-walkthrough/
+        title: "Leonida Streets: Checking Out walkthrough"
+        accessed: "2026-11-25"
+
+  - id: avery-kingpin-jobs
+    title: Take the Avery Pawn and Kingpin Bowling jobs
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: coffee-break
+    verified: false
+    how_to: Both are optional jobs that pay cash and unique gear, and the cash helps toward the $15,000. No source gives amounts.
+    location: Avery Pawn Shop and Kingpin Bowling Alley.
+    sources:
+      - url: https://www.eurogamer.net/gta-6-money-making-methods
+        title: "Eurogamer: GTA 6 money-making methods by chapter"
+        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions
+        title: "gtabase: story missions list"
+        accessed: "2026-11-25"
+      - url: https://gta.tech4gamers.com/gta-6/guides/make-money-each-chapter/
+        title: "Tech4Gamers: make money each chapter"
+        accessed: "2026-11-25"
+
+  - id: dominator-buggy
+    title: Pick up the '67 Dominator Buggy (Ultimate Edition)
+    category: Vehicles
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    verified: true
+    how_to: About a day after Billy's Thrillbillies job, Wyman texts and a purple task appears on the map. Collect the buggy from the marked garage in Grassrivers, Mariana County, then keep it in the Paradise Garage in Watson Bay.
+    location: Grassrivers garage, Mariana County; Paradise Garage, Watson Bay.
+    sources:
+      - url: https://gta.tech4gamers.com/gta-6/vehicles/67-vapid-dominator-buggy/
+        title: "Tech4Gamers: '67 Vapid Dominator Buggy"
         accessed: "2026-11-25"

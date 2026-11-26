@@ -1,6 +1,7 @@
 # Points of no return, keyed by the mission that triggers them.
-# Both gates are listed; items exist for Tourist Trap (items/tourist-trap.yaml)
-# and Checking Out (items/checking-out.yaml).
+# Three gates are listed; items exist for Tourist Trap (items/tourist-trap.yaml),
+# Checking Out (items/checking-out.yaml) and The Cartel Heist
+# (items/the-cartel-heist.yaml).
 # "lost" is paraphrased, never copied from a guide, and lists only what is
 # lost; what a gate needs before it starts lives in the items. Mission replay doesn't
 # exist, so a manual save before each gate is advised (see items/).
@@ -10,14 +11,19 @@
 # its footer; gaming.net too) never counts as one explicit source. Lost-lists
 # resting only on such a source are provisional.
 #
-# Not gates here, on purpose: Sunset (Ch4) and Unfinished Business (Ch5) are
-# flagged by gtabase alone and document no loss; see Open questions in
-# docs/design.md.
+# Not gates here, on purpose: Sunset (Ch4) and Unfinished Business (Ch5)
+# document no loss; see Open questions in docs/design.md.
+#
+# Tourist Trap: PowerPyx says the free roam after Recalibration is the last in
+# Chapter 1 and the lock starts when you go to Lucia, as other guides say.
+# The Cartel Heist: Beebom and gta.wiki (a fan MediaWiki with revision history)
+# both say the Chapter 3 home is lost once it is done.
 
 gates:
   - mission: tourist-trap
     lost:
       - Cash in your pockets
+      - Your BuckMe checking balance
       - Jason's original house, and the cash stashed under its floor
       - All of Jason's personal vehicles, Ultimate Edition ones included
       - Free roam as both characters, for several hours
@@ -37,6 +43,18 @@ gates:
       - url: https://www.gtabase.com/gta-6/articles/how-to-keep-your-money-safe-in-gta-6
         title: "gtabase: how to keep your money safe in GTA 6"
         accessed: "2026-11-25"
+      - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
+        title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
+        accessed: "2026-11-25"
+      - url: https://allthings.how/gta-6-lose-money-after-chapter-1/
+        title: "allthings.how: lose money after Chapter 1"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-recalibration-talk-to-lucia-walkthrough/
+        title: "PowerPyx: Recalibration (Talk to Lucia) walkthrough"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-tourist-trap-take-up-mattias-offer-walkthrough/
+        title: "PowerPyx: Tourist Trap (Take Up Mattia's Offer) walkthrough"
+        accessed: "2026-11-25"
   - mission: checking-out
     lost:
       - Your home at the Starlet Motel, for good
@@ -49,4 +67,17 @@ gates:
         accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
+        accessed: "2026-11-25"
+  - mission: the-cartel-heist
+    lost:
+      - Your Chapter 3 home, the Bayside Safehouse, for good
+    sources:
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://gta.wiki/w/Safehouses_in_GTA_VI
+        title: "gta.wiki: Safehouses in GTA VI"
+        accessed: "2026-11-25"
+      - url: https://thegameswiki.com/gta6/wiki/bayside
+        title: "The Games Wiki: Bayside"
         accessed: "2026-11-25"
