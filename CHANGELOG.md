@@ -20,6 +20,10 @@ All notable changes to this project are documented in this file. The format is b
 - v1 plan (docs/plans/v1.md), approved.
 - Repo scaffold: CLAUDE.md, CONTEXT.md glossary, design and branding docs, ADRs 0001-0007, agent docs and the Idea Inbox template.
 
+### Security
+
+- Override esbuild to ^0.25.0 for versions below 0.25 (`pnpm-workspace.yaml`): drizzle-kit's deprecated `@esbuild-kit` loader pulled esbuild 0.18.20, affected by GHSA-67mh-4wv8-2f99 (any website can read dev-server responses). Dev dependency only.
+
 ### Changed
 
 - Missions: the app keeps KeenGamer's 91-mission list. The count (91, 92, 93 or 95) is recorded as an open question in docs/design.md and the `missions.yaml` header for round 4. `billy-thrillbillies` now says most guides tag Billy's two jobs optional (Polygon lists them as main) and that Thrillbillies unlocks after Coffee Break, per PowerPyx.
