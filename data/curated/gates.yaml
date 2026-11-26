@@ -11,13 +11,27 @@
 # its footer; gaming.net too) never counts as one explicit source. Lost-lists
 # resting only on such a source are provisional.
 #
-# Not gates here, on purpose: Sunset (Ch4) and Unfinished Business (Ch5)
-# document no loss; see Open questions in docs/design.md.
+# Not gates here, on purpose (owner decision: no new gates this round; both wait
+# for round 4). Round 3 cross-checks make both look like points of no return:
+#   - Sunset (Ch4): no free roam and no manual save from Sunset until Honest Abe
+#     (GTA6BUGS, Leonida Hub citing RetroBroker; the manual-save part is one
+#     reporter's claim). BuckMe checking shows $0 until Operation Savage Glory
+#     (gameta, Leonida Hub, gta6helphub). Weapons, equipment and outfits are
+#     returned after Operation Savage Glory (PowerPyx); where they are taken is
+#     unconfirmed. Whether Suite 701 stops being a base is disputed.
+#   - Unfinished Business (Ch5): signing Abe's deal loses checking and pocket
+#     cash, while Family Savings is protected and returned later (Output Lag,
+#     PowerPyx, both read).
+# Neither goes into item text. See Open questions in docs/design.md.
 #
-# Tourist Trap: PowerPyx says the free roam after Recalibration is the last in
-# Chapter 1 and the lock starts when you go to Lucia, as other guides say.
-# The Cartel Heist: Beebom and gta.wiki (a fan MediaWiki with revision history)
-# both say the Chapter 3 home is lost once it is done.
+# Tourist Trap: PowerPyx's Recalibration page says there is no free roam once
+# you start Recalibration (two cross-checks read it), while its Tourist Trap page
+# and VGC/gtabase tie the lock to Tourist Trap itself. Items use the earlier,
+# safe line: finish and save before you start Recalibration.
+# The Cartel Heist: Beebom, gta.wiki (a fan MediaWiki with revision history) and
+# gta6heists all say the Chapter 3 home is lost once it is done. Metaforge and
+# Game8 put the apartment loss later than the heist, so doing everything before
+# the heist is safe either way.
 
 gates:
   - mission: tourist-trap
@@ -80,4 +94,7 @@ gates:
         accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/bayside
         title: "The Games Wiki: Bayside"
+        accessed: "2026-11-25"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
         accessed: "2026-11-25"

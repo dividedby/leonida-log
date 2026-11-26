@@ -5,7 +5,22 @@
 # missions in order" (Ali Amir, 2026-11-19), accessed 2026-11-25.
 # https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
 # Mission titles are facts; no guide text is copied. Order can vary a little in
-# play. Cross-check against a second source when one is read.
+# play.
+#
+# KeenGamer's 91 stays canonical for now. The count is in dispute (open question
+# in docs/design.md):
+#   - 91: KeenGamer, The Tab, Gamer Tweak (22/11/26/25/7, Caught Slipping kept).
+#   - 92: Gfinity; Game Rant says 91 in its lede and 92 in its intro.
+#   - 93: Polygon (2026-11-20, "as they are listed in the game's Story Recap",
+#     https://www.polygon.com/gta-6-mission-chapter-list-how-many/) and TalkEsport
+#     (22/13/26/25/7). They add Thrillbillies, Twist Wrist, Smash, Grab and Kitty
+#     Litter Labs and drop Caught Slipping. Polygon spells "Steal the Zorruso for
+#     Randy" and "Starting from Zero"; titles here keep KeenGamer's spelling.
+#   - 95: VGC (adds the same three, keeps Caught Slipping).
+# Game Rant and gtabase tag Billy's two jobs Optional; gtabase and gta6bugs tag
+# Kitty Litter Labs Optional; The Tab says it leaves out Optional-tagged entries.
+# Those lists keep Caught Slipping as a main mission. Round 4 checks against a
+# completed in-game Story Recap.
 #
 # Second source, not adopted: gtabase's mission index
 # (https://gtabase.com/gta-6/missions, accessed 2026-11-25) counts 109 story
@@ -18,8 +33,8 @@
 #   - Ch3: South Leonida Real Estate comes far later (gtabase #70, KeenGamer Ch3 #6).
 #   - Ch5: nine missions, adding Honest Abe and Unfinished Business before
 #     Protective Custody and swapping VC Baby with Doggie Bag.
-# KeenGamer's 91-mission list stays canonical because its entries are whole
-# missions; gate mission numbers (Tourist Trap 20, Checking Out 33) follow it.
+# Gate mission numbers (Tourist Trap 20, Checking Out 33, The Cartel Heist 59)
+# follow KeenGamer's list.
 
 chapters:
   - slug: just-like-paradise

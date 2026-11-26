@@ -9,6 +9,10 @@
 # Race Against Yago is triggered by the side job Bumper to Bumper, which isn't in
 # our 91-mission list, so it also uses the first Chapter 3 mission. The home goes with the gate, so
 # everything inside it is lost_at_mission: the-cartel-heist.
+# Timing: Beebom, Wanted State and gta6heists put the apartment loss at the heist;
+# Metaforge and Game8 put it at the start of a later Chapter 4 mission. Doing
+# everything before the heist is safe either way, so items say "before the
+# gate" and never name that mission.
 # Not listed, on purpose: what happens in The Cartel Heist itself, the $120,000
 # payout, the crates item (Vice Missions only), the bank-job and Yasmani items,
 # and codes (Beebom prints the garage code; the safe code is unverified).
@@ -35,13 +39,13 @@ items:
         accessed: "2026-11-25"
 
   - id: bayside-books
-    title: Read the two books in the Bayside apartment
+    title: Read the two magazines in the Bayside apartment
     category: Collectibles
     before_gate: the-cartel-heist
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. You can't get back in once the gate passes.
+    how_to: These are the two Bayside magazines. Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. You can't get back in once the gate passes. Some guides put the apartment loss later than the heist rather than at it, so read them before the heist either way.
     location: Bayside Safehouse.
     sources:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
@@ -49,6 +53,18 @@ items:
         accessed: "2026-11-25"
       - url: https://gta6playertools.com/guides/chapter-3-missables
         title: "GTA6PlayerTools: Chapter 3 missables"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
+        title: "PowerPyx: GTA 6 all magazines, books and comics locations"
+        accessed: "2026-11-25"
+      - url: https://wantedstate.com/gta-6/how-to/missables/
+        title: "Wanted State: GTA 6 missables"
+        accessed: "2026-11-25"
+      - url: https://metaforge.app/gta-6/gta-6-chapter-3-missables-point-of-no-return
+        title: "Metaforge: Chapter 3 missables and point of no return"
+        accessed: "2026-11-25"
+      - url: https://game8.co/games/GTA-6/archives/639182
+        title: "Game8: Bayside apartment access"
         accessed: "2026-11-25"
 
   - id: halifax-callback
@@ -143,4 +159,24 @@ items:
         accessed: "2026-11-25"
       - url: https://gta6playertools.com/guides/chapter-3-missables
         title: "GTA6PlayerTools: Chapter 3 missables"
+        accessed: "2026-11-25"
+
+  - id: y-hotel-cars
+    title: Take the Y Hotel driveway cars
+    category: Vehicles
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    lost_at_mission: the-cartel-heist
+    verified: true
+    how_to: The cars on the Y Hotel driveway can only be taken before the gate, so take them while free roam lasts. Guides differ slightly on whether the cutoff is the heist starting or finishing, so don't wait.
+    location: Y Hotel driveway.
+    sources:
+      - url: https://wantedstate.com/gta-6/how-to/missables/
+        title: "Wanted State: GTA 6 missables"
+        accessed: "2026-11-25"
+      - url: https://stealthygaming.com/gta-6-missables/
+        title: "Stealthy Gaming: GTA 6 missables"
+        accessed: "2026-11-25"
+      - url: https://metaforge.app/gta-6/gta-6-chapter-3-missables-point-of-no-return
+        title: "Metaforge: Chapter 3 missables and point of no return"
         accessed: "2026-11-25"
