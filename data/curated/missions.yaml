@@ -1,5 +1,8 @@
-# Chapters and missions, in story order. List position is the canonical order
-# (mission order is derived from it, never stored here).
+# Chapters and missions, in story order. Among the main missions (the 91 below)
+# list position is the canonical order (mission order is derived from it, never
+# stored here). Optional missions (any other kind) are listed after the mains,
+# in a separate block at the end of the file; they have no order of their own,
+# so adding or moving one never shifts a main mission or a gate.
 #
 # Source: a single guide, KeenGamer, "GTA 6 walkthrough: all chapters and story
 # missions in order" (Ali Amir, 2026-11-19), accessed 2026-11-25.
@@ -21,6 +24,10 @@
 # Kitty Litter Labs Optional; The Tab says it leaves out Optional-tagged entries.
 # Those lists keep Caught Slipping as a main mission. Round 4 checks against a
 # completed in-game Story Recap.
+# Thrillbillies, Twist Wrist, Smash, Grab and Kitty Litter Labs are still
+# dispute-recorded and not entered as missions (main or optional): no guide
+# states how long they stay open after the story, so they have no READY
+# optional entry (see the block at the end of this file).
 #
 # Second source, not adopted: gtabase's mission index
 # (https://gtabase.com/gta-6/missions, accessed 2026-11-25) counts 109 story
@@ -321,3 +328,175 @@ missions:
   - slug: the-end-of-the-road
     title: The End of the Road
     chapter: top-of-the-world-ma
+
+  # Optional missions, listed after the 91 mains and grouped by chapter. They have
+  # no order of their own: each opens after a mission (opens_after, a main mission
+  # or another optional) and closes when the story reaches closes_at (a main
+  # mission) or never. "Reached" means the player is on that mission, so standing
+  # on closes_at counts as closed. closes_at may not be later than the last gate
+  # in gates.yaml. The app derives checklist rows and countdowns from these
+  # entries (lib/gates.ts); they replace the hand-written items they duplicated.
+  #
+  # Evidence rule: an entry ships only when kind, character, opens_after and
+  # closes_at are all supported by two independent sources, one explicit non-AI
+  # source, or first-hand video. Single AI-drafted sources (The Games Wiki,
+  # egamers, gaming.net, pro-gamer.gg, happygamer) never count; Reddit is dropped.
+  # `never` needs an affirmative statement; a page that is silent on a cutoff
+  # does not prove it. Where guides give two cutoffs the earlier one is used (the
+  # safe direction). `note` is app-voice text naming no mission past opens_after
+  # except the gate.
+  #
+  # Not entered (no READY evidence; the matching items, where one exists, stay):
+  #   - closes_at inferred or unconfirmed: Clock Out, Pick Up Groceries, Buy
+  #     Flowers, Get The Chop, Find the Lost Drugs, Donnie's Lost Drugs,
+  #     Impounded Vehicle, This Is a Free Call From..., Pick Up a Gun, Hit Avery
+  #     Pawn, Collect Felipe's Gift (deadline inherited from Bad Driver!), Brother
+  #     to Brother, Get Your Wheels, Attend Eddie Acosta's Party, It's A Date!,
+  #     Dre'Quan's Gift.
+  #   - disputed window: Meditate with Lucia, Race Against Yago, Donnie's Drop-Off.
+  #   - never unproven (no guide states it stays open): Thrillbillies, Twist Wrist,
+  #     Smash, Grab, Hit Kingpin Bowling, Kitty Litter Labs (kind also disputed)
+  #     and about thirty more strangers, activities and repeatables. Thrillbillies,
+  #     Twist Wrist, Smash, Grab and Kitty Litter Labs stay dispute-recorded here
+  #     (see the count note above), not yet entered as missions.
+  #   - opens_after is not a mission trigger: Check Out McKittrick Farm, Collect
+  #     Chemicals for Kyle.
+  #   - title or mapping unresolved: Bret's Hunting Decks, Steal Vehicles for
+  #     Moses, Tail the Security Van, Randy's Wish List, Dunk's Robbery Tips.
+  #   - Ambulance Chaser stays a main mission (Chapter 2, number 2): guides give
+  #     it a cutoff, but a main mission carries none here, and making it optional
+  #     would shift every later gate by one.
+  #   - out of scope: Caught Slipping (already main), Honest Abe, Unfinished
+  #     Business.
+  - slug: get-shirleys-rum
+    title: Get Shirley's Rum
+    chapter: just-like-paradise
+    kind: hourglass
+    character: jason
+    opens_after: unwanted-attention
+    closes_at: tourist-trap
+    note: Reportedly rewards Focus and a Professional profile bump. It doesn't affect trophies or 100%.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "gtabase: Get Shirley's Rum mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=372448
+        title: "PowerPyx: Shirley errands"
+        accessed: "2026-11-26"
+  - slug: steal-the-scooter
+    title: Steal the Scooter
+    chapter: just-like-paradise
+    kind: hourglass
+    character: jason
+    opens_after: get-shirleys-rum
+    closes_at: tourist-trap
+    note: No reward is confirmed (PowerPyx, Push Square). It doesn't affect trophies or 100%.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/steal-the-scooter
+        title: "gtabase: Steal the Scooter mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-26"
+      - url: https://www.pushsquare.com/guides/gta-6-steal-the-scooter-walkthrough
+        title: "Push Square: Steal the Scooter walkthrough"
+        accessed: "2026-11-26"
+  - slug: ring-the-bell
+    title: Ring the Bell!
+    chapter: just-like-paradise
+    kind: hourglass
+    character: jason
+    opens_after: day-release
+    closes_at: swamped
+    note: Cal's text sets it off at the Rusty Anchor. It unlocks a Rusty Anchor shirt and cap that can't be bought if you skip it; take Cal home at the end.
+    sources:
+      - url: https://www.gtabase.com/gta-6/missions/ring-the-bell
+        title: "gtabase: Ring the Bell! mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://gta6story.org/missables/chapter-1
+        title: "gta6story.org: Chapter 1 missables"
+        accessed: "2026-11-25"
+  - slug: get-lucias-clothes
+    title: Get Lucia's Clothes
+    chapter: just-like-paradise
+    kind: optional
+    character: jason
+    opens_after: feng-shui
+    closes_at: coming-home
+    note: Andy calls. Collect the clothes bag at Manatee's Rest and keep it in your car before you collect Lucia.
+    sources:
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist-guide/
+        title: "PowerPyx: GTA 6 100% completion checklist and guide"
+        accessed: "2026-11-26"
+      - url: https://www.theclick.gg/gta-6-chapter-1-missable-items-checklist/
+        title: "The Click: Chapter 1 missable items checklist"
+        accessed: "2026-11-26"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-lucias-clothes
+        title: "gtabase: Get Lucia's Clothes mission"
+        accessed: "2026-11-26"
+  - slug: buy-lucia-a-necklace
+    title: Buy Lucia a Necklace
+    chapter: just-like-paradise
+    kind: optional
+    character: jason
+    opens_after: feng-shui
+    closes_at: coming-home
+    note: $475 at The Siren's Chest, southwest Key Lento, for an early relationship boost. One guide says it lasts longer; the earlier cutoff is used.
+    sources:
+      - url: https://gta6story.org/missables/chapter-1
+        title: "gta6story.org: Chapter 1 missables"
+        accessed: "2026-11-25"
+      - url: https://www.theclick.gg/gta-6-chapter-1-missable-items-checklist/
+        title: "The Click: Chapter 1 missable items checklist"
+        accessed: "2026-11-26"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-26"
+  - slug: veteran-hunted
+    title: Veteran Hunted
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: coffee-break
+    closes_at: never
+    note: Jason only, near Mount Kalaga. Pays $500 and hands over a Killtelligence SM-69 sniper; it starts the hunting line, which stays available after the story.
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/veteran-hunted
+        title: "gtabase: Veteran Hunted stranger mission"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist/
+        title: "PowerPyx: GTA 6 100% completion checklist"
+        accessed: "2026-11-25"
+  - slug: bad-driver
+    title: Bad Driver!
+    chapter: vice-city-baby
+    kind: optional
+    character: both
+    opens_after: party-hard
+    closes_at: power-play
+    note: Killing Felipe pays $20,000; sparing him opens Collect Felipe's Gift. Look as soon as the previous job is done.
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/bad-driver
+        title: "gtabase: Bad Driver! stranger mission"
+        accessed: "2026-11-26"
+      - url: https://theclick.gg/gta-6-missable-missions/
+        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=369829
+        title: "PowerPyx: Bad Driver! walkthrough"
+        accessed: "2026-11-26"

@@ -19,8 +19,16 @@ Naming exceptions (added 2026-11-25):
 Item text rule (amended 2026-11-26):
 
 - An item's text (`title`, `how_to`, `location`) may not name any mission after the item's own `visible_after_mission`, except the title of the gate the item belongs to. This replaces the earlier looser check (no mission after the gate).
-- Earlier cutoffs (a mission that closes an optional job before the gate) are carried only by `lost_at_mission`, never by name in text. The app will later show "Closes in N missions" and "Do this before your next story mission" from `lost_at_mission`. UI is out of scope for this change.
+- Earlier cutoffs (a mission that closes an optional job before the gate) are carried only by `lost_at_mission`, never by name in text. The app will later show "Closes in N missions" and "Do this before your next story mission" from `lost_at_mission`. UI not built yet.
 - The off-list Chapter 5 names (Honest Abe, Pay Abe's Fee, Unfinished Business) stay banned in all item text.
+- Enforced by `lib/curated.data.test.ts`.
+
+Optional missions (second amendment, 2026-11-26):
+
+- Optional missions (any kind other than `main`) open after an anchor and close at a main mission or never. An optional's title and note show from its anchor on, and may not name a main mission after the anchor except the title of the gate it is bound to. Item text may not name an optional's title before the item's `visible_after_mission`.
+- Cutoffs show as a countdown ("Closes in N missions", "Do this before your next story mission"), computed from the current mission, never by naming the closing mission. A gate's `lost` list shows the same way, as a countdown to the gate, so no `lost` entry names a mission.
+- The current mission is always a main mission. Optional missions never enter the picker or the order.
+- `lockedSummary` counts optional missions that haven't opened yet; its unlock mission is the optional's anchor (a main mission), never the optional itself.
 - Enforced by `lib/curated.data.test.ts`.
 
 ## Consequences

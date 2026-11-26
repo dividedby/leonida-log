@@ -62,6 +62,12 @@ describe("progress", () => {
     });
   });
 
+  it("rejects an optional mission as the current mission", () => {
+    const { repo } = setup();
+    expect(() => repo.setCurrentMission("o1")).toThrow(UnknownRefError);
+    expect(repo.getProgress().currentMission).toBeNull();
+  });
+
   it("rejects an unknown mission without writing", () => {
     const { repo } = setup();
     repo.setCurrentMission("m2");
@@ -93,6 +99,13 @@ describe("item checks", () => {
     expect(repo.checkedItemIds()).toEqual(new Set(["a", "b"]));
     expect(repo.toggleItem("a")).toBe(false);
     expect(repo.checkedItemIds()).toEqual(new Set(["b"]));
+  });
+
+  it("ticks an optional mission's derived row", () => {
+    const { repo } = setup();
+    expect(repo.toggleItem("o1")).toBe(true);
+    expect(repo.checkedItemIds()).toEqual(new Set(["o1"]));
+    expect(repo.toggleItem("o1")).toBe(false);
   });
 
   it("rejects an unknown item without writing", () => {

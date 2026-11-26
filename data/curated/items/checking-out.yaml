@@ -19,6 +19,10 @@
 # temporary (Game8, Vice Keys and Game Checklists all say it reopens later).
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
+# Veteran Hunted (the hunting line) is no longer an item: it is an optional
+# mission in missions.yaml that stays open after the story, so it shows under
+# "safe to leave". Thrillbillies, Kyle's farm jobs and Moses' car jobs stay
+# items until their windows are confirmed.
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
 
@@ -307,28 +311,6 @@ items:
         accessed: "2026-11-26"
       - url: https://game8.co/games/GTA-6/archives/639194
         title: "Game8: Kyle's strawberry and Collect Chemicals for Kyle"
-        accessed: "2026-11-26"
-
-  - id: bret-hunting
-    title: Meet Bret for the hunting jobs (Jason only)
-    category: Side missions
-    before_gate: checking-out
-    visible_after_mission: coffee-break
-    verified: true
-    how_to: Veteran Hunted is Jason-only and starts near Mount Kalaga. It pays $500 and hands over a Killtelligence SM-69 sniper, and it starts the hunting line, which gtabase and PowerPyx place some time after Coffee Break. PowerPyx's checklist says the hunting line stays available after the story.
-    location: Near Mount Kalaga.
-    sources:
-      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
-        title: "Bloxodes: GTA 6 Strangers & Freaks"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/unique-weapons
-        title: "The Games Wiki: unique weapons"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-100-completion-checklist/
-        title: "PowerPyx: GTA 6 100% completion checklist"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/strangers/veteran-hunted
-        title: "gtabase: Veteran Hunted stranger mission"
         accessed: "2026-11-26"
 
   - id: register-car

@@ -26,6 +26,10 @@
 # unverified.
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
+# Not items any more: Get Shirley's Rum, Steal the Scooter, Ring the Bell!, Get
+# Lucia's Clothes and Buy Lucia a Necklace are optional missions in
+# missions.yaml; the app derives their rows and countdowns. Clock Out, Donnie's
+# Drop-Off and Meditate with Lucia stay items until their windows are confirmed.
 
 items:
   - id: manual-save
@@ -576,83 +580,6 @@ items:
         title: "games.gg: GTA 6 endings, choices and consequences"
         accessed: "2026-11-25"
 
-  - id: shirley-side-missions
-    title: Do Shirley's two hourglass missions
-    category: Side missions
-    before_gate: tourist-trap
-    visible_after_mission: prologue
-    lost_at_mission: tourist-trap
-    verified: true
-    how_to: Look for the hourglass markers and do both, Get Shirley's Rum and Steal the Scooter. Both close when the gate starts. The rum run reportedly rewards Focus and a Professional profile bump. The scooter errand has no reward in PowerPyx or Push Square; one AI-drafted wiki says it lets Jason borrow Shirley's car. Neither affects trophies or 100%.
-    sources:
-      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
-        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
-        accessed: "2026-11-25"
-      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
-        title: "Bloxodes: GTA 6 Strangers & Freaks"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
-        title: "gtabase: Tourist Trap mission"
-        accessed: "2026-11-26"
-      - url: https://www.gta6heists.com/missions/points-of-no-return
-        title: "gta6heists: points of no return"
-        accessed: "2026-11-26"
-      - url: https://www.pushsquare.com/guides/gta-6-steal-the-scooter-walkthrough
-        title: "Push Square: Steal the Scooter walkthrough"
-        accessed: "2026-11-26"
-      - url: https://www.powerpyx.com/?p=372448
-        title: "PowerPyx: Shirley errands"
-        accessed: "2026-11-26"
-
-  - id: lucias-necklace
-    title: Buy Lucia a necklace
-    category: Romance
-    before_gate: tourist-trap
-    visible_after_mission: feng-shui
-    lost_at_mission: coming-home
-    verified: true
-    how_to: A $475 necklace gives an early relationship boost, so buy it as soon as the shop opens. Most guides give a cutoff soon after the shop opens, well before the gate; one guide says it lasts until the gate. Use the earlier line.
-    location: The Siren's Chest jewellery store, southwest Key Lento.
-    sources:
-      - url: https://gta6story.org/missables/chapter-1
-        title: "gta6story.org: Chapter 1 missables"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/missions
-        title: "gtabase: story missions list"
-        accessed: "2026-11-25"
-      - url: https://www.theclick.gg/gta-6-chapter-1-missable-items-checklist/
-        title: "The Click: Chapter 1 missable items checklist"
-        accessed: "2026-11-26"
-      - url: https://www.gta6heists.com/missions/points-of-no-return
-        title: "gta6heists: points of no return"
-        accessed: "2026-11-26"
-
-  - id: ring-the-bell
-    title: Do Ring the Bell! at the Rusty Anchor
-    category: Side missions
-    before_gate: tourist-trap
-    visible_after_mission: day-release
-    lost_at_mission: swamped
-    verified: true
-    how_to: An optional bar task that guides flag as missable. Cal's text sets it off after Day Release, and it closes once you meet Brian for the next story mission (gtabase and The Click), so do it before then. It unlocks a Rusty Anchor shirt and cap.
-    location: The Rusty Anchor bar.
-    sources:
-      - url: https://gta6story.org/missables/chapter-1
-        title: "gta6story.org: Chapter 1 missables"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/missions
-        title: "gtabase: story missions list"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/missions/ring-the-bell
-        title: "gtabase: Ring the Bell! mission"
-        accessed: "2026-11-26"
-      - url: https://theclick.gg/gta-6-missable-missions/
-        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
-        accessed: "2026-11-26"
-
   - id: clock-out
     title: Take Lucia's call for Clock Out
     category: Side missions
@@ -666,28 +593,6 @@ items:
         accessed: "2026-11-26"
       - url: https://theclick.gg/gta-6-missable-missions/
         title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
-        accessed: "2026-11-26"
-
-  - id: get-lucias-clothes
-    title: Do Get Lucia's Clothes
-    category: Romance
-    before_gate: tourist-trap
-    visible_after_mission: feng-shui
-    lost_at_mission: coming-home
-    verified: true
-    how_to: Andy calls after Feng Shui. Collect Lucia's clothes bag at Manatee's Rest and keep it in your car before you collect Lucia; it closes once that pickup starts.
-    sources:
-      - url: https://www.powerpyx.com/gta-6-100-completion-checklist-guide/
-        title: "PowerPyx: GTA 6 100% completion checklist and guide"
-        accessed: "2026-11-26"
-      - url: https://www.theclick.gg/gta-6-chapter-1-missable-items-checklist/
-        title: "The Click: Chapter 1 missable items checklist"
-        accessed: "2026-11-26"
-      - url: https://www.gta6heists.com/missions/points-of-no-return
-        title: "gta6heists: points of no return"
-        accessed: "2026-11-26"
-      - url: https://www.gtabase.com/gta-6/missions/get-lucias-clothes
-        title: "gtabase: Get Lucia's Clothes mission"
         accessed: "2026-11-26"
 
   - id: donnies-drop-off
