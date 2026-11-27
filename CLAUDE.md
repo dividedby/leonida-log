@@ -25,7 +25,8 @@ Node 24 (CI).
 - No Rockstar logos, GTA VI wordmark, screenshots or key art in the repo.
 - Public repo: only the handle dividedby; no real names or emails. Secrets live in env files, never in code.
 - Follow branding (Postcard: Anton + Work Sans, sunset pink / orange / Gulf teal) in docs/branding.md. Component names match the design reference.
-- Deploys go through CD; don't hand-copy to the server. Don't call something fixed until it has run for real.
+- Deploys go through CD; don't hand-copy to the server. The root-run host files under `deploy/` and `compose.yaml` are the exception: the owner installs them by hand (`deploy/README.md`). Don't call something fixed until it has run for real.
+- Migrations must stay readable by the previous release: a failed deploy rolls back the image, not the database. Expand first (add), contract in a later deploy (drop, rename, tighten).
 
 ## Workflow
 

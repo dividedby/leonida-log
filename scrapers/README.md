@@ -85,6 +85,12 @@ What it watches is in `scrapers/config/github.yaml` (validated with zod on load)
 
 Each run writes `changed-since-<YYYY-MM-DD>.md` and `latest.md` to the report directory (`--since`, default 7 days back). It opens with per-source counts (discovered, fetched, unchanged, changed, new, baselined, deferred, robots-blocked, errors), then lists changed pages grouped by gate hint (story order, then "No gate hint") and source: title, URL, change kind, remote modified, mission hints with order numbers, headings added or removed, paragraph counts and up to three short snippets. Read it, open the sources worth a look, and promote facts into `data/curated/` by hand with a source link. The file holds scraped snippets: it stays on the server and is never committed.
 
+## On the server
+
+A systemd timer on the VPS runs the scrapers every Monday at 06:15 America/Chicago (`deploy/leonida-log-scrape.timer`; the owner enables it with `install-host.sh --enable-scrape`, see [../deploy/README.md](../deploy/README.md)). It starts `docker compose run --rm scraper` from the deployed image, with `DATABASE_PATH=/data/leonida.db` and `SCRAPE_REPORT_DIR=/data/reports`, which are `/var/lib/leonida-log/leonida.db` and `/var/lib/leonida-log/reports/` on the host. The container is capped at 256 MB. A run holds the deploy lock, so a deploy that starts during a scrape waits (and fails after 10 minutes; re-run it). Read the report at `/var/lib/leonida-log/reports/latest.md`.
+
+Exit 0 is a clean run. Any other status (1 bad setup, 2 a source's listing could not be read) fails the unit and sends one alert to Discord #attention through `OnFailure=host-alert@attention:`. To switch a source off on the server without a deploy, set `SCRAPERS_DISABLED=ign,keengamer` in `/etc/leonida-log/compose.env`. Run one by hand with `systemctl start leonida-log-scrape.service` and `journalctl -u leonida-log-scrape`. The unauthenticated GitHub budget (60 requests an hour) is per IP and shared with everything else on the host.
+
 ## Purging a source
 
 `pnpm scrape --purge <source>` deletes the source's `sources` rows and its candidates, then exits without scraping.

@@ -49,6 +49,12 @@ Each run writes `data/scraped/reports/changed-since-<date>.md` (and `latest.md`)
 
 The database is one SQLite file at `DATABASE_PATH`. Migrations never run at app start: run `pnpm db:migrate` after `pnpm install` and after pulling a new migration. After changing `lib/db/schema.ts`, run `pnpm db:generate` and commit the SQL in `drizzle/`.
 
+## Deploy
+
+A merge to `main` deploys. `.github/workflows/deploy-vps.yml` re-runs typecheck, lint and tests, builds one image (`Dockerfile`) on an arm64 runner, smoke-tests it, pushes `ghcr.io/dividedby/leonida-log:<sha>`, then tells the VPS over SSH to run that SHA with `compose.yaml`: pull, snapshot the database, migrate, start, and roll back to the previous image if `/api/health` does not report the new SHA. The app listens on `127.0.0.1:5100` behind a Cloudflare Tunnel and Access. A migration must stay readable by the previous release (expand first, contract in a later deploy). The root-run host files are installed by the owner by hand; the runbook is [deploy/README.md](deploy/README.md), the decisions are in [ADR 0005](docs/adr/0005-hosting.md).
+
+`GET /api/health` answers `{"ok":true,"revision":"<sha>"}` once the database has its schema, and 503 otherwise.
+
 ## Data
 
 Curated data at its current best-evidence value (ADR 0008) lives in `data/curated/` and is committed: `missions.yaml` (chapters, the 92 main missions in story order, and optional missions with when they open and close), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.

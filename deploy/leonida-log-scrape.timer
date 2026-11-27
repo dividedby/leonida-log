@@ -1,0 +1,13 @@
+# Starts leonida-log-scrape.service every Monday morning, US Central. Persistent: a run missed while the host was
+# down (it reboots at 03:30) happens at the next boot. Installed by deploy/install-host.sh; enabled only when the
+# owner passes --enable-scrape.
+[Unit]
+Description=Leonida Log weekly scrape
+
+[Timer]
+OnCalendar=Mon *-*-* 06:15 America/Chicago
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

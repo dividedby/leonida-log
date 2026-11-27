@@ -1,0 +1,145 @@
+name: deploy
+
+# Deploys main to the VPS (ADR 0005, deploy/README.md). Three jobs:
+#   verify: re-runs typecheck, lint and tests on main, so a bad main never ships (the PR gate already ran, but a
+#           merge can change what main contains).
+#   image:  builds the image on a native arm64 runner (the VPS is aarch64), smoke-tests it before anything is
+#           pushed, then pushes ghcr.io/dividedby/leonida-log:<sha>. No `latest` tag.
+#   deploy: one SSH connection with a CI-only key that is restricted on the server to one forced command,
+#           deploy/leonida-log-deploy.sh. It takes only a commit SHA that is on origin/main; the host pulls the
+#           image, snapshots the database, migrates, restarts and rolls back if the app does not report that SHA.
+#
+# Needs these secrets, set on the `production` environment (main only, no reviewers): VPS_HOST, VPS_USER,
+# VPS_SSH_KEY, VPS_SSH_KNOWN_HOSTS. The image push uses the workflow's GITHUB_TOKEN. The only actions are the ones
+# ci.yml uses (actions/checkout, actions/setup-node, pnpm/action-setup), tag-pinned and bumped by Dependabot; the
+# deploy job uses none.
+
+on:
+  push:
+    branches: [main]
+    # Changes that cannot alter the running app. deploy/** (except tests), data/curated, scrapers, drizzle, the
+    # Dockerfile, compose.yaml and this file are deliberately not listed.
+    paths-ignore:
+      - "docs/**"
+      - "**/*.md"
+      - ".claude/**"
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/format.yml"
+      - ".github/dependabot.yml"
+      - ".github/ISSUE_TEMPLATE/**"
+      - "**/*.test.ts"
+      - "**/test-helpers.ts"
+      - "**/__fixtures__/**"
+      - "lib/test-fixtures/**"
+      - "vitest.config.mts"
+      - "eslint.config.mjs"
+      - ".prettierrc.json"
+      - ".prettierignore"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/dividedby/leonida-log
+
+jobs:
+  verify:
+    # A manual dispatch from another branch would send a SHA the server refuses; skip every job instead.
+    if: github.repository == 'dividedby/leonida-log' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+
+  image:
+    needs: verify
+    if: github.repository == 'dividedby/leonida-log' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build
+        run: docker build --build-arg "REVISION=$GITHUB_SHA" --tag "$IMAGE:$GITHUB_SHA" .
+
+      # Runs the image the way compose.yaml does: migrate into a scratch /data, start the app and wait for
+      # /api/health to report this SHA, then load the scraper entry point.
+      - name: Smoke test
+        run: deploy/image-smoke.sh "$IMAGE:$GITHUB_SHA" "$GITHUB_SHA"
+
+      - name: Log in to GHCR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io --username "$GITHUB_ACTOR" --password-stdin
+
+      - name: Push
+        run: docker push "$IMAGE:$GITHUB_SHA"
+
+      - name: Log out of GHCR
+        if: always()
+        run: docker logout ghcr.io
+
+  deploy:
+    needs: image
+    if: github.repository == 'dividedby/leonida-log' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - name: Check the secrets are set
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+        run: |
+          missing=0
+          for name in VPS_HOST VPS_USER VPS_SSH_KEY VPS_SSH_KNOWN_HOSTS; do
+            if [ -z "${!name}" ]; then
+              echo "::error::secret $name is not set"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - name: Deploy
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          umask 077
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_deploy \
+            -o IdentitiesOnly=yes \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o UserKnownHostsFile=~/.ssh/known_hosts \
+            -o ConnectTimeout=20 \
+            "$VPS_USER@$VPS_HOST" "$GITHUB_SHA"
+
+      - name: Remove the key
+        if: always()
+        run: rm -f ~/.ssh/id_deploy
