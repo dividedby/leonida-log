@@ -65,6 +65,8 @@ const itemSchema = z.strictObject({
   sources: z.array(sourceSchema).min(1),
 });
 
+type RawItem = z.infer<typeof itemSchema>;
+
 const itemsFileSchema = z.strictObject({ items: z.array(itemSchema) });
 
 export const MISSION_KINDS = [
@@ -147,7 +149,7 @@ const gatesFileSchema = z.strictObject({
 export type Source = z.infer<typeof sourceSchema>;
 export type EvidenceBasis = (typeof EVIDENCE_BASES)[number];
 /** An item as the app sees it: research background (`verified`, `evidence`) removed. */
-export type Item = Omit<z.infer<typeof itemSchema>, "verified" | "evidence">;
+export type Item = Omit<RawItem, "verified" | "evidence">;
 export type Category = (typeof CATEGORIES)[number];
 export type MissionKind = (typeof MISSION_KINDS)[number];
 export type Character = (typeof CHARACTERS)[number];
@@ -239,8 +241,8 @@ function schemaIssues(file: string, error: z.ZodError): string[] {
 }
 
 /** Drops the research background the app must never render (ADR 0008). */
-function withoutBackground(item: z.infer<typeof itemSchema>): Item {
-  const out: Partial<z.infer<typeof itemSchema>> = { ...item };
+function withoutBackground(item: RawItem): Item {
+  const out: Partial<RawItem> = { ...item };
   delete out.verified;
   delete out.evidence;
   return out as Item;
@@ -265,7 +267,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   if (!gatesFile.success) {
     issues.push(...schemaIssues("gates.yaml", gatesFile.error));
   }
-  const itemFiles: [string, z.infer<typeof itemSchema>[]][] = [];
+  const itemFiles: [string, RawItem[]][] = [];
   for (const [name, content] of Object.entries(raw.itemFiles).sort(([a], [b]) =>
     a.localeCompare(b),
   )) {

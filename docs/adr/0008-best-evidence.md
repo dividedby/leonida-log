@@ -28,7 +28,7 @@ Until now an entry needed two independent sources, one explicit non-AI source, o
 
 ## Consequences
 
-- Entries that were held back for lack of proof can be added, so the data-build session can apply round 6 and 7 data under these rules.
+- Entries that were held back for lack of proof can now be added.
 - Some values will be wrong in the safe direction: a few items close earlier than they really do, or show later than they could. Weekly research narrows them.
 - The Research chip and the orange "needs research" meaning are gone. Orange stays the sun disc colour.
 - Candidates (ADR 0003) are still never rendered raw. A candidate shows only after review promotes it to curated, now without a flag.
