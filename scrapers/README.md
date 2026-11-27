@@ -13,6 +13,7 @@ DATABASE_PATH=data/local.db pnpm scrape         # all enabled sources
 | `--since YYYY-MM-DD`             | Pages last modified before this are recorded as baselines without fetching. Also the report's start date.                                                      |
 | `--report-only`                  | Rebuild the report from the database; no fetching.                                                                                                             |
 | `--dry-run`                      | Fetch and diff, write no rows and no report.                                                                                                                   |
+| `--github-search`                | Run the `github` source's repo search now. It otherwise runs at most once every 7 days; `--since` does not force it.                                           |
 | `--purge <source>`               | Delete every tracked page of that source id and, by cascade, its candidates. Prints the counts and does nothing else. Works for ids no longer in the registry. |
 | `--wayback <url[*]> [--since D]` | Print Wayback captures (a trailing `*` means prefix). No database writes.                                                                                      |
 
@@ -44,8 +45,24 @@ A `candidates` row holds the change kind, hints, content hash, a JSON diff summa
 | `game8jp`   | gzipped sitemap          | Redirects to an S3 host; its robots.txt answers 4xx, which counts as allow. Only `https://game8.jp/gta6/<digits>`. Pages carry JSON-LD `dateModified`.                                                                                                                                                                                                                                                                           |
 | `gamewith`  | sitemap                  | Only `https://gamewith.jp/gta6/<digits>`.                                                                                                                                                                                                                                                                                                                                                                                        |
 | `vandal`    | HTML index               | No lastmod: change detection by hash. The hub is tracked as a page; 20 chapters per run, least recently checked first. ISO-8859-1 decoded by Content-Type.                                                                                                                                                                                                                                                                       |
+| `github`    | GitHub REST API          | Datamine files in public repos, watched by last-commit sha, plus a weekly repo search. Not a page source: see [GitHub](#github). Tier B in `docs/sources.md`.                                                                                                                                                                                                                                                                    |
 
 **Switching a source off:** set `enabled: false` in its module, or set `SCRAPERS_DISABLED=ign,keengamer` (comma list of ids) in the environment. `--source` picks among enabled sources only.
+
+## GitHub
+
+The `github` source (`sources/github.ts`) watches datamine files through the GitHub REST API only. `github.com` and `raw.githubusercontent.com` disallow `/*/raw/`, `/*/commits/` and `/*/tree/` for `*`, so they are never fetched; the `url` stored for a watched file (`https://github.com/<repo>/blob/HEAD/<path>`) is display only. `api.github.com/robots.txt` answers 404, which reads as allow-all. Requests go through the polite layer, 2 s apart, with `Accept: application/vnd.github+json` and `X-GitHub-Api-Version: 2022-11-28`.
+
+What it watches is in `scrapers/config/github.yaml` (validated with zod on load): `watch` (repo and file paths), `discovery` (query, `every_days`, `keywords`, `exclude_patterns`, `blocklist`) and `max_inline_bytes`. Adding a repo or a path needs no code change.
+
+- **Change detection is by commit sha.** Each watched file is one tracked row. `GET /repos/{repo}/commits?path=...&per_page=1` is sent with the stored ETag; a 304 (not counted against the rate limit) or the same sha means nothing changed. `content_hash` is the sha and `remote_modified` the commit date.
+- **First sighting** emits a `new` candidate: a header (repo, path, sha, date, message, the tier line) and, for a file at or under `max_inline_bytes`, its first 200 lines from `GET /repos/{repo}/contents/{path}?ref={sha}` with the raw media type. File sizes come from one directory listing per directory per run. A larger file (`ArchiveItems.txt` is 17 MB) is never fetched: header only.
+- **A different sha** costs one `GET /repos/{repo}/compare/{old}...{new}` per repo and sha pair, shared by every path that moved with it, and emits a `modified` candidate: the commits in range (repo-wide), the file's `+`/`-` counts and the `+`/`-` rows of its patch. When GitHub omits the patch for a large diff, only the counts are given; if the old sha no longer exists, the latest commit alone.
+- **Candidates** carry `category_hint` `datamine` and the line `Tier B — datamine: IDs real, labels community guesses`; the report prints that line under the `github` heading. Mission hints come from the added rows and commit messages (titles rarely appear there).
+- **Rate budget.** The unauthenticated limit is 60 requests an hour per IP. Every response's `x-ratelimit-remaining` is read; below 5 the run stops calling GitHub, logs how many requests it deferred, and the next run picks them up. A 403 or 429 with `x-ratelimit-remaining: 0` is rate limiting, not a block: the run logs the reset time and stops, and the next run tries again. A first run costs about 25 requests; later runs about one per watched file, mostly 304s.
+- **Discovery** runs at most once every `every_days` (tracked by the `https://api.github.com/search/repositories#gta6-datamines` row's `checked_at`; `--github-search` forces it). It searches repositories pushed since the last search (30 days back the first time) and keeps those whose name, description or topics contain a keyword and match no exclude pattern, dropping forks, repos already watched and blocklisted repos. Each repo not seen before becomes a `new` candidate with category `datamine-discovery` and the line "Review only: not watched. Add to scrapers/config/github.yaml after review." Nothing found this way is ever watched automatically; seen repos are not reported again.
+- **Blocklist.** `discovery.blocklist` holds repos that look like malware lures (for example a "PC port" with a LAN tool and a download). A blocklisted repo is never reported, and listing one under `watch` fails config validation.
+- Releases, archives (zipball, tarball) and `download_url`s are never requested.
 
 ## Environment
 
@@ -81,6 +98,8 @@ Each run writes `changed-since-<YYYY-MM-DD>.md` and `latest.md` to the report di
 2. Register it in `sources/index.ts` (rank order).
 3. Test `discover` against a hand-written fixture (`sources/sources.test.ts`). Fixtures are synthetic: never paste real guide text.
 4. Add it to the table above and to the changelog.
+
+A source that isn't a set of pages (an API where change is a commit sha) can define `watch(ctx)` instead: it makes its own change decision from `ctx.stored` (a read-only view of its rows), returns the rows to store and any candidates, and `run.ts` persists them (`watch.ts`). `discover` then returns `[]`. `github` is the only one.
 
 ## Tests
 

@@ -35,7 +35,7 @@ pnpm test
 
 ## Scrapers
 
-`scrapers/` watches seven guide sources (PowerPyx, GTABase, IGN, KeenGamer, Game8 JP, GameWith, Vandal) for new and changed pages and writes candidates to the server database, never to the repo. It respects robots.txt, spaces requests per host and uses no headless browser.
+`scrapers/` watches eight sources (the guide sites PowerPyx, GTABase, IGN, KeenGamer, Game8 JP, GameWith and Vandal, plus datamine files in public GitHub repos through the GitHub REST API) for new and changed pages and writes candidates to the server database, never to the repo. It respects robots.txt, spaces requests per host and uses no headless browser.
 
 ```sh
 DATABASE_PATH=data/local.db pnpm scrape --dry-run              # fetch and diff, write nothing

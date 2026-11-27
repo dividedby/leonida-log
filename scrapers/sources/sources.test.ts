@@ -44,7 +44,7 @@ const index = (...entries: [string, string?][]) =>
     .join("")}</sitemapindex>`;
 
 describe("registry", () => {
-  it("lists the seven sources in rank order, all enabled, with unique ids", () => {
+  it("lists the eight sources in rank order, all enabled, with unique ids", () => {
     expect(SOURCES.map((s) => s.id)).toEqual([
       "powerpyx",
       "gtabase",
@@ -53,6 +53,7 @@ describe("registry", () => {
       "game8jp",
       "gamewith",
       "vandal",
+      "github",
     ]);
     expect(SOURCES.every((s) => s.enabled)).toBe(true);
   });

@@ -1,0 +1,60 @@
+# Datamine files the `github` source watches through the GitHub REST API (never github.com or raw.githubusercontent.com: their robots.txt disallows it).
+# Adding a repo or path needs no code change. Discovery hits are review-only: add a repo here by hand after reading it.
+watch:
+  - repo: NotHGM/save-garage
+    paths:
+      [
+        engine/tasks.py,
+        engine/gamelabels.py,
+        engine/checklist.py,
+        engine/textlabels.py,
+        engine/statnames.py,
+        README.md,
+      ]
+  - repo: NotHGM/gta6-hash-database
+    paths:
+      [
+        data/save/missions_and_tasks.tsv,
+        data/save/text_ids.tsv,
+        data/save/stat_owners.tsv,
+        data/game/game_data.tsv,
+      ]
+  - repo: ahmed605/GTA6-StringsDatabase
+    # 17 MB: over max_inline_bytes, so only commit stats are read, never the file.
+    paths: [ArchiveItems.txt]
+discovery:
+  query: 'gta6 OR gtavi OR "gta vi"' # " pushed:>DATE" is appended
+  every_days: 7
+  keywords:
+    [
+      data,
+      dump,
+      string,
+      strings,
+      hash,
+      save,
+      mission,
+      table,
+      database,
+      db,
+      labels,
+      datamine,
+    ]
+  # Regexes, case-insensitive, tested against name, description and topics.
+  # Ports, runners and emulators aren't datamines, and "PC port" repos are a
+  # known malware lure; `\bport` also catches hyphenated names (gta6-port-x).
+  exclude_patterns:
+    [
+      "pc[ -]?port",
+      '\bport(s|ed|ing)?\b',
+      "pc version",
+      '\bwine\b',
+      "emulat",
+      "download",
+      "crack",
+      "free",
+    ]
+  # Likely malware lures, never reported or watched.
+  blocklist: [yassine03jb-rgb/gta-6-pc-version-port-savelan]
+# Files above this size are never fetched; stats only.
+max_inline_bytes: 1048576
