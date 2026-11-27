@@ -7,13 +7,14 @@ DATABASE_PATH=data/local.db pnpm db:migrate     # scrapers never migrate
 DATABASE_PATH=data/local.db pnpm scrape         # all enabled sources
 ```
 
-| Flag                             | Meaning                                                                                                   |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `--source x[,y]`                 | Only these sources. Errors on an unknown or disabled id.                                                  |
-| `--since YYYY-MM-DD`             | Pages last modified before this are recorded as baselines without fetching. Also the report's start date. |
-| `--report-only`                  | Rebuild the report from the database; no fetching.                                                        |
-| `--dry-run`                      | Fetch and diff, write no rows and no report.                                                              |
-| `--wayback <url[*]> [--since D]` | Print Wayback captures (a trailing `*` means prefix). No database writes.                                 |
+| Flag                             | Meaning                                                                                                                                                        |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--source x[,y]`                 | Only these sources. Errors on an unknown or disabled id.                                                                                                       |
+| `--since YYYY-MM-DD`             | Pages last modified before this are recorded as baselines without fetching. Also the report's start date.                                                      |
+| `--report-only`                  | Rebuild the report from the database; no fetching.                                                                                                             |
+| `--dry-run`                      | Fetch and diff, write no rows and no report.                                                                                                                   |
+| `--purge <source>`               | Delete every tracked page of that source id and, by cascade, its candidates. Prints the counts and does nothing else. Works for ids no longer in the registry. |
+| `--wayback <url[*]> [--since D]` | Print Wayback captures (a trailing `*` means prefix). No database writes.                                                                                      |
 
 Exit codes: 0 done, 1 bad arguments or setup (missing `DATABASE_PATH`, unmigrated database), 2 a source's listing couldn't be read.
 
@@ -60,12 +61,19 @@ A `candidates` row holds the change kind, hints, content hash, a JSON diff summa
 - robots.txt (RFC 9309): fetched once per host per run; group chosen by the `leonidalogbot` token, else `*`; longest match wins, Allow wins ties; 4xx means allow all, 5xx or a network error means disallow all for that host this run; Disallowed URLs are skipped and counted. Every redirect hop's host is checked too.
 - One request at a time per host, at least 5 s apart (a source's `minIntervalMs`, or the robots `Crawl-delay` capped at 60 s, whichever is larger). Sources run one after another.
 - Conditional GET, 30 s timeout, 5 MB body cap, at most 5 redirects.
-- 429 or 503: wait `Retry-After` (at most 120 s) once, then stop that host for the run. 403 stops the host for the run. Other 4xx are recorded on the URL.
+- 429 or 503: wait `Retry-After` (at most 120 s) once, then stop that host for the run. 403 stops the host for the run, and so do 3 consecutive 5xx responses from it (any other response resets the count). Other 4xx are recorded on the URL.
 - No headless browsers and no JavaScript execution: pages that need it yield an empty extract, which is logged and left untouched.
 
 ## The weekly research pass
 
 Each run writes `changed-since-<YYYY-MM-DD>.md` and `latest.md` to the report directory (`--since`, default 7 days back). It opens with per-source counts (discovered, fetched, unchanged, changed, new, baselined, deferred, robots-blocked, errors), then lists changed pages grouped by gate hint (story order, then "No gate hint") and source: title, URL, change kind, remote modified, mission hints with order numbers, headings added or removed, paragraph counts and up to three short snippets. Read it, open the sources worth a look, and promote facts into `data/curated/` by hand with a source link. The file holds scraped snippets: it stays on the server and is never committed.
+
+## Purging a source
+
+`pnpm scrape --purge <source>` deletes the source's `sources` rows and its candidates, then exits without scraping.
+
+- **A site objects (ADR 0007):** remove the module from `sources/index.ts` (or set `enabled: false`), then purge it. The id doesn't need to be in the registry.
+- **An extractor or selector change:** stored hashes belong to the old extraction, so every page would look changed or stale. Purge the source, then run it again to re-extract from scratch; the first run re-applies the 14-day default (or pass `--since`).
 
 ## Adding a source
 

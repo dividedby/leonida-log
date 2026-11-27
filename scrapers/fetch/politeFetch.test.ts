@@ -193,6 +193,29 @@ describe("blocked and throttled hosts", () => {
     expect((await get("https://a.test/q")).outcome).toBe("host-stopped");
   });
 
+  it("stops the host after 3 consecutive 5xx, and a success in between resets the count", async () => {
+    const { net, get, fetcher } = setup({
+      "https://a.test/1": { status: 500 },
+      "https://a.test/2": { status: 502 },
+      "https://a.test/ok": { body: "fine" },
+      "https://a.test/3": { status: 500 },
+      "https://a.test/4": { status: 500 },
+      "https://a.test/5": { status: 500 },
+      "https://a.test/6": { body: "never" },
+    });
+    await get("https://a.test/1");
+    await get("https://a.test/2");
+    await get("https://a.test/ok");
+    expect(fetcher.stoppedReason("a.test")).toBeUndefined();
+    await get("https://a.test/3");
+    await get("https://a.test/4");
+    expect(fetcher.stoppedReason("a.test")).toBeUndefined();
+    await get("https://a.test/5");
+    expect(fetcher.stoppedReason("a.test")).toMatch(/3 consecutive 5xx/);
+    expect((await get("https://a.test/6")).outcome).toBe("host-stopped");
+    expect(net.calls.map((c) => c.url)).not.toContain("https://a.test/6");
+  });
+
   it("records other 4xx statuses without stopping the host", async () => {
     const { get } = setup({
       "https://a.test/gone": { status: 404 },

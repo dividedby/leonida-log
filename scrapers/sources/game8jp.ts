@@ -20,5 +20,7 @@ export const game8jp: SourceModule = {
       .filter((e) => PAGE.test(e.loc))
       .map((e) => ({ url: e.loc, remoteModified: e.lastmod }));
   },
-  extract: extractorFor(["main", "article", ".archive-style-wrapper"]),
+  // The page's only <main> is the favourites modal, so the article body
+  // wrapper must come first.
+  extract: extractorFor([".archive-style-wrapper", "article"]),
 };

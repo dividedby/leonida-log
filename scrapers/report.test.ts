@@ -4,6 +4,7 @@ import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { fixtureData } from "../lib/test-fixtures/curated";
 import { openDatabase } from "../lib/db/open";
+import { candidates, sources } from "../lib/db/schema";
 import { tempDbs } from "../lib/db/test-helpers";
 import { runCli } from "./main";
 import { renderReport } from "./report";
@@ -188,5 +189,62 @@ describe("cli arguments", () => {
     expect(code).toBe(1);
     expect(lines.join("\n")).toMatch(message);
     expect(existsSync(path.join(dir, "x.db"))).toBe(false);
+  });
+});
+
+describe("--purge", () => {
+  it("deletes one source's pages and candidates, including an id no longer in the registry, and runs nothing else", async () => {
+    const file = dbs.fresh();
+    const opened = openDatabase(file);
+    const modFor = (id: string): SourceModule => ({
+      id,
+      name: id,
+      enabled: true,
+      hosts: ["guide.test"],
+      method: "sitemap",
+      discover: async () => [
+        {
+          url: `https://guide.test/${id}`,
+          body: `<main><h1>${id}</h1><p>Text for ${id}.</p></main>`,
+        },
+      ],
+    });
+    const net = fakeNetwork({});
+    await runScrape({
+      db: opened.db,
+      curated,
+      modules: [modFor("gone"), modFor("kept")],
+      fetcher: createPoliteFetcher({ ...net.deps, defaultIntervalMs: 0 }),
+    });
+    opened.close();
+
+    const lines: string[] = [];
+    const reportDir = mkdtempSync(path.join(tmpdir(), "leonida-report-"));
+    dirs.push(reportDir);
+    const code = await runCli(
+      ["--purge", "gone"],
+      { DATABASE_PATH: file, SCRAPE_REPORT_DIR: reportDir },
+      {
+        curated,
+        fetchDeps: net.deps,
+        log: (m) => lines.push(m),
+      },
+    );
+
+    expect(code).toBe(0);
+    expect(lines.join("\n")).toContain(
+      "purged gone: 1 page(s), 1 candidate(s) deleted",
+    );
+    expect(existsSync(path.join(reportDir, "latest.md"))).toBe(false);
+    const after = openDatabase(file);
+    expect(
+      after.db
+        .select()
+        .from(sources)
+        .all()
+        .map((r) => r.source),
+    ).toEqual(["kept"]);
+    expect(after.db.select().from(candidates).all()).toHaveLength(1);
+    after.close();
   });
 });

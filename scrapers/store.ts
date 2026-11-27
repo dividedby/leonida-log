@@ -6,7 +6,7 @@ import { candidates, sources, type ChangeKind } from "../lib/db/schema";
 export const NEVER_FETCHED = new Date(0);
 
 /** What the writers need; a Drizzle transaction satisfies it too. */
-export type Conn = Pick<Db, "select" | "insert" | "update">;
+export type Conn = Pick<Db, "select" | "insert" | "update" | "delete">;
 
 export interface TrackedPage {
   id: number;
@@ -69,6 +69,22 @@ export function loadTracked(
     .where(eq(sources.source, source))
     .all();
   return new Map(rows.map((r) => [r.url, r]));
+}
+
+/** Deletes every tracked page of a source id; its candidates cascade. Works for ids no longer in the registry. */
+export function purgeSource(
+  db: Conn,
+  source: string,
+): { pages: number; candidates: number } {
+  const pages = countTracked(db, source);
+  const cands = db
+    .select({ n: sql<number>`count(*)` })
+    .from(candidates)
+    .innerJoin(sources, eq(candidates.sourceId, sources.id))
+    .where(eq(sources.source, source))
+    .get()!.n;
+  db.delete(sources).where(eq(sources.source, source)).run();
+  return { pages, candidates: cands };
 }
 
 export function loadExtract(db: Conn, rowId: number): string | null {

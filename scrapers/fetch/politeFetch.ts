@@ -13,6 +13,7 @@ const TIMEOUT_MS = 30_000;
 const MAX_BYTES = 5 * 1024 * 1024;
 const MAX_GUNZIP_BYTES = 64 * 1024 * 1024;
 const MAX_REDIRECTS = 5;
+const MAX_CONSECUTIVE_5XX = 3;
 
 export type FetchOutcome =
   | "ok"
@@ -75,6 +76,8 @@ interface HostState {
   lastAt: number;
   tail: Promise<unknown>;
   stopped?: { reason: string; status: number };
+  /** Consecutive 5xx responses this run; any other response resets it. */
+  serverErrors: number;
   robots?: Promise<Robots>;
 }
 
@@ -167,7 +170,11 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
   function hostState(host: string): HostState {
     let s = hosts.get(host);
     if (!s) {
-      s = { lastAt: Number.NEGATIVE_INFINITY, tail: Promise.resolve() };
+      s = {
+        lastAt: Number.NEGATIVE_INFINITY,
+        tail: Promise.resolve(),
+        serverErrors: 0,
+      };
       hosts.set(host, s);
     }
     return s;
@@ -358,6 +365,8 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           };
         };
 
+        state.serverErrors = res.status >= 500 ? state.serverErrors + 1 : 0;
+
         const location = res.headers.get("location");
         if (res.status >= 300 && res.status < 400 && res.status !== 304) {
           if (!location)
@@ -371,6 +380,16 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
         if (res.status === 403) {
           stop(state, url.host, "403", 403, stats);
           return result("http-error", "403");
+        }
+        if (res.status >= 500 && state.serverErrors >= MAX_CONSECUTIVE_5XX) {
+          stop(
+            state,
+            url.host,
+            `${state.serverErrors} consecutive 5xx (last ${res.status})`,
+            res.status,
+            stats,
+          );
+          return result("http-error", String(res.status));
         }
         if (res.status === 429 || res.status === 503) {
           if (!retried) {
