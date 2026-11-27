@@ -8,12 +8,25 @@ export const ROBOTS_TOKEN = "leonidalogbot";
 
 const DEFAULT_INTERVAL_MS = 5000;
 const MAX_CRAWL_DELAY_MS = 60_000;
-const MAX_RETRY_AFTER_MS = 120_000;
+/** A Retry-After longer than this is not waited out: the request gives up instead. */
+const MAX_RETRY_WAIT_MS = 60_000;
 const TIMEOUT_MS = 30_000;
 const MAX_BYTES = 5 * 1024 * 1024;
 const MAX_GUNZIP_BYTES = 64 * 1024 * 1024;
 const MAX_REDIRECTS = 5;
-const MAX_CONSECUTIVE_5XX = 3;
+/** Consecutive failed URLs (5xx, timeout or network error, after retries) that stop a host. */
+const MAX_CONSECUTIVE_FAILURES = 3;
+/** Extra attempts after a timeout, network error, 429 or 5xx. */
+const MAX_RETRIES = 2;
+/** Wait before retry n (1-based) without a Retry-After: 10 s, then 20 s. */
+const RETRY_BACKOFF_MS = 10_000;
+/**
+ * Retries across the whole run, all sources and hosts. Each costs at most its
+ * wait plus one request (60 s + 30 s), so retries add at most 12 min to a run.
+ * The first server run took ~23 min with none, under the scrape unit's 45 min
+ * TimeoutStartSec.
+ */
+const RETRY_BUDGET_PER_RUN = 8;
 
 export type FetchOutcome =
   | "ok"
@@ -64,6 +77,8 @@ export interface PoliteFetchDeps {
   sleep?: (ms: number) => Promise<void>;
   defaultIntervalMs?: number;
   timeoutMs?: number;
+  /** Retries allowed across the run (default 8). */
+  retryBudget?: number;
   log?: (message: string) => void;
 }
 
@@ -78,8 +93,8 @@ interface HostState {
   lastAt: number;
   tail: Promise<unknown>;
   stopped?: { reason: string; status: number };
-  /** Consecutive 5xx responses this run; any other response resets it. */
-  serverErrors: number;
+  /** Consecutive URLs that failed after their retries; any other response resets it. */
+  failures: number;
   robots?: Promise<Robots>;
 }
 
@@ -117,24 +132,27 @@ export function decodeBody(bytes: Uint8Array, headers: Headers): string {
   }
 }
 
-function retryAfterMs(headers: Headers, now: number): number {
+/** Retry-After in ms (seconds or an HTTP date); `fallback` when absent or unreadable. */
+function retryAfterMs(headers: Headers, now: number, fallback: number): number {
   const value = headers.get("retry-after");
-  if (!value) return 5000;
+  if (!value) return fallback;
   const seconds = Number(value);
   const ms = Number.isFinite(seconds)
     ? seconds * 1000
     : Date.parse(value) - now;
-  return Math.min(
-    Math.max(Number.isFinite(ms) ? ms : 5000, 0),
-    MAX_RETRY_AFTER_MS,
-  );
+  return Math.max(Number.isFinite(ms) ? ms : fallback, 0);
 }
+
+/** The body cap was hit: the host answered, so this is never retried. */
+class BodyTooLargeError extends Error {}
+
+const retryableStatus = (status: number) => status === 429 || status >= 500;
 
 async function readBody(res: Response, maxBytes: number): Promise<Uint8Array> {
   const declared = Number(res.headers.get("content-length"));
   if (Number.isFinite(declared) && declared > maxBytes) {
     await res.body?.cancel();
-    throw new Error(`body over ${maxBytes} bytes`);
+    throw new BodyTooLargeError(`body over ${maxBytes} bytes`);
   }
   if (!res.body) return new Uint8Array(await res.arrayBuffer());
   const reader = res.body.getReader();
@@ -146,7 +164,7 @@ async function readBody(res: Response, maxBytes: number): Promise<Uint8Array> {
     total += value.byteLength;
     if (total > maxBytes) {
       await reader.cancel();
-      throw new Error(`body over ${maxBytes} bytes`);
+      throw new BodyTooLargeError(`body over ${maxBytes} bytes`);
     }
     chunks.push(value);
   }
@@ -168,6 +186,7 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
   const timeoutMs = deps.timeoutMs ?? TIMEOUT_MS;
   const log = deps.log ?? (() => {});
   const hosts = new Map<string, HostState>();
+  let retriesLeft = deps.retryBudget ?? RETRY_BUDGET_PER_RUN;
 
   function hostState(host: string): HostState {
     let s = hosts.get(host);
@@ -175,7 +194,7 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
       s = {
         lastAt: Number.NEGATIVE_INFINITY,
         tail: Promise.resolve(),
-        serverErrors: 0,
+        failures: 0,
       };
       hosts.set(host, s);
     }
@@ -214,13 +233,69 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
     return p;
   }
 
+  /**
+   * `request`, retried up to MAX_RETRIES times on a timeout, network error, 429
+   * or 5xx. Each retry waits Retry-After or the backoff (a Retry-After over 60 s
+   * ends the retries), and
+   * `request` still keeps the host interval. Draws on the run's retry budget.
+   * Returns the last response, or throws the last error; callers judge only
+   * that final outcome.
+   */
+  async function requestWithRetry(
+    url: URL,
+    headers: Record<string, string>,
+    intervalMs: number,
+    maxBytes: number,
+    onAttempt: () => void = () => {},
+  ): Promise<{ res: Response; bytes: Uint8Array }> {
+    for (let attempt = 0; ; attempt++) {
+      const backoff = RETRY_BACKOFF_MS * 2 ** attempt;
+      let wait: number;
+      let why: string;
+      try {
+        onAttempt();
+        const out = await request(url, headers, intervalMs, maxBytes);
+        if (
+          !retryableStatus(out.res.status) ||
+          attempt >= MAX_RETRIES ||
+          retriesLeft <= 0
+        ) {
+          return out;
+        }
+        wait = retryAfterMs(out.res.headers, now(), backoff);
+        if (wait > MAX_RETRY_WAIT_MS) {
+          log(
+            `${out.res.status} from ${url.href}: Retry-After ${wait} ms is over ${MAX_RETRY_WAIT_MS} ms, not retrying`,
+          );
+          return out;
+        }
+        why = String(out.res.status);
+      } catch (error) {
+        if (
+          error instanceof BodyTooLargeError ||
+          attempt >= MAX_RETRIES ||
+          retriesLeft <= 0
+        ) {
+          throw error;
+        }
+        wait = backoff;
+        why = error instanceof Error ? error.message : String(error);
+      }
+      retriesLeft--;
+      log(
+        `${why} from ${url.href}: retry ${attempt + 1} of ${MAX_RETRIES} after ${wait} ms (${retriesLeft} left this run)`,
+      );
+      await sleep(wait);
+    }
+  }
+
   function loadRobots(url: URL, intervalMs: number): Promise<Robots> {
     const state = hostState(url.host);
     state.robots ??= (async () => {
       let target = new URL("/robots.txt", url);
       try {
         for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
-          const { res, bytes } = await request(
+          const { res, bytes } = await requestWithRetry(
             target,
             { accept: "text/plain,*/*;q=0.5" },
             intervalMs,
@@ -234,7 +309,7 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           if (res.status >= 200 && res.status < 300) {
             return Robots.parse(decodeBody(bytes, res.headers), ROBOTS_TOKEN);
           }
-          if (res.status >= 500) {
+          if (res.status >= 500 || res.status === 429) {
             log(
               `robots.txt ${res.status} on ${url.host}: treating host as disallowed`,
             );
@@ -312,7 +387,6 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
         headers["if-modified-since"] = options.lastModified;
       }
 
-      let retried = false;
       for (let hop = 0; hop <= MAX_REDIRECTS;) {
         const state = hostState(url.host);
         if (state.stopped) {
@@ -335,14 +409,30 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
         let res: Response;
         let bytes: Uint8Array;
         try {
-          stats.requests++;
-          ({ res, bytes } = await request(url, headers, interval, maxBytes));
+          ({ res, bytes } = await requestWithRetry(
+            url,
+            headers,
+            interval,
+            maxBytes,
+            () => stats.requests++,
+          ));
         } catch (error) {
           stats.errors++;
-          return empty("error", 0, {
-            finalUrl: url.href,
-            error: error instanceof Error ? error.message : String(error),
-          });
+          const message =
+            error instanceof Error ? error.message : String(error);
+          if (!(error instanceof BodyTooLargeError)) {
+            state.failures++;
+            if (state.failures >= MAX_CONSECUTIVE_FAILURES) {
+              stop(
+                state,
+                url.host,
+                `${state.failures} consecutive failed requests (last: ${message})`,
+                0,
+                stats,
+              );
+            }
+          }
+          return empty("error", 0, { finalUrl: url.href, error: message });
         }
 
         const result = (outcome: FetchOutcome, error?: string): FetchResult => {
@@ -370,12 +460,8 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           };
         };
 
-        // A first 429/503 gets its Retry-After retry before it counts as a streak 5xx.
-        const retryable =
-          (res.status === 429 || res.status === 503) && !retried;
-        if (!retryable) {
-          state.serverErrors = res.status >= 500 ? state.serverErrors + 1 : 0;
-        }
+        // Only the final response after retries counts toward the failure streak.
+        state.failures = res.status >= 500 ? state.failures + 1 : 0;
 
         const location = res.headers.get("location");
         if (res.status >= 300 && res.status < 400 && res.status !== 304) {
@@ -391,31 +477,19 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           stop(state, url.host, "403", 403, stats);
           return result("http-error", "403");
         }
-        if (
-          !retryable &&
-          res.status >= 500 &&
-          state.serverErrors >= MAX_CONSECUTIVE_5XX
-        ) {
+        if (res.status === 429 || res.status === 503) {
+          // Still throttled after every Retry-After: leave the host alone.
+          stop(state, url.host, String(res.status), res.status, stats);
+          return result("http-error", String(res.status));
+        }
+        if (res.status >= 500 && state.failures >= MAX_CONSECUTIVE_FAILURES) {
           stop(
             state,
             url.host,
-            `${state.serverErrors} consecutive 5xx (last ${res.status})`,
+            `${state.failures} consecutive failed requests (last: ${res.status})`,
             res.status,
             stats,
           );
-          return result("http-error", String(res.status));
-        }
-        if (res.status === 429 || res.status === 503) {
-          if (!retried) {
-            retried = true;
-            const wait = retryAfterMs(res.headers, now());
-            log(
-              `${res.status} from ${url.host}: retrying once after ${wait} ms`,
-            );
-            await sleep(wait);
-            continue;
-          }
-          stop(state, url.host, String(res.status), res.status, stats);
           return result("http-error", String(res.status));
         }
         return result("http-error", String(res.status));

@@ -3,9 +3,13 @@ import { describe, expect, it } from "vitest";
 import { fakeNetwork } from "../test-helpers";
 import { createPoliteFetcher, ROBOTS_TOKEN, USER_AGENT } from "./politeFetch";
 
-function setup(routes: Parameters<typeof fakeNetwork>[0], interval?: number) {
+function setup(
+  routes: Parameters<typeof fakeNetwork>[0],
+  interval?: number,
+  retryBudget?: number,
+) {
   const net = fakeNetwork(routes);
-  const fetcher = createPoliteFetcher(net.deps);
+  const fetcher = createPoliteFetcher({ ...net.deps, retryBudget });
   const { get, stats } = fetcher.forSource(interval);
   return { net, fetcher, get, stats };
 }
@@ -106,15 +110,18 @@ describe("robots.txt", () => {
     );
   });
 
-  it("treats a 4xx robots.txt as allow-all and a 5xx as disallow-all", async () => {
+  it("treats a 4xx robots.txt as allow-all, and a 5xx or 429 as disallow-all", async () => {
     const { get } = setup({
       "https://ok.test/robots.txt": { status: 404 },
       "https://ok.test/p": { body: "x" },
       "https://down.test/robots.txt": { status: 503 },
       "https://down.test/p": { body: "x" },
+      "https://busy.test/robots.txt": { status: 429 },
+      "https://busy.test/p": { body: "x" },
     });
     expect((await get("https://ok.test/p")).outcome).toBe("ok");
     expect((await get("https://down.test/p")).outcome).toBe("blocked-robots");
+    expect((await get("https://busy.test/p")).outcome).toBe("blocked-robots");
   });
 
   it("checks robots.txt of each redirect hop's host", async () => {
@@ -172,24 +179,36 @@ describe("blocked and throttled hosts", () => {
     expect(fetcher.stoppedReason("a.test")).toBe("403");
   });
 
-  it("honors Retry-After once, capped at 120 seconds, then succeeds", async () => {
+  it("honors Retry-After, then succeeds", async () => {
     const { net, get } = setup({
+      "https://a.test/p": [
+        { status: 429, headers: { "retry-after": "45" } },
+        { body: "fine" },
+      ],
+    });
+    expect((await get("https://a.test/p")).outcome).toBe("ok");
+    expect(net.clock.sleeps).toContain(45_000);
+  });
+
+  it("does not wait out a Retry-After over 60 seconds, and stops the host", async () => {
+    const { net, get, fetcher } = setup({
       "https://a.test/p": [
         { status: 429, headers: { "retry-after": "9999" } },
         { body: "fine" },
       ],
     });
-    const res = await get("https://a.test/p");
-    expect(res.outcome).toBe("ok");
-    expect(net.clock.sleeps).toContain(120_000);
+    expect((await get("https://a.test/p")).outcome).toBe("http-error");
+    expect(net.pageCalls()).toHaveLength(1);
+    expect(fetcher.stoppedReason("a.test")).toBe("429");
   });
 
-  it("stops the host when the retry is throttled too", async () => {
-    const { get } = setup({
+  it("stops the host when every retry is throttled too", async () => {
+    const { net, get } = setup({
       "https://a.test/p": { status: 503, headers: { "retry-after": "1" } },
       "https://a.test/q": { body: "x" },
     });
     expect((await get("https://a.test/p")).outcome).toBe("http-error");
+    expect(net.pageCalls()).toHaveLength(3);
     expect((await get("https://a.test/q")).outcome).toBe("host-stopped");
   });
 
@@ -211,7 +230,9 @@ describe("blocked and throttled hosts", () => {
     await get("https://a.test/4");
     expect(fetcher.stoppedReason("a.test")).toBeUndefined();
     await get("https://a.test/5");
-    expect(fetcher.stoppedReason("a.test")).toMatch(/3 consecutive 5xx/);
+    expect(fetcher.stoppedReason("a.test")).toMatch(
+      /3 consecutive failed requests/,
+    );
     expect((await get("https://a.test/6")).outcome).toBe("host-stopped");
     expect(net.calls.map((c) => c.url)).not.toContain("https://a.test/6");
   });
@@ -249,14 +270,101 @@ describe("blocked and throttled hosts", () => {
   });
 });
 
-describe("bodies", () => {
-  it("rejects a body over the cap", async () => {
+describe("retries", () => {
+  const TIMEOUT = "The operation was aborted due to timeout";
+
+  it.each([
+    ["a timeout", { error: TIMEOUT }],
+    ["a network error", { error: "fetch failed" }],
+    ["a 502", { status: 502 }],
+  ])("retries %s after a 10 s backoff and succeeds", async (_, failure) => {
+    const { net, get, stats } = setup({
+      "https://a.test/p": [failure, { body: "fine" }],
+    });
+    const res = await get("https://a.test/p");
+    expect(res).toMatchObject({ outcome: "ok", text: "fine" });
+    expect(net.pageCalls()).toHaveLength(2);
+    expect(net.clock.sleeps).toContain(10_000);
+    expect(stats).toMatchObject({ requests: 2, errors: 0 });
+  });
+
+  it("gives up after 2 retries, backing off 10 s then 20 s", async () => {
+    const { net, get, stats } = setup({
+      "https://a.test/p": { error: TIMEOUT },
+    });
+    const res = await get("https://a.test/p");
+    expect(res).toMatchObject({ outcome: "error", error: TIMEOUT });
+    expect(net.pageCalls()).toHaveLength(3);
+    expect(net.clock.sleeps).toEqual(expect.arrayContaining([10_000, 20_000]));
+    expect(stats.errors).toBe(1);
+  });
+
+  it("keeps the host interval when it is longer than the backoff", async () => {
+    const { net, get } = setup(
+      { "https://a.test/p": [{ error: TIMEOUT }, { body: "fine" }] },
+      30_000,
+    );
+    await get("https://a.test/p");
+    const [first, second] = net.pageCalls();
+    expect(second.at - first.at).toBeGreaterThanOrEqual(30_000);
+  });
+
+  it.each([404, 403, 410])("does not retry a %i", async (status) => {
+    const { net, get } = setup({ "https://a.test/p": { status } });
+    expect((await get("https://a.test/p")).status).toBe(status);
+    expect(net.pageCalls()).toHaveLength(1);
+  });
+
+  it("stops the host after 3 consecutive URLs fail every retry", async () => {
+    const { net, get, fetcher } = setup({
+      "https://a.test/1": { error: TIMEOUT },
+      "https://a.test/2": { error: TIMEOUT },
+      "https://a.test/3": { error: TIMEOUT },
+      "https://a.test/4": { body: "never" },
+    });
+    for (const n of [1, 2, 3]) await get(`https://a.test/${n}`);
+    expect(fetcher.stoppedReason("a.test")).toMatch(
+      /3 consecutive failed requests/,
+    );
+    expect((await get("https://a.test/4")).outcome).toBe("host-stopped");
+    expect(net.pageCalls()).toHaveLength(9);
+  });
+
+  it("stops retrying once the run's retry budget is spent", async () => {
+    const { net, get } = setup(
+      {
+        "https://a.test/1": { error: TIMEOUT },
+        "https://b.test/1": { error: TIMEOUT },
+      },
+      undefined,
+      3,
+    );
+    await get("https://a.test/1");
+    await get("https://b.test/1");
+    const tries = (url: string) =>
+      net.calls.filter((c) => c.url === url).length;
+    expect(tries("https://a.test/1")).toBe(3);
+    expect(tries("https://b.test/1")).toBe(2);
+  });
+
+  it("retries a robots.txt timeout instead of disallowing the host", async () => {
     const { get } = setup({
+      "https://a.test/robots.txt": [{ error: TIMEOUT }, { status: 404 }],
+      "https://a.test/p": { body: "fine" },
+    });
+    expect((await get("https://a.test/p")).outcome).toBe("ok");
+  });
+});
+
+describe("bodies", () => {
+  it("rejects a body over the cap without retrying", async () => {
+    const { net, get } = setup({
       "https://a.test/big": { body: "x".repeat(2000) },
     });
     expect((await get("https://a.test/big", { maxBytes: 1000 })).outcome).toBe(
       "error",
     );
+    expect(net.pageCalls()).toHaveLength(1);
   });
 
   it("gunzips raw gzip bodies", async () => {

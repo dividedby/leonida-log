@@ -4,6 +4,8 @@ export interface FakeResponse {
   status?: number;
   body?: string | Uint8Array | null;
   headers?: Record<string, string>;
+  /** Reject the request with this message instead (a timeout or network error). */
+  error?: string;
 }
 
 export interface FakeCall {
@@ -57,6 +59,7 @@ export function fakeNetwork(routes: FakeRoutes, clock = fakeClock()) {
     } else {
       r = route;
     }
+    if (r?.error) throw new Error(r.error);
     const status = r?.status ?? (r ? 200 : 404);
     const body =
       status === 304 || (status >= 300 && status < 400)
