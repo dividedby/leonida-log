@@ -4,7 +4,7 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 
 - **Point of no return (gate):** a mission after which things are lost or locked (e.g. Tourist Trap, mission 20 of Chapter 1). Avoid "checkpoint".
 - **Before-you-move-on checklist:** the items to finish before a gate, grouped by category.
-- **Main mission:** one of the 91 story missions in `missions.yaml`. Its list position is its order. Only main missions can be the current mission, a gate, or a `lost_at_mission`.
+- **Main mission:** one of the 92 story missions in `missions.yaml`. Its list position is its order. Only main missions can be the current mission, a gate, or a `lost_at_mission`.
 - **Optional mission:** a mission that isn't on the story path, with a kind (`optional`, `strangers-and-freaks`, `hourglass` or `side-job`), a character, an opens-after anchor and a closes-at. Listed after the mains; it has no order of its own.
 - **Opens after (anchor):** the mission an optional mission opens after. It may be another optional; the anchor is the main mission at the end of that chain. The optional opens when the user reaches its anchor.
 - **Closes at:** the main mission whose arrival closes an optional mission (standing on it counts as closed), or `never` when it stays open after the story. A closing mission is bound to the first gate at or after it.
