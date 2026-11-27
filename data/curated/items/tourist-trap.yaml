@@ -175,7 +175,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     verified: true
-    how_to: "Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Attachments you buy carry over too (Playtheory's own save; Jay Dunna), but they're tracked separately for each character, so Lucia's copy of a gun doesn't get Jason's mods (Nova Gaming; gameta). Ammo is unconfirmed, and clothes are disputed: Playtheory lost bought clothes, while KeenGamer and Rock Paper Shotgun say they carry."
+    how_to: "Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Attachments you buy carry over too (Playtheory's own save; Jay Dunna), but they're tracked separately for each character, so Lucia's copy of a gun doesn't get Jason's mods (Nova Gaming; gameta). Don't count on ammo or bought clothes coming with you: Playtheory lost its bought clothes."
     location: Chuck's Tackle & Shot in Key Lento, or any Ammu-Nation. Bought guns can be kept in the weapon locker inside the gun store (Rock Paper Shotgun).
     sources:
       - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
@@ -455,7 +455,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration; guides disagree on whether Street Art, Murals, Kenton's Treasures and Styles are separate tabs. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and possibly unsold cards are tied to this gate."
+    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration; some guides also list Street Art, Murals, Kenton's Treasures and Styles as tabs. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and possibly unsold cards are tied to this gate."
     location: Pause menu > Progress > Collections.
     sources:
       - url: https://www.powerpyx.com/gta-6-collectible-guide/
@@ -502,7 +502,7 @@ items:
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
     verified: false
-    how_to: Five magazines sit inside the house and go with it, so read them while you're there. Each has a copy somewhere else. Body Copy is in the Zenith gym in Downtown and the Ajax Gym on Oldby Island. Off the Hook is in a house on Surfside Dr in Key Lento and a mobile home in Port Gellhorn. Orca is at a tiki bar south of Southwind, and players report Ashes of Glory in several places. Lethal By Design's only other known copy is on a warehouse table during a later story mission, and it's unconfirmed whether that one counts, so make sure you read Lethal By Design in the house. 100% needs 30 of the titles.
+    how_to: Five magazines sit inside the house and go with it, so read them while you're there. Each has a copy somewhere else. Body Copy is in the Zenith gym in Downtown and the Ajax Gym on Oldby Island. Off the Hook is in a house on Surfside Dr in Key Lento and a mobile home in Port Gellhorn. Orca is at a tiki bar south of Southwind, and players report Ashes of Glory in several places. Lethal By Design's only other copy is on a warehouse table during a later story mission, so read it in the house. 100% needs 30 of the titles.
     location: Inside Jason's house. Ashes of Glory in the bedroom, Lethal By Design on the living-room table, Orca A Whole Different Animal by the east window, Off the Hook in the tool shed and Body Copy on the back deck.
     sources:
       - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/

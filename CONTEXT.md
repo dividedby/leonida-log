@@ -17,8 +17,11 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Locked item:** an item whose `visible_after_mission` (or an optional mission whose anchor) is past the current mission. Only the count and the unlock mission show ("4 more unlock after Day Release"); content stays hidden.
 - **Unlock mission:** the earliest main mission that unlocks something hidden for a gate: a locked item's `visible_after_mission` or an unopened optional mission's anchor (never the optional's own slug or title). Its title is the one mission past the current that may be named, along with the next gate.
 - **Soon lost:** an item or optional mission whose reward or access ends at its `lost_at_mission` or `closes_at`, a gate or an earlier mission.
-- **Curated:** verified data in data/curated, committed.
-- **Candidate:** a scraped fact awaiting review; shown only as "needs research", never as raw scraped text.
+- **Curated:** data in data/curated at its current best-evidence value, committed and reviewed by hand (ADR 0008).
+- **Best evidence:** the value the current sources support best; when they split, the one that can't hurt the player (earliest cutoff, latest visibility). Never labelled in the app.
+- **Verified:** an item's `verified` flag, true when it meets two independent sources, one explicit non-AI source or first-hand video. Background only, never rendered.
+- **Evidence:** optional `evidence` on an item or mission: `basis` (`two-sources`, `explicit-source`, `first-hand`, `best-guess`, `safe-bound`) and an optional `note`. Background only, never rendered.
+- **Candidate:** a scraped fact awaiting review; never shown, raw or otherwise, until it is promoted to curated.
 - **Source:** a guide page or database an item or candidate cites, with URL and fetch time.
 - **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character.
 - **Workout log:** manual record of training, used to show when Strength or Cardio may slip.

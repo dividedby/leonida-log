@@ -34,7 +34,7 @@ items:
     before_gate: checking-out
     visible_after_mission: afternoon-delight
     verified: true
-    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and most guides (PowerPyx, gtabase, gta6bugs) say Checking Out won't start until you have it and have finished every other main mission. IGN says the $15,000 isn't necessary and only makes the mission unlock sooner. Bank it in your BuckMe checking account: guides say it has to be banked, pocket cash may not count, and pocket cash is lost if you die or get arrested. No source says the money is spent."
+    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and most guides (PowerPyx, gtabase, gta6bugs) say Checking Out won't start until you have it and have finished every other main mission. IGN says the $15,000 isn't necessary and only makes the mission unlock sooner. Bank it in your BuckMe checking account: guides say it has to be banked rather than carried, and pocket cash is lost if you die or get arrested. No source says the money is spent."
     location: The BuckMe app.
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
@@ -81,7 +81,7 @@ items:
     visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: true
-    how_to: The Starlet Motel holds three collectible cards, Vicki, Victor Maravilla and Bryson Powers, plus two magazines, Help Me, Help You, Help Me and Children of Wizard Wang (the cover reads this on screen; some guides shorten it to Wizard Wang). The motel stops being your home at the gate. IGN lists an open-world copy of each card, so the motel copies may not be needed to complete the sets, and guides disagree on whether the magazines have copies elsewhere, so take them all while you can.
+    how_to: The Starlet Motel holds three collectible cards, Vicki, Victor Maravilla and Bryson Powers, plus two magazines, Help Me, Help You, Help Me and Children of Wizard Wang (the cover reads this on screen; some guides shorten it to Wizard Wang). The motel stops being your home at the gate. IGN lists an open-world copy of each card, so the motel cards aren't your only chance at the sets; take the magazines and cards while you can.
     location: Starlet Motel. Vicki is in the office bathroom, Victor Maravilla in the communal kitchen fridge and Bryson Powers in the laundry room washing machine. The magazines are at reception and in the cafeteria.
     sources:
       - url: https://leonidastreets.com/gta-6-checking-out-walkthrough/
@@ -148,7 +148,7 @@ items:
     visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: false
-    how_to: "While the Starlet Motel is your base in Chapter 2, its pool area has a weight bench, kettlebells and a squat rack you can use for free to train Strength, so you don't need a gym membership yet. Either character can use them. Whether they stay usable after the gate is unconfirmed; one tested guide says nothing is locked out there, so treat this as a convenience, not a must-do."
+    how_to: "While the Starlet Motel is your base in Chapter 2, its pool area has a weight bench, kettlebells and a squat rack you can use for free to train Strength, so you don't need a gym membership yet. Either character can use them. One tested guide says nothing is locked out there after the gate, so treat this as a convenience, not a must-do."
     location: Starlet Motel, by the pool fence and loungers.
     sources:
       - url: https://www.youtube.com/watch?v=TuuspTxxL0w
