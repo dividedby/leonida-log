@@ -5,9 +5,10 @@
 # Games Wiki says so in its footer; gaming.net too) never counts as that one
 # explicit source, so items resting only on it stay verified: false.
 # Items here close before the gate in Chapter 4 or advise on the gate itself.
-# Not listed, on purpose: manual-save loss, the $0 checking freeze and what is
-# taken or returned (needs confirmation, see gates.yaml); nothing names a mission
-# after Sunset.
+# Not listed, on purpose: manual-save loss (one report, unconfirmed). The $0
+# checking freeze, the temporary loss of weapons, equipment and outfits, and Suite
+# 701 as home are on the gate's lost list (gates.yaml); nothing here names a
+# mission after Sunset.
 # visible_after_mission for finish-before-sunset and sunset-manual-save has no
 # source; both use ocean-beach, the first Chapter 4 mission.
 # Bad Driver! is no longer an item: it is an optional mission in missions.yaml
@@ -25,7 +26,7 @@ items:
     visible_after_mission: ocean-beach
     lost_at_mission: sunset
     verified: true
-    how_to: PowerPyx says most of the missions after Sunset run before open world returns, and gtabase says starting Sunset moves the story into Chapter 5 and to finish side activities first. Wrap up any jobs and collectibles you want in free roam before you start it.
+    how_to: "PowerPyx says most of the missions after Sunset run before open world returns, and gtabase says starting Sunset moves the story into Chapter 5 and to finish side activities first. Wrap up any jobs and collectibles you want in free roam before you start it. Your bank balance is frozen for most of it, so keep some cash on you."
     sources:
       - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
         title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
@@ -60,10 +61,14 @@ items:
     title: Collect Felipe's Gift
     category: Side missions
     before_gate: sunset
-    visible_after_mission: party-hard
+    visible_after_mission: heavy-lifting
     lost_at_mission: power-play
     verified: false
-    how_to: Only appears if you spare Felipe in Bad Driver!, and it closes at the same point as that job, before Sunset, so collect it first. It gives a vehicle; guides don't name it.
+    evidence:
+      basis: best-guess
+      note: "Gamers Heroes names Lost Heaven Cemetery instead of the Millport chapel."
+    how_to: "Only appears if you didn't get the full $10M at the Cartel Heist and then spare Felipe in Bad Driver!. It closes at the same point as that job, before Sunset, so collect it first. Felipe texts you where he left his Declasse '80 Impaler, by a chapel in Millport; it sells for about $2,450."
+    location: By a chapel in Millport.
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/bad-driver
         title: "gtabase: Bad Driver! stranger mission"
@@ -73,4 +78,16 @@ items:
         accessed: "2026-11-26"
       - url: https://www.powerpyx.com/?p=369829
         title: "PowerPyx: Bad Driver! walkthrough"
+        accessed: "2026-11-26"
+      - url: https://game8.co/games/GTA-6/archives/639380
+        title: "Game8: Kill or spare Felipe"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=qRY5XvtCmSw
+        title: "SpookyFairy: Bad Driver and Collect Felipe's Gift (3:22-3:52)"
+        accessed: "2026-11-26"
+      - url: https://www.gamersheroes.com/game-guides/grand-theft-auto-vi-choices-guide/
+        title: "Gamers Heroes: GTA VI choices guide"
+        accessed: "2026-11-26"
+      - url: https://gamerant.com/gta-6-shoot-or-spare-felipe-choices-rewards-bad-driver/
+        title: "Game Rant: shoot or spare Felipe in Bad Driver!"
         accessed: "2026-11-26"
