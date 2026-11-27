@@ -192,4 +192,6 @@ if [[ -d $REPO/deploy ]]; then
   warn_drift "$REPO/compose.yaml" "$COMPOSE_FILE"
   warn_drift "$REPO/deploy/leonida-log-scrape.service" "$UNIT_DIR/leonida-log-scrape.service"
   warn_drift "$REPO/deploy/leonida-log-scrape.timer" "$UNIT_DIR/leonida-log-scrape.timer"
+  warn_drift "$REPO/deploy/leonida-log-feed.service" "$UNIT_DIR/leonida-log-feed.service"
+  warn_drift "$REPO/deploy/leonida-log-feed.timer" "$UNIT_DIR/leonida-log-feed.timer"
 fi

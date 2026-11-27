@@ -1,4 +1,4 @@
-import { execFileSync, spawnSync } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -307,8 +307,50 @@ describe.skipIf(!haveTools)("leonida-log-scrape", { timeout: 30_000 }, () => {
 
     expect(status).toBe(0);
     expect(calls(sb)).toContain(
-      `docker IMAGE_TAG=${SHA_A} compose -f ${sb.env.COMPOSE_FILE} --env-file ${sb.env.ENV_FILE} run --rm -T scraper --dry-run`,
+      `docker IMAGE_TAG=${SHA_A} compose -f ${sb.env.COMPOSE_FILE} --env-file ${sb.env.ENV_FILE} run --rm -T --pull never scraper --dry-run`,
     );
+  });
+});
+
+describe.skipIf(!haveTools)("leonida-log-scrape --feed-only", () => {
+  it("gives way when a deploy or scrape holds the lock: exits 75 without starting the container", async () => {
+    const sb = makeSandbox();
+    deployedAlready(sb, SHA_A);
+    const holder = spawn(
+      "bash",
+      ["-c", 'exec 9>"$1"; flock -x 9; echo held; sleep 30', "holder"].concat(
+        join(sb.state, "apply.lock"),
+      ),
+      { stdio: ["ignore", "pipe", "ignore"] },
+    );
+    try {
+      await new Promise((resolve) => holder.stdout.once("data", resolve));
+
+      const { status, output } = run(
+        sb,
+        "leonida-log-scrape.sh",
+        ["--feed-only"],
+        {
+          FEED_LOCK_WAIT: "1",
+        },
+      );
+
+      expect(status).toBe(75);
+      expect(output).toContain("feed poll skipped");
+      expect(calls(sb)).toBe("");
+    } finally {
+      holder.kill();
+    }
+  });
+
+  it("polls once it has the lock", () => {
+    const sb = makeSandbox();
+    deployedAlready(sb, SHA_A);
+
+    const { status } = run(sb, "leonida-log-scrape.sh", ["--feed-only"]);
+
+    expect(status).toBe(0);
+    expect(calls(sb)).toContain("run --rm -T --pull never scraper --feed-only");
   });
 });
 

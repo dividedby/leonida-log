@@ -50,6 +50,8 @@ export interface RunOptions {
   /** YYYY-MM-DD or ISO. Absent: 14 days on a source's first run, otherwise no bound. */
   since?: string;
   dryRun?: boolean;
+  /** `--feed-only`: modules read only their feed (see `SourceContext.feedOnly`). */
+  feedOnly?: boolean;
   /** Ids of watch modules that should run their optional discovery pass this run (`--github-search`). */
   forceDiscovery?: string[];
   now?: () => Date;
@@ -164,7 +166,7 @@ export async function runScrape(opts: RunOptions): Promise<SourceStats[]> {
         ? new Date(clock().getTime() - FIRST_RUN_DAYS * DAY_MS).toISOString()
         : undefined);
     const sinceIso = toIso(since);
-    const ctx = { fetch: get, since, log };
+    const ctx = { fetch: get, since, feedOnly: opts.feedOnly, log };
 
     if (mod.watch) {
       // The module decides change itself (see watch.ts); no page queue.
@@ -336,6 +338,7 @@ export async function runScrape(opts: RunOptions): Promise<SourceStats[]> {
             ref.remoteModified ??
             ex.remoteModified ??
             row?.remoteModified ??
+            ref.published ??
             null,
           etag: validators
             ? (validators.headers.get("etag") ?? null)

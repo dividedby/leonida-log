@@ -42,6 +42,7 @@ DATABASE_PATH=data/local.db pnpm scrape --dry-run              # fetch and diff,
 DATABASE_PATH=data/local.db pnpm scrape --source powerpyx      # one source
 DATABASE_PATH=data/local.db pnpm scrape --report-only --since 2026-11-20
 DATABASE_PATH=data/local.db pnpm scrape --purge ign             # drop a source's pages and candidates
+DATABASE_PATH=data/local.db pnpm scrape --feed-only            # poll KeenGamer's feed only (the server does this every 4 hours)
 pnpm scrape --wayback 'keengamer.com/articles/guides/gta-6-*'  # list Wayback captures, no DB
 ```
 

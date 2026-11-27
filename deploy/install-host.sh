@@ -8,8 +8,8 @@
 # Run it from a copy that does NOT live in the service user's clone (the `leonida-log` user can rewrite
 # /srv/leonida-log, and this script runs as root): copy deploy/install-host.sh, deploy/leonida-log-deploy.sh,
 # deploy/leonida-log-apply.sh, deploy/leonida-log-scrape.sh, deploy/leonida-log-scrape.service,
-# deploy/leonida-log-scrape.timer and compose.yaml from the owner's own checkout to /root/ (scp). It installs the
-# files sitting next to itself, refuses files or a folder not owned by root, and never runs git as root.
+# deploy/leonida-log-scrape.timer, deploy/leonida-log-feed.service, deploy/leonida-log-feed.timer and compose.yaml
+# from the owner's own checkout to /root/ (scp). It installs the files sitting next to itself, refuses files or a folder not owned by root, and never runs git as root.
 #
 # Docker, the compose plugin, sqlite3, flock, curl and git must already be installed; this script installs
 # none of them, and refuses to continue if the service user is in the docker group (that group is root).
@@ -25,7 +25,9 @@
 #      script as a forced command with no pty, forwarding or agent;
 #   5. adds an sshd drop-in that points ONLY the `leonida-log` user at that file, turns off passwords for it, and
 #      checks root's settings are untouched before reloading sshd. It never edits root's config;
-#   6. installs the scrape service and timer units; enables the timer only with --enable-scrape.
+#   6. installs the scrape and feed units; enables the scrape timer only with --enable-scrape, and always enables
+#      the feed timer (the KeenGamer feed poll, every 4 hours; run `systemctl start leonida-log-feed.service`
+#      once by hand to check it).
 #
 # Before running it: keep a second root SSH session open.
 set -euo pipefail
@@ -72,6 +74,8 @@ FILES=(
   leonida-log-scrape.sh
   leonida-log-scrape.service
   leonida-log-scrape.timer
+  leonida-log-feed.service
+  leonida-log-feed.timer
   compose.yaml
 )
 for name in "${FILES[@]}"; do
@@ -275,13 +279,23 @@ install_file "scrape service" "$SRC_DIR/leonida-log-scrape.service" "$UNIT_DIR/l
 units_changed=$((units_changed | file_changed))
 install_file "scrape timer" "$SRC_DIR/leonida-log-scrape.timer" "$UNIT_DIR/leonida-log-scrape.timer" 0644
 units_changed=$((units_changed | file_changed))
+feed_changed=0
+install_file "feed service" "$SRC_DIR/leonida-log-feed.service" "$UNIT_DIR/leonida-log-feed.service" 0644
+feed_changed=$((feed_changed | file_changed))
+install_file "feed timer" "$SRC_DIR/leonida-log-feed.timer" "$UNIT_DIR/leonida-log-feed.timer" 0644
+feed_changed=$((feed_changed | file_changed))
 systemctl daemon-reload
-echo "installed the leonida-log-scrape units in $UNIT_DIR"
+echo "installed the leonida-log-scrape and leonida-log-feed units in $UNIT_DIR"
 if ((enable_scrape)); then
   systemctl enable --now leonida-log-scrape.timer
   if ((units_changed)); then
     systemctl restart leonida-log-scrape.timer
   fi
+fi
+# The feed poll is a one-request read of an open feed, so there is no first run to watch before enabling it.
+systemctl enable --now leonida-log-feed.timer
+if ((feed_changed)); then
+  systemctl restart leonida-log-feed.timer
 fi
 if ! systemctl cat host-alert@.service >/dev/null 2>&1; then
   echo "WARNING: host-alert@.service is not installed on this host; scrape failures will not be delivered" >&2
@@ -295,6 +309,7 @@ echo "  privilege:     $PRIV_DROPIN"
 echo "  authorized:    $AK ($(grep -c . "$AK" || true) key line(s))"
 echo "  sshd drop-in:  $SSHD_DROPIN"
 echo "  scrape timer:  $(systemctl is-enabled leonida-log-scrape.timer 2>/dev/null || true) / $(systemctl is-active leonida-log-scrape.timer || true)"
+echo "  feed timer:    $(systemctl is-enabled leonida-log-feed.timer 2>/dev/null || true) / $(systemctl is-active leonida-log-feed.timer || true)"
 echo "Check from another machine before closing your root session:"
 echo "  a fresh root login still works;"
 echo "  the CI key with a command of 0000000000000000000000000000000000000000 prints a refusal;"

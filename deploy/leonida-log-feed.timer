@@ -1,0 +1,15 @@
+# Starts leonida-log-feed.service every 4 hours (00:40, 04:40, ... US Central) plus up to 15 minutes of random
+# delay, so polls land between 00:40 and 00:55, 04:40 and 04:55, and so on. The Monday scrape runs at 06:15 (plus
+# up to 10 minutes) and takes about 25 minutes (45 at most), so it ends before the 08:40 poll and no poll overlaps
+# it. Persistent: a poll missed while the host was down (it reboots at 03:30) happens at the next boot. Installed
+# and enabled by deploy/install-host.sh.
+[Unit]
+Description=Leonida Log KeenGamer feed poll every 4 hours
+
+[Timer]
+OnCalendar=*-*-* 00/4:40:00 America/Chicago
+RandomizedDelaySec=15min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

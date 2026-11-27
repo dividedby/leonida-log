@@ -7,6 +7,8 @@ export interface PageRef {
   url: string;
   /** ISO UTC from the listing (WP modified_gmt, sitemap lastmod). */
   remoteModified?: string;
+  /** ISO UTC publication time from a feed. Shown as the row's modified time only when nothing better is known; never used for change detection. */
+  published?: string;
   title?: string;
   /** HTML the listing already returned (WP REST content.rendered); skips the page fetch. */
   body?: string;
@@ -33,6 +35,8 @@ export interface SourceContext {
   fetch: SourceFetch;
   /** ISO date or datetime; undefined means no lower bound. */
   since?: string;
+  /** `--feed-only`: a module with `hasFeed` reads just its feed (one request) and skips sitemaps and other slow listings. */
+  feedOnly?: boolean;
   log(message: string): void;
 }
 
@@ -98,7 +102,9 @@ export interface SourceModule {
   minIntervalMs?: number;
   /** Network page fetches per run. Default 40. */
   maxPagesPerRun?: number;
-  method: "wp-rest" | "sitemap" | "html-index" | "github-api";
+  method: "wp-rest" | "sitemap" | "html-index" | "github-api" | "rss";
+  /** Has a cheap feed that `--feed-only` polls between full runs (see `SourceContext.feedOnly`). */
+  hasFeed?: boolean;
   /** Report note printed under the source heading (e.g. a reliability tier). */
   reportNote?: string;
   /** Cheap listing. Throws when the listing can't be read. Unused (return []) when `watch` is set. */
@@ -114,6 +120,7 @@ export interface SourceModule {
    * Called once when the host stopped mid-run (403, repeated 5xx) with the
    * refs left unfetched. Returns refs reachable another way (e.g. Wayback
    * captures via `fetchUrl`); the run processes them under the same page cap.
+   * No module sets it now: KeenGamer's pages come from its feed.
    */
   fallback?(ctx: SourceContext, pending: PageRef[]): Promise<PageRef[]>;
   /** Defaults to the generic main-content extractor. */

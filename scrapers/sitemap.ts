@@ -12,7 +12,7 @@ export interface Sitemap {
   entries: SitemapEntry[];
 }
 
-function decodeEntities(text: string): string {
+export function decodeEntities(text: string): string {
   return text
     .replace(/^<!\[CDATA\[([\s\S]*)\]\]>$/, "$1")
     .replace(/&#x([0-9a-f]+);/gi, (_, h: string) =>

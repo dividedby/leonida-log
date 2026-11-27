@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 import { fixtureData } from "../lib/test-fixtures/curated";
 import { openDatabase, type OpenedDatabase } from "../lib/db/open";
@@ -338,12 +339,8 @@ describe("selectSources", () => {
 });
 
 describe("fallback after a mid-run host stop", () => {
-  const G = (n: number) =>
-    `https://www.keengamer.com/articles/guides/gta-6-guide-${n}/`;
-  const CDX =
-    "https://web.archive.org/cdx/search/cdx?url=keengamer.com%2Farticles%2Fguides%2Fgta-6-&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cdigest&collapse=digest&filter=statuscode%3A200&from=20261120&matchType=prefix";
-  const raw = (ts: string, url: string) =>
-    `https://web.archive.org/web/${ts}id_/${url}`;
+  const G = (n: number) => `https://guide.test/g${n}`;
+  const archived = (n: number) => `https://archive.test/g${n}`;
 
   it.each([
     {
@@ -357,49 +354,38 @@ describe("fallback after a mid-run host stop", () => {
       stats: { errors: 1, new: 1, deferred: 3 },
     },
   ])(
-    "fetches Wayback captures for pages left pending when KeenGamer stops on $trigger",
+    "fetches the module's replacement refs for pages left pending when the host stops on $trigger",
     async ({ live, stats: expected }) => {
-      const entries = [1, 2, 3, 4, 5].map(
-        (n) =>
-          `<url><loc>${G(n)}</loc><lastmod>2026-11-2${6 - n}T00:00:00Z</lastmod></url>`,
+      const t = setup(
+        {
+          ...Object.fromEntries(
+            Object.entries(live).map(([n, status]) => [
+              G(Number(n)),
+              { status },
+            ]),
+          ),
+          [archived(4)]: {
+            body: html("Archived guide four", "Mission m2 was archived."),
+          },
+        },
+        () =>
+          [1, 2, 3, 4, 5].map((n) => ({
+            url: G(n),
+            remoteModified: `2026-11-2${6 - n}T00:00:00Z`,
+          })),
+        {
+          // Only guide 4 has a replacement.
+          fallback: async (_ctx, pending) =>
+            pending
+              .filter((p) => p.url === G(4))
+              .map((p) => ({
+                url: p.url,
+                fetchUrl: archived(4),
+                remoteModified: "2026-11-24T10:00:00.000Z",
+              })),
+        },
       );
-      const net = fakeNetwork({
-        "https://www.keengamer.com/sitemap_index.xml": {
-          body: `<sitemapindex><sitemap><loc>https://www.keengamer.com/post-sitemap9.xml</loc><lastmod>2026-11-25T00:00:00Z</lastmod></sitemap></sitemapindex>`,
-        },
-        "https://www.keengamer.com/post-sitemap9.xml": {
-          body: `<urlset>${entries.join("")}</urlset>`,
-        },
-        ...Object.fromEntries(
-          Object.entries(live).map(([n, status]) => [G(Number(n)), { status }]),
-        ),
-        [CDX]: {
-          body: JSON.stringify([
-            ["timestamp", "original", "statuscode", "digest"],
-            // guide 4 (lastmod 11-22): a newer capture exists. Guide 5 (lastmod 11-21): only an older one.
-            [
-              "20261124100000",
-              `http://keengamer.com${new URL(G(4)).pathname.slice(0, -1)}`,
-              "200",
-              "A",
-            ],
-            ["20261120000000", G(5), "200", "B"],
-          ]),
-        },
-        [raw("20261124100000", G(4))]: {
-          body: html("Archived guide four", "Mission m2 was archived."),
-        },
-      });
-      const opened = openDatabase(dbs.fresh());
-      open.push(opened);
-      const [stats] = await runScrape({
-        db: opened.db,
-        curated,
-        modules: [keengamer],
-        fetcher: createPoliteFetcher({ ...net.deps, defaultIntervalMs: 0 }),
-        since: "2026-11-20",
-        now: () => NOW,
-      });
+      const [stats] = await t.scrape({ since: "2026-11-20" });
 
       expect(stats).toMatchObject(expected);
       // The stopped host is never asked for the pages left pending.
@@ -407,15 +393,88 @@ describe("fallback after a mid-run host stop", () => {
         .filter((n) => !(n in live))
         .map((n) => G(n));
       expect(
-        net.pageCalls().filter((c) => pending.includes(c.url)),
+        t.net.pageCalls().filter((c) => pending.includes(c.url)),
       ).toHaveLength(0);
-      expect(net.pageCalls().map((c) => c.url)).toContain(
-        raw("20261124100000", G(4)),
-      );
-      const rows = opened.db.select().from(sources).all();
+      expect(t.net.pageCalls().map((c) => c.url)).toContain(archived(4));
+      const rows = t.rows();
       expect(rows.map((r) => r.url)).toEqual([G(4)]);
       expect(rows[0].remoteModified).toBe("2026-11-24T10:00:00.000Z");
-      expect(opened.db.select().from(candidates).all()).toHaveLength(1);
+      expect(t.cands()).toHaveLength(1);
     },
   );
+});
+
+describe("keengamer feed", () => {
+  const FEED = "https://www.keengamer.com/feed/";
+  const GUIDE =
+    "https://www.keengamer.com/articles/guides/gta-6-made-up-guide/";
+  const NEWS = "https://www.keengamer.com/articles/news/gta-6-made-up-news/";
+  const feedXml = readFileSync(
+    new URL("./__fixtures__/keengamer-feed.xml", import.meta.url),
+    "utf8",
+  );
+
+  function poll(routes: FakeRoutes) {
+    const opened = openDatabase(dbs.fresh());
+    open.push(opened);
+    const net = fakeNetwork(routes);
+    const fetcher = createPoliteFetcher({ ...net.deps, defaultIntervalMs: 0 });
+    return {
+      net,
+      run: (feedOnly = true) =>
+        runScrape({
+          db: opened.db,
+          curated,
+          modules: [keengamer],
+          fetcher,
+          feedOnly,
+          now: () => NOW,
+        }),
+      rows: () => opened.db.select().from(sources).all(),
+      cands: () => opened.db.select().from(candidates).all(),
+    };
+  }
+
+  it("stores each tagged item once, then nothing while the feed is unchanged, and never asks for an article page", async () => {
+    const t = poll({ [FEED]: { body: feedXml } });
+
+    const [first] = await t.run();
+    expect(first).toMatchObject({ discovered: 2, new: 2, changed: 0 });
+    expect(t.rows().map((r) => r.url)).toEqual([GUIDE, NEWS]);
+    // pubDate fills the modified time without a sitemap lastmod.
+    expect(t.rows()[0].remoteModified).toBe("2026-11-27T14:00:00.000Z");
+    expect(t.cands()).toHaveLength(2);
+    // Hints read the feed body: it names mission m2.
+    expect(t.cands()[0].missionHint).toContain("m2");
+
+    const [second] = await t.run();
+    expect(second).toMatchObject({ new: 0, changed: 0, unchanged: 2 });
+    expect(t.cands()).toHaveLength(2);
+
+    expect(t.net.pageCalls().map((c) => c.url)).toEqual([FEED, FEED]);
+  });
+
+  it("emits one modified candidate when an item's body changes in the feed", async () => {
+    const t = poll({
+      [FEED]: [
+        { body: feedXml },
+        {
+          body: feedXml.replace(
+            "Bring a spare car.",
+            "Bring a spare car and a made-up map.",
+          ),
+        },
+      ],
+    });
+    await t.run();
+    const [second] = await t.run();
+
+    expect(second).toMatchObject({ new: 0, changed: 1, unchanged: 1 });
+    expect(
+      t
+        .cands()
+        .map((c) => c.changeKind)
+        .sort(),
+    ).toEqual(["modified", "new", "new"]);
+  });
 });

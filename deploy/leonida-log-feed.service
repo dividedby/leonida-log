@@ -1,0 +1,33 @@
+# KeenGamer feed poll for Leonida Log (ADR 0007, 2026-11-27 note): runs /usr/local/sbin/leonida-log-scrape with
+# --feed-only, which starts the scraper container from the deployed image and reads one URL, keengamer.com/feed/.
+# leonida-log-feed.timer starts it every 4 hours. The feed holds only the newest 20 items (about 9 hours), so a
+# poll that never runs loses articles; the weekly scrape reads the feed too but can't make that up.
+#
+# Same script as the weekly scrape, so it takes the same deploy lock, but only for the container's life (well
+# under a minute; a stuck request ends after at most a few minutes). A deploy that starts meanwhile waits for it.
+# A poll that starts during a deploy or the weekly scrape waits at most 60 s for the lock, then exits 75 without
+# polling: it gives way and the next poll picks the items up. SuccessExitStatus=75 keeps that from counting as a
+# failed unit.
+#
+# The run ends by itself: --feed-only gives the scraper a hard 180 s deadline (scrapers/main.ts, FEED_DEADLINE_MS)
+# that aborts every request and wait, robots.txt and retries included, and exits 2, with a retry budget of 2.
+# TimeoutStartSec is a backstop above the worst case: 60 s lock wait + at most 60 s for docker compose to start
+# the container + 180 s deadline = 300 s, and 7 min is 420 s. systemd therefore never kills a poll that holds the
+# lock.
+#
+# No OnFailure=: a poll failing (a 5xx, a timeout, a lock held by the weekly scrape) is routine and would page up
+# to six times a day. A feed that stays unreadable also fails the weekly scrape's keengamer listing (exit 2), which
+# does alert. See failed polls with `systemctl status leonida-log-feed` and `journalctl -u leonida-log-feed`.
+# Installed as it is by deploy/install-host.sh; nothing in it is per-host.
+[Unit]
+Description=Leonida Log KeenGamer feed poll
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/leonida-log-scrape --feed-only
+TimeoutStartSec=7min
+SuccessExitStatus=75
+Nice=10
