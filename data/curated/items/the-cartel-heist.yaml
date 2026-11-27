@@ -124,8 +124,14 @@ items:
     evidence:
       basis: safe-bound
       note: "Game8 JP, GameWith, gtabase and The Click say a timer ends it; a couple of guides say it lasts until the chapter ends. No source names a closing mission, so the chapter end is only an upper bound."
-    how_to: "It's a timed hourglass job in Vice City. Pick the Freeway Run race; the payout depends on where you finish, $3,800 for first and $1,500 for second. Race it as soon as the hourglass shows up: the timer ends it partway through the chapter. A PSNProfiles forum trophy guide says missing it means Yago's line of jobs can't be finished. Missing it won't cost you the Strangers & Freaks trophy: that needs 8 strands and there are more than enough without Yago."
+    how_to: "It's a timed hourglass job in Vice City. Pick the Freeway Run race; the payout depends on where you finish, $3,800 for first and $1,500 for second. Race it as soon as the hourglass shows up: the timer ends it partway through the chapter, and quitting the race also ends it for good. Missing it doesn't end Yago's line: players who never ran it still got his last job later. Missing it won't cost you the Strangers & Freaks trophy: that needs 8 strands and there are more than enough without Yago."
     sources:
+      - url: https://www.reddit.com/comments/1y50ev3/_/19t5nkgfbnruq/
+        title: "Reddit r/GTA: first-hand, never ran the race and Yago's last job still came (OP confirms in 19t6e5c99fhl0)"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/comments/1y50ev3/_/19t880apniqx0/
+        title: "Reddit r/GTA: first-hand, quitting the race removed it and an earlier save didn't bring it back"
+        accessed: "2026-11-27"
       - url: https://forum.psnprofiles.com/topic/202512-gta-6-trophy-guide-100-completion-additional-guides-wip/
         title: "PSNProfiles forum: GTA 6 trophy guide and 100% completion (player WIP)"
         accessed: "2026-11-25"

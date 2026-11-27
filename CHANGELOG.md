@@ -46,6 +46,7 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Changed
 
+- Yago: missing Race Against Yago doesn't end his line. `brother-to-brother` notes it still comes after a missed race (evidence now first-hand), and the `race-against-yago` item drops the PSNProfiles claim that the line can't be finished and adds that quitting the race ends it. Two first-hand Reddit reports are now among their sources.
 - Round 7 build, missions: `get-shirleys-rum`, `steal-the-scooter` and `ring-the-bell` are kind optional (no source shows an hourglass); `catch-a-bigger-fish`, `search-the-dive-sites` and `attend-eddie-acostas-party` follow the reached rule (open after Coming Home, Feng Shui and Company Cars); `bad-driver` adds a GameWith source.
 - Round 7 build, items: `donnies-38` also covers the aviator sunglasses; `half-price-moreland`, `collect-cards`, `motel-pool-weights`, `moses-car-sales` and `y-hotel-cars` lose "no guide says" wording from the rendered text (it moves to `evidence.note`); `y-hotel-cars` is now unverified (all five sources trace to one origin); `race-against-yago` adds that missing it doesn't cost the Strangers & Freaks trophy; `house-magazines` is verified; `finish-before-sunset` and `sunset-manual-save` add Ocean Beach sources; `avery-kingpin-jobs` and `spend-on-weapons` gain evidence notes.
 - Round 7 build, gates: Tourist Trap's `lost` vehicles entry says "his boat" and cites four more sources. Header comments record the post-story safehouse and return point and that Key Lento shops are not lost.
