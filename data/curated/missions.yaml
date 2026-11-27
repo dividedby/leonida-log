@@ -668,7 +668,10 @@ missions:
     character: both
     opens_after: island-dreams
     closes_at: never
-    note: Kenton calls a few hours after Island Dreams. He goes quiet after Chapter 1 and returns in Chapter 2 or 3; all his quests stay available after the story.
+    note: Kenton calls a few hours after Island Dreams. He goes quiet after Chapter 1 and returns later; all his quests stay available after the story.
+    evidence:
+      basis: best-guess
+      note: "Guides put Kenton's return in Chapter 2 or 3."
     sources:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
@@ -904,7 +907,10 @@ missions:
     character: jason
     opens_after: take-out-kitty-litter
     closes_at: never
-    note: Tyrone calls once enough labs are down (IGN says 15) and it starts at a diner outside Grayson. It pays $10,000, and the remaining labs stay open afterwards.
+    note: Tyrone calls once enough labs are down and it starts at a diner outside Grayson. It pays $10,000, and the remaining labs stay open afterwards.
+    evidence:
+      basis: explicit-source
+      note: "IGN says 15 labs; other guides count 13 or 14 labs in all."
     sources:
       - url: https://www.powerpyx.com/gta-6-spin-on-this-shut-down-the-labs-walkthrough/
         title: "PowerPyx: Spin On This (Shut Down the Labs) walkthrough"

@@ -62,7 +62,10 @@ items:
     before_gate: checking-out
     visible_after_mission: whats-in-the-bag
     verified: true
-    how_to: "Checking Out also waits for every other available main mission in the chapter, per PowerPyx and gtabase; IGN names only the last mission before it. Money alone won't trigger it. Once the last of them is done, Cal's text comes a few in-game hours later (IGN)."
+    evidence:
+      basis: explicit-source
+      note: "IGN names only the last mission before Checking Out."
+    how_to: "Checking Out also waits for every other available main mission in the chapter, per PowerPyx and gtabase. Money alone won't trigger it. Once the last of them is done, Cal's text comes a few in-game hours later (IGN)."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
         title: "gtabase: Checking Out mission"
@@ -337,9 +340,9 @@ items:
     verified: true
     evidence:
       basis: explicit-source
-      note: "IGN calls it the Paradise RV Park garage; Tech4Gamers says Grassrivers, about a day later."
+      note: "IGN calls it the Paradise RV Park garage; Tech4Gamers puts it in Grassrivers, Mariana County, about a day later."
     how_to: "After Billy's Thrillbillies job, Wyman texts and marks a garage on the map. Collect the buggy there; Rockstar's edition text says it's kept at the Paradise Garage in Watson Bay."
-    location: "Marked garage in Grassrivers, Mariana County (IGN: Paradise RV Park garage); Paradise Garage, Watson Bay."
+    location: "The garage marked on the map; Paradise Garage, Watson Bay."
     sources:
       - url: https://gta.tech4gamers.com/gta-6/vehicles/67-vapid-dominator-buggy/
         title: "Tech4Gamers: '67 Vapid Dominator Buggy"
