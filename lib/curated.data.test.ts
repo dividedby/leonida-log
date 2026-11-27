@@ -6,20 +6,20 @@ import { gateOptionals, safeToLeave } from "./gates";
 describe("real curated data", () => {
   const data = loadCurated();
 
-  it("has 5 chapters with 22/11/26/25/7 missions (91 total)", () => {
+  it("has 5 chapters with 22/11/26/26/7 missions (92 total)", () => {
     expect(data.chapters.map((c) => c.missionCount)).toEqual([
-      22, 11, 26, 25, 7,
+      22, 11, 26, 26, 7,
     ]);
-    expect(data.missions).toHaveLength(91);
+    expect(data.missions).toHaveLength(92);
   });
 
-  it("has Tourist Trap (20), Checking Out (33), The Cartel Heist (59) and Sunset (83) as gates, each with checklist items", () => {
+  it("has Tourist Trap (20), Checking Out (33), The Cartel Heist (59) and Sunset (84) as gates, each with checklist items", () => {
     const order = (mission: string) =>
       data.gates.find((g) => g.mission === mission)?.order;
     expect(order("tourist-trap")).toBe(20);
     expect(order("checking-out")).toBe(33);
     expect(order("the-cartel-heist")).toBe(59);
-    expect(order("sunset")).toBe(83);
+    expect(order("sunset")).toBe(84);
     expect(data.gates.map((g) => g.mission)).toEqual([
       "tourist-trap",
       "checking-out",
@@ -48,7 +48,7 @@ describe("real curated data", () => {
     expect(unbound.map((o) => o.slug)).toEqual([]);
   });
 
-  it("derives the optional rows: Shirley's pair before Tourist Trap, Bad Driver! before Sunset, Veteran Hunted as safe to leave", () => {
+  it("derives the optional rows: Shirley's pair from Pipework, the Coming Home errands only while on it, Bad Driver! before Sunset", () => {
     const gate = (mission: string) => {
       const found = data.gates.find((g) => g.mission === mission);
       if (!found) throw new Error(`no gate ${mission}`);
@@ -56,14 +56,62 @@ describe("real curated data", () => {
     };
     const rows = (mission: string, current: string) =>
       gateOptionals(data, gate(mission), current).map((r) => r.mission.slug);
-    expect(rows("tourist-trap", "unwanted-attention")).toEqual(
+    expect(rows("tourist-trap", "pipework")).toEqual(
       expect.arrayContaining(["get-shirleys-rum", "steal-the-scooter"]),
     );
+    expect(rows("tourist-trap", "unwanted-attention")).not.toContain(
+      "get-shirleys-rum",
+    );
+    const errands = [
+      "get-lucias-clothes",
+      "pick-up-groceries",
+      "buy-flowers",
+      "get-the-chop",
+    ];
+    expect(rows("tourist-trap", "coming-home")).toEqual(
+      expect.arrayContaining([...errands, "buy-lucia-a-necklace"]),
+    );
+    for (const errand of errands) {
+      expect(rows("tourist-trap", "clean-up-after-donnie")).not.toContain(
+        errand,
+      );
+    }
+    expect(rows("tourist-trap", "clean-up-after-donnie")).toContain(
+      "buy-lucia-a-necklace",
+    );
     expect(rows("sunset", "party-hard")).toContain("bad-driver");
-    expect(safeToLeave(data, "coffee-break").map((o) => o.slug)).toEqual([
-      "veteran-hunted",
-    ]);
-    expect(safeToLeave(data, "unwanted-attention")).toEqual([]);
+  });
+
+  it("shows Clock Out and Ring the Bell! while Swamped is current, not before", () => {
+    const gate = data.gates.find((g) => g.mission === "tourist-trap");
+    if (!gate) throw new Error("no gate tourist-trap");
+    const rows = (current: string) =>
+      gateOptionals(data, gate, current).map((r) => r.mission.slug);
+    expect(rows("swamped")).toEqual(
+      expect.arrayContaining(["clock-out", "ring-the-bell"]),
+    );
+    expect(rows("day-release")).not.toContain("clock-out");
+    expect(rows("day-release")).not.toContain("ring-the-bell");
+  });
+
+  it("lists optional strands that never close as safe to leave, from their opening mission", () => {
+    const safe = (current: string) =>
+      safeToLeave(data, current).map((o) => o.slug);
+    expect(safe("unwanted-attention")).toEqual(
+      expect.arrayContaining(["the-final-flush", "retest-freddies-defenses"]),
+    );
+    expect(safe("coffee-break")).toEqual(
+      expect.arrayContaining([
+        "circles-of-hell",
+        "steal-vehicles-for-moses",
+        "check-out-mckittrick-farm",
+      ]),
+    );
+    expect(safe("coffee-break")).not.toContain("thrillbillies");
+    expect(safe("coffee-break")).not.toContain("veteran-hunted");
+    expect(safe("afternoon-delight")).toEqual(
+      expect.arrayContaining(["thrillbillies", "veteran-hunted"]),
+    );
   });
 
   // ADR 0002 (amended 2026-11-26): item text may not name a mission after the

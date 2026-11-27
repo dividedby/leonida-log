@@ -6,23 +6,24 @@
 # explicit source, so items resting only on it stay verified: false.
 # visible_after_mission is the earliest sourced mission; where no later mission
 # is sourced it is the first Chapter 2 mission (whats-in-the-bag).
-# Registered cars: Leonida Streets says registered vehicles are kept at Checking
-# Out; one Reddit comment (unverified, unusable alone) says they're impounded.
-# Sources conflict, so no item lists them as lost (see register-car).
-# Thrillbillies and Twist Wrist, Smash, Grab aren't in missions.yaml (the 91
-# list); Polygon lists them as main missions, most guides tag them optional.
-# The mission count is an open question (docs/design.md).
+# Registered cars: kept at Checking Out but impounded in Port Gellhorn at the
+# start of the next chapter (GamesRadar team test), recoverable in person or via
+# Scooter Bros Premium. Rare Thief (own save) and KeenGamer also say kept; Leonida
+# Streets and Gamertag Mythras cite KeenGamer (one origin). PowerPyx has owned cars
+# parked at the new safehouse (mild conflict).
+# Thrillbillies is an optional mission (save CompletionType 3) entered in
+# missions.yaml; Twist Wrist, Smash, Grab stays out until its character and
+# opens_after are sourced. The mission count is an open question (docs/design.md).
 # Motel magazine: the cover reads Children of Wizard Wang on screen (Cavaliers
 # Gaming footage, round 5 cross-check); PowerPyx and Game Checklists shorten it to
 # Wizard Wang, which is likely the collectible-list label.
-# delights-pool uses lost_at_mission: afternoon-delight although the closure is
-# temporary (Game8, Vice Keys and Game Checklists all say it reopens later).
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
-# Veteran Hunted (the hunting line) is no longer an item: it is an optional
-# mission in missions.yaml that stays open after the story, so it shows under
-# "safe to leave". Thrillbillies, Kyle's farm jobs and Moses' car jobs stay
-# items until their windows are confirmed.
+# Veteran Hunted, Thrillbillies, Check Out McKittrick Farm, Collect Chemicals for
+# Kyle, Steal Vehicles for Moses and the Circles of Hell encounter are no longer
+# items: they are optional missions in missions.yaml that stay open after the
+# story, so they show under "safe to leave". moses-car-sales (open-ended sales)
+# stays an item.
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
 
@@ -31,7 +32,7 @@ items:
     title: Save $15,000
     category: Money
     before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
+    visible_after_mission: afternoon-delight
     verified: true
     how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and most guides (PowerPyx, gtabase, gta6bugs) say Checking Out won't start until you have it and have finished every other main mission. IGN says the $15,000 isn't necessary and only makes the mission unlock sooner. Bank it in your BuckMe checking account: guides say it has to be banked, pocket cash may not count, and pocket cash is lost if you die or get arrested. No source says the money is spent."
     location: The BuckMe app.
@@ -58,13 +59,10 @@ items:
     before_gate: checking-out
     visible_after_mission: whats-in-the-bag
     verified: true
-    how_to: Checking Out also waits for every other available main mission in the chapter. Money alone won't trigger it. Once the last of them is done, the call comes a few in-game hours later (IGN, gta.wiki).
+    how_to: "Checking Out also waits for every other available main mission in the chapter, per PowerPyx and gtabase; IGN names only the last mission before it. Money alone won't trigger it. Once the last of them is done, Cal's text comes a few in-game hours later (IGN)."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
         title: "gtabase: Checking Out mission"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
@@ -72,15 +70,15 @@ items:
       - url: https://www.ign.com/wikis/gta-6/Checking_Out_Walkthrough
         title: "IGN: Checking Out walkthrough"
         accessed: "2026-11-26"
-      - url: https://gta.wiki/w/Checking_Out
-        title: "gta.wiki: Checking Out"
+      - url: https://www.powerpyx.com/gta-6-prepare-for-vice-city-walkthrough/
+        title: "PowerPyx: Prepare for Vice City walkthrough"
         accessed: "2026-11-26"
 
   - id: motel-cards
     title: Collect the 3 cards and 2 magazines in the motel
     category: Collectibles
     before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
+    visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: true
     how_to: The Starlet Motel holds three collectible cards, Vicki, Victor Maravilla and Bryson Powers, plus two magazines, Help Me, Help You, Help Me and Children of Wizard Wang (the cover reads this on screen; some guides shorten it to Wizard Wang). The motel stops being your home at the gate. IGN lists an open-world copy of each card, so the motel copies may not be needed to complete the sets, and guides disagree on whether the magazines have copies elsewhere, so take them all while you can.
@@ -124,7 +122,7 @@ items:
     title: Empty the motel's wardrobe and storage
     category: General
     before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
+    visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: true
     how_to: Wear the outfits you want and take out anything you stored there. You lose the motel as a home at the gate.
@@ -136,29 +134,58 @@ items:
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
+      - url: https://gta.wiki/wiki/Starlet_Motel
+        title: "gta.wiki: Starlet Motel"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=o5Najqm2tog
+        title: "Jacob Fox (YouTube): Starlet Motel safehouse removed at Checking Out; description read"
+        accessed: "2026-11-26"
 
   - id: motel-pool-weights
     title: Use the free weights by the motel pool
     category: Stats
     before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
+    visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: false
-    how_to: In Chapter 2 the Starlet Motel has free weights by the pool, with no gym membership needed, so you can train Strength without paying for a studio. They go with the motel at the gate. The loss is inferred from the motel closing, and the two sources are small fan sites.
-    location: Starlet Motel, by the pool.
+    how_to: "While the Starlet Motel is your base in Chapter 2, its pool area has a weight bench, kettlebells and a squat rack you can use for free to train Strength, so you don't need a gym membership yet. Either character can use them. Whether they stay usable after the gate is unconfirmed; one tested guide says nothing is locked out there, so treat this as a convenience, not a must-do."
+    location: Starlet Motel, by the pool fence and loungers.
     sources:
-      - url: https://getvicekeys.com/guides/gta-6-starlet-motel-pool-workout
-        title: "Vice Keys: Starlet Motel pool workout"
-        accessed: "2026-11-25"
-      - url: https://www.gta-xtreme.com/en/gta-6-chapter-2-gym-location
-        title: "GTA Xtreme: Chapter 2 gym location"
-        accessed: "2026-11-25"
+      - url: https://www.youtube.com/watch?v=TuuspTxxL0w
+        title: "Accelerated Ideas (YouTube): Chapter 2 gym location, Strength Workout on screen 0:03 and 0:58"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=n4kwhHoDzcY
+        title: "Games & Apps Tutorials (YouTube): workout at the Starlet Motel, squat rack 0:26"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Chapter_2_Walkthrough_and_Guide
+        title: "IGN: Chapter 2 walkthrough and guide"
+        accessed: "2026-11-26"
+      - url: https://www.gamesradar.com/games/grand-theft-auto/gta-6-chapter-2-final-mission/
+        title: "GamesRadar+: GTA 6 Chapter 2 final mission"
+        accessed: "2026-11-26"
+
+  - id: ditch-the-ambulance
+    title: Get rid of the escape ambulance
+    category: General
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    lost_at_mission: slam-dunk
+    verified: true
+    how_to: "The ambulance from the hospital escape is still parked near the Starlet Motel. Deal with it as soon as the objective appears after you leave the motel room: if you move on with the story first, the police find it and the objective disappears for good. Losing the chase or leaving the ambulance intact costs relationship points and can raise the motel rent. Save first."
+    location: Near the Starlet Motel.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Ambulance_Chaser_Walkthrough
+        title: "IGN: Ambulance Chaser walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/ambulance-chaser
+        title: "gtabase: Ambulance Chaser mission"
+        accessed: "2026-11-26"
 
   - id: moses-car-sales
     title: Sell cars to Moses
     category: Money
     before_gate: checking-out
-    visible_after_mission: moses
+    visible_after_mission: daily-driver
     verified: true
     how_to: "Steal cars with no tracker and sell them to Moses. Pay varies a lot with the car: the scan card shows the sell value, such as $1,150 for an Imponte '77 Phoenix and $7,645 for a Vapid Firebug Dominator (GazzaMontana's footage), while typical early cars are worth only around $400 (HarmNone) and GTABoom gives $1,000 to $3,000. PowerPyx puts the cooldown between sales at about two minutes; other reports differ. Take them from the main road in Port Gellhorn rather than near his garage. It's slow for big money but fine for reaching $15,000."
     location: Moses' auto shop, Port Gellhorn.
@@ -180,7 +207,7 @@ items:
     title: Train Focus at Rodgers Ranch
     category: Focus
     before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
+    visible_after_mission: girls-trip
     verified: true
     how_to: Pay the $5 waiver and play the Market Range Beginner challenge. It takes about five seconds, gives Focus every time and repeats if you pick Quit on the results screen. Finishing or quitting a range challenge raises Focus permanently, by at least 4% according to Polygon. There are 12 challenges across the two ranges and 42 golds in all. Focus never decays.
     location: Rodgers Ranch & Shooting Range, north-east edge of Port Gellhorn.
@@ -200,6 +227,15 @@ items:
       - url: https://www.powerpyx.com/gta-6-all-shooting-range-gold-medal-challenges/
         title: "PowerPyx: GTA 6 shooting range gold medal challenges"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Shooting_Ranges
+        title: "IGN: GTA 6 shooting ranges"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
+        title: "IGN: fitness and wellness explained"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Girls%27_Trip_Walkthrough
+        title: "IGN: Girls' Trip walkthrough"
+        accessed: "2026-11-26"
 
   - id: partner-workouts
     title: Work out with your partner
@@ -207,7 +243,7 @@ items:
     before_gate: checking-out
     visible_after_mission: coffee-break
     verified: true
-    how_to: Partner workouts unlock after Coffee Break. When your partner follows you into a workout they finish their own automatically, so both characters train at once; Strength is confirmed and the other stats are unclear. The Personal Best trophy needs maximum Strength on both characters, and working out together is the efficient route, not a requirement.
+    how_to: "Partner workouts unlock once you can switch characters freely, after Coffee Break. When your partner follows you into a gym workout they finish their own automatically, so both characters train at once; How to Video Game saw this for Strength and Cardio. The Personal Best trophy needs maximum Strength on both characters, and working out together is the efficient route, not a requirement."
     sources:
       - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
         title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
@@ -218,99 +254,11 @@ items:
       - url: https://howtovideogame.com/gta-6-workout-together/
         title: "How to Video Game: working out together in GTA 6"
         accessed: "2026-11-25"
-
-  - id: delights-pool
-    title: Beat the pool opponent at Delights Cabaret
-    category: Side missions
-    before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
-    lost_at_mission: afternoon-delight
-    verified: true
-    how_to: Delights Cabaret closes shortly before the gate and reopens later in the story, so missing it is temporary. Some guides put the closure at the end of the chapter, so earlier is the safe line. PowerPyx says five of the seven pool opponents are needed for 100%, while IGN says you'll need to clear every table.
-    location: Delights Cabaret, Port Gellhorn.
-    sources:
-      - url: https://game8.co/games/GTA-6/archives/640492
-        title: "Game8: Delights Cabaret closing and reopening"
-        accessed: "2026-11-25"
-      - url: https://getvicekeys.com/guides/gta-6-delights-dancers-cards
-        title: "Vice Keys: Delights dancers and cards"
-        accessed: "2026-11-25"
-      - url: https://game-checklists.com/gta6/guides/missables/
-        title: "Game Checklists: GTA 6 missables"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-all-pool-opponent-locations/
-        title: "PowerPyx: GTA 6 pool opponent locations"
-        accessed: "2026-11-25"
-      - url: https://www.ign.com/wikis/gta-6/Pool_Locations_and_Opponents
-        title: "IGN: pool locations and opponents"
+      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
+        title: "IGN: fitness and wellness explained"
         accessed: "2026-11-26"
-
-  - id: night-encounter
-    title: Find the secret midnight encounter
-    category: Side missions
-    before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
-    verified: true
-    how_to: From Chapter 2 on, go to the Circles of Hell House on Gellhorn Avenue between midnight and 2 AM; most guides say the window runs to 4 AM, but midnight to 2 AM is inside every report. Either character can do it, alone. It pays out the Hellspawn Comshot 12 shotgun and a permanent max-health increase. The shotgun isn't added to your inventory by itself, so pick it up before you leave.
-    location: Circles of Hell House, Gellhorn Avenue, northern Port Gellhorn.
-    sources:
-      - url: https://www.keengamer.com/articles/guides/gta-6-satan-mission-walkthrough-and-hellspawn-shotgun/
-        title: "KeenGamer: GTA 6 Satan mission walkthrough and Hellspawn shotgun"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/weapons/hellspawn-comshot-12
-        title: "gtabase: Hellspawn Comshot 12"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/articles/how-to-fight-satan-in-gta-6
-        title: "gtabase: how to fight Satan in GTA 6"
-        accessed: "2026-11-26"
-
-  - id: billy-thrillbillies
-    title: Do Billy's Thrillbillies and Twist Wrist, Smash, Grab
-    category: Side missions
-    before_gate: checking-out
-    visible_after_mission: coffee-break
-    verified: true
-    how_to: Most guides tag both as optional, though Polygon lists them as main missions. Either way they pay well, so do them. Thrillbillies unlocks after Coffee Break, per PowerPyx, and pays up to $2,500 depending on how you place. Twist Wrist, Smash, Grab pays $2,000. Both help toward the $15,000.
-    sources:
-      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
-        title: "Bloxodes: GTA 6 Strangers & Freaks"
-        accessed: "2026-11-25"
-      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
-        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
-        accessed: "2026-11-25"
-      - url: https://www.polygon.com/gta-6-mission-chapter-list-how-many/
-        title: "Polygon: GTA 6 mission and chapter list (Story Recap)"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-thrillbillies-check-out-the-mud-club-walkthrough/
-        title: "PowerPyx: Thrillbillies (Check Out the Mud Club) walkthrough"
-        accessed: "2026-11-25"
-      - url: https://gta6bugs.com/missions
-        title: "GTA6Bugs: missions list (Optional tags)"
-        accessed: "2026-11-25"
-
-  - id: kyle-mckittrick
-    title: Start Kyle McKittrick's farm jobs
-    category: Side missions
-    before_gate: checking-out
-    visible_after_mission: whats-in-the-bag
-    verified: true
-    how_to: "Check Out McKittrick Farm pays $400. Collect Chemicals for Kyle pays $1,000 and gives mutated strawberries. The $5,000 price is only one option: IGN lists $5,000, $3,000 or free by negotiating, so you can start it without paying. Game8 and games.gg say the first strawberry permanently raises max Stamina and later ones are temporary buffs of unknown length."
-    location: McKittrick Farm.
-    sources:
-      - url: https://bloxodes.com/wiki/gta-6/strangers-and-freaks
-        title: "Bloxodes: GTA 6 Strangers & Freaks"
-        accessed: "2026-11-25"
-      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-endings-choices-and-consequences/
-        title: "games.gg: GTA 6 endings, choices and consequences"
-        accessed: "2026-11-25"
-      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
-        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
-        accessed: "2026-11-25"
-      - url: https://www.ign.com/wikis/gta-6/McKittrick_Farm_Walkthrough
-        title: "IGN: McKittrick Farm walkthrough"
-        accessed: "2026-11-26"
-      - url: https://game8.co/games/GTA-6/archives/639194
-        title: "Game8: Kyle's strawberry and Collect Chemicals for Kyle"
+      - url: https://www.ign.com/wikis/gta-6/Coffee_Break_Walkthrough
+        title: "IGN: Coffee Break walkthrough"
         accessed: "2026-11-26"
 
   - id: register-car
@@ -319,7 +267,7 @@ items:
     before_gate: checking-out
     visible_after_mission: daily-driver
     verified: true
-    how_to: "Moses only registers cars with no tracker. Get the car resprayed at his shop, then register it. The first registration is free, and each one after that costs a fee based on the car's value. You need an empty garage slot: the free Port Gellhorn Station Garage unlocks after Daily Driver, and the Real Estate app sells more; the cheapest is Mitchell Auto Center at $5,000, or $4,000 with BuckMe Gold (which needs $100,000 in Family Savings). Pay 'n' Spray takes cars with a standard tracker, but only later in the story. Whether registered cars survive Checking Out isn't confirmed, so don't rely on it."
+    how_to: "Moses only registers cars with no tracker. Get the car resprayed at his shop, then register it. The first registration is free; KeenGamer says later ones cost a fee based on the car's value. To keep more cars you need an empty garage slot: buy garages in the Real Estate app, the cheapest at about $4,000. Pay 'n' Spray takes cars with a standard tracker, but only later in the story. Registered cars stay yours after the gate, but they start the next chapter in the Port Gellhorn impound: collect them once the town's heat dies down, or have Scooter Bros Premium fetch one, which uses all three free daily drop-offs (GamesRadar team test; KeenGamer and Rare Thief say they carry over)."
     location: Moses' auto shop, Port Gellhorn.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-vi-how-to-register-personal-cars-and-vehicles/
@@ -331,24 +279,21 @@ items:
       - url: https://gtaculture.com/guides/gta-6-keep-register-sell-stolen-cars
         title: "GTACulture: keep, register and sell stolen cars"
         accessed: "2026-11-25"
-      - url: https://leonidastreets.com/gta-6-checking-out-walkthrough/
-        title: "Leonida Streets: Checking Out walkthrough"
-        accessed: "2026-11-25"
       - url: https://www.slashgear.com/2323394/how-to-register-car-gta-6/
         title: "SlashGear: how to register a car in GTA 6"
         accessed: "2026-11-25"
-      - url: https://gta6bugs.com/guides/how-to-register-cars-gta-6
-        title: "GTA6Bugs: how to register cars in GTA 6"
-        accessed: "2026-11-25"
-      - url: https://cutscenewire.com/games/gta-6/vehicles/gta-6-all-garage-locations/
-        title: "Cutscene Wire: all garage locations"
-        accessed: "2026-11-25"
-      - url: https://retrobroker.com/en-US/us/blog/purchasable-garage-properties-gta-6-map
-        title: "RetroBroker: purchasable garage properties"
-        accessed: "2026-11-25"
-      - url: https://gamertagmythras.com/blog/gta-6/gta-6-properties-businesses
-        title: "Gamertag Mythras: GTA 6 properties and businesses"
-        accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Moses_Walkthrough
+        title: "IGN: Moses walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-guide-all-missables-and-things-to-do-before-checking-out/
+        title: "KeenGamer: Chapter 2 missables before Checking Out"
+        accessed: "2026-11-26"
+      - url: https://www.gamesradar.com/games/grand-theft-auto/gta-6-chapter-2-final-mission/
+        title: "GamesRadar+: the final mission of Chapter 2 (team playthrough)"
+        accessed: "2026-11-26"
+      - url: https://rarethief.com/do-you-lose-your-money-after-chapter-2-in-gta-vi/
+        title: "Rare Thief: do you lose your money after Chapter 2 (own save)"
+        accessed: "2026-11-26"
 
   - id: avery-kingpin-jobs
     title: Take the Avery Pawn and Kingpin Bowling jobs
@@ -356,7 +301,7 @@ items:
     before_gate: checking-out
     visible_after_mission: coffee-break
     verified: false
-    how_to: Both are robberies rather than stranger jobs, offered around Coffee Break, and Eurogamer says they pay plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and Beebom all name the Gutterball Moreland 850 as a key valuable looted inside it. No source gives cash amounts.
+    how_to: "Both are robberies rather than stranger jobs, offered around Coffee Break, and Eurogamer says they pay plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown. No source gives cash amounts."
     location: Avery Pawn Shop and Kingpin Bowling Alley.
     sources:
       - url: https://www.eurogamer.net/gta-6-money-making-methods
@@ -377,14 +322,17 @@ items:
       - url: https://beebom.com/gta-6-legendary-weapons/
         title: "Beebom: GTA 6 legendary weapons"
         accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-hit-kingpin-bowling-walkthrough/
+        title: "PowerPyx: Hit Kingpin Bowling walkthrough"
+        accessed: "2026-11-26"
 
   - id: dominator-buggy
     title: Pick up the '67 Dominator Buggy (Ultimate Edition)
     category: Vehicles
     before_gate: checking-out
-    visible_after_mission: coffee-break
+    visible_after_mission: afternoon-delight
     verified: true
-    how_to: About a day after Billy's Thrillbillies job, Wyman texts and a purple task appears on the map (Tech4Gamers; IGN also has Wyman texting after Thrillbillies). Collect the buggy from the marked garage in Grassrivers, Mariana County, which IGN calls the Paradise RV Park garage, then keep it in the Paradise Garage in Watson Bay.
+    how_to: "After Billy's Thrillbillies job, Wyman texts and marks a garage on the map (IGN calls it the Paradise RV Park garage; Tech4Gamers says Grassrivers, about a day later). Collect the buggy there; Rockstar's edition text says it's kept at the Paradise Garage in Watson Bay."
     location: "Marked garage in Grassrivers, Mariana County (IGN: Paradise RV Park garage); Paradise Garage, Watson Bay."
     sources:
       - url: https://gta.tech4gamers.com/gta-6/vehicles/67-vapid-dominator-buggy/
