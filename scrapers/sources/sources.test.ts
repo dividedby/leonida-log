@@ -13,7 +13,12 @@ import { keengamer } from "./keengamer";
 import { powerpyx } from "./powerpyx";
 import { vandal } from "./vandal";
 
-function discover(mod: SourceModule, routes: FakeRoutes, since?: string) {
+function discover(
+  mod: SourceModule,
+  routes: FakeRoutes,
+  since?: string,
+  feedOnly?: boolean,
+) {
   const net = fakeNetwork(routes);
   const { get } = createPoliteFetcher({
     ...net.deps,
@@ -23,6 +28,7 @@ function discover(mod: SourceModule, routes: FakeRoutes, since?: string) {
   const refs: Promise<PageRef[]> = mod.discover({
     fetch: get,
     since,
+    feedOnly,
     log: (m) => logs.push(m),
   });
   return { refs, net, logs };
@@ -150,14 +156,53 @@ describe("gtabase", () => {
 });
 
 describe("keengamer", () => {
+  const FEED = "https://www.keengamer.com/feed/";
   const INDEX = "https://www.keengamer.com/sitemap_index.xml";
   const GUIDE =
     "https://www.keengamer.com/articles/guides/gta-6-made-up-guide/";
+  const NEWS = "https://www.keengamer.com/articles/news/gta-6-made-up-news/";
+  const feedXml = readFileSync(
+    new URL("../__fixtures__/keengamer-feed.xml", import.meta.url),
+    "utf8",
+  );
+  const feedRoute = { [FEED]: { body: feedXml } };
+  const articleCalls = (net: ReturnType<typeof discover>["net"]) =>
+    net.pageCalls().filter((c) => c.url.includes("/articles/"));
 
-  it("reads only post sitemaps at or after --since and keeps GTA 6 guides", async () => {
+  it("keeps the feed items tagged Grand Theft Auto VI on keengamer.com, keyed by canonical URL with the body in hand", async () => {
+    const { refs, net } = discover(keengamer, feedRoute, undefined, true);
+    const result = await refs;
+
+    expect(result.map((r) => [r.url, r.title])).toEqual([
+      [GUIDE, "Made Up Guide: Mission m2 Walkthrough"],
+      [NEWS, "Made Up News: A Trailer Appears"],
+    ]);
+    expect(result[0].body).toContain("<h2>Before you start</h2>");
+    expect(result[0].body).toContain("marker &amp; wait");
+    expect(result[0].published).toBe("2026-11-27T14:00:00.000Z");
+    expect(result[0].remoteModified).toBeUndefined();
+    // feed-only: one request, no sitemaps
+    expect(net.pageCalls().map((c) => c.url)).toEqual([FEED]);
+  });
+
+  it("extracts the article text from the feed body", async () => {
+    const [ref] = await discover(keengamer, feedRoute, undefined, true).refs;
+    expect(keengamer.extract!(ref.body!, ref.url).text).toBe(
+      [
+        "## Before you start",
+        "Mission m2 opens after m1.",
+        "- Bring a spare car.",
+        "## The run",
+        "Drive to the made-up marker & wait.",
+      ].join("\n"),
+    );
+  });
+
+  it("adds sitemap lastmod to matched items, reads only post sitemaps at or after --since, and never fetches an article page", async () => {
     const { refs, net } = discover(
       keengamer,
       {
+        ...feedRoute,
         [INDEX]: {
           body: index(
             [
@@ -176,57 +221,53 @@ describe("keengamer", () => {
         },
         "https://www.keengamer.com/post-sitemap9.xml": {
           body: urlset(
-            [GUIDE, "2026-11-24T08:00:00Z"],
-            ["https://www.keengamer.com/articles/news/other/", "2026-11-24"],
+            [GUIDE, "2026-11-27T15:00:00Z"],
+            // In the sitemap but not in the feed: never turned into a page to fetch.
+            [
+              "https://www.keengamer.com/articles/guides/gta-6-not-in-feed/",
+              "2026-11-26",
+            ],
           ),
         },
       },
       "2026-11-20",
     );
-    expect(await refs).toEqual([
-      { url: GUIDE, remoteModified: "2026-11-24T08:00:00.000Z" },
+    const result = await refs;
+
+    expect(result.map((r) => [r.url, r.remoteModified])).toEqual([
+      [GUIDE, "2026-11-27T15:00:00.000Z"],
+      [NEWS, undefined],
     ]);
     expect(net.pageCalls().map((c) => c.url)).not.toContain(
       "https://www.keengamer.com/post-sitemap1.xml",
     );
+    expect(articleCalls(net)).toEqual([]);
   });
 
-  it("falls back to Wayback captures when the host answers 403, keyed by the live URL form", async () => {
-    const cdx =
-      "https://web.archive.org/cdx/search/cdx?url=keengamer.com%2Farticles%2Fguides%2Fgta-6-&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cdigest&collapse=digest&filter=statuscode%3A200&from=20261120&matchType=prefix";
-    const { refs, logs } = discover(
-      keengamer,
-      {
-        [INDEX]: { status: 403 },
-        [cdx]: {
-          body: JSON.stringify([
-            ["timestamp", "original", "statuscode", "digest"],
-            ["20261121100000", GUIDE, "200", "AAA"],
-            [
-              "20261124153000",
-              "http://keengamer.com:80/articles/guides/gta-6-made-up-guide?amp=1",
-              "200",
-              "BBB",
-            ],
-            [
-              "20261124160000",
-              "https://www.keengamer.com/articles/news/other/",
-              "200",
-              "CCC",
-            ],
-          ]),
-        },
-      },
-      "2026-11-20",
-    );
-    expect(await refs).toEqual([
-      {
-        url: GUIDE,
-        fetchUrl: `https://web.archive.org/web/20261124153000id_/${GUIDE}`,
-        remoteModified: "2026-11-24T15:30:00.000Z",
-      },
-    ]);
-    expect(logs.join(" ")).toMatch(/Wayback/);
+  it("still returns the feed's items when the sitemaps can't be read", async () => {
+    const { refs, logs } = discover(keengamer, {
+      ...feedRoute,
+      [INDEX]: { status: 403 },
+    });
+    expect((await refs).map((r) => r.url)).toEqual([GUIDE, NEWS]);
+    expect(logs.join(" ")).toMatch(/sitemaps unreadable/);
+  });
+
+  it.each([
+    [
+      "answers 403 (a challenge)",
+      { [FEED]: { status: 403 } },
+      /feed http-error 403/,
+    ],
+    ["is gone", {}, /feed http-error 404/],
+    [
+      "holds no items",
+      { [FEED]: { body: "<rss><channel></channel></rss>" } },
+      /no items/,
+    ],
+  ])("fails clearly when the feed %s", async (_name, routes, message) => {
+    const { refs } = discover(keengamer, routes as FakeRoutes);
+    await expect(refs).rejects.toThrow(message);
   });
 });
 

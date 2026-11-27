@@ -74,11 +74,18 @@ export interface FetchStats {
 export interface PoliteFetchDeps {
   fetch?: typeof fetch;
   now?: () => number;
-  sleep?: (ms: number) => Promise<void>;
+  /** Resolves after `ms`; rejects (and should stop its timer) when `signal` aborts. */
+  sleep?: (ms: number, signal?: AbortSignal) => Promise<void>;
   defaultIntervalMs?: number;
   timeoutMs?: number;
   /** Retries allowed across the run (default 8). */
   retryBudget?: number;
+  /**
+   * Hard limit on the whole fetcher's life, from its creation. At the deadline every in-flight request, body
+   * read and wait (spacing, Retry-After, backoff, Crawl-delay) aborts and later requests fail at once with
+   * outcome "error", so a caller's run ends by itself. Real timers: tests set it small.
+   */
+  deadlineMs?: number;
   log?: (message: string) => void;
 }
 
@@ -146,6 +153,13 @@ function retryAfterMs(headers: Headers, now: number, fallback: number): number {
 /** The body cap was hit: the host answered, so this is never retried. */
 class BodyTooLargeError extends Error {}
 
+/** The fetcher's deadline passed: nothing more is requested or waited for. */
+class DeadlineError extends Error {
+  constructor() {
+    super("run deadline exceeded");
+  }
+}
+
 const retryableStatus = (status: number) => status === 429 || status >= 500;
 
 async function readBody(res: Response, maxBytes: number): Promise<Uint8Array> {
@@ -180,8 +194,40 @@ async function readBody(res: Response, maxBytes: number): Promise<Uint8Array> {
 export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
   const fetchImpl = deps.fetch ?? fetch;
   const now = deps.now ?? Date.now;
-  const sleep =
-    deps.sleep ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)));
+  const baseSleep =
+    deps.sleep ??
+    ((ms: number, signal?: AbortSignal) =>
+      new Promise<void>((resolve, reject) => {
+        const timer = setTimeout(resolve, ms);
+        signal?.addEventListener(
+          "abort",
+          () => {
+            clearTimeout(timer);
+            reject(signal.reason);
+          },
+          { once: true },
+        );
+      }));
+  // AbortSignal.timeout timers don't keep the process alive.
+  const deadline =
+    deps.deadlineMs === undefined
+      ? undefined
+      : AbortSignal.timeout(deps.deadlineMs);
+  const expired = () => deadline?.aborted === true;
+  const deadlineHit = deadline
+    ? new Promise<never>((_, reject) =>
+        deadline.addEventListener("abort", () => reject(new DeadlineError()), {
+          once: true,
+        }),
+      )
+    : undefined;
+  deadlineHit?.catch(() => {});
+  /** A wait that ends early, by throwing DeadlineError, at the deadline. */
+  const sleep = async (ms: number): Promise<void> => {
+    if (!deadlineHit) return baseSleep(ms);
+    if (expired()) throw new DeadlineError();
+    await Promise.race([baseSleep(ms, deadline), deadlineHit]);
+  };
   const defaultInterval = deps.defaultIntervalMs ?? DEFAULT_INTERVAL_MS;
   const timeoutMs = deps.timeoutMs ?? TIMEOUT_MS;
   const log = deps.log ?? (() => {});
@@ -214,10 +260,11 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
       if (wait > 0) await sleep(wait);
       state.lastAt = now();
       try {
+        const timeout = AbortSignal.timeout(timeoutMs);
         const res = await fetchImpl(url.href, {
           headers: { "user-agent": USER_AGENT, ...headers },
           redirect: "manual",
-          signal: AbortSignal.timeout(timeoutMs),
+          signal: deadline ? AbortSignal.any([timeout, deadline]) : timeout,
         });
         if (res.status >= 300 && res.status < 400) {
           await res.body?.cancel();
@@ -271,6 +318,7 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
         }
         why = String(out.res.status);
       } catch (error) {
+        if (expired()) throw new DeadlineError();
         if (
           error instanceof BodyTooLargeError ||
           attempt >= MAX_RETRIES ||
@@ -396,6 +444,13 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           });
         }
         const robots = await loadRobots(url, baseInterval);
+        if (expired()) {
+          stats.errors++;
+          return empty("error", 0, {
+            finalUrl: url.href,
+            error: "run deadline exceeded",
+          });
+        }
         if (!robots.isAllowed(url.pathname + url.search)) {
           stats.robotsBlocked++;
           log(`robots.txt disallows ${url.href}`);
@@ -420,6 +475,9 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           stats.errors++;
           const message =
             error instanceof Error ? error.message : String(error);
+          if (error instanceof DeadlineError) {
+            return empty("error", 0, { finalUrl: url.href, error: message });
+          }
           if (!(error instanceof BodyTooLargeError)) {
             state.failures++;
             if (state.failures >= MAX_CONSECUTIVE_FAILURES) {

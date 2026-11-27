@@ -387,3 +387,68 @@ describe("bodies", () => {
     expect((await get("https://a.test/p")).text).toBe("guía");
   });
 });
+
+describe("deadline", () => {
+  it("aborts a request that never answers and fails later requests at once", async () => {
+    const seen: AbortSignal[] = [];
+    const hung = (async (_url: string, init?: RequestInit) => {
+      seen.push(init!.signal!);
+      return new Promise<Response>((_, reject) => {
+        init!.signal!.addEventListener("abort", () =>
+          reject(init!.signal!.reason),
+        );
+      });
+    }) as unknown as typeof fetch;
+    const { get } = createPoliteFetcher({
+      fetch: hung,
+      deadlineMs: 50,
+      timeoutMs: 60_000,
+    }).forSource(0);
+
+    const started = Date.now();
+    const first = await get("https://a.test/feed");
+    const second = await get("https://a.test/other");
+
+    expect(first).toMatchObject({
+      outcome: "error",
+      error: "run deadline exceeded",
+    });
+    expect(second).toMatchObject({
+      outcome: "error",
+      error: "run deadline exceeded",
+    });
+    expect(Date.now() - started).toBeLessThan(5_000);
+    expect(seen).toHaveLength(1);
+  });
+
+  it("cuts a long Retry-After wait short instead of sleeping it out", async () => {
+    // Real timers: a 30 s Retry-After would outlast the test if the deadline didn't end it.
+    const net = fakeNetwork({
+      "https://a.test/robots.txt": { body: "" },
+      "https://a.test/p": { status: 429, headers: { "retry-after": "30" } },
+    });
+    const { get } = createPoliteFetcher({
+      fetch: net.deps.fetch,
+      deadlineMs: 100,
+    }).forSource(0);
+
+    const started = Date.now();
+    const res = await get("https://a.test/p");
+
+    expect(res).toMatchObject({
+      outcome: "error",
+      error: "run deadline exceeded",
+    });
+    expect(Date.now() - started).toBeLessThan(5_000);
+    expect(net.pageCalls()).toHaveLength(1);
+  });
+
+  it("changes nothing when it isn't reached", async () => {
+    const net = fakeNetwork({ "https://a.test/p": { body: "x" } });
+    const { get } = createPoliteFetcher({
+      ...net.deps,
+      deadlineMs: 60_000,
+    }).forSource(0);
+    expect((await get("https://a.test/p")).outcome).toBe("ok");
+  });
+});

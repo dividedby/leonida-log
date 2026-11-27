@@ -174,6 +174,8 @@ describe("cli arguments", () => {
     [["--since", "yesterday"], /YYYY-MM-DD/],
     [["--source", "nope"], /Unknown source/],
     [["--bogus"], /Usage/],
+    [["--feed-only", "--since", "2026-11-20"], /can't be combined/],
+    [["--feed-only", "--source", "ign"], /no enabled source has a feed/],
   ])("rejects %j", async (argv, message) => {
     const lines: string[] = [];
     const dir = mkdtempSync(path.join(tmpdir(), "leonida-report-"));
@@ -189,6 +191,53 @@ describe("cli arguments", () => {
     expect(code).toBe(1);
     expect(lines.join("\n")).toMatch(message);
     expect(existsSync(path.join(dir, "x.db"))).toBe(false);
+  });
+});
+
+describe("--feed-only", () => {
+  it("runs only the sources that have a feed, stores their candidates and writes no report", async () => {
+    const file = dbs.fresh();
+    const page = (url: string) => ({
+      url,
+      body: "<p>Mission m2 opens here.</p>",
+    });
+    const modFor = (id: string, hasFeed: boolean): SourceModule => ({
+      id,
+      name: id,
+      enabled: true,
+      hosts: ["guide.test"],
+      method: "sitemap",
+      hasFeed,
+      discover: async (ctx) => [
+        page(`https://${id}.test/p?feedOnly=${ctx.feedOnly}`),
+      ],
+    });
+    const reportDir = mkdtempSync(path.join(tmpdir(), "leonida-report-"));
+    dirs.push(reportDir);
+
+    const code = await runCli(
+      ["--feed-only"],
+      { DATABASE_PATH: file, SCRAPE_REPORT_DIR: reportDir },
+      {
+        curated,
+        modules: [modFor("slow", false), modFor("quick", true)],
+        fetchDeps: fakeNetwork({}).deps,
+        log: () => {},
+      },
+    );
+
+    expect(code).toBe(0);
+    const opened = openDatabase(file);
+    expect(
+      opened.db
+        .select()
+        .from(sources)
+        .all()
+        .map((r) => r.url),
+    ).toEqual(["https://quick.test/p?feedOnly=true"]);
+    expect(opened.db.select().from(candidates).all()).toHaveLength(1);
+    opened.close();
+    expect(existsSync(path.join(reportDir, "latest.md"))).toBe(false);
   });
 });
 

@@ -11,6 +11,7 @@ import type { SourceModule } from "./types";
 import { captures, rawCaptureUrl } from "./wayback";
 
 const USAGE = `Usage: pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--report-only] [--dry-run] [--github-search]
+       pnpm scrape --feed-only [--dry-run]
        pnpm scrape --purge <source>
        pnpm scrape --wayback <url[*]> [--since YYYY-MM-DD]
 
@@ -19,12 +20,20 @@ const USAGE = `Usage: pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--repor
   --report-only  regenerate the changed-since report from the database, no fetching
   --dry-run      fetch and diff but write nothing (no database rows, no report)
   --github-search  run the github source's repo search now (it otherwise runs once a week)
+  --feed-only    poll only the sources that have a feed (keengamer), one request each; writes no report
   --purge        delete a source's tracked pages and candidates (also for ids no longer in the registry); nothing else runs
   --wayback      list Wayback captures of a URL (trailing * means prefix); no database writes
 
 Environment: DATABASE_PATH (required), SCRAPERS_DISABLED (comma list of source ids), SCRAPE_REPORT_DIR`;
 
 const DAY_MS = 86_400_000;
+/**
+ * A feed poll ends by itself: every fetch and wait aborts at the deadline and the run exits 2. It must stay
+ * well under the feed unit's TimeoutStartSec (deploy/leonida-log-feed.service), which counts the lock wait and
+ * the container start on top.
+ */
+export const FEED_DEADLINE_MS = 180_000;
+const FEED_RETRY_BUDGET = 2;
 
 export interface CliDeps {
   modules?: SourceModule[];
@@ -67,6 +76,7 @@ export async function runCli(
         "report-only": { type: "boolean", default: false },
         "dry-run": { type: "boolean", default: false },
         "github-search": { type: "boolean", default: false },
+        "feed-only": { type: "boolean", default: false },
         wayback: { type: "string" },
         purge: { type: "string" },
         help: { type: "boolean", default: false },
@@ -81,12 +91,22 @@ export async function runCli(
     log(USAGE);
     return 0;
   }
+  if (values["feed-only"] && (values["report-only"] || values.since)) {
+    log(`--feed-only can't be combined with --report-only or --since`);
+    return 1;
+  }
   if (values.since !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(values.since)) {
     log(`--since must be YYYY-MM-DD, got "${values.since}"`);
     return 1;
   }
 
-  const fetcher = createPoliteFetcher({ log, ...deps.fetchDeps });
+  const fetcher = createPoliteFetcher({
+    log,
+    ...(values["feed-only"]
+      ? { deadlineMs: FEED_DEADLINE_MS, retryBudget: FEED_RETRY_BUDGET }
+      : {}),
+    ...deps.fetchDeps,
+  });
 
   if (values.wayback !== undefined) {
     const prefix = values.wayback.endsWith("*");
@@ -132,6 +152,7 @@ export async function runCli(
     }
   }
 
+  const feedOnly = values["feed-only"];
   let modules: SourceModule[] = [];
   if (!values["report-only"]) {
     try {
@@ -143,6 +164,13 @@ export async function runCli(
     } catch (error) {
       log((error as Error).message);
       return 1;
+    }
+    if (feedOnly) {
+      modules = modules.filter((m) => m.hasFeed);
+      if (modules.length === 0) {
+        log("--feed-only: no enabled source has a feed");
+        return 1;
+      }
     }
   }
 
@@ -173,6 +201,7 @@ export async function runCli(
         fetcher,
         since: values.since,
         dryRun,
+        feedOnly,
         forceDiscovery: values["github-search"] ? ["github"] : [],
         now,
         log,
@@ -183,6 +212,8 @@ export async function runCli(
       log("dry run: nothing written");
       return code;
     }
+    // The weekly run owns the report; a feed poll only stores candidates for it.
+    if (feedOnly) return code;
 
     const markdown = renderReport({
       rows: candidatesSince(opened.db, new Date(`${reportSince}T00:00:00Z`)),

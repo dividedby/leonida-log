@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Made Up Games Site</title>
+    <link>https://www.keengamer.com</link>
+    <atom:link href="https://www.keengamer.com/feed/" rel="self" type="application/rss+xml" />
+    <description>Synthetic feed for tests</description>
+    <item>
+      <title><![CDATA[Made Up Guide: Mission m2 Walkthrough]]></title>
+      <link>https://www.keengamer.com/articles/guides/gta-6-made-up-guide/?utm_source=rss</link>
+      <pubDate>Fri, 27 Nov 2026 14:00:00 +0000</pubDate>
+      <category><![CDATA[Guides]]></category>
+      <category><![CDATA[Grand Theft Auto VI]]></category>
+      <guid isPermaLink="false">https://www.keengamer.com/?p=1001</guid>
+      <description><![CDATA[<h2>Before you start</h2><p>Mission m2 opens after m1.</p><ul><li>Bring a spare car.</li></ul><h2>The run</h2><p>Drive to the made-up marker &amp; wait.</p>]]></description>
+    </item>
+    <item>
+      <title>Other Game Tips &amp; Tricks</title>
+      <link>https://www.keengamer.com/articles/guides/other-game-tips/</link>
+      <pubDate>Fri, 27 Nov 2026 13:00:00 +0000</pubDate>
+      <category><![CDATA[Guides]]></category>
+      <category><![CDATA[Some Other Game]]></category>
+      <description><![CDATA[<p>Nothing about Leonida here.</p>]]></description>
+    </item>
+    <item>
+      <title><![CDATA[Made Up News: A Trailer Appears]]></title>
+      <link>http://keengamer.com/articles/news/gta-6-made-up-news</link>
+      <pubDate>Fri, 27 Nov 2026 12:00:00 +0000</pubDate>
+      <category><![CDATA[News]]></category>
+      <category><![CDATA[Grand Theft Auto VI]]></category>
+      <description><![CDATA[<p>A made-up trailer appeared today.</p>]]></description>
+    </item>
+    <item>
+      <title><![CDATA[Elsewhere Item]]></title>
+      <link>https://example.com/articles/guides/gta-6-elsewhere/</link>
+      <pubDate>Fri, 27 Nov 2026 11:00:00 +0000</pubDate>
+      <category><![CDATA[Grand Theft Auto VI]]></category>
+      <description><![CDATA[<p>Linked off-site, so it must be ignored.</p>]]></description>
+    </item>
+  </channel>
+</rss>
