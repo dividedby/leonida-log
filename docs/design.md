@@ -97,7 +97,7 @@ This is round 1, option A.
 
 ## Risks
 
-- **Scraping terms:** some guide sites forbid it. Keep the data private, attribute sources, and prefer sites that allow it (open question).
+- **Scraping terms:** some guide sites forbid it (IGN, KeenGamer, Polygon, GameSpot). Keep the data private, attribute sources, and drop a source module if its site objects. [docs/sources.md](sources.md) ranks the sources, records each site's robots.txt and fetch method, and says which ones get a scraper.
 - **Launch-week accuracy:** guides disagree and update daily. Hence the verified flag and source links.
 - **Spoiler leaks** through scraped text or item titles. Mitigated by gating every item and never rendering raw scrapes.
 - **Rockstar IP:** don't use official art or logos. Any public launch would need another look at names and assets.
