@@ -33,7 +33,7 @@
 # (parseCurated rejects it), so the post-credits return point lives here only
 # (open question in docs/design.md).
 #
-# Sunset: the lost list rests on READY evidence. Free roam is closed from Starting
+# Sunset: free roam is closed from Starting
 # From Zero until the Honest Abe cutscene at the end of the closed stretch: it
 # triggers the first time you leave the penthouse after Operation Savage Glory
 # (gtabase, PowerPyx, WarFuel video 6:52). Checking shows $0 greyed out from the

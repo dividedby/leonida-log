@@ -15,7 +15,7 @@
 # (opens after Party Hard, closes at Power Play) and the app derives its row.
 # Collect Felipe's Gift stays an item: its deadline is inherited from Bad
 # Driver! (neither gtabase nor PowerPyx states one for the Gift itself), so it
-# has no READY mission entry; lost_at power-play is the safe bound.
+# stays an item; lost_at power-play is the safe bound.
 
 items:
   - id: finish-before-sunset

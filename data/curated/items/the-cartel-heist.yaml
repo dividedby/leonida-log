@@ -24,7 +24,7 @@
 # claim is an outlier. The item stays unverified.
 # Not listed, on purpose: what happens in The Cartel Heist itself, the crates item
 # (Vice Missions only), the bank-job and Yasmani items, and codes (Beebom prints
-# the garage code; the safe code is unverified).
+# the garage code; no source gives the safe code).
 # The payout: IGN says a full success (no alarm, all $10M, armoured-van exit) pays a $150,000 BuckMe advance and other results pay less in proportion to the take; PowerPyx and Rare Thief's save show $120,000. Not listed: Nicole's fate (no later content depends on it) and the Ark Royal Ashore watch (also a Key Valuable at two Illegal Operations).
 
 items:

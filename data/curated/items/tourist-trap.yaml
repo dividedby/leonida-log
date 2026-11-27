@@ -746,7 +746,7 @@ items:
     verified: false
     evidence:
       basis: best-guess
-      note: "Only IGN describes the pickup (two guests hand over a free pair of expensive sunglasses). PowerPyx doesn't mention it; Vice City Tracker calls them unique but traces to Beebom and TechWiser, unchecked in game. No brand, model or shop-stock evidence, so lost_at is the next main mission (in-mission pickup)."
+      note: "Only IGN describes the pickup (two guests hand over a free pair of expensive sunglasses). PowerPyx doesn't mention it; Vice City Tracker calls them unique but traces to Beebom and TechWiser. No brand, model or shop-stock evidence, so lost_at is the next main mission (in-mission pickup)."
     how_to: At the yacht party, accept the free pair of sunglasses the two guests hand over, then visit a wardrobe to claim them.
     sources:
       - url: https://www.ign.com/wikis/gta-6/Day_Release_Walkthrough

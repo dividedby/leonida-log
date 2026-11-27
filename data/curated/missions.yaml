@@ -356,8 +356,8 @@ missions:
   # sources (The Games Wiki, egamers, gaming.net, pro-gamer.gg, happygamer,
   # gta6story.org, gtadb.io) never count; Reddit is dropped; gtabase, The Click, Game
   # Checklists and gta6heists are PowerPyx/footage copies and are not second sources.
-  # Every entry has an `evidence` block (basis, and a note naming the sources and
-  # the alternative value). A character tag is display-only: no optional window is
+  # Entries added or changed from round 7 on carry an `evidence` block (basis, and
+  # a note naming the sources and any alternative value). A character tag is display-only: no optional window is
   # shortened by a character lock. `note` is app-voice text naming no mission past
   # opens_after except the gate; disagreements go in evidence.note only.
   #
@@ -370,7 +370,7 @@ missions:
   #     Race Against Yago, Collect Felipe's Gift (lost at Power Play, like Bad Driver!),
   #     Hit Avery Pawn and Hit Kingpin Bowling (avery-kingpin-jobs: no cutoff sourced).
   #   - Not researched in round 7: Donnie's Lost Drugs.
-  #   - One source or unclear kind: Capri Cops (gtabase only), Send Money to Lorena and
+  #   - Unclear kind: Send Money to Lorena and
   #     Send More Money to Lorena (PowerPyx: mandatory main; IGN: optional), Save for
   #     the Future (covered by the family-savings-goal item), New Look, How Do I Look?
   #     and Building a Life (Story-tab steps; main-list question for the owner).
@@ -1431,6 +1431,7 @@ missions:
     note: Fourth of Pete's five jobs. It and the previous one can be done in either order.
     evidence:
       basis: best-guess
+      note: "Parts 3 and 4 of Pete's strand can be played in either order (PowerPyx); gta.wiki's list order sets the anchor. Titles from save-garage game text and gta.wiki."
     sources:
       - url: https://github.com/NotHGM/save-garage/blob/main/engine/tasks.py
         title: "save-garage: optional mission records from game saves"
@@ -1491,6 +1492,7 @@ missions:
     note: Noah from the Dodos Rising protest group meets you by the river. It and Sisters of the Sea come first, in either order.
     evidence:
       basis: best-guess
+      note: "IGN and gtabase put the Dodos Rising strand in Chapter 3; PowerPyx says Any Chapter. The later start is kept."
     sources:
       - url: https://www.powerpyx.com/gta-6-bring-out-the-chimp-help-save-the-chimps-walkthrough/
         title: "PowerPyx: Bring Out the Chimp (Help Save the Chimps) walkthrough"
@@ -1526,6 +1528,7 @@ missions:
     note: Played as Lucia, with Jason joining, at the Emerald Springs zoo. Yvonne pays $5,000.
     evidence:
       basis: best-guess
+      note: "Follows Twin Flames (IGN, PowerPyx). IGN and gtabase put the strand in Chapter 3; PowerPyx says Any Chapter. The later start is kept."
     sources:
       - url: https://www.powerpyx.com/gta-6-dodo-rise-meet-with-the-dodos-contact-walkthrough/
         title: "PowerPyx: Dodo, Rise! (Meet with the Dodos Contact) walkthrough"
