@@ -46,6 +46,8 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Changed
 
+- `help-kirk-find-mr-mangrove`: the note now gives the Laird 350 tranquilizer rifle in every ending, the cash as about $6,250 or $10,000 if you press Kirk (Reddit reports reconcile GameWith and PowerPyx), no cash for shooting Kirk or neither, the lock-at-night fix, and a warning that killing Kirk early loses the mission. Its likely in-game title, Advanced Skunk Apeonomics, is recorded in the header comment. GameWith, Reddit, Guslok and the hash database are now among its sources. Its window is unchanged.
+
 - Unfinished Business is settled as not a gate: nothing is lost at it, held money goes when Protective Custody starts, and the post-credits reload returns you just before Protective Custody with side content open. Recorded in the `gates.yaml` comment and `docs/design.md`.
 - Scraping terms are settled: the owner keeps ADR 0007, so terms of use don't exclude a source; robots.txt, polite rate limits and site blocks still apply. `docs/design.md` no longer says scrapers fetch only sources whose terms allow it.
 - Checking Out items: `avery-kingpin-jobs` is split into `avery-pawn-job` and `kingpin-bowling-job`. `avery-pawn-job` is now lost at Afternoon Delight: six-plus first-hand Reddit reports say the Hit Avery Pawn card vanishes partway through Chapter 2, and its how_to says the shop stays robbable as an ordinary robbery. `kingpin-bowling-job` keeps the old window.

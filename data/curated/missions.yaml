@@ -364,7 +364,8 @@ missions:
   # Not entered, on purpose:
   #   - Not missions of their own: Tail the Security Van (first objective of That's
   #     Where the Money Is...), Skunk Apeology 101 (the in-game name of Search for the
-  #     Skunk Ape), Scuba Diving and Treasure Hunting (IGN's name for Search the Dive
+  #     Skunk Ape), Advanced Skunk Apeonomics (likely the in-game name of Help Kirk
+  #     Find Mr. Mangrove), Scuba Diving and Treasure Hunting (IGN's name for Search the Dive
   #     Sites), Kelly County Tip Line (a phone contact).
   #   - Kept as items: Donnie's Drop-Off, Meditate with Lucia (balcony-meditation),
   #     Race Against Yago, Collect Felipe's Gift (lost at Power Play, like Bad Driver!),
@@ -1118,11 +1119,29 @@ missions:
     character: both
     opens_after: whats-in-the-bag
     closes_at: never
-    note: Night-only finale of Kirk's strand. Shooting Mr. Mangrove and siding with Kirk pays $10,000; the other ending is shooting Kirk.
+    note: "Night-only finale of Kirk's strand: Kirk texts a few in-game days after the tree effigies. Every ending gives you the Mister Mangrove Laird 350 tranquilizer rifle. Shoot Mr. Mangrove and Kirk pays about $6,250, or $10,000 if you press him for more; shooting Kirk or neither pays nothing. If the marker shows a lock while you wait for night, drive away and come back. Don't hurt Kirk before the final choice: players who killed him by accident lost the mission for good."
     evidence:
       basis: best-guess
-      note: "PowerPyx's walkthrough and KeenGamer say Lucia only and Chapter 2; PowerPyx's index, gtabase and IGN say Chapter 1, and IGN plays the finale as Jason. The later opening and both characters are kept."
+      note: "Window: PowerPyx's walkthrough and KeenGamer say Chapter 2; GameWith (583812, 589465), PowerPyx's index, gtabase and IGN say Chapter 1. Reddit players finished it in Chapters 3 and 4, none clearly in Chapter 1, so the later opening stays (ADR 0008). Character: Guslok's footage shows Jason; PowerPyx's walkthrough says Lucia only; both kept. Cash: GameWith says $6,250 and PowerPyx and gtabase $10,000; Reddit reports reconcile them (about 6k by default, $10,000 after pressing Kirk). Laird 350 in every ending: GameWith, PowerPyx, and a Reddit player who killed Kirk and still got the gun. In-game title is likely Advanced Skunk Apeonomics (GameWith, PowerPyx header, datamine css_mmghh), kept as a comment like Skunk Apeology 101."
     sources:
+      - url: https://gamewith.jp/gta6/589465
+        title: "GameWith: Help Kirk Find Mr. Mangrove (Japanese)"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/r/GTA6unmoderated/comments/1y2jlc7/
+        title: "Reddit r/GTA6unmoderated: first-hand, pressed Kirk and got $10,000; replies 19t7ff00rkig1 (about 6k) and 19t71hwujgqjp (gun after killing Kirk)"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/r/GTA6unmoderated/comments/1y2dpk9/
+        title: "Reddit r/GTA6unmoderated: first-hand, killing Kirk ends the mission for good (several players)"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/comments/1y29kdp/_/19t5g8btxttcz/
+        title: "Reddit r/GTA6unmoderated: first-hand, finished in Chapter 4 (19t9edy69oe77: Chapter 3); the thread's update covers the lock-at-night fix"
+        accessed: "2026-11-27"
+      - url: https://www.youtube.com/watch?v=ls6rn3tftBk
+        title: "Guslok (YouTube): Kirk's finale played as Jason"
+        accessed: "2026-11-27"
+      - url: https://raw.githubusercontent.com/NotHGM/gta6-hash-database/main/data/save/stat_owners.tsv
+        title: "NotHGM gta6-hash-database: stat owners (css_mmghh, likely Advanced Skunk Apeonomics)"
+        accessed: "2026-11-27"
       - url: https://www.powerpyx.com/gta-6-help-kirk-find-mr-mangrove-walkthrough/
         title: "PowerPyx: Help Kirk Find Mr. Mangrove walkthrough"
         accessed: "2026-11-26"
