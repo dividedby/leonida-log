@@ -8,7 +8,8 @@ export const ROBOTS_TOKEN = "leonidalogbot";
 
 const DEFAULT_INTERVAL_MS = 5000;
 const MAX_CRAWL_DELAY_MS = 60_000;
-const MAX_RETRY_AFTER_MS = 120_000;
+/** A Retry-After longer than this is not waited out: the request gives up instead. */
+const MAX_RETRY_WAIT_MS = 60_000;
 const TIMEOUT_MS = 30_000;
 const MAX_BYTES = 5 * 1024 * 1024;
 const MAX_GUNZIP_BYTES = 64 * 1024 * 1024;
@@ -21,11 +22,11 @@ const MAX_RETRIES = 2;
 const RETRY_BACKOFF_MS = 10_000;
 /**
  * Retries across the whole run, all sources and hosts. Each costs at most its
- * wait plus one request (20 s + 30 s, or 120 s + 30 s with Retry-After), so
- * retries add at most ~8 min (~25 min in the Retry-After worst case) to a run
- * under the scrape unit's 45 min TimeoutStartSec.
+ * wait plus one request (60 s + 30 s), so retries add at most 12 min to a run.
+ * The first server run took ~23 min with none, under the scrape unit's 45 min
+ * TimeoutStartSec.
  */
-const RETRY_BUDGET_PER_RUN = 10;
+const RETRY_BUDGET_PER_RUN = 8;
 
 export type FetchOutcome =
   | "ok"
@@ -76,7 +77,7 @@ export interface PoliteFetchDeps {
   sleep?: (ms: number) => Promise<void>;
   defaultIntervalMs?: number;
   timeoutMs?: number;
-  /** Retries allowed across the run (default 10). */
+  /** Retries allowed across the run (default 8). */
   retryBudget?: number;
   log?: (message: string) => void;
 }
@@ -131,7 +132,7 @@ export function decodeBody(bytes: Uint8Array, headers: Headers): string {
   }
 }
 
-/** Retry-After in ms (seconds or an HTTP date), capped at 120 s; `fallback` when absent or unreadable. */
+/** Retry-After in ms (seconds or an HTTP date); `fallback` when absent or unreadable. */
 function retryAfterMs(headers: Headers, now: number, fallback: number): number {
   const value = headers.get("retry-after");
   if (!value) return fallback;
@@ -139,10 +140,7 @@ function retryAfterMs(headers: Headers, now: number, fallback: number): number {
   const ms = Number.isFinite(seconds)
     ? seconds * 1000
     : Date.parse(value) - now;
-  return Math.min(
-    Math.max(Number.isFinite(ms) ? ms : fallback, 0),
-    MAX_RETRY_AFTER_MS,
-  );
+  return Math.max(Number.isFinite(ms) ? ms : fallback, 0);
 }
 
 /** The body cap was hit: the host answered, so this is never retried. */
@@ -237,7 +235,8 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
 
   /**
    * `request`, retried up to MAX_RETRIES times on a timeout, network error, 429
-   * or 5xx. Each retry waits Retry-After (capped at 120 s) or the backoff, and
+   * or 5xx. Each retry waits Retry-After or the backoff (a Retry-After over 60 s
+   * ends the retries), and
    * `request` still keeps the host interval. Draws on the run's retry budget.
    * Returns the last response, or throws the last error; callers judge only
    * that final outcome.
@@ -264,6 +263,12 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           return out;
         }
         wait = retryAfterMs(out.res.headers, now(), backoff);
+        if (wait > MAX_RETRY_WAIT_MS) {
+          log(
+            `${out.res.status} from ${url.href}: Retry-After ${wait} ms is over ${MAX_RETRY_WAIT_MS} ms, not retrying`,
+          );
+          return out;
+        }
         why = String(out.res.status);
       } catch (error) {
         if (

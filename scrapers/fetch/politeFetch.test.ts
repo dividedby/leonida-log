@@ -179,16 +179,27 @@ describe("blocked and throttled hosts", () => {
     expect(fetcher.stoppedReason("a.test")).toBe("403");
   });
 
-  it("honors Retry-After, capped at 120 seconds, then succeeds", async () => {
+  it("honors Retry-After, then succeeds", async () => {
     const { net, get } = setup({
+      "https://a.test/p": [
+        { status: 429, headers: { "retry-after": "45" } },
+        { body: "fine" },
+      ],
+    });
+    expect((await get("https://a.test/p")).outcome).toBe("ok");
+    expect(net.clock.sleeps).toContain(45_000);
+  });
+
+  it("does not wait out a Retry-After over 60 seconds, and stops the host", async () => {
+    const { net, get, fetcher } = setup({
       "https://a.test/p": [
         { status: 429, headers: { "retry-after": "9999" } },
         { body: "fine" },
       ],
     });
-    const res = await get("https://a.test/p");
-    expect(res.outcome).toBe("ok");
-    expect(net.clock.sleeps).toContain(120_000);
+    expect((await get("https://a.test/p")).outcome).toBe("http-error");
+    expect(net.pageCalls()).toHaveLength(1);
+    expect(fetcher.stoppedReason("a.test")).toBe("429");
   });
 
   it("stops the host when every retry is throttled too", async () => {
