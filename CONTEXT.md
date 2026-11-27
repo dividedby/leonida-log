@@ -19,6 +19,7 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Soon lost:** an item or optional mission whose reward or access ends at its `lost_at_mission` or `closes_at`, a gate or an earlier mission.
 - **Curated:** data in data/curated at its current best-evidence value, committed and reviewed by hand (ADR 0008).
 - **Best evidence:** the value the current sources support best; when they split, the one that can't hurt the player (earliest cutoff, latest visibility). Never labelled in the app.
+- **Structural bound:** a `closes_at` chosen when no source names the closing mission: the latest main mission a timer cannot outlast, or the chapter's gate (ADR 0008). Background only, never labelled.
 - **Verified:** an item's `verified` flag, true when it meets two independent sources, one explicit non-AI source or first-hand video. Background only, never rendered.
 - **Evidence:** optional `evidence` on an item or mission: `basis` (`two-sources`, `explicit-source`, `first-hand`, `best-guess`, `safe-bound`) and an optional `note`. Background only, never rendered.
 - **Candidate:** a scraped fact awaiting review; never shown, raw or otherwise, until it is promoted to curated.

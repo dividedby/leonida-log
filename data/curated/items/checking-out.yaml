@@ -11,19 +11,14 @@
 # Scooter Bros Premium. Rare Thief (own save) and KeenGamer also say kept; Leonida
 # Streets and Gamertag Mythras cite KeenGamer (one origin). PowerPyx has owned cars
 # parked at the new safehouse (mild conflict).
-# Thrillbillies is an optional mission (save CompletionType 3) entered in
-# missions.yaml; Twist Wrist, Smash, Grab stays out until its character and
-# opens_after are sourced. The mission count is an open question (docs/design.md).
+# Thrillbillies and Twist Wrist, Smash, Grab are optional missions (save CompletionType 3) entered in missions.yaml. The mission count is an open question (docs/design.md).
 # Motel magazine: the cover reads Children of Wizard Wang on screen (Cavaliers
 # Gaming footage, round 5 cross-check); PowerPyx and Game Checklists shorten it to
 # Wizard Wang, which is likely the collectible-list label.
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
-# Veteran Hunted, Thrillbillies, Check Out McKittrick Farm, Collect Chemicals for
-# Kyle, Steal Vehicles for Moses and the Circles of Hell encounter are no longer
-# items: they are optional missions in missions.yaml that stay open after the
-# story, so they show under "safe to leave". moses-car-sales (open-ended sales)
-# stays an item.
+# Veteran Hunted, Thrillbillies, Twist Wrist, Smash, Grab, Check Out McKittrick Farm, Collect Chemicals for Kyle, Steal Vehicles for Moses, Collect Moses' Gift and the Circles of Hell encounter are no longer items: they are optional missions that stay open after the story, so they show under 'safe to leave'. moses-car-sales (open-ended sales) and avery-kingpin-jobs (no cutoff sourced for either job) stay items.
+# Pickups inside a mission are lost_at the next main mission: andys-jacket (Home Sweet Home). motel-rent is a price rise at Slam Dunk, not a loss.
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
 
@@ -36,8 +31,8 @@ items:
     verified: true
     evidence:
       basis: safe-bound
-      note: "IGN says the $15,000 isn't necessary and only makes the mission unlock sooner; the stricter reading is kept."
-    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and Checking Out won't start until you have it and have finished every other main mission (PowerPyx, gtabase, gta6bugs). Bank it in your BuckMe checking account: guides say it has to be banked rather than carried, and pocket cash is lost if you die or get arrested. No source says the money is spent."
+      note: "IGN says the $15,000 isn't necessary and only makes the mission unlock sooner; the stricter reading is kept. No source says the money is spent."
+    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and Checking Out won't start until you have it and have finished every other main mission (PowerPyx, gtabase, gta6bugs). Bank it in your BuckMe checking account: guides say it has to be banked rather than carried, and pocket cash is lost if you die or get arrested."
     location: The BuckMe app.
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
@@ -154,7 +149,10 @@ items:
     visible_after_mission: ambulance-chaser
     lost_at_mission: checking-out
     verified: false
-    how_to: "While the Starlet Motel is your base in Chapter 2, its pool area has a weight bench, kettlebells and a squat rack you can use for free to train Strength, so you don't need a gym membership yet. Either character can use them. One tested guide says nothing is locked out there after the gate, so treat this as a convenience, not a must-do."
+    evidence:
+      basis: best-guess
+      note: "No source says the weights can be used after Checking Out. MapGenie's gym markers leave out the motel and no Chapter 3 footage shows the pool. One guide says nothing is locked out there; lost_at checking-out is kept as the earliest plausible end."
+    how_to: "While the Starlet Motel is your base in Chapter 2, its pool area has a weight bench, kettlebells and a squat rack you can use for free to train Strength, so you don't need a gym membership yet. Either character can use them. Treat it as a convenience, not a must-do."
     location: Starlet Motel, by the pool fence and loungers.
     sources:
       - url: https://www.youtube.com/watch?v=TuuspTxxL0w
@@ -193,7 +191,10 @@ items:
     before_gate: checking-out
     visible_after_mission: daily-driver
     verified: true
-    how_to: "Steal cars with no tracker and sell them to Moses. Pay varies a lot with the car: the scan card shows the sell value, such as $1,150 for an Imponte '77 Phoenix and $7,645 for a Vapid Firebug Dominator (GazzaMontana's footage), while typical early cars are worth only around $400 (HarmNone) and GTABoom gives $1,000 to $3,000. PowerPyx puts the cooldown between sales at about two minutes; other reports differ. Take them from the main road in Port Gellhorn rather than near his garage. It's slow for big money but fine for reaching $15,000."
+    evidence:
+      basis: best-guess
+      note: "PowerPyx and gtabase say the cooldown between sales is about 1-2 minutes, GazzaMontana says a few seconds and HarmNone about 5 minutes; nobody timed it or said whether it is real or in-game time."
+    how_to: "Steal cars with no tracker and sell them to Moses. Pay varies a lot with the car: the scan card shows the sell value, such as $1,150 for an Imponte '77 Phoenix and $7,645 for a Vapid Firebug Dominator (GazzaMontana's footage), while typical early cars are worth only around $400 (HarmNone) and GTABoom gives $1,000 to $3,000. Expect a cooldown of a minute or two between sales. Take them from the main road in Port Gellhorn rather than near his garage. It's slow for big money but fine for reaching $15,000."
     location: Moses' auto shop, Port Gellhorn.
     sources:
       - url: https://www.powerpyx.com/?p=370489
@@ -307,7 +308,10 @@ items:
     before_gate: checking-out
     visible_after_mission: coffee-break
     verified: false
-    how_to: "Both are robberies rather than stranger jobs, offered around Coffee Break, and Eurogamer says they pay plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown. No source gives cash amounts."
+    evidence:
+      basis: best-guess
+      note: "Neither job is lost at Checking Out: GameStar and PowerPyx's blanket rule say Avery Pawn can be done later, and PowerPyx, Game8 JP and GameWith say the Kingpin alley returns in Chapter 3. No source affirms either job after the story, so no lost_at is set. Hit Avery Pawn and Hit Kingpin Bowling stay one item (no duplicate mission rows). No source gives cash amounts."
+    how_to: "Both are robberies rather than stranger jobs, offered around Coffee Break, and Eurogamer says they pay plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown."
     location: Avery Pawn Shop and Kingpin Bowling Alley.
     sources:
       - url: https://www.eurogamer.net/gta-6-money-making-methods
@@ -331,6 +335,9 @@ items:
       - url: https://www.powerpyx.com/gta-6-hit-kingpin-bowling-walkthrough/
         title: "PowerPyx: Hit Kingpin Bowling walkthrough"
         accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/844704
+        title: "Game8 JP: Kingpin Bowling guide"
+        accessed: "2026-11-26"
 
   - id: dominator-buggy
     title: Pick up the '67 Dominator Buggy (Ultimate Edition)
@@ -349,4 +356,74 @@ items:
         accessed: "2026-11-25"
       - url: https://www.ign.com/wikis/gta-6/Wyman%27s_Cars_(Ultimate_Edition_Exclusive)
         title: "IGN: Wyman's Cars (Ultimate Edition exclusive)"
+        accessed: "2026-11-26"
+
+  - id: motel-rent
+    title: See Linda first and pay the rent early
+    category: Money
+    before_gate: checking-out
+    visible_after_mission: whats-in-the-bag
+    lost_at_mission: slam-dunk
+    verified: true
+    evidence:
+      basis: best-guess
+      note: "IGN's Behind on Payments page and GTABoom's first-hand run give $900 before the grocery run and $1,080 after; All Things How's in-game captures and gtabase's own run give $1,500 after the late fee. The trigger is not pinned (Linda 'eventually' texts; tying it to Slam Dunk is inference) and the amount when the escape ambulance was left is unknown. A '10%' claim traces to an AI-narrated short and an uncited wiki edit. lost_at slam-dunk marks a price rise, not a true loss."
+    how_to: "When you settle in at the motel, go to the front desk before you do the grocery run: the rent is $900 that way and $1,080 if you shop first. Pay in cash (the lobby has an ATM) as soon as you can. If it goes unpaid Linda adds a late fee and the bill rises to $1,500, so paying early saves $600."
+    location: Starlet Motel reception.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Behind_on_Payments_Walkthrough
+        title: "IGN: Behind on Payments walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtaboom.com/gta-6-behind-on-payments-walkthrough-a39c
+        title: "GTABoom: Behind on Payments walkthrough"
+        accessed: "2026-11-26"
+      - url: https://allthings.how/gta-6-see-linda-starlet-motel-rent/
+        title: "All Things How: Linda's Starlet Motel rent (in-game screenshots)"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/behind-on-payments
+        title: "gtabase: Behind on Payments mission"
+        accessed: "2026-11-26"
+
+  - id: andys-jacket
+    title: Call Andy for a ride
+    category: Collectibles
+    before_gate: checking-out
+    visible_after_mission: home-sweet-home
+    lost_at_mission: discharge-time
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN and Beebom agree. Game Checklists' player reports (two) say skipping Andy's earlier offer doesn't lose the jacket. lost_at is the next main mission because the unlock is inside Home Sweet Home. No source names the jacket's in-game item or says whether a shop sells it."
+    how_to: Once Lucia is out of the house, call Andy and reach her car without being spotted. That unlocks Andy's jacket for Lucia, and it's your only chance.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: All Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://beebom.com/gta-6-chapter-1-missable-items-activities/
+        title: "Beebom: GTA 6 Chapter 1 missable items and activities"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/home-sweet-home
+        title: "gtabase: Home Sweet Home mission"
+        accessed: "2026-11-26"
+  - id: mud-club-vendors
+    title: Use the Mud Club vendors and merch stand
+    category: Money
+    before_gate: checking-out
+    visible_after_mission: afternoon-delight
+    lost_at_mission: checking-out
+    verified: false
+    evidence:
+      basis: best-guess
+      note: "Game Checklists relays player reports (given as player claims) that the Mud Club BBQ tent, merch stand and yard-sale Genuine Cowboy Hat ($35) stop after Chapter 2; PowerPyx lists the stalls with no chapter limit; Beebom and Output Lag say Billy's questline carries on. Sirloin's run shows no return after Checking Out. The earliest plausible end is kept."
+    how_to: Buy anything you want from the Mud Club's BBQ tent, merch stand and yard sale, including the $35 Genuine Cowboy Hat, before you leave the motel for good.
+    location: The Mud Club, Kelly County.
+    sources:
+      - url: https://game-checklists.com/gta6/guides/missables/
+        title: "Game Checklists: GTA 6 missables"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-street-food-vendors-locations/
+        title: "PowerPyx: all street food vendors locations"
+        accessed: "2026-11-26"
+      - url: https://beebom.com/gta-6-chapter-2-missables-items/
+        title: "Beebom: GTA 6 Chapter 2 missable items"
         accessed: "2026-11-26"

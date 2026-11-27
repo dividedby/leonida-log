@@ -9,13 +9,13 @@
 # checking freeze, the temporary loss of weapons, equipment and outfits, and Suite
 # 701 as home are on the gate's lost list (gates.yaml); nothing here names a
 # mission after Sunset.
-# visible_after_mission for finish-before-sunset and sunset-manual-save has no
-# source; both use ocean-beach, the first Chapter 4 mission.
+# Headliners brass knuckles: not missable, sold at Ammu-Nation for $95 (MetaForge weapons database) whichever way the Bush bump goes. The Making Gainz steroid choice only changes Lucia's look while her Fitness is 5 or higher (IGN, PowerPyx); no data field holds it (a main mission can't carry a note).
+# visible_after_mission for finish-before-sunset and sunset-manual-save is ocean-beach: IGN's Ocean Beach walkthrough says the Hang Out free roam after The Cartel Heist leads into Ocean Beach, and gtabase puts Ocean Beach next.
 # Bad Driver! is no longer an item: it is an optional mission in missions.yaml
 # (opens after Party Hard, closes at Power Play) and the app derives its row.
 # Collect Felipe's Gift stays an item: its deadline is inherited from Bad
-# Driver! (neither gtabase nor PowerPyx states one for the Gift itself), so it
-# has no READY mission entry; lost_at power-play is the safe bound.
+# Driver! (neither gtabase nor PowerPyx states one for the Gift itself);
+# lost_at power-play is the safe bound.
 
 items:
   - id: finish-before-sunset
@@ -33,6 +33,12 @@ items:
         accessed: "2026-11-26"
       - url: https://www.gtabase.com/gta-6/missions/sunset
         title: "gtabase: Sunset mission"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Ocean_Beach_Walkthrough
+        title: "IGN: Ocean Beach walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/ocean-beach
+        title: "gtabase: Ocean Beach mission"
         accessed: "2026-11-26"
 
   - id: sunset-manual-save
@@ -55,6 +61,12 @@ items:
         accessed: "2026-11-26"
       - url: https://www.gtaboom.com/gta-6-has-a-new-save-system-and-will-not-let-you-replay-story-missions-fa48
         title: "GTABoom: new save system, no mission replay"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Ocean_Beach_Walkthrough
+        title: "IGN: Ocean Beach walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/ocean-beach
+        title: "gtabase: Ocean Beach mission"
         accessed: "2026-11-26"
 
   - id: collect-felipes-gift
@@ -90,4 +102,52 @@ items:
         accessed: "2026-11-26"
       - url: https://gamerant.com/gta-6-shoot-or-spare-felipe-choices-rewards-bad-driver/
         title: "Game Rant: shoot or spare Felipe in Bad Driver!"
+        accessed: "2026-11-26"
+
+  - id: relationship-before-sunset
+    title: Get your relationship to level 3 before Sunset
+    category: Romance
+    before_gate: sunset
+    visible_after_mission: ocean-beach
+    lost_at_mission: sunset
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN's and PowerPyx's Starting From Zero pages give the staying-together talk right after Sunset and its branches. Level 2's name is split (Partners in Crime in IGN, VGC, Polygon, GamesRadar and Eurogamer; Not So Hot elsewhere), so the text gives numbers only. MetaForge says relationship and savings decide the ending; PowerPyx says only the final choice does (out of scope)."
+    how_to: Right after Sunset, Jason and Lucia talk about whether to stay together. At level 3 or 4 of 4 the breakup option never comes up; at level 2 you can refuse it, and at level 1 Lucia raises it and a timeout agrees. A breakup is permanent, so reach level 3 first by answering her calls, spending time together and never leaving her behind.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Starting_From_Zero_Walkthrough
+        title: "IGN: Starting From Zero walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-starting-from-zero-walkthrough/
+        title: "PowerPyx: Starting From Zero walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.videogameschronicle.com/guide/gta-6-jason-lucia-relationship-levels-explained-how-to-improve-jason-and-lucias-relationship/
+        title: "VGC: Jason and Lucia relationship levels explained"
+        accessed: "2026-11-26"
+
+  - id: ultimate-edition-squalo
+    title: Claim the Ultimate Edition Shitzu Squalo boat
+    category: Vehicles
+    before_gate: sunset
+    visible_after_mission: ocean-beach
+    lost_at_mission: sunset
+    verified: false
+    evidence:
+      basis: safe-bound
+      note: "PowerPyx says it is only available during Chapter 4 (copied by Tech4Gamers, egamers, Consolyte and gtabase); GameSpot, GamesRadar+, VGC, Red Bull and Game8 EN give no expiry, and no source names a closing mission, so the chapter gate is used. Location and opening are settled."
+    how_to: If you own the Ultimate Edition, claim the Shitzu Squalo from the canal dock just left of the Y Hotel on Washington Beach during this chapter, before the gate.
+    location: Washington Beach canal, just left of the Y Hotel.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Chapter_4_Walkthrough_and_Guide
+        title: "IGN: Chapter 4 walkthrough and guide"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-how-to-get-ultimate-edition-rewards/
+        title: "PowerPyx: how to get the Ultimate Edition rewards"
+        accessed: "2026-11-26"
+      - url: https://www.gamespot.com/articles/how-to-get-a-boat-in-gta-6/
+        title: "GameSpot: how to get a boat in GTA 6"
+        accessed: "2026-11-26"
+      - url: https://game8.co/games/GTA-6/archives/638292
+        title: "Game8: Ultimate Edition bonuses"
         accessed: "2026-11-26"

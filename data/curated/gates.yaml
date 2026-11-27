@@ -13,17 +13,27 @@
 # missions that close at or before a gate are not listed here: they live in
 # missions.yaml and the app derives their rows.
 #
-# Verification rule (items carry the verified flag; the same bar applies here):
-# a single source that is AI-drafted or AI-assisted (The Games Wiki says so in
-# its footer; gaming.net too) never counts as one explicit source. Lost-lists
-# resting only on such a source are provisional.
+# Evidence (ADR 0008): every lost entry carries the current best-evidence value.
+# Gates have no verified flag. A lost list resting on a single source is still
+# shipped; its confidence is background and never rendered.
 #
 # Not a gate here, on purpose: Unfinished Business (Ch5). Signing Abe's deal
 # loses checking and pocket cash, while Family Savings is protected and returned
 # later (Output Lag, PowerPyx, both read). Whether it becomes a gate is still
 # pending the owner; it is not a recap mission, see docs/design.md. It doesn't go into item text.
 #
-# Sunset: the lost list rests on READY evidence. Free roam is closed from Starting
+# Post-story: the Starlet Motel, the Bayside apartment and Y Hotel Suite 701 stay lost
+# after the credits; the only post-story home is the Pegassi Towers penthouse
+# (Sirloin -YRgIHb7QOo, PERSONAL map legend at 35:05:12; a gtabase reader comment agrees).
+# After the credits the game returns the player to free roam outside Abe's office,
+# just before Protective Custody, with the meeting postponed (ItsCorey v-A4sXv54oo at
+# 23:08, Game8, PowerPyx). Signing Abe's deal loses the BuckMe checking balance and
+# pocket cash; Family Savings is kept (Output Lag, PowerPyx).
+# Not a curated entry: an item's visible_after_mission can't sit after the last gate
+# (parseCurated rejects it), so the post-credits return point lives here only
+# (open question in docs/design.md).
+#
+# Sunset: free roam is closed from Starting
 # From Zero until the Honest Abe cutscene at the end of the closed stretch: it
 # triggers the first time you leave the penthouse after Operation Savage Glory
 # (gtabase, PowerPyx, WarFuel video 6:52). Checking shows $0 greyed out from the
@@ -40,6 +50,11 @@
 # stretch (one reporter); gtasixvicecity maps the point of no return to the mission
 # after Sunset.
 #
+# Not lost at Tourist Trap: Key Lento shops (Rusty Anchor, The Siren's Chest, Chuck's). The area
+# is hostile for part of Chapter 2, then reachable again (IGN, VGC); IGN's 100% guide
+# still counts The Siren's Chest among the Smash 'n' Grabs. The Rusty Anchor merch
+# stays in stock; only the Ring the Bell! offer ends.
+#
 # Tourist Trap: free roam returns after Recalibration; Chapter 1 free roam ends only when you approach Lucia, which starts Tourist Trap (IGN's Recalibration and Tourist Trap walkthroughs, gtabase, Leonipedia, VGC). PowerPyx's "last chance" sentence is templated on both pages and its own body contradicts it. Items use the gate itself as the line.
 # The Cartel Heist: Beebom, gta.wiki (a fan MediaWiki with revision history) and
 # gta6heists all say the Chapter 3 home is lost once it is done. Metaforge and
@@ -55,7 +70,7 @@ gates:
       - Cash in your pockets
       - Your BuckMe checking balance
       - Jason's original house, and the cash stashed under its floor
-      - All of Jason's personal vehicles, Ultimate Edition ones included
+      - All of Jason's vehicles at the house, his boat and the Ultimate Edition ones included
       - Free roam as Jason, for several hours
       - Brian's drug drop-off at his lockup, the last Chapter 1 fence
     sources:
@@ -100,6 +115,18 @@ gates:
         accessed: "2026-11-26"
       - url: https://www.ign.com/wikis/gta-6/Recalibration_Walkthrough
         title: "IGN: Recalibration walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/How_to_Keep_Stolen_Cars
+        title: "IGN: how to keep stolen cars"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Home_Sweet_Home_Walkthrough
+        title: "IGN: Home Sweet Home walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/catch-a-bigger-fish
+        title: "gtabase: Catch a Bigger Fish mission"
+        accessed: "2026-11-26"
+      - url: https://outputlag.com/guides/gta-6-missables/
+        title: "Output Lag: GTA 6 missables"
         accessed: "2026-11-26"
   - mission: checking-out
     lost:
