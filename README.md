@@ -17,6 +17,7 @@ Status: v1 in development. App skeleton in place; features land per [docs/plans/
 - [docs/design.md](docs/design.md): goals, screens, data model, architecture
 - [docs/branding.md](docs/branding.md): name, logo, palette, type, voice
 - [docs/plans/v1.md](docs/plans/v1.md): v1 delivery plan, one PR per step
+- [docs/sources.md](docs/sources.md): source ranking, copy chains and which sites get a scraper
 - [docs/adr/](docs/adr/): decisions
 - [CONTEXT.md](CONTEXT.md): glossary
 - [Design reference](https://claude.ai/artifact/FL8isDnFAyobGqPrkFeb9W): the visual source of truth
