@@ -762,8 +762,14 @@ missions:
     character: jason
     opens_after: afternoon-delight
     closes_at: never
-    note: Billy's first job at the Mud Club. It's optional, but the game counts it toward Story Completion as well as optional tasks. Pays up to $2,500 depending on where you place. It stays available after the story.
+    note: Billy's first job at the Mud Club. It's optional, but the game counts it toward Story Completion as well as optional tasks. Pays up to $2,500 depending on where you place. It stays available after the story. If you skip it, it can drop off the map early in Chapter 3; keep playing the story and it comes back.
     sources:
+      - url: https://www.reddit.com/r/GTA6unmoderated/comments/1y674th/
+        title: "Reddit r/GTA6unmoderated: first-hand, the missed mission reappeared after more story progress"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/r/GTA6/comments/1y169y1/
+        title: "Reddit r/GTA6 Chapter 2 Help Thread: first-hand, comment 19t0snqg99jc0, it unlocks again further on"
+        accessed: "2026-11-27"
       - url: https://github.com/NotHGM/save-garage/blob/main/engine/tasks.py
         title: "save-garage: ScriptGameCompletion types from game-written saves"
         accessed: "2026-11-26"
