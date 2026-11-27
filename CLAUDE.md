@@ -4,7 +4,7 @@ Leonida Log: phone-first, spoiler-gated GTA 6 guide at gta.dvdby.cc. Read CONTEX
 
 ## Commands
 
-Node 24 (CI).
+Node 26 (CI and the production image).
 
 - `pnpm dev`: run the app locally
 - `pnpm build`: production build

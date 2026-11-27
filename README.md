@@ -24,7 +24,7 @@ Status: v1 in development. App skeleton in place; features land per [docs/plans/
 
 ## Development
 
-Node 24 and pnpm.
+Node 26 and pnpm.
 
 ```sh
 pnpm install

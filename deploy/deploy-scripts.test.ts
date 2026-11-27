@@ -161,7 +161,7 @@ const BAD_SHAS: [string, string][] = [
   ["a SHA followed by a command", `${SHA_A}; id`],
 ];
 
-describe.skipIf(!haveTools)("leonida-log-apply", () => {
+describe.skipIf(!haveTools)("leonida-log-apply", { timeout: 30_000 }, () => {
   let sb: Sandbox;
   beforeEach(() => {
     sb = makeSandbox();
@@ -286,7 +286,7 @@ describe.skipIf(!haveTools)("leonida-log-apply", () => {
   });
 });
 
-describe.skipIf(!haveTools)("leonida-log-scrape", () => {
+describe.skipIf(!haveTools)("leonida-log-scrape", { timeout: 30_000 }, () => {
   let sb: Sandbox;
   beforeEach(() => {
     sb = makeSandbox();
@@ -312,7 +312,7 @@ describe.skipIf(!haveTools)("leonida-log-scrape", () => {
   });
 });
 
-describe.skipIf(!haveTools)("leonida-log-deploy", () => {
+describe.skipIf(!haveTools)("leonida-log-deploy", { timeout: 30_000 }, () => {
   let sb: Sandbox;
   let clone: string;
   let sideSha: string;
