@@ -1,0 +1,68 @@
+# Leonida Log on the VPS (ADR 0005). Not for local development: use `pnpm dev`.
+#
+# The host runs a root-owned copy at /etc/leonida-log/compose.yaml (deploy/install-host.sh installs it), so a
+# merge to main cannot change what the container may mount or run as. Per deploy only IMAGE_TAG changes,
+# set by deploy/leonida-log-apply.sh. The rest comes from /etc/leonida-log/compose.env: LEONIDA_UID and
+# LEONIDA_GID (the service user's ids), LEONIDA_PORT (default 5100) and optionally SCRAPERS_DISABLED.
+#
+# One image, three commands: `app` (default), `migrate` and `scraper` (both profile `tools`, started with
+# `docker compose run --rm`). All three share the /data bind mount, which holds the SQLite file (ADR 0004).
+name: leonida-log
+
+x-service: &service
+  image: ghcr.io/dividedby/leonida-log:${IMAGE_TAG:?IMAGE_TAG must be a commit sha}
+  user: "${LEONIDA_UID:?LEONIDA_UID is not set}:${LEONIDA_GID:?LEONIDA_GID is not set}"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs:
+    - /tmp
+    - /app/.next/cache
+  volumes:
+    - /var/lib/leonida-log:/data
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  app:
+    <<: *service
+    restart: unless-stopped
+    # Loopback only: the Cloudflare tunnel on the host is the way in.
+    ports:
+      - "127.0.0.1:${LEONIDA_PORT:-5100}:3000"
+    environment:
+      DATABASE_PATH: /data/leonida.db
+    mem_limit: 384m
+    cpus: 1.0
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000/api/health').then((r) => process.exit(r.ok ? 0 : 1), () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  migrate:
+    <<: *service
+    profiles: [tools]
+    command: ["node", "scripts/migrate.mjs"]
+    environment:
+      DATABASE_PATH: /data/leonida.db
+
+  scraper:
+    <<: *service
+    profiles: [tools]
+    command: ["node", "node_modules/tsx/dist/cli.mjs", "scrapers/cli.ts"]
+    environment:
+      DATABASE_PATH: /data/leonida.db
+      SCRAPE_REPORT_DIR: /data/reports
+      SCRAPERS_DISABLED: ${SCRAPERS_DISABLED:-}
+    mem_limit: 256m

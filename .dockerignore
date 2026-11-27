@@ -1,0 +1,17 @@
+.git
+.github
+.claude
+**/node_modules
+.next
+coverage
+**/.env*
+**/*.db
+**/*.db-*
+data/scraped
+research_notes
+reports
+docs
+**/*.test.ts
+**/test-helpers.ts
+**/__fixtures__
+lib/test-fixtures

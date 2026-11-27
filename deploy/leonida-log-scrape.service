@@ -1,0 +1,16 @@
+# Weekly scrape for Leonida Log (ADR 0007): runs /usr/local/sbin/leonida-log-scrape once, which starts the scraper
+# container from the deployed image. leonida-log-scrape.timer starts it. A non-zero exit (including 2, a source
+# listing that could not be read) fails the unit, and OnFailure= sends one alert to Discord #attention through the
+# infra repo's host-alert@ template. Installed as it is by deploy/install-host.sh; nothing in it is per-host.
+[Unit]
+Description=Leonida Log weekly scrape
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+OnFailure=host-alert@attention:%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/leonida-log-scrape
+TimeoutStartSec=45min
+Nice=10
