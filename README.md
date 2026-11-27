@@ -17,6 +17,7 @@ Status: v1 in development. App skeleton in place; features land per [docs/plans/
 - [docs/design.md](docs/design.md): goals, screens, data model, architecture
 - [docs/branding.md](docs/branding.md): name, logo, palette, type, voice
 - [docs/plans/v1.md](docs/plans/v1.md): v1 delivery plan, one PR per step
+- [docs/sources.md](docs/sources.md): source ranking, copy chains and which sites get a scraper
 - [docs/adr/](docs/adr/): decisions
 - [CONTEXT.md](CONTEXT.md): glossary
 - [Design reference](https://claude.ai/artifact/FL8isDnFAyobGqPrkFeb9W): the visual source of truth
@@ -48,7 +49,7 @@ The database is one SQLite file at `DATABASE_PATH`. Migrations never run at app 
 
 ## Data
 
-Curated, verified data lives in `data/curated/` and is committed: `missions.yaml` (chapters, the 91 main missions in story order, and optional missions with when they open and close), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
+Curated data at its current best-evidence value (ADR 0008) lives in `data/curated/` and is committed: `missions.yaml` (chapters, the 91 main missions in story order, and optional missions with when they open and close), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
 
 ## Not affiliated
 

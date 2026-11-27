@@ -33,6 +33,24 @@ const sourceSchema = z.strictObject({
   accessed: z.iso.date(),
 });
 
+/**
+ * Why an entry carries the value it does (ADR 0008). Background for research
+ * only: parseCurated drops it, and `verified`, so the app can never render
+ * a confidence label.
+ */
+export const EVIDENCE_BASES = [
+  "two-sources",
+  "explicit-source",
+  "first-hand",
+  "best-guess",
+  "safe-bound",
+] as const;
+
+const evidenceSchema = z.strictObject({
+  basis: z.enum(EVIDENCE_BASES),
+  note: text.optional(),
+});
+
 const itemSchema = z.strictObject({
   id: slug,
   title: text,
@@ -41,10 +59,13 @@ const itemSchema = z.strictObject({
   visible_after_mission: slug,
   lost_at_mission: slug.optional(),
   verified: z.boolean(),
+  evidence: evidenceSchema.optional(),
   how_to: text,
   location: text.optional(),
   sources: z.array(sourceSchema).min(1),
 });
+
+type RawItem = z.infer<typeof itemSchema>;
 
 const itemsFileSchema = z.strictObject({ items: z.array(itemSchema) });
 
@@ -84,6 +105,7 @@ const missionSchema = z
     closes_at: slug.optional(),
     sources: z.array(sourceSchema).min(1).optional(),
     note: text.optional(),
+    evidence: evidenceSchema.optional(),
   })
   .superRefine((m, ctx) => {
     const fields = m.kind === "main" ? OPTIONAL_ONLY_FIELDS : [];
@@ -125,7 +147,9 @@ const gatesFileSchema = z.strictObject({
 });
 
 export type Source = z.infer<typeof sourceSchema>;
-export type Item = z.infer<typeof itemSchema>;
+export type EvidenceBasis = (typeof EVIDENCE_BASES)[number];
+/** An item as the app sees it: research background (`verified`, `evidence`) removed. */
+export type Item = Omit<RawItem, "verified" | "evidence">;
 export type Category = (typeof CATEGORIES)[number];
 export type MissionKind = (typeof MISSION_KINDS)[number];
 export type Character = (typeof CHARACTERS)[number];
@@ -216,6 +240,14 @@ function schemaIssues(file: string, error: z.ZodError): string[] {
   });
 }
 
+/** Drops the research background the app must never render (ADR 0008). */
+function withoutBackground(item: RawItem): Item {
+  const out: Partial<RawItem> = { ...item };
+  delete out.verified;
+  delete out.evidence;
+  return out as Item;
+}
+
 function duplicates(values: string[]): string[] {
   return [...new Set(values.filter((v, i) => values.indexOf(v) !== i))];
 }
@@ -235,7 +267,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   if (!gatesFile.success) {
     issues.push(...schemaIssues("gates.yaml", gatesFile.error));
   }
-  const itemFiles: [string, Item[]][] = [];
+  const itemFiles: [string, RawItem[]][] = [];
   for (const [name, content] of Object.entries(raw.itemFiles).sort(([a], [b]) =>
     a.localeCompare(b),
   )) {
@@ -253,7 +285,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   const missions = allMissions.filter((m) => m.kind === "main");
   const optionals = allMissions.filter((m) => m.kind !== "main");
   const gates = gatesFile.data.gates;
-  const items = itemFiles.flatMap(([, list]) => list);
+  const items = itemFiles.flatMap(([, list]) => list.map(withoutBackground));
 
   const chapterIndex = new Map(chapters.map((c, i) => [c.slug, i]));
   const missionOrder = new Map(missions.map((m, i) => [m.slug, i + 1]));
