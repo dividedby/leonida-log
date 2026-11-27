@@ -14,8 +14,8 @@
 # Bad Driver! is no longer an item: it is an optional mission in missions.yaml
 # (opens after Party Hard, closes at Power Play) and the app derives its row.
 # Collect Felipe's Gift stays an item: its deadline is inherited from Bad
-# Driver! (neither gtabase nor PowerPyx states one for the Gift itself), so it
-# stays an item; lost_at power-play is the safe bound.
+# Driver! (neither gtabase nor PowerPyx states one for the Gift itself);
+# lost_at power-play is the safe bound.
 
 items:
   - id: finish-before-sunset
