@@ -77,7 +77,7 @@ This is round 1, option A.
 - `item_checks`: checked item ids with `checked_at`.
 - `stat_levels`: level 0-4 per character × stat (Strength, Cardio, Focus).
 - `workouts`: character, stat, at. Any of the three stats can be logged; only Strength and Cardio slip (ADR 0006).
-- `sources` (url, title, host, fetched_at) and `candidates` (source, gate and category hints, `raw_extract`, status `new`/`promoted`/`rejected`): scraper-owned, server only, `raw_extract` is never rendered. The repository doesn't expose them yet.
+- `sources` (scraper module id, url, title, host, HTTP validators, remote and content hashes, check and change times, the latest normalized `extract`) and `candidates` (source, gate, category and mission hints, `change_kind` `new`/`modified`, `diff_summary`, `raw_extract`, status `new`/`promoted`/`rejected`): scraper-owned, server only, `extract` and `raw_extract` are never rendered. The repository doesn't expose them yet. How the scrapers fill them: [scrapers/README.md](../scrapers/README.md).
 - Romance and criminal profile get their own tables once research shows what's trackable.
 
 ## Data sources and refresh
