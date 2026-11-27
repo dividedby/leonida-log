@@ -402,9 +402,12 @@ describe("fallback after a mid-run host stop", () => {
       });
 
       expect(stats).toMatchObject(expected);
-      // The stopped host is never asked again.
+      // The stopped host is never asked for the pages left pending.
+      const pending = [1, 2, 3, 4, 5]
+        .filter((n) => !(n in live))
+        .map((n) => G(n));
       expect(
-        net.pageCalls().filter((c) => c.url === G(4) || c.url === G(5)),
+        net.pageCalls().filter((c) => pending.includes(c.url)),
       ).toHaveLength(0);
       expect(net.pageCalls().map((c) => c.url)).toContain(
         raw("20261124100000", G(4)),
