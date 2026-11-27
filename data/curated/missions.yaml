@@ -396,7 +396,10 @@ missions:
     character: jason
     opens_after: get-shirleys-rum
     closes_at: tourist-trap
-    note: No reward is confirmed (PowerPyx, Push Square). It doesn't affect trophies or 100%.
+    note: Finish it and Shirley lets you use her car whenever you like. It doesn't affect trophies or 100%.
+    evidence:
+      basis: two-sources
+      note: gta.wiki, HoldToReset and GameWith say finishing it lets Jason use Shirley's car; none names the model. PowerPyx and Push Square list no cash reward but don't rule the car out.
     sources:
       - url: https://www.gtabase.com/gta-6/missions/steal-the-scooter
         title: "gtabase: Steal the Scooter mission"
@@ -410,6 +413,12 @@ missions:
       - url: https://www.pushsquare.com/guides/gta-6-steal-the-scooter-walkthrough
         title: "Push Square: Steal the Scooter walkthrough"
         accessed: "2026-11-26"
+      - url: https://holdtoreset.com/gta-6-steal-the-scooter-guide/
+        title: "HoldToReset: Steal the Scooter guide"
+        accessed: "2026-11-27"
+      - url: https://gamewith.jp/gta6/588323
+        title: "GameWith: Steal the Scooter (JP)"
+        accessed: "2026-11-27"
   - slug: ring-the-bell
     title: Ring the Bell!
     chapter: just-like-paradise
