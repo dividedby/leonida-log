@@ -59,6 +59,10 @@ describe("constraints reject bad rows", () => {
       "candidates_status_values",
       "insert into sources (id, url, host, fetched_at) values (1, 'https://a.test/x', 'a.test', 0); insert into candidates (source_id, raw_extract, status, created_at) values (1, 'x', 'maybe', 0)",
     ],
+    [
+      "candidates_change_kind_values",
+      "insert into sources (id, url, host, fetched_at) values (1, 'https://a.test/x', 'a.test', 0); insert into candidates (source_id, raw_extract, change_kind, created_at) values (1, 'x', 'deleted', 0)",
+    ],
   ])("%s", (constraint, sql) => {
     const { sqlite } = open();
     expect(() => sqlite.exec(sql)).toThrow(

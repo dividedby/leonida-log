@@ -33,6 +33,20 @@ pnpm dev
 pnpm test
 ```
 
+## Scrapers
+
+`scrapers/` watches seven guide sources (PowerPyx, GTABase, IGN, KeenGamer, Game8 JP, GameWith, Vandal) for new and changed pages and writes candidates to the server database, never to the repo. It respects robots.txt, spaces requests per host and uses no headless browser.
+
+```sh
+DATABASE_PATH=data/local.db pnpm scrape --dry-run              # fetch and diff, write nothing
+DATABASE_PATH=data/local.db pnpm scrape --source powerpyx      # one source
+DATABASE_PATH=data/local.db pnpm scrape --report-only --since 2026-11-20
+DATABASE_PATH=data/local.db pnpm scrape --purge ign             # drop a source's pages and candidates
+pnpm scrape --wayback 'keengamer.com/articles/guides/gta-6-*'  # list Wayback captures, no DB
+```
+
+Each run writes `data/scraped/reports/changed-since-<date>.md` (and `latest.md`) for the weekly research pass. Switches, env vars and how to add a source are in [scrapers/README.md](scrapers/README.md).
+
 The database is one SQLite file at `DATABASE_PATH`. Migrations never run at app start: run `pnpm db:migrate` after `pnpm install` and after pulling a new migration. After changing `lib/db/schema.ts`, run `pnpm db:generate` and commit the SQL in `drizzle/`.
 
 ## Data
