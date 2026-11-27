@@ -47,7 +47,8 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Changed
 
-- Node 26 everywhere: the production image's base (`node:26-bookworm-slim`, pinned by digest), CI, format and deploy workflows, `package.json` `engines` (`>=26`), README and CLAUDE.md.
+- Node 26 everywhere: the production image's base (`node:26-bookworm-slim`, pinned by digest), CI, format and deploy workflows, `package.json` `engines` (`>=26`), README and CLAUDE.md. Node 25+ no longer bundles corepack, so the image installs the pnpm that `packageManager` names with npm.
+- CI's new `image` job builds and smoke-tests the production image on arm64 for every code PR (no push) and gates `ci-ok`, so a broken image fails the PR instead of the post-merge deploy.
 - The process-spawning test suites (`lib/db/migrate.test.ts`, `deploy/deploy-scripts.test.ts`) get a 30 s timeout: the 5 s default flaked when the full suite ran in parallel.
 - `help-kirk-find-mr-mangrove`: the note now gives the Laird 350 tranquilizer rifle in every ending, the cash as about $6,250 or $10,000 if you press Kirk (Reddit reports reconcile GameWith and PowerPyx), no cash for shooting Kirk or neither, the lock-at-night fix, and a warning that killing Kirk early loses the mission. Its likely in-game title, Advanced Skunk Apeonomics, is recorded in the header comment. GameWith, Reddit, Guslok and the hash database are now among its sources. Its window is unchanged.
 

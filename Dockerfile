@@ -10,8 +10,12 @@
 # The base is pinned by digest (multi-arch index); Dependabot's docker
 # ecosystem bumps it. Build with --build-arg REVISION=<git sha>.
 FROM node:26-bookworm-slim@sha256:0042e17d232a87a2cd485be1da7900fca4d10a4ad11b29e9285da1d2e54798c9 AS base
-RUN corepack enable
 WORKDIR /app
+# Node 25+ no longer bundles corepack, so install the exact pnpm that package.json's
+# packageManager names (e.g. pnpm@11.5.2) with npm.
+COPY package.json /tmp/package.json
+RUN npm install --global --no-fund --no-audit "$(node -p "require('/tmp/package.json').packageManager")" \
+    && rm /tmp/package.json && pnpm --version
 
 # CI=true keeps pnpm non-interactive; it is set in the install stages only, not in the runtime image.
 FROM base AS deps
