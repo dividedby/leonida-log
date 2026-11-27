@@ -3,7 +3,9 @@
 # /usr/local/sbin/leonida-log-scrape (root:root 0755; deploy/install-host.sh does it) and started by
 # leonida-log-scrape.service, which the weekly timer triggers; run it by hand the same way
 # (`systemctl start leonida-log-scrape.service`). Extra arguments go to the scraper CLI; leonida-log-feed.service
-# passes --feed-only for the 4-hourly KeenGamer feed poll.
+# passes --feed-only for the 4-hourly KeenGamer feed poll. Arguments after the service name in `docker compose run`
+# replace the service's whole `command`, so the script passes the scraper command itself (SCRAPER_CMD, which must
+# match compose.yaml's `scraper` command; a test checks it) and then the arguments.
 #
 # Exit status is the scraper's: 0 done, 1 bad setup, 2 a source's listing could not be read (a --feed-only run
 # also exits 2 when its 180 s deadline passes). The weekly scrape unit fails on any non-zero status and alerts
@@ -22,6 +24,7 @@ COMPOSE_FILE=${COMPOSE_FILE:-/etc/leonida-log/compose.yaml}
 ENV_FILE=${ENV_FILE:-/etc/leonida-log/compose.env}
 STATE_DIR=${STATE_DIR:-/var/lib/leonida-log-deploy}
 DOCKER=${DOCKER:-docker}
+SCRAPER_CMD=(node node_modules/tsx/dist/cli.mjs scrapers/cli.ts)
 
 [[ -d $STATE_DIR ]] || {
   echo "scrape: ERROR: no state folder at $STATE_DIR" >&2
@@ -55,4 +58,4 @@ if [[ ! $tag =~ ^[0-9a-f]{40}$ ]]; then
 fi
 
 export IMAGE_TAG=$tag
-exec "$DOCKER" compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm -T --pull never scraper "$@"
+exec "$DOCKER" compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" run --rm -T --pull never scraper "${SCRAPER_CMD[@]}" "$@"

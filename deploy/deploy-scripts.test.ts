@@ -26,6 +26,19 @@ const SHA_A = "a".repeat(40);
 const SHA_B = "b".repeat(40);
 const IMAGE = "ghcr.io/dividedby/leonida-log";
 
+// compose.yaml's `scraper` command. `docker compose run scraper <args>` replaces it, so the scrape script must pass
+// it itself, followed by its own arguments.
+function composeScraperCommand(): string {
+  const compose = readFileSync(
+    fileURLToPath(new URL("../compose.yaml", import.meta.url)),
+    "utf8",
+  );
+  const block = compose.slice(compose.indexOf("\n  scraper:"));
+  const match = block.match(/\n\s+command:\s*\[([^\]]*)\]/);
+  if (!match) throw new Error("no scraper command in compose.yaml");
+  return JSON.parse(`[${match[1]}]`).join(" ");
+}
+
 const scriptPath = (name: string) =>
   fileURLToPath(new URL(name, import.meta.url));
 
@@ -307,7 +320,7 @@ describe.skipIf(!haveTools)("leonida-log-scrape", { timeout: 30_000 }, () => {
 
     expect(status).toBe(0);
     expect(calls(sb)).toContain(
-      `docker IMAGE_TAG=${SHA_A} compose -f ${sb.env.COMPOSE_FILE} --env-file ${sb.env.ENV_FILE} run --rm -T --pull never scraper --dry-run`,
+      `docker IMAGE_TAG=${SHA_A} compose -f ${sb.env.COMPOSE_FILE} --env-file ${sb.env.ENV_FILE} run --rm -T --pull never scraper ${composeScraperCommand()} --dry-run`,
     );
   });
 });
@@ -350,7 +363,9 @@ describe.skipIf(!haveTools)("leonida-log-scrape --feed-only", () => {
     const { status } = run(sb, "leonida-log-scrape.sh", ["--feed-only"]);
 
     expect(status).toBe(0);
-    expect(calls(sb)).toContain("run --rm -T --pull never scraper --feed-only");
+    expect(calls(sb)).toContain(
+      `run --rm -T --pull never scraper ${composeScraperCommand()} --feed-only`,
+    );
   });
 });
 
