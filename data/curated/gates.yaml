@@ -17,10 +17,13 @@
 # Gates have no verified flag. A lost list resting on a single source is still
 # shipped; its confidence is background and never rendered.
 #
-# Not a gate here, on purpose: Unfinished Business (Ch5). Signing Abe's deal
-# loses checking and pocket cash, while Family Savings is protected and returned
-# later (Output Lag, PowerPyx, both read). Whether it becomes a gate is still
-# pending the owner; it is not a recap mission, see docs/design.md. It doesn't go into item text.
+# Not a gate, owner decision 2026-11-27: Unfinished Business (Ch5). It is the last
+# free roam before the ending, but nothing is lost there. PowerPyx says money you
+# hold is lost when Protective Custody starts, while Family Savings is protected
+# and returned later. After the credits the game reloads to just before Protective
+# Custody with side missions, collectibles and 100% still open (PowerPyx, ItsCorey
+# v-A4sXv54oo, Reddit r/GTA6unmoderated 1y3saga). Whether that reload restores held
+# cash is unconfirmed. It is not a recap mission, see docs/design.md. It doesn't go into item text.
 #
 # Post-story: the Starlet Motel, the Bayside apartment and Y Hotel Suite 701 stay lost
 # after the credits; the only post-story home is the Pegassi Towers penthouse
