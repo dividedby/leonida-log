@@ -151,8 +151,17 @@ prune_images() {
 
 # The installed copies are root-owned and only the owner updates them; say so when they lag the clone.
 warn_drift() {
-  local src=$1 dest=$2
-  [[ -f $src && ! -L $src ]] || return 0
+  local src=$1 dest=$2 cur=$REPO part
+  local -a parts
+  # The clone is the service user's: skip a source reached through a symlink at any level, so root never
+  # compares a file from somewhere else.
+  [[ ! -L $cur ]] || return 0
+  IFS=/ read -ra parts <<<"${src#"$REPO"/}"
+  for part in "${parts[@]}"; do
+    cur+=/$part
+    [[ ! -L $cur ]] || return 0
+  done
+  [[ -f $src ]] || return 0
   if ! cmp -s "$src" "$dest"; then
     log "WARNING: $dest differs from ${src#"$REPO"/}; review it and re-run deploy/install-host.sh"
   fi

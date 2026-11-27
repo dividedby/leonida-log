@@ -10,11 +10,12 @@
 # The base is pinned by digest (multi-arch index); Dependabot's docker
 # ecosystem bumps it. Build with --build-arg REVISION=<git sha>.
 FROM node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530 AS base
-ENV CI=true
 RUN corepack enable
 WORKDIR /app
 
+# CI=true keeps pnpm non-interactive; it is set in the install stages only, not in the runtime image.
 FROM base AS deps
+ENV CI=true
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install --frozen-lockfile
@@ -25,6 +26,7 @@ COPY . .
 RUN mkdir -p public && pnpm build && rm -rf .next/cache
 
 FROM base AS prod-deps
+ENV CI=true
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store \
     pnpm install --prod --frozen-lockfile

@@ -6,6 +6,7 @@ import {
   readdirSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   utimesSync,
   writeFileSync,
 } from "node:fs";
@@ -262,6 +263,53 @@ describe.skipIf(!haveTools)("leonida-log-apply", () => {
       [old[3], old[2], `${SHA_B}.db`].sort(),
     );
   });
+
+  it("warns when an installed file lags the clone, and skips sources reached through a symlink", () => {
+    const repo = join(sb.root, "repo");
+    const elsewhere = join(sb.root, "elsewhere");
+    const sbin = join(sb.root, "sbin");
+    for (const dir of [repo, elsewhere, sbin]) mkdirSync(dir);
+    writeFileSync(join(repo, "compose.yaml"), "name: newer\n");
+    writeFileSync(join(elsewhere, "leonida-log-scrape.sh"), "#!/bin/sh\n");
+    symlinkSync(elsewhere, join(repo, "deploy"));
+    writeFileSync(join(sbin, "leonida-log-scrape"), "installed\n");
+
+    const { status, output } = run(sb, "leonida-log-apply.sh", [SHA_B], {
+      REPO: repo,
+      SBIN_DIR: sbin,
+      UNIT_DIR: sbin,
+    });
+
+    expect(status).toBe(0);
+    expect(output).toContain("differs from compose.yaml");
+    expect(output).not.toContain("differs from deploy/");
+  });
+});
+
+describe.skipIf(!haveTools)("leonida-log-scrape", () => {
+  let sb: Sandbox;
+  beforeEach(() => {
+    sb = makeSandbox();
+  });
+
+  it("refuses to run before any release is recorded", () => {
+    const { status, output } = run(sb, "leonida-log-scrape.sh", []);
+
+    expect(status).toBe(1);
+    expect(output).toContain("no deployed release");
+    expect(calls(sb)).toBe("");
+  });
+
+  it("runs the scraper from the deployed image and passes its arguments and exit status on", () => {
+    deployedAlready(sb, SHA_A);
+
+    const { status } = run(sb, "leonida-log-scrape.sh", ["--dry-run"]);
+
+    expect(status).toBe(0);
+    expect(calls(sb)).toContain(
+      `docker IMAGE_TAG=${SHA_A} compose -f ${sb.env.COMPOSE_FILE} --env-file ${sb.env.ENV_FILE} run --rm -T scraper --dry-run`,
+    );
+  });
 });
 
 describe.skipIf(!haveTools)("leonida-log-deploy", () => {
@@ -350,6 +398,21 @@ describe.skipIf(!haveTools)("leonida-log-deploy", () => {
     expect(calls(sb)).toContain(`apply ${shaMain}`);
     expect(git(clone, "rev-parse", "HEAD")).toBe(shaMain);
     expect(git(clone, "branch", "--show-current")).toBe("");
+  });
+
+  it("ignores a git config file in the service user's home, even one inside the clone", () => {
+    // Worst case for a home inside the clone: a ~/.gitconfig that main (or anyone with write access) controls.
+    const marker = join(sb.root, "fsmonitor-ran");
+    writeFileSync(
+      join(clone, ".gitconfig"),
+      `[core]\n\tfsmonitor = touch ${marker}; echo\n`,
+    );
+    sb.env.APPLY = join(sb.root, "bin", "apply");
+
+    const { status } = deploy(shaMain, { HOME: clone });
+
+    expect(status).toBe(0);
+    expect(existsSync(marker)).toBe(false);
   });
 
   it("exits with the failure status of apply", () => {

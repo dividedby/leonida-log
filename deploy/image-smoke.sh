@@ -27,7 +27,7 @@ trap cleanup EXIT
 
 run_args=(
   --user "$(id -u):$(id -g)"
-  --read-only --cap-drop ALL --security-opt no-new-privileges:true
+  --read-only --pids-limit 256 --cap-drop ALL --security-opt no-new-privileges:true
   --tmpfs /tmp --tmpfs /app/.next/cache
   -v "$data:/data"
   -e DATABASE_PATH=/data/leonida.db

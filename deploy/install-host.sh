@@ -15,7 +15,7 @@
 # none of them, and refuses to continue if the service user is in the docker group (that group is root).
 #
 # What it does, in order (every step is safe to repeat):
-#   1. creates the `leonida-log` user (no password, login shell for the forced command, not in docker) and the
+#   1. creates the `leonida-log` user (no password, login shell for the forced command, a root-owned home outside the clone, not in docker) and the
 #      folders: /etc/leonida-log, /var/lib/leonida-log (data, 0700), /var/lib/leonida-log-deploy (state), and a
 #      clone of the public repo at /srv/leonida-log;
 #   2. installs the three scripts in /usr/local/sbin and the root-owned compose.yaml in /etc/leonida-log, and
@@ -105,8 +105,14 @@ trap cleanup EXIT
 
 # 1. The user and the folders.
 if ! id -u "$SVC_USER" >/dev/null 2>&1; then
-  useradd --system --user-group --home-dir "$CLONE" --no-create-home --shell /bin/bash "$SVC_USER"
+  useradd --system --user-group --home-dir "$STATE_DIR" --no-create-home --shell /bin/bash "$SVC_USER"
   echo "created user $SVC_USER"
+fi
+# The home must be a root-owned folder the user cannot write to, never the clone: under a forced command bash
+# can read ~/.bashrc and git reads ~/.gitconfig, and a file committed to main must not run as this user.
+if [[ $(getent passwd "$SVC_USER" | cut -d: -f6) != "$STATE_DIR" ]]; then
+  usermod -d "$STATE_DIR" "$SVC_USER"
+  echo "set $SVC_USER's home to $STATE_DIR"
 fi
 # `*` is "no valid password" without locking the account, which some sshd setups refuse for key logins.
 usermod -p '*' "$SVC_USER"
@@ -123,7 +129,8 @@ install -d -o "$SVC_USER" -g "$SVC_USER" -m 0700 "$DATA_DIR"
 install -d -o root -g root -m 0755 "$STATE_DIR"
 install -d -o "$SVC_USER" -g "$SVC_USER" -m 0755 "$CLONE"
 if [[ ! -d $CLONE/.git ]]; then
-  runuser -u "$SVC_USER" -- env HOME="$CLONE" GIT_TERMINAL_PROMPT=0 git clone --quiet "$REPO_URL" "$CLONE"
+  runuser -u "$SVC_USER" -- env HOME="$STATE_DIR" GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 \
+    GIT_TERMINAL_PROMPT=0 git clone --quiet "$REPO_URL" "$CLONE"
   echo "cloned $REPO_URL to $CLONE"
 fi
 
@@ -171,6 +178,7 @@ fi
 priv_tmp=$(mktemp)
 tmp_files+=("$priv_tmp")
 cat >"$priv_tmp" <<EOF
+Defaults!$APPLY_DEST env_reset
 $SVC_USER ALL=(root) NOPASSWD: $APPLY_DEST *
 EOF
 visudo -cf "$priv_tmp" >/dev/null || die "visudo rejected the privilege rule"

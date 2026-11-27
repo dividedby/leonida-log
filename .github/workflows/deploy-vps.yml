@@ -10,7 +10,9 @@ name: deploy
 #           image, snapshots the database, migrates, restarts and rolls back if the app does not report that SHA.
 #
 # Needs these secrets, set on the `production` environment (main only, no reviewers): VPS_HOST, VPS_USER,
-# VPS_SSH_KEY, VPS_SSH_KNOWN_HOSTS. The image push uses the workflow's GITHUB_TOKEN. No third-party actions.
+# VPS_SSH_KEY, VPS_SSH_KNOWN_HOSTS. The image push uses the workflow's GITHUB_TOKEN. The only actions are the ones
+# ci.yml uses (actions/checkout, actions/setup-node, pnpm/action-setup), tag-pinned and bumped by Dependabot; the
+# deploy job uses none.
 
 on:
   push:

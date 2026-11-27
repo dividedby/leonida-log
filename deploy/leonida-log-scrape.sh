@@ -15,6 +15,20 @@ ENV_FILE=${ENV_FILE:-/etc/leonida-log/compose.env}
 STATE_DIR=${STATE_DIR:-/var/lib/leonida-log-deploy}
 DOCKER=${DOCKER:-docker}
 
+[[ -d $STATE_DIR ]] || {
+  echo "scrape: ERROR: no state folder at $STATE_DIR" >&2
+  exit 1
+}
+
+# The lock apply uses, so a scrape never overlaps a migration or an image swap. Held until the run ends (exec
+# keeps fd 9 open in docker); a deploy that starts meanwhile waits for it, up to its own 10-minute limit.
+exec 9>"$STATE_DIR/apply.lock"
+flock -w 600 9 || {
+  echo "scrape: ERROR: a deploy holds the lock" >&2
+  exit 1
+}
+
+# Read after the lock: a deploy that held it may have changed the release.
 tag=""
 if [[ -r $STATE_DIR/current ]]; then
   read -r tag <"$STATE_DIR/current" || true

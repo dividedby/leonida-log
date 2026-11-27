@@ -25,6 +25,11 @@ die() {
 sha="${SSH_ORIGINAL_COMMAND:-${1:-}}"
 [[ $sha =~ ^[0-9a-f]{40}$ ]] || die "expected a 40-character lowercase hex commit SHA"
 
+# The clone is writable by this user and holds whatever main holds: never read a ~/.gitconfig or any git config
+# outside the clone's own .git/config. (The user's home is root-owned, outside the clone; install-host.sh sets it.)
+export HOME=/nonexistent
+export GIT_CONFIG_GLOBAL=/dev/null
+export GIT_CONFIG_NOSYSTEM=1
 export GIT_TERMINAL_PROMPT=0
 cd "$REPO" || die "no clone at $REPO"
 

@@ -14,6 +14,7 @@ x-service: &service
   user: "${LEONIDA_UID:?LEONIDA_UID is not set}:${LEONIDA_GID:?LEONIDA_GID is not set}"
   read_only: true
   cap_drop: [ALL]
+  pids_limit: 256
   security_opt: ["no-new-privileges:true"]
   tmpfs:
     - /tmp
