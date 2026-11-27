@@ -216,22 +216,25 @@ describe("blocked and throttled hosts", () => {
     expect(net.calls.map((c) => c.url)).not.toContain("https://a.test/6");
   });
 
-  it("gives a 503 its Retry-After retry before it counts toward the 5xx streak", async () => {
-    const { net, get, fetcher } = setup({
-      "https://a.test/1": { status: 500 },
-      "https://a.test/2": { status: 500 },
-      "https://a.test/3": [
-        { status: 503, headers: { "retry-after": "2" } },
-        { body: "recovered" },
-      ],
-    });
-    await get("https://a.test/1");
-    await get("https://a.test/2");
-    const third = await get("https://a.test/3");
-    expect(third.outcome).toBe("ok");
-    expect(net.clock.sleeps).toContain(2000);
-    expect(fetcher.stoppedReason("a.test")).toBeUndefined();
-  });
+  it.each([503, 429])(
+    "gives a %i its Retry-After retry before it counts toward the 5xx streak",
+    async (status) => {
+      const { net, get, fetcher } = setup({
+        "https://a.test/1": { status: 500 },
+        "https://a.test/2": { status: 500 },
+        "https://a.test/3": [
+          { status, headers: { "retry-after": "2" } },
+          { body: "recovered" },
+        ],
+      });
+      await get("https://a.test/1");
+      await get("https://a.test/2");
+      const third = await get("https://a.test/3");
+      expect(third.outcome).toBe("ok");
+      expect(net.clock.sleeps).toContain(2000);
+      expect(fetcher.stoppedReason("a.test")).toBeUndefined();
+    },
+  );
 
   it("records other 4xx statuses without stopping the host", async () => {
     const { get } = setup({

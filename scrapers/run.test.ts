@@ -345,56 +345,77 @@ describe("fallback after a mid-run host stop", () => {
   const raw = (ts: string, url: string) =>
     `https://web.archive.org/web/${ts}id_/${url}`;
 
-  it("fetches Wayback captures for pages left pending when KeenGamer returns repeated 5xx", async () => {
-    const entries = [1, 2, 3, 4, 5].map(
-      (n) =>
-        `<url><loc>${G(n)}</loc><lastmod>2026-11-2${6 - n}T00:00:00Z</lastmod></url>`,
-    );
-    const net = fakeNetwork({
-      "https://www.keengamer.com/sitemap_index.xml": {
-        body: `<sitemapindex><sitemap><loc>https://www.keengamer.com/post-sitemap9.xml</loc><lastmod>2026-11-25T00:00:00Z</lastmod></sitemap></sitemapindex>`,
-      },
-      "https://www.keengamer.com/post-sitemap9.xml": {
-        body: `<urlset>${entries.join("")}</urlset>`,
-      },
-      [G(1)]: { status: 500 },
-      [G(2)]: { status: 500 },
-      [G(3)]: { status: 500 },
-      [CDX]: {
-        body: JSON.stringify([
-          ["timestamp", "original", "statuscode", "digest"],
-          // guide 4 (lastmod 11-22): a newer capture exists. Guide 5 (lastmod 11-21): only an older one.
-          [
-            "20261124100000",
-            `http://keengamer.com${new URL(G(4)).pathname.slice(0, -1)}`,
-            "200",
-            "A",
-          ],
-          ["20261120000000", G(5), "200", "B"],
-        ]),
-      },
-      [raw("20261124100000", G(4))]: {
-        body: html("Archived guide four", "Mission m2 was archived."),
-      },
-    });
-    const opened = openDatabase(dbs.fresh());
-    open.push(opened);
-    const [stats] = await runScrape({
-      db: opened.db,
-      curated,
-      modules: [keengamer],
-      fetcher: createPoliteFetcher({ ...net.deps, defaultIntervalMs: 0 }),
-      since: "2026-11-20",
-      now: () => NOW,
-    });
+  it.each([
+    {
+      trigger: "three consecutive 5xx",
+      live: { 1: 500, 2: 500, 3: 500 },
+      stats: { errors: 3, new: 1, deferred: 1 },
+    },
+    {
+      trigger: "a 403",
+      live: { 1: 403 },
+      stats: { errors: 1, new: 1, deferred: 3 },
+    },
+  ])(
+    "fetches Wayback captures for pages left pending when KeenGamer stops on $trigger",
+    async ({ live, stats: expected }) => {
+      const entries = [1, 2, 3, 4, 5].map(
+        (n) =>
+          `<url><loc>${G(n)}</loc><lastmod>2026-11-2${6 - n}T00:00:00Z</lastmod></url>`,
+      );
+      const net = fakeNetwork({
+        "https://www.keengamer.com/sitemap_index.xml": {
+          body: `<sitemapindex><sitemap><loc>https://www.keengamer.com/post-sitemap9.xml</loc><lastmod>2026-11-25T00:00:00Z</lastmod></sitemap></sitemapindex>`,
+        },
+        "https://www.keengamer.com/post-sitemap9.xml": {
+          body: `<urlset>${entries.join("")}</urlset>`,
+        },
+        ...Object.fromEntries(
+          Object.entries(live).map(([n, status]) => [G(Number(n)), { status }]),
+        ),
+        [CDX]: {
+          body: JSON.stringify([
+            ["timestamp", "original", "statuscode", "digest"],
+            // guide 4 (lastmod 11-22): a newer capture exists. Guide 5 (lastmod 11-21): only an older one.
+            [
+              "20261124100000",
+              `http://keengamer.com${new URL(G(4)).pathname.slice(0, -1)}`,
+              "200",
+              "A",
+            ],
+            ["20261120000000", G(5), "200", "B"],
+          ]),
+        },
+        [raw("20261124100000", G(4))]: {
+          body: html("Archived guide four", "Mission m2 was archived."),
+        },
+      });
+      const opened = openDatabase(dbs.fresh());
+      open.push(opened);
+      const [stats] = await runScrape({
+        db: opened.db,
+        curated,
+        modules: [keengamer],
+        fetcher: createPoliteFetcher({ ...net.deps, defaultIntervalMs: 0 }),
+        since: "2026-11-20",
+        now: () => NOW,
+      });
 
-    expect(stats).toMatchObject({ errors: 3, new: 1, deferred: 1 });
-    expect(net.pageCalls().map((c) => c.url)).toContain(
-      raw("20261124100000", G(4)),
-    );
-    const rows = opened.db.select().from(sources).all();
-    expect(rows.map((r) => r.url)).toEqual([G(4)]);
-    expect(rows[0].remoteModified).toBe("2026-11-24T10:00:00.000Z");
-    expect(opened.db.select().from(candidates).all()).toHaveLength(1);
-  });
+      expect(stats).toMatchObject(expected);
+      // The stopped host is never asked for the pages left pending.
+      const pending = [1, 2, 3, 4, 5]
+        .filter((n) => !(n in live))
+        .map((n) => G(n));
+      expect(
+        net.pageCalls().filter((c) => pending.includes(c.url)),
+      ).toHaveLength(0);
+      expect(net.pageCalls().map((c) => c.url)).toContain(
+        raw("20261124100000", G(4)),
+      );
+      const rows = opened.db.select().from(sources).all();
+      expect(rows.map((r) => r.url)).toEqual([G(4)]);
+      expect(rows[0].remoteModified).toBe("2026-11-24T10:00:00.000Z");
+      expect(opened.db.select().from(candidates).all()).toHaveLength(1);
+    },
+  );
 });
