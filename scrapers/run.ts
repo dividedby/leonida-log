@@ -17,10 +17,10 @@ import {
   type PageRef,
   type SourceModule,
 } from "./types";
-import { isLater, toIso, truncate } from "./util";
+import { isLater, RAW_EXTRACT_MAX, toIso, truncate } from "./util";
+import { runWatch } from "./watch";
 
 const FIRST_RUN_DAYS = 14;
-const RAW_EXTRACT_MAX = 50_000;
 const DAY_MS = 86_400_000;
 
 export interface SourceStats {
@@ -50,6 +50,8 @@ export interface RunOptions {
   /** YYYY-MM-DD or ISO. Absent: 14 days on a source's first run, otherwise no bound. */
   since?: string;
   dryRun?: boolean;
+  /** Ids of watch modules that should run their optional discovery pass this run (`--github-search`). */
+  forceDiscovery?: string[];
   now?: () => Date;
   log?: (message: string) => void;
 }
@@ -163,6 +165,28 @@ export async function runScrape(opts: RunOptions): Promise<SourceStats[]> {
         : undefined);
     const sinceIso = toIso(since);
     const ctx = { fetch: get, since, log };
+
+    if (mod.watch) {
+      // The module decides change itself (see watch.ts); no page queue.
+      log(`[${mod.id}] watching`);
+      await runWatch({
+        db,
+        mod,
+        stats,
+        ctx,
+        tracked,
+        hinter,
+        now: clock(),
+        dryRun: opts.dryRun,
+        forceDiscovery: opts.forceDiscovery?.includes(mod.id) ?? false,
+      });
+      stats.blockedByRobots = fetchStats.robotsBlocked;
+      log(
+        `[${mod.id}] discovered ${stats.discovered}, fetched ${stats.fetched}, new ${stats.new}, changed ${stats.changed}, unchanged ${stats.unchanged}, baselined ${stats.baselined}, deferred ${stats.deferred}, robots-blocked ${stats.blockedByRobots}, errors ${stats.errors}`,
+      );
+      continue;
+    }
+
     log(`[${mod.id}] discovering${since ? ` (since ${since})` : ""}`);
 
     let refs: PageRef[];

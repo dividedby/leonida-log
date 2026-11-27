@@ -10,7 +10,7 @@ import { candidatesSince, purgeSource } from "./store";
 import type { SourceModule } from "./types";
 import { captures, rawCaptureUrl } from "./wayback";
 
-const USAGE = `Usage: pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--report-only] [--dry-run]
+const USAGE = `Usage: pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--report-only] [--dry-run] [--github-search]
        pnpm scrape --purge <source>
        pnpm scrape --wayback <url[*]> [--since YYYY-MM-DD]
 
@@ -18,6 +18,7 @@ const USAGE = `Usage: pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--repor
   --since        fetch/report lower bound; default is 14 days on a source's first run, 7 days for the report
   --report-only  regenerate the changed-since report from the database, no fetching
   --dry-run      fetch and diff but write nothing (no database rows, no report)
+  --github-search  run the github source's repo search now (it otherwise runs once a week)
   --purge        delete a source's tracked pages and candidates (also for ids no longer in the registry); nothing else runs
   --wayback      list Wayback captures of a URL (trailing * means prefix); no database writes
 
@@ -65,6 +66,7 @@ export async function runCli(
         since: { type: "string" },
         "report-only": { type: "boolean", default: false },
         "dry-run": { type: "boolean", default: false },
+        "github-search": { type: "boolean", default: false },
         wayback: { type: "string" },
         purge: { type: "string" },
         help: { type: "boolean", default: false },
@@ -171,6 +173,7 @@ export async function runCli(
         fetcher,
         since: values.since,
         dryRun,
+        forceDiscovery: values["github-search"] ? ["github"] : [],
         now,
         log,
       });
@@ -187,6 +190,11 @@ export async function runCli(
       since: reportSince,
       generatedAt: now(),
       stats,
+      notes: Object.fromEntries(
+        (deps.modules ?? SOURCES).flatMap((m) =>
+          m.reportNote ? [[m.id, m.reportNote]] : [],
+        ),
+      ),
     });
     const dir = env.SCRAPE_REPORT_DIR || DEFAULT_REPORT_DIR;
     log(`report written to ${writeReport(dir, reportSince, markdown)}`);

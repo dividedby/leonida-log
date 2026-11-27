@@ -1,5 +1,6 @@
 import type { SourceModule } from "../types";
 import { game8jp } from "./game8jp";
+import { github } from "./github";
 import { gamewith } from "./gamewith";
 import { gtabase } from "./gtabase";
 import { ign } from "./ign";
@@ -16,4 +17,5 @@ export const SOURCES: SourceModule[] = [
   game8jp,
   gamewith,
   vandal,
+  github,
 ];

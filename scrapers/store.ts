@@ -34,6 +34,7 @@ export interface PagePatch {
 export interface NewCandidate {
   sourceRowId: number;
   gateHint: string | null;
+  categoryHint?: string | null;
   missionHint: string | null;
   changeKind: ChangeKind;
   contentHash: string;
@@ -133,6 +134,7 @@ export function insertCandidate(db: Conn, c: NewCandidate): void {
     .values({
       sourceId: c.sourceRowId,
       gateHint: c.gateHint,
+      categoryHint: c.categoryHint,
       missionHint: c.missionHint,
       changeKind: c.changeKind,
       contentHash: c.contentHash,

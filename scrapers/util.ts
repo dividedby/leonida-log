@@ -1,5 +1,8 @@
 import { createHash } from "node:crypto";
 
+/** Longest raw_extract stored on a candidate. */
+export const RAW_EXTRACT_MAX = 50_000;
+
 export function sha256(text: string): string {
   return createHash("sha256").update(text).digest("hex");
 }

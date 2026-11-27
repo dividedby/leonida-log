@@ -40,6 +40,8 @@ export interface GetOptions {
   etag?: string;
   lastModified?: string;
   accept?: string;
+  /** Extra request headers (an API version pin); they can't override the User-Agent. */
+  headers?: Record<string, string>;
   /** Overrides the 5 MB body cap (large WP REST pages). */
   maxBytes?: number;
 }
@@ -302,6 +304,9 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           options.accept ??
           "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
       };
+      for (const [k, v] of Object.entries(options.headers ?? {})) {
+        if (k.toLowerCase() !== "user-agent") headers[k.toLowerCase()] = v;
+      }
       if (options.etag) headers["if-none-match"] = options.etag;
       if (options.lastModified) {
         headers["if-modified-since"] = options.lastModified;

@@ -12,6 +12,8 @@ interface DiffSummary {
   paragraphsAdded?: number;
   paragraphsRemoved?: number;
   snippets?: string[];
+  /** Free-form change lines from sources that aren't pages (commits, +/- counts). */
+  lines?: string[];
 }
 
 export interface ReportInput {
@@ -22,6 +24,8 @@ export interface ReportInput {
   generatedAt: Date;
   /** Present for a scrape run; absent for --report-only. */
   stats?: SourceStats[];
+  /** Source id -> line printed under its heading (a reliability tier). */
+  notes?: Record<string, string>;
 }
 
 function table(header: string[], rows: (string | number)[][]): string {
@@ -127,6 +131,7 @@ export function renderReport(input: ReportInput): string {
     const rows = groups.get(key)!;
     for (const source of [...new Set(rows.map((r) => r.source))].sort()) {
       out.push("", `### ${source}`);
+      if (input.notes?.[source]) out.push("", input.notes[source]);
       for (const r of rows.filter((x) => x.source === source)) {
         const d = parseSummary(r.diffSummary);
         out.push(
@@ -141,13 +146,17 @@ export function renderReport(input: ReportInput): string {
           );
         }
         if (r.gateHint) out.push(`  - Gate hint: ${r.gateHint}`);
+        for (const l of d.lines ?? [])
+          out.push(`  - ${l.replace(/\s+/g, " ")}`);
         if (d.headingsAdded?.length)
           out.push(`  - Headings added: ${d.headingsAdded.join("; ")}`);
         if (d.headingsRemoved?.length)
           out.push(`  - Headings removed: ${d.headingsRemoved.join("; ")}`);
-        out.push(
-          `  - Paragraphs: +${d.paragraphsAdded ?? 0} / -${d.paragraphsRemoved ?? 0}`,
-        );
+        if (!d.lines) {
+          out.push(
+            `  - Paragraphs: +${d.paragraphsAdded ?? 0} / -${d.paragraphsRemoved ?? 0}`,
+          );
+        }
         for (const s of d.snippets ?? [])
           out.push(`  - > ${s.replace(/\s+/g, " ")}`);
       }
