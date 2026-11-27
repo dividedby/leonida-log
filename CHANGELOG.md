@@ -46,6 +46,8 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Changed
 
+- Unfinished Business is settled as not a gate: nothing is lost at it, held money goes when Protective Custody starts, and the post-credits reload returns you just before Protective Custody with side content open. Recorded in the `gates.yaml` comment and `docs/design.md`.
+- Scraping terms are settled: the owner keeps ADR 0007, so terms of use don't exclude a source; robots.txt, polite rate limits and site blocks still apply. `docs/design.md` no longer says scrapers fetch only sources whose terms allow it.
 - Checking Out items: `avery-kingpin-jobs` is split into `avery-pawn-job` and `kingpin-bowling-job`. `avery-pawn-job` is now lost at Afternoon Delight: six-plus first-hand Reddit reports say the Hit Avery Pawn card vanishes partway through Chapter 2, and its how_to says the shop stays robbable as an ordinary robbery. `kingpin-bowling-job` keeps the old window.
 - Yago: missing Race Against Yago doesn't end his line. `brother-to-brother` notes it still comes after a missed race (evidence now first-hand), and the `race-against-yago` item drops the PSNProfiles claim that the line can't be finished and adds that quitting the race ends it. Two first-hand Reddit reports are now among their sources.
 - Round 7 build, missions: `get-shirleys-rum`, `steal-the-scooter` and `ring-the-bell` are kind optional (no source shows an hourglass); `catch-a-bigger-fish`, `search-the-dive-sites` and `attend-eddie-acostas-party` follow the reached rule (open after Coming Home, Feng Shui and Company Cars); `bad-driver` adds a GameWith source.
