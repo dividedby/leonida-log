@@ -34,7 +34,10 @@ items:
     before_gate: checking-out
     visible_after_mission: afternoon-delight
     verified: true
-    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and most guides (PowerPyx, gtabase, gta6bugs) say Checking Out won't start until you have it and have finished every other main mission. IGN says the $15,000 isn't necessary and only makes the mission unlock sooner. Bank it in your BuckMe checking account: guides say it has to be banked rather than carried, and pocket cash is lost if you die or get arrested. No source says the money is spent."
+    evidence:
+      basis: safe-bound
+      note: "IGN says the $15,000 isn't necessary and only makes the mission unlock sooner; the stricter reading is kept."
+    how_to: "Banking $15,000 is the in-game Prepare for Vice City objective, and Checking Out won't start until you have it and have finished every other main mission (PowerPyx, gtabase, gta6bugs). Bank it in your BuckMe checking account: guides say it has to be banked rather than carried, and pocket cash is lost if you die or get arrested. No source says the money is spent."
     location: The BuckMe app.
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out

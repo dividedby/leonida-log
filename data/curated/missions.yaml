@@ -481,7 +481,10 @@ missions:
     character: jason
     opens_after: coming-home
     closes_at: clear-skies
-    note: $475 Tomas necklace at The Siren's Chest, southwest Key Lento. Counts toward the relationship if bought before you pick up Lucia. One guide says it lasts until Tourist Trap; the earlier cutoff is used.
+    note: $475 Tomas necklace at The Siren's Chest, southwest Key Lento. Counts toward the relationship if bought before you pick up Lucia.
+    evidence:
+      basis: safe-bound
+      note: "One guide says it lasts until Tourist Trap; the earlier cutoff is used."
     sources:
       - url: https://www.ign.com/wikis/gta-6/Feng_Shui_Walkthrough
         title: "IGN: Feng Shui walkthrough"
@@ -536,7 +539,10 @@ missions:
     character: jason
     opens_after: coming-home
     closes_at: clean-up-after-donnie
-    note: Stock up the house before you collect Lucia. One guide says it lasts longer; the earlier cutoff is used.
+    note: Stock up the house before you collect Lucia.
+    evidence:
+      basis: safe-bound
+      note: "IGN says the groceries can wait until Clear Skies; the earlier cutoff is used."
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-chapter-1-guide-all-missables-and-things-to-do-before-tourist-trap/
         title: "KeenGamer: Chapter 1 missables"
@@ -578,7 +584,10 @@ missions:
     character: jason
     opens_after: coming-home
     closes_at: clean-up-after-donnie
-    note: A haircut before you collect Lucia. It won't appear if Jason already had one. One guide says it lasts longer; the earlier cutoff is used.
+    note: A haircut before you collect Lucia. It won't appear if Jason already had one.
+    evidence:
+      basis: safe-bound
+      note: "One guide says it lasts longer; the earlier cutoff is used."
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-chapter-1-guide-all-missables-and-things-to-do-before-tourist-trap/
         title: "KeenGamer: Chapter 1 missables"
