@@ -118,6 +118,31 @@ describe("parseCurated", () => {
       error: "gates.yaml: gates.0.sources.0.url",
     },
     {
+      name: "unknown evidence basis",
+      edit: (r) => (r.itemFiles.m3.items[0].evidence = { basis: "unknown" }),
+      error: "items/m3.yaml: items.0.evidence.basis",
+    },
+    {
+      name: "evidence without a basis",
+      edit: (r) => (r.missions.missions[8].evidence = { note: "Why." }),
+      error: "missions.yaml: missions.8.evidence.basis",
+    },
+    {
+      name: "unknown evidence field (strict)",
+      edit: (r) =>
+        (r.missions.missions[0].evidence = {
+          basis: "best-guess",
+          confidence: "low",
+        }),
+      error: "missions.yaml: missions.0.evidence",
+    },
+    {
+      name: "empty evidence note",
+      edit: (r) =>
+        (r.itemFiles.m3.items[0].evidence = { basis: "best-guess", note: " " }),
+      error: "items/m3.yaml: items.0.evidence.note",
+    },
+    {
       name: "item without a source",
       edit: (r) => (r.itemFiles.m3.items[0].sources = []),
       error: "items/m3.yaml: items.0.sources",
@@ -321,6 +346,22 @@ describe("parseCurated", () => {
     } catch (error) {
       expect((error as CuratedValidationError).issues).toHaveLength(2);
     }
+  });
+
+  it("accepts evidence on items, main missions and optional missions, and never returns it", () => {
+    const raw = fixtureRaw();
+    const evidence = {
+      basis: "safe-bound",
+      note: "Earliest plausible cutoff.",
+    };
+    raw.itemFiles.m3.items[0].evidence = evidence;
+    raw.missions.missions[0].evidence = { basis: "two-sources" };
+    raw.missions.missions[8].evidence = evidence;
+    const data = parseCurated(raw);
+    const output = JSON.stringify(data);
+    expect(output).not.toContain('"evidence"');
+    expect(output).not.toContain('"verified"');
+    expect(data.items.map((i) => i.id)).toContain("a");
   });
 
   it("accepts opens_after equal to closes_at", () => {

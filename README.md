@@ -37,7 +37,7 @@ The database is one SQLite file at `DATABASE_PATH`. Migrations never run at app 
 
 ## Data
 
-Curated, verified data lives in `data/curated/` and is committed: `missions.yaml` (chapters, the 91 main missions in story order, and optional missions with when they open and close), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
+Curated data at its current best-evidence value (ADR 0008) lives in `data/curated/` and is committed: `missions.yaml` (chapters, the 91 main missions in story order, and optional missions with when they open and close), `gates.yaml` (points of no return) and `items/<gate>.yaml` (checklist items, each with sources). It is validated on load and in tests, so an item without `visible_after_mission` fails the tests. Scrapers in `scrapers/` enrich a database that stays on the server; scraped text is never committed or shown raw.
 
 ## Not affiliated
 

@@ -23,7 +23,7 @@ An original mark: a sunset disc over a Gulf-teal sea with a single palm, on suns
 | Role                                   | Light     | Dark      |
 | -------------------------------------- | --------- | --------- |
 | Sunset pink (primary, headers, checks) | `#e5336d` | `#ff5c8a` |
-| Sun orange (sun disc, Research chip)   | `#ff8a3d` | `#ff9d5c` |
+| Sun orange (sun disc)                  | `#ff8a3d` | `#ff9d5c` |
 | Gulf teal (sea band, exit sign, tips)  | `#0f8b8d` | `#3cc7c2` |
 | Ink                                    | `#22101c` | `#fbeef3` |
 | Muted text                             | `#7a5a6c` | `#c29bb0` |
@@ -32,7 +32,7 @@ An original mark: a sunset disc over a Gulf-teal sea with a single palm, on suns
 | Ground                                 | `#ffffff` | `#1c0f1a` |
 
 - Text on pink is white in light mode and #1c0f1a in dark mode.
-- Pink means "yours to do" or done. Teal marks a point of no return or a tip. Orange marks something that needs research.
+- Pink means "yours to do" or done. Teal marks a point of no return or a tip. Orange is the sun disc.
 
 ## Type
 
@@ -45,13 +45,13 @@ An original mark: a sunset disc over a Gulf-teal sea with a single palm, on suns
 - **Postcard header:** a pink band, an orange sun disc cropped at the right edge, and a teal sea strip along the bottom. Every main screen has one.
 - **Exit sign** (taken from Highway in round 2): a teal sign with an "EXIT 20" badge, used for the next point of no return. The number is the mission number.
 - **Rings** for stat levels 0-4, plus a thin progress bar for checklist completion.
-- **Chips:** "Soon lost" (pink), "Research" (orange) and "Tip" (teal).
+- **Chips:** "Soon lost" (pink) and "Tip" (teal). No confidence chip (ADR 0008).
 
 ## Voice
 
 - Short, direct, second person. It reads like a friend who already played this part: "Drive the Ultimate Edition cars while you still have them."
 - Spoiler-safe by default: name only missions you've reached, plus the next point of no return and the mission that unlocks hidden items ("4 more unlock after Day Release"), never what's in them (ADR 0002).
-- Say when something is unverified ("needs research") instead of guessing.
+- State the best-evidence value plainly. Never label it unverified or unconfirmed; when guides split, the text gives the safe reading (ADR 0008).
 
 ## Do
 
