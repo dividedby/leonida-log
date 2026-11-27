@@ -75,10 +75,12 @@ What it watches is in `scrapers/config/github.yaml` (validated with zod on load)
 ## Politeness rules
 
 - User-Agent `LeonidaLogBot/0.1 (+https://github.com/dividedby/leonida-log)`. It never imitates a browser and never contains `Claude`, `Code` or `Cursor` (a test enforces it).
-- robots.txt (RFC 9309): fetched once per host per run; group chosen by the `leonidalogbot` token, else `*`; longest match wins, Allow wins ties; 4xx means allow all, 5xx or a network error means disallow all for that host this run; Disallowed URLs are skipped and counted. Every redirect hop's host is checked too.
+- robots.txt (RFC 9309): fetched once per host per run; group chosen by the `leonidalogbot` token, else `*`; longest match wins, Allow wins ties; 4xx other than 429 means allow all; 429, 5xx or a network error (after retries) means disallow all for that host this run; Disallowed URLs are skipped and counted. Every redirect hop's host is checked too.
 - One request at a time per host, at least 5 s apart (a source's `minIntervalMs`, or the robots `Crawl-delay` capped at 60 s, whichever is larger). Sources run one after another.
 - Conditional GET, 30 s timeout, 5 MB body cap, at most 5 redirects.
-- 429 or 503: wait `Retry-After` (at most 120 s) once, then stop that host for the run; the first 429 or 503 only counts toward the 5xx streak once its retry also fails. 403 stops the host for the run, and so do 3 consecutive 5xx responses from it (any other response resets the count). Other 4xx are recorded on the URL.
+- Retries: a timeout, network error, 429 or 5xx (robots.txt included) is retried up to 2 times, waiting `Retry-After` (at most 120 s) or else 10 s, then 20 s; the host interval still applies. 4xx other than 429, robots blocks, the body cap and the redirect limit are never retried. A run has 10 retries in all, shared by every source, so retries add at most about 8 minutes to a run, or about 25 in the worst `Retry-After` case; the unit's `TimeoutStartSec` is 45 minutes. Only the final attempt's outcome counts below.
+- 429 or 503 still failing after its retries stops that host for the run. 403 stops the host for the run, and so do 3 consecutive URLs that fail after their retries (5xx, timeout or network error; any other response resets the count). Other 4xx are recorded on the URL.
+- A listing (sitemap index or child sitemap) that still fails after its retries fails that source's discovery, and the run exits 2. A source is not marked partial: without `--since`, KeenGamer reads only its newest child sitemaps, so a skipped child could drop out of next week's window and its changes would be lost without an alert.
 - No headless browsers and no JavaScript execution: pages that need it yield an empty extract, which is logged and left untouched.
 
 ## The weekly research pass
