@@ -41,6 +41,8 @@ pnpm test
 DATABASE_PATH=data/local.db pnpm scrape --dry-run              # fetch and diff, write nothing
 DATABASE_PATH=data/local.db pnpm scrape --source powerpyx      # one source
 DATABASE_PATH=data/local.db pnpm scrape --report-only --since 2026-11-20
+DATABASE_PATH=data/local.db pnpm scrape --purge ign             # drop a source's pages and candidates
+pnpm scrape --wayback 'keengamer.com/articles/guides/gta-6-*'  # list Wayback captures, no DB
 ```
 
 Each run writes `data/scraped/reports/changed-since-<date>.md` (and `latest.md`) for the weekly research pass. Switches, env vars and how to add a source are in [scrapers/README.md](scrapers/README.md).

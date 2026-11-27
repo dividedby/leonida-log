@@ -365,7 +365,12 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           };
         };
 
-        state.serverErrors = res.status >= 500 ? state.serverErrors + 1 : 0;
+        // A first 429/503 gets its Retry-After retry before it counts as a streak 5xx.
+        const retryable =
+          (res.status === 429 || res.status === 503) && !retried;
+        if (!retryable) {
+          state.serverErrors = res.status >= 500 ? state.serverErrors + 1 : 0;
+        }
 
         const location = res.headers.get("location");
         if (res.status >= 300 && res.status < 400 && res.status !== 304) {
@@ -381,7 +386,11 @@ export function createPoliteFetcher(deps: PoliteFetchDeps = {}): PoliteFetcher {
           stop(state, url.host, "403", 403, stats);
           return result("http-error", "403");
         }
-        if (res.status >= 500 && state.serverErrors >= MAX_CONSECUTIVE_5XX) {
+        if (
+          !retryable &&
+          res.status >= 500 &&
+          state.serverErrors >= MAX_CONSECUTIVE_5XX
+        ) {
           stop(
             state,
             url.host,

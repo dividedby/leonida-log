@@ -162,11 +162,12 @@ export async function runScrape(opts: RunOptions): Promise<SourceStats[]> {
         ? new Date(clock().getTime() - FIRST_RUN_DAYS * DAY_MS).toISOString()
         : undefined);
     const sinceIso = toIso(since);
+    const ctx = { fetch: get, since, log };
     log(`[${mod.id}] discovering${since ? ` (since ${since})` : ""}`);
 
     let refs: PageRef[];
     try {
-      refs = dedupe(await mod.discover({ fetch: get, since, log }));
+      refs = dedupe(await mod.discover(ctx));
     } catch (error) {
       stats.discoveryError =
         error instanceof Error ? error.message : String(error);
@@ -216,165 +217,195 @@ export async function runScrape(opts: RunOptions): Promise<SourceStats[]> {
     const extract = mod.extract ?? extractHtml;
     let fetches = 0;
 
-    for (let i = 0; i < queue.length; i++) {
-      const { ref, row } = queue[i];
-      const now = clock();
-      let html = ref.body;
-      let res: FetchResult | undefined;
+    /** Fetches and stores `items`; returns the ones left because the host stopped. */
+    const processQueue = async (items: Queued[]): Promise<Queued[]> => {
+      for (let i = 0; i < items.length; i++) {
+        const { ref, row } = items[i];
+        const now = clock();
+        let html = ref.body;
+        let res: FetchResult | undefined;
 
-      if (html === undefined) {
-        if (fetches >= maxPages) {
-          stats.deferred++;
+        if (html === undefined) {
+          if (fetches >= maxPages) {
+            stats.deferred++;
+            continue;
+          }
+          const conditional = row?.contentHash && !ref.fetchUrl;
+          res = await get(
+            ref.fetchUrl ?? ref.url,
+            conditional
+              ? {
+                  etag: row.etag ?? undefined,
+                  lastModified: row.lastModified ?? undefined,
+                }
+              : {},
+          );
+          if (res.outcome === "host-stopped") {
+            log(
+              `[${mod.id}] host stopped (${res.error}); ${items.length - i} pages pending`,
+            );
+            return items.slice(i);
+          }
+          if (res.outcome === "blocked-robots") continue;
+          fetches++;
+          stats.fetched++;
+
+          if (res.outcome === "not-modified") {
+            if (row && !opts.dryRun) {
+              updatePage(db, row.id, {
+                checkedAt: now,
+                httpStatus: 304,
+                remoteModified: ref.remoteModified,
+              });
+            }
+            stats.unchanged++;
+            continue;
+          }
+          if (res.outcome !== "ok") {
+            stats.errors++;
+            log(
+              `[${mod.id}] ${ref.url}: ${res.outcome} ${res.status} ${res.error ?? ""}`,
+            );
+            if (!opts.dryRun) {
+              const patch = {
+                httpStatus: res.status || undefined,
+                checkedAt: now,
+                ...(isDefinitive(res.status)
+                  ? { remoteModified: ref.remoteModified }
+                  : {}),
+              };
+              if (row) updatePage(db, row.id, patch);
+              else if (isDefinitive(res.status)) {
+                insertPage(db, {
+                  source: mod.id,
+                  url: ref.url,
+                  host: new URL(ref.url).host,
+                  title: ref.title,
+                  ...patch,
+                });
+              }
+            }
+            continue;
+          }
+          html = res.text;
+        }
+
+        let ex;
+        try {
+          ex = extract(html, ref.url);
+        } catch (error) {
+          stats.errors++;
+          log(`[${mod.id}] ${ref.url}: extract failed: ${String(error)}`);
           continue;
         }
-        const conditional = row?.contentHash && !ref.fetchUrl;
-        res = await get(
-          ref.fetchUrl ?? ref.url,
-          conditional
-            ? {
-                etag: row.etag ?? undefined,
-                lastModified: row.lastModified ?? undefined,
-              }
-            : {},
-        );
-        if (res.outcome === "host-stopped") {
-          stats.deferred += queue.length - i;
-          log(
-            `[${mod.id}] host stopped (${res.error}); deferring ${queue.length - i} pages`,
-          );
-          break;
+        if (!ex.text) {
+          stats.errors++;
+          log(`[${mod.id}] ${ref.url}: empty extract, left untouched`);
+          continue;
         }
-        if (res.outcome === "blocked-robots") continue;
-        fetches++;
-        stats.fetched++;
 
-        if (res.outcome === "not-modified") {
-          if (row && !opts.dryRun) {
-            updatePage(db, row.id, {
-              checkedAt: now,
-              httpStatus: 304,
-              remoteModified: ref.remoteModified,
-            });
-          }
+        const title = ref.title || ex.title || null;
+        const validators = ref.fetchUrl ? undefined : res;
+        const common = {
+          title,
+          remoteModified:
+            ref.remoteModified ??
+            ex.remoteModified ??
+            row?.remoteModified ??
+            null,
+          etag: validators
+            ? (validators.headers.get("etag") ?? null)
+            : undefined,
+          lastModified: validators
+            ? (validators.headers.get("last-modified") ?? null)
+            : undefined,
+          httpStatus: res?.status ?? 200,
+          fetchedAt: now,
+          checkedAt: now,
+        };
+
+        if (row?.contentHash === ex.hash) {
+          if (!opts.dryRun) updatePage(db, row.id, common);
           stats.unchanged++;
           continue;
         }
-        if (res.outcome !== "ok") {
-          stats.errors++;
-          log(
-            `[${mod.id}] ${ref.url}: ${res.outcome} ${res.status} ${res.error ?? ""}`,
-          );
-          if (!opts.dryRun) {
-            const patch = {
-              httpStatus: res.status || undefined,
-              checkedAt: now,
-              ...(isDefinitive(res.status)
-                ? { remoteModified: ref.remoteModified }
-                : {}),
-            };
-            if (row) updatePage(db, row.id, patch);
-            else if (isDefinitive(res.status)) {
-              insertPage(db, {
+
+        const hadContent = Boolean(row?.contentHash);
+        const previous =
+          hadContent && row ? (loadExtract(db, row.id) ?? "") : null;
+        const diff = diffExtracts(previous, ex.text);
+        const hints = hinter(title ?? "", ex.text);
+        if (hadContent) stats.changed++;
+        else stats.new++;
+        if (opts.dryRun) {
+          log(`[${mod.id}] would emit ${diff.kind}: ${ref.url}`);
+          continue;
+        }
+
+        db.transaction((tx) => {
+          const rowId = row
+            ? (updatePage(tx, row.id, {
+                ...common,
+                contentHash: ex.hash,
+                extract: ex.text,
+                changedAt: now,
+              }),
+              row.id)
+            : insertPage(tx, {
                 source: mod.id,
                 url: ref.url,
                 host: new URL(ref.url).host,
-                title: ref.title,
-                ...patch,
+                ...common,
+                contentHash: ex.hash,
+                extract: ex.text,
+                changedAt: now,
               });
-            }
-          }
-          continue;
-        }
-        html = res.text;
-      }
-
-      let ex;
-      try {
-        ex = extract(html, ref.url);
-      } catch (error) {
-        stats.errors++;
-        log(`[${mod.id}] ${ref.url}: extract failed: ${String(error)}`);
-        continue;
-      }
-      if (!ex.text) {
-        stats.errors++;
-        log(`[${mod.id}] ${ref.url}: empty extract, left untouched`);
-        continue;
-      }
-
-      const title = ref.title || ex.title || null;
-      const validators = ref.fetchUrl ? undefined : res;
-      const common = {
-        title,
-        remoteModified:
-          ref.remoteModified ??
-          ex.remoteModified ??
-          row?.remoteModified ??
-          null,
-        etag: validators ? (validators.headers.get("etag") ?? null) : undefined,
-        lastModified: validators
-          ? (validators.headers.get("last-modified") ?? null)
-          : undefined,
-        httpStatus: res?.status ?? 200,
-        fetchedAt: now,
-        checkedAt: now,
-      };
-
-      if (row?.contentHash === ex.hash) {
-        if (!opts.dryRun) updatePage(db, row.id, common);
-        stats.unchanged++;
-        continue;
-      }
-
-      const hadContent = Boolean(row?.contentHash);
-      const previous =
-        hadContent && row ? (loadExtract(db, row.id) ?? "") : null;
-      const diff = diffExtracts(previous, ex.text);
-      const hints = hinter(title ?? "", ex.text);
-      if (hadContent) stats.changed++;
-      else stats.new++;
-      if (opts.dryRun) {
-        log(`[${mod.id}] would emit ${diff.kind}: ${ref.url}`);
-        continue;
-      }
-
-      db.transaction((tx) => {
-        const rowId = row
-          ? (updatePage(tx, row.id, {
-              ...common,
-              contentHash: ex.hash,
-              extract: ex.text,
-              changedAt: now,
+          insertCandidate(tx, {
+            sourceRowId: rowId,
+            gateHint: hints.gateHint,
+            missionHint: hints.missionSlugs.length
+              ? hints.missionSlugs.join(",")
+              : null,
+            changeKind: diff.kind,
+            contentHash: ex.hash,
+            diffSummary: JSON.stringify({
+              headingsAdded: diff.headingsAdded,
+              headingsRemoved: diff.headingsRemoved,
+              paragraphsAdded: diff.paragraphsAdded,
+              paragraphsRemoved: diff.paragraphsRemoved,
+              snippets: diff.snippets,
             }),
-            row.id)
-          : insertPage(tx, {
-              source: mod.id,
-              url: ref.url,
-              host: new URL(ref.url).host,
-              ...common,
-              contentHash: ex.hash,
-              extract: ex.text,
-              changedAt: now,
-            });
-        insertCandidate(tx, {
-          sourceRowId: rowId,
-          gateHint: hints.gateHint,
-          missionHint: hints.missionSlugs.length
-            ? hints.missionSlugs.join(",")
-            : null,
-          changeKind: diff.kind,
-          contentHash: ex.hash,
-          diffSummary: JSON.stringify({
-            headingsAdded: diff.headingsAdded,
-            headingsRemoved: diff.headingsRemoved,
-            paragraphsAdded: diff.paragraphsAdded,
-            paragraphsRemoved: diff.paragraphsRemoved,
-            snippets: diff.snippets,
-          }),
-          rawExtract: truncate(ex.text, RAW_EXTRACT_MAX),
-          createdAt: now,
+            rawExtract: truncate(ex.text, RAW_EXTRACT_MAX),
+            createdAt: now,
+          });
         });
-      });
+      }
+      return [];
+    };
+
+    const stopped = await processQueue(queue);
+    if (stopped.length > 0 && mod.fallback) {
+      // Hosts stopped mid-run (403, repeated 5xx): let the module find another way in.
+      let mapped: PageRef[] = [];
+      try {
+        mapped = await mod.fallback(
+          ctx,
+          stopped.map((q) => q.ref),
+        );
+      } catch (error) {
+        log(`[${mod.id}] fallback failed: ${String(error)}`);
+      }
+      const queued = mapped.map((ref) => ({ ref, row: tracked.get(ref.url) }));
+      queued.sort(priority);
+      const taken = new Set(mapped.map((r) => r.url));
+      stats.deferred += stopped.filter((q) => !taken.has(q.ref.url)).length;
+      log(
+        `[${mod.id}] fallback found ${mapped.length} of ${stopped.length} pending pages`,
+      );
+      const stillStopped = await processQueue(queued);
+      stats.deferred += stillStopped.length;
+    } else {
+      stats.deferred += stopped.length;
     }
 
     stats.blockedByRobots = fetchStats.robotsBlocked;

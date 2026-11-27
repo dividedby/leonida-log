@@ -1,6 +1,6 @@
 import { extractorFor } from "../extract";
 import { readSitemap } from "../sitemap";
-import type { PageRef, SourceModule } from "../types";
+import type { PageRef, SourceContext, SourceModule } from "../types";
 import { captureIso, captures, rawCaptureUrl } from "../wayback";
 import { isLater } from "../util";
 
@@ -29,16 +29,16 @@ export function canonicalGuideUrl(original: string): string | null {
   return url.startsWith(GUIDE_PREFIX) ? url : null;
 }
 
-async function viaWayback(
-  ctx: Parameters<SourceModule["discover"]>[0],
-): Promise<PageRef[]> {
+/** Newest capture timestamp per page, keyed by the live sitemap's URL form: captures
+ * can be http://, carry :80 or a query, which would duplicate live rows. */
+async function latestCaptures(
+  ctx: SourceContext,
+): Promise<Map<string, string>> {
   const from = (ctx.since ?? "").slice(0, 10).replaceAll("-", "") || undefined;
   const found = await captures(ctx.fetch, WAYBACK_PREFIX.replace(/\*$/, ""), {
     from,
     matchType: "prefix",
   });
-  // Newest capture per page, keyed by the live sitemap's URL form: captures
-  // can be http://, carry :80 or a query, which would duplicate live rows.
   const latest = new Map<string, string>();
   for (const c of found) {
     const url = canonicalGuideUrl(c.original);
@@ -46,11 +46,19 @@ async function viaWayback(
     const prev = latest.get(url);
     if (!prev || c.timestamp > prev) latest.set(url, c.timestamp);
   }
-  return [...latest].map(([url, timestamp]) => ({
-    url,
-    fetchUrl: rawCaptureUrl(timestamp, url),
-    remoteModified: captureIso(timestamp),
-  }));
+  return latest;
+}
+
+const fromCapture = (url: string, timestamp: string): PageRef => ({
+  url,
+  fetchUrl: rawCaptureUrl(timestamp, url),
+  remoteModified: captureIso(timestamp),
+});
+
+async function viaWayback(ctx: SourceContext): Promise<PageRef[]> {
+  return [...(await latestCaptures(ctx))].map(([url, ts]) =>
+    fromCapture(url, ts),
+  );
 }
 
 export const keengamer: SourceModule = {
@@ -91,6 +99,22 @@ export const keengamer: SourceModule = {
           refs.push({ url: e.loc, remoteModified: e.lastmod });
         }
       }
+    }
+    return refs;
+  },
+  /** The host stopped mid-run: one CDX query, then the newest capture at least as new as each pending page. */
+  async fallback(ctx, pending) {
+    ctx.log("KeenGamer stopped mid-run: looking for Wayback captures");
+    const latest = await latestCaptures(ctx);
+    const refs: PageRef[] = [];
+    for (const ref of pending) {
+      const url = canonicalGuideUrl(ref.url) ?? ref.url;
+      const ts = latest.get(url);
+      if (!ts) continue;
+      if (ref.remoteModified && isLater(ref.remoteModified, captureIso(ts))) {
+        continue;
+      }
+      refs.push(fromCapture(url, ts));
     }
     return refs;
   },

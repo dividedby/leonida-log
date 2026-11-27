@@ -49,6 +49,12 @@ export interface SourceModule {
   method: "wp-rest" | "sitemap" | "html-index";
   /** Cheap listing. Throws when the listing can't be read. */
   discover(ctx: SourceContext): Promise<PageRef[]>;
+  /**
+   * Called once when the host stopped mid-run (403, repeated 5xx) with the
+   * refs left unfetched. Returns refs reachable another way (e.g. Wayback
+   * captures via `fetchUrl`); the run processes them under the same page cap.
+   */
+  fallback?(ctx: SourceContext, pending: PageRef[]): Promise<PageRef[]>;
   /** Defaults to the generic main-content extractor. */
   extract?(html: string, url: string): Extract;
 }
