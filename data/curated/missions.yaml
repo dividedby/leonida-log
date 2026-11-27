@@ -421,10 +421,10 @@ missions:
     character: jason
     opens_after: get-shirleys-rum
     closes_at: tourist-trap
-    note: No reward is confirmed (PowerPyx, Push Square). It doesn't affect trophies or 100%.
+    note: Finish it and Shirley lets you use her car whenever you like. It doesn't affect trophies or 100%.
     evidence:
       basis: best-guess
-      note: "Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
+      note: "Reward (two sources): gta.wiki, HoldToReset and GameWith 588323 say finishing it lets Jason use Shirley's car; none names the model; PowerPyx and Push Square list no cash reward but don't rule the car out. Kind (best guess): Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/steal-the-scooter
         title: "gtabase: Steal the Scooter mission"
@@ -444,6 +444,12 @@ missions:
       - url: https://gamewith.jp/gta6/583812
         title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
         accessed: "2026-11-26"
+      - url: https://holdtoreset.com/gta-6-steal-the-scooter-guide/
+        title: "HoldToReset: Steal the Scooter guide"
+        accessed: "2026-11-27"
+      - url: https://gamewith.jp/gta6/588323
+        title: "GameWith: Steal the Scooter (JP)"
+        accessed: "2026-11-27"
   - slug: ring-the-bell
     title: Ring the Bell!
     chapter: just-like-paradise
