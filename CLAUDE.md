@@ -13,6 +13,7 @@ Node 24 (CI).
 - `pnpm typecheck`: `tsc --noEmit`
 - `pnpm db:generate`: write a Drizzle migration from `lib/db/schema.ts` into `drizzle/` (commit it)
 - `pnpm db:migrate`: apply migrations to `DATABASE_PATH` (explicit; the app and scrapers never migrate)
+- `pnpm scrape [--source x[,y]] [--since YYYY-MM-DD] [--report-only] [--dry-run]`: run the scrapers and write the changed-since report (see scrapers/README.md). `--purge <source>` deletes a source's pages and candidates; `--wayback <url[*]>` lists Wayback captures
 - `pnpm format` / `pnpm format:check`: Prettier (tool defaults, `.prettierrc.json` is `{}`)
 
 ## Rules

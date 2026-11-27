@@ -4,7 +4,7 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 
 - **Point of no return (gate):** a mission after which things are lost or locked (e.g. Tourist Trap, mission 20 of Chapter 1). Avoid "checkpoint".
 - **Before-you-move-on checklist:** the items to finish before a gate, grouped by category.
-- **Main mission:** one of the 91 story missions in `missions.yaml`. Its list position is its order. Only main missions can be the current mission, a gate, or a `lost_at_mission`.
+- **Main mission:** one of the 92 story missions in `missions.yaml`. Its list position is its order. Only main missions can be the current mission, a gate, or a `lost_at_mission`.
 - **Optional mission:** a mission that isn't on the story path, with a kind (`optional`, `strangers-and-freaks`, `hourglass` or `side-job`), a character, an opens-after anchor and a closes-at. Listed after the mains; it has no order of its own.
 - **Opens after (anchor):** the mission an optional mission opens after. It may be another optional; the anchor is the main mission at the end of that chain. The optional opens when the user reaches its anchor.
 - **Closes at:** the main mission whose arrival closes an optional mission (standing on it counts as closed), or `never` when it stays open after the story. A closing mission is bound to the first gate at or after it.
@@ -19,6 +19,7 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Soon lost:** an item or optional mission whose reward or access ends at its `lost_at_mission` or `closes_at`, a gate or an earlier mission.
 - **Curated:** data in data/curated at its current best-evidence value, committed and reviewed by hand (ADR 0008).
 - **Best evidence:** the value the current sources support best; when they split, the one that can't hurt the player (earliest cutoff, latest visibility). Never labelled in the app.
+- **Structural bound:** a `closes_at` chosen when no source names the closing mission: the latest main mission a timer cannot outlast, or the chapter's gate (ADR 0008). Background only, never labelled.
 - **Verified:** an item's `verified` flag, true when it meets two independent sources, one explicit non-AI source or first-hand video. Background only, never rendered.
 - **Evidence:** optional `evidence` on an item or mission: `basis` (`two-sources`, `explicit-source`, `first-hand`, `best-guess`, `safe-bound`) and an optional `note`. Background only, never rendered.
 - **Candidate:** a scraped fact awaiting review; never shown, raw or otherwise, until it is promoted to curated.

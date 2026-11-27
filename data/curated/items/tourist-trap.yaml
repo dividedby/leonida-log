@@ -4,16 +4,16 @@
 # states it outright. A single source that is AI-drafted or AI-assisted (The
 # Games Wiki says so in its footer; gaming.net too) never counts as that one
 # explicit source, so items resting only on it stay verified: false.
-# Where guides disagree the item stays verified: false and says so.
-# Checking balance: Rock Paper Shotgun and allthings.how both say it is lost, and
-# Playtheory's own save and a Project VI video test show the same, so
-# empty-checking is verified.
-# Lock-in: PowerPyx's Recalibration page says there is no free roam once you
-# start Recalibration (two cross-checks read it). Its Tourist Trap page says the
-# lock starts when you go to Lucia, and VGC and gtabase tie it to Tourist Trap.
-# Items use the earlier, safe line: finish the list and save before you start
-# Recalibration. Still verified: false, as every source is one publisher or a
-# conflicting guide. The item is lost_at the first mission of that earlier line.
+# Where guides disagree the item ships the safe value and the disagreement goes in
+# evidence.note (ADR 0008); verified is research background only.
+# Checking balance: Rock Paper Shotgun, IGN's All Chapter 1 Missables and
+# Playtheory's own save say it is lost, so empty-checking is verified.
+# Lock-in: free roam returns after Recalibration, and Chapter 1 free roam ends
+# only when you approach Lucia, which starts Tourist Trap (IGN's Recalibration
+# and Tourist Trap walkthroughs, gtabase, Leonipedia, VGC). PowerPyx's "last
+# chance" sentence is templated on both pages and its own body contradicts it.
+# finish-before-recalibration is verified and has no lost_at; keep its id
+# (item_checks keys on it).
 # Not listed, on purpose: the Moreland 850 pickup inside Tourist Trap itself.
 # It can't be described without giving away the mission, and it falls after
 # the lock-in point.
@@ -26,17 +26,23 @@
 # unverified.
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
-# Not items any more: Get Shirley's Rum, Steal the Scooter, Ring the Bell!, Get
-# Lucia's Clothes and Buy Lucia a Necklace are optional missions in
-# missions.yaml; the app derives their rows and countdowns. Clock Out, Donnie's
-# Drop-Off and Meditate with Lucia stay items until their windows are confirmed.
+# Not items any more: Get Shirley's Rum, Steal the Scooter, Ring the Bell!, Clock
+# Out, Get Lucia's Clothes, Buy Lucia a Necklace, Pick Up Groceries, Buy Flowers,
+# Get The Chop and Find the Lost Drugs are optional missions in missions.yaml; the
+# app derives their rows and countdowns. Donnie's Drop-Off and Meditate with Lucia
+# stay items: lost_at is the earliest plausible cutoff (Clear Skies; the Tourist
+# Trap gate for the one-shot balcony offer).
+# Pickups inside a mission are lost_at the next main mission (reached rule):
+# mandys-cigars (Pipework), donnies-38 (Don Gone).
+# Chuck's discount, the card box and spend-on-weapons ammo: no source settles them;
+# the safe advice is in the text and the split is in evidence.note.
 
 items:
   - id: manual-save
     title: Make a manual save
     category: General
     before_gate: tourist-trap
-    visible_after_mission: prologue
+    visible_after_mission: gear-up
     verified: true
     how_to: There's no mission replay, so keep a save you won't overwrite. You get 15 manual slots plus an autosave. Make a fresh one before each point of no return. In Chapter 1, make it during your last free roam, before the point of no return; the checklist tells you when that is.
     sources:
@@ -46,15 +52,20 @@ items:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
         accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/how-to-save-in-gta-6-manual-saves-autosave-and-safehouses/
+        title: "KeenGamer: how to save in GTA 6"
+        accessed: "2026-11-26"
 
   - id: finish-before-recalibration
-    title: Finish this list before the mission that follows Don Gone
+    title: Finish this list before the gate
     category: General
     before_gate: tourist-trap
     visible_after_mission: don-gone
-    lost_at_mission: recalibration
-    verified: false
-    how_to: PowerPyx says the last free roam in Chapter 1 ends once the mission after Don Gone starts. Other guides put the lock at the gate itself, so the safe line is the earlier one. Finish everything here and make your save before you start that next mission.
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "One guide says the last free roam ends a mission earlier; IGN and gtabase show it doesn't."
+    how_to: After the mission that follows Don Gone you get free roam again, and Chapter 1 free roam ends only when you start Tourist Trap by going to Lucia. Finish everything here and make your save before you approach her.
     sources:
       - url: https://www.powerpyx.com/gta-6-recalibration-talk-to-lucia-walkthrough/
         title: "PowerPyx: Recalibration (Talk to Lucia) walkthrough"
@@ -65,15 +76,18 @@ items:
       - url: https://completegta6.com/how-to/gta-6-chapter-1-point-of-no-return-tourist-trap/
         title: "CompleteGTA6: what to do before Tourist Trap"
         accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/tourist-trap
-        title: "The Games Wiki: Tourist Trap"
-        accessed: "2026-11-25"
       - url: https://www.gtabase.com/gta-6/missions/tourist-trap
         title: "gtabase: Tourist Trap mission"
         accessed: "2026-11-25"
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Tourist_Trap_Walkthrough
+        title: "IGN: Tourist Trap walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Recalibration_Walkthrough
+        title: "IGN: Recalibration walkthrough"
+        accessed: "2026-11-26"
 
   - id: family-savings-goal
     title: Put $5,000 into Family Savings
@@ -81,26 +95,26 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     verified: true
-    how_to: Aim for $5,000, which Rock Paper Shotgun, Tech4Gamers and others give as the Chapter 1 cap on Family Savings, so more won't go in. Family Savings can't be withdrawn or lost, and each savings level raises how much your checking account can hold (PowerPyx).
+    how_to: "Aim for $5,000, the first Family Savings goal and the Chapter 1 cap (Rock Paper Shotgun, KeenGamer). BuckMe won't let a deposit go past the current goal: in ABTW's footage the transfer's Maximum stops at exactly the amount that reaches $5,000. Family Savings can't be withdrawn or lost, and each savings level raises how much your checking account can hold (PowerPyx)."
     location: The BuckMe app, once the account is set up.
     sources:
-      - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
-        title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
-        accessed: "2026-11-25"
-      - url: https://www.gtabase.com/gta-6/missions/tourist-trap
-        title: "gtabase: Tourist Trap mission"
-        accessed: "2026-11-25"
-      - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
-        title: "Bloxodes: GTA 6 missable trophies and missions"
-        accessed: "2026-11-25"
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-26"
       - url: https://www.powerpyx.com/?p=369737
         title: "PowerPyx: GTA 6 BuckMe and banking"
         accessed: "2026-11-26"
-      - url: https://gta.tech4gamers.com/gta-6/guides/money-end-of-chapter-1/
-        title: "Tech4Gamers: money at the end of Chapter 1"
+      - url: https://www.youtube.com/watch?v=yfrAG7Qh__k
+        title: "ABTW: DON'T Finish Chapter 2 in GTA 6 Until You Do THIS! (1:45-1:49)"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
+        title: "KeenGamer: Chapter 2 lost money, what carries over"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Buck_Me_Walkthrough
+        title: "IGN: Buck Me walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-save-for-the-future-walkthrough/
+        title: "PowerPyx: Save for the Future walkthrough"
         accessed: "2026-11-26"
 
   - id: bank-your-cash
@@ -110,7 +124,7 @@ items:
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Cash in your pockets is lost at the gate. Spend it on things you'll keep or pay it into BuckMe, and keep your pockets at $0. Shops take pocket cash only up to about $999 and bill BuckMe for the rest, so there's no reason to carry any.
+    how_to: Cash in your pockets is lost at the gate. Spend it on things you'll keep or pay it into BuckMe, and keep your pockets at $0. Shops take pocket cash only up to about $1,000 (PowerPyx) and bill BuckMe for the rest, so there's no reason to carry any.
     location: Any ATM, or the ATM Finder in the BuckMe app.
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
@@ -128,6 +142,9 @@ items:
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
+        accessed: "2026-11-26"
 
   - id: empty-checking
     title: Run your checking balance down
@@ -136,14 +153,11 @@ items:
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Rock Paper Shotgun and allthings.how both say your BuckMe checking balance is lost and only Family Savings carries over. Playtheory's own save and a Project VI test agree, with the balance gone after the chapter change and only the Family Savings money left. Spend it on things you'll keep, such as weapons. Family Savings only takes $5,000 in Chapter 1 (Tech4Gamers, Rock Paper Shotgun), so spend any excess rather than parking it there.
+    how_to: Rock Paper Shotgun and allthings.how both say your BuckMe checking balance is lost and only Family Savings carries over. Playtheory's own save agrees, with the balance gone after the chapter change and only the Family Savings money left. Spend it on things you'll keep, such as weapons. Family Savings only takes $5,000 in Chapter 1 (Rock Paper Shotgun, KeenGamer; ABTW's footage shows the deposit stopping at the goal), so spend any excess rather than parking it there.
     location: The BuckMe app.
     sources:
       - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
         title: "Playtheory Media: before you finish Chapter 1 (own PS5 Pro save)"
-        accessed: "2026-11-25"
-      - url: https://www.youtube.com/watch?v=M22QGseJN9M
-        title: "Project VI (YouTube): GTA 6: 5 Things You Lose Forever After Chapter 1"
         accessed: "2026-11-25"
       - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
         title: "KeenGamer: Chapter 2 lost money, what carries over and how to get it back"
@@ -157,11 +171,11 @@ items:
       - url: https://www.gtabase.com/gta-6/articles/how-to-keep-your-money-safe-in-gta-6
         title: "gtabase: how to keep your money safe in GTA 6"
         accessed: "2026-11-25"
-      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
-        title: "GameFAQs GTA VI board: tips thread (player reports)"
-        accessed: "2026-11-25"
       - url: https://gta.tech4gamers.com/gta-6/guides/money-end-of-chapter-1/
         title: "Tech4Gamers: money at the end of Chapter 1"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
         accessed: "2026-11-26"
 
   - id: spend-on-weapons
@@ -170,7 +184,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     verified: true
-    how_to: "Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Sources split on attachments: Playtheory's save kept weapon mods, but three Reddit reports (unverified) say attachments are lost, so treat attachments as at risk. Ammo is unconfirmed, and clothes are disputed: Playtheory lost bought clothes, while KeenGamer and Rock Paper Shotgun say they carry."
+    evidence:
+      basis: best-guess
+      note: "Nova Gaming (eISm7aTurTY) says weapons carry over at 3:04 and warns against leaving anything in the trunk at 3:12; bought ammo, armor and explosives sit in the car's trunk (Output Lag). No source links ammo to a gate."
+    how_to: "Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Attachments you buy carry over too (Playtheory's own save; Jay Dunna), but they're tracked separately for each character, so Lucia's copy of a gun doesn't get Jason's mods (Nova Gaming; gameta). Don't count on ammo or bought clothes coming with you: Playtheory lost its bought clothes."
     location: Chuck's Tackle & Shot in Key Lento, or any Ammu-Nation. Bought guns can be kept in the weapon locker inside the gun store (Rock Paper Shotgun).
     sources:
       - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
@@ -194,15 +211,27 @@ items:
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=eISm7aTurTY
+        title: "Nova Gaming: end of Chapter 1 tips (own PS5 Pro play)"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=bCOiv__VCuo
+        title: "Jay Dunna: what to buy before the end of Chapter 1"
+        accessed: "2026-11-26"
+      - url: https://gameta.gg/gta6/guides/weapon-customization/
+        title: "gameta: weapon customization"
+        accessed: "2026-11-26"
 
   - id: half-price-moreland
     title: Buy the Moreland 850 at half price
     category: Money
     before_gate: tourist-trap
-    visible_after_mission: prologue
-    lost_at_mission: gear-up
+    visible_after_mission: gear-up
+    lost_at_mission: just-a-scratch
     verified: false
-    how_to: Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700. Guides say the half price applies during the mission that makes you buy a longarm, so buy it then. Bought weapons carry through Tourist Trap.
+    evidence:
+      basis: best-guess
+      note: "IGN, nerdschalk and allthings.how confirm $350 against $700 during Gear Up. No source shows Chuck's menu afterwards, and IGN's Chapter 2 guide puts Key Lento off limits throughout Chapter 2, so the discount is gone by the gate at the latest; the mission after Gear Up is the earliest plausible end."
+    how_to: In Gear Up, Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700, so buy it then. Only the discount is at stake; any Ammu-Nation sells it at $700 later. Bought weapons carry through Tourist Trap.
     location: Chuck's Tackle & Shot.
     sources:
       - url: https://gtavimaps.com/guides/weapons/
@@ -214,48 +243,54 @@ items:
       - url: https://nerdschalk.com/gta-6-chucks-tackle-shot-guns-armor/
         title: "Nerdschalk: Chuck's Tackle & Shot guns, armor and prices"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Gear_Up_Walkthrough
+        title: "IGN: Gear Up walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/weapons/gta-6/moreland-850
+        title: "gtabase: Moreland 850"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Chapter_2_Walkthrough_and_Guide
+        title: "IGN: Chapter 2 walkthrough and guide"
+        accessed: "2026-11-26"
 
   - id: floor-stash
     title: Empty the floor stash
     category: Money
     before_gate: tourist-trap
-    visible_after_mission: prologue
+    visible_after_mission: gear-up
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out. Guides say stash money is gone and can't be recovered afterwards.
+    how_to: "Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out: guides say cash you put there yourself is gone after the gate."
     location: Jason's bedroom.
     sources:
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
         accessed: "2026-11-25"
       - url: https://www.gtaboom.com/how-to-make-money-fast-and-early-in-gta-6-725c
-        title: "GTABoom: how to make money fast and early in GTA 6"
+        title: "GTABoom: how to make money fast and early in GTA 6 (stash location only)"
         accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-25"
-      - url: https://gamefaqs.gamespot.com/boards/375801-grand-theft-auto-vi/81217002
-        title: "GameFAQs GTA VI board: tips thread (player reports)"
-        accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
+        title: "KeenGamer: GTA 6 Chapter 2 lost money, what carries over"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
+        accessed: "2026-11-26"
 
   - id: ultimate-edition-vehicles
-    title: Drive the Ultimate Edition vehicles
+    title: Drive Jason's Chapter 1 Ultimate Edition vehicles
     category: Vehicles
     before_gate: tourist-trap
-    visible_after_mission: prologue
+    visible_after_mission: gear-up
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Drive the Dinka Enduro and Crest Kayak at the safehouse while you still can; they are for Chapter 1 only, per the in-game text Output Lag quotes. The Ganado Retro Build is a free upgrade to Jason's Ganado at Coastal Auto Care, available a few missions into the chapter (Grindcoast). VGC says the Ultimate Edition ones go after the gate, and one guide says all of Jason's personal vehicles do.
-    location: Jason's safehouse; Coastal Auto Care.
+    how_to: Drive the Dinka Enduro and Crest Kayak at the safehouse while you still can; they are for Chapter 1 only, per the in-game text Output Lag quotes. VGC and KeenGamer say they are gone after the gate. Other Ultimate Edition vehicles unlock later and aren't affected.
+    location: Jason's safehouse.
     sources:
       - url: https://www.keengamer.com/articles/guides/how-to-claim-gta-6-ultimate-edition-and-pre-order-rewards/
         title: "KeenGamer: how to claim GTA 6 Ultimate Edition and pre-order rewards"
         accessed: "2026-11-25"
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
       - url: https://www.gtaboom.com/gta-6-ultimate-edition-unlock-guide-5081
         title: "GTABoom: GTA 6 Ultimate Edition unlock guide"
@@ -266,6 +301,29 @@ items:
       - url: https://grindcoast.com/gta-6-news/gta-6-ultimate-edition-bonuses-by-chapter
         title: "Grindcoast: GTA 6 Ultimate Edition bonuses by chapter"
         accessed: "2026-11-25"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
+        title: "KeenGamer: GTA 6 Chapter 2 lost money, what carries over"
+        accessed: "2026-11-26"
+
+  - id: ultimate-edition-retro-build
+    title: Apply the Ultimate Edition Ganado Retro Build
+    category: Vehicles
+    before_gate: tourist-trap
+    visible_after_mission: just-a-scratch
+    lost_at_mission: tourist-trap
+    verified: true
+    how_to: At Coastal Auto Care, Pro Builds > Full Kits has the Retro Build for Jason's Ganado, free for Ultimate Edition owners. It's optional in Just a Scratch, and guides list it as a Chapter 1 bonus.
+    location: Coastal Auto Care, Key Lento.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Things_You_Can_Do_First
+        title: "IGN: things you can do first"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/just-a-scratch
+        title: "gtabase: Just a Scratch mission"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/How_to_Unlock_the_Ultimate_Edition_Vapid_%E2%80%9870_Ganado_Retro_Build
+        title: "IGN: how to unlock the Ultimate Edition Ganado Retro Build"
+        accessed: "2026-11-26"
 
   - id: skip-car-upgrades
     title: Skip upgrades on Jason's car
@@ -274,11 +332,8 @@ items:
     visible_after_mission: just-a-scratch
     lost_at_mission: tourist-trap
     verified: true
-    how_to: Rock Paper Shotgun and Output Lag say Jason's Ganado, and anything spent modding it, is lost at the gate. Spend on things you'll keep instead.
+    how_to: Rock Paper Shotgun and KeenGamer say Jason's Ganado, and anything spent modding it, is lost at the gate. Spend on things you'll keep instead.
     sources:
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-25"
       - url: https://www.keengamer.com/articles/guides/gta-6-all-14-mod-shop-locations-and-vehicle-customization/
         title: "KeenGamer: all 14 mod shop locations and vehicle customization"
         accessed: "2026-11-25"
@@ -288,18 +343,21 @@ items:
       - url: https://outputlag.com/guides/gta-6-missables/
         title: "Output Lag: GTA 6 missables"
         accessed: "2026-11-26"
-      - url: https://game-checklists.com/gta6/guides/missables/
-        title: "Game Checklists: GTA 6 missables"
+      - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
+        title: "KeenGamer: GTA 6 Chapter 2 lost money, what carries over"
         accessed: "2026-11-26"
 
   - id: finish-exploring
     title: Finish exploring and side activities
     category: General
     before_gate: tourist-trap
-    visible_after_mission: prologue
+    visible_after_mission: gear-up
     lost_at_mission: tourist-trap
     verified: true
-    how_to: "Wrap up anything you want to do as both characters. Free roam with the pair stops for a good while: VGC says several hours, while PowerPyx and gtabase say Jason isn't playable for a long time."
+    evidence:
+      basis: two-sources
+      note: "VGC says several hours; PowerPyx and gtabase say Jason isn't playable for a long time."
+    how_to: "Wrap up anything you want to do as Jason. Free roam with the pair stops for a good while."
     sources:
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
@@ -317,7 +375,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: "Lift weights on Jason's back deck or pay for a studio session, and finish the workout or the gains don't count. Polygon's numbers, which gta6pedia matches (possibly the same origin), are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4; Polygon adds that gains per exercise shrink as you level. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym goes with the house at the gate, per How to Video Game and GameSpot. Sources disagree on what happens to Jason's levels at the next chapter change: one creator's PS5 save (GameSight) shows Strength dropping while Cardio and Focus stay, and The Games Wiki says all his fitness levels drop, so don't count on Strength gains from this chapter."
+    evidence:
+      basis: safe-bound
+      note: "GameSight's PS5 save shows Strength dropping at the chapter change while Cardio and Focus stay; The Games Wiki says all his fitness levels drop."
+    how_to: "Lift weights on Jason's back deck or pay for a studio session, and finish the workout or the gains don't count. Polygon's numbers (gta6pedia restates Polygon) are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4; Polygon adds that gains per exercise shrink as you level. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym goes with the house at the gate, per How to Video Game and GameSpot. Don't count on Jason's Strength gains from this chapter lasting past the next chapter change."
     location: Jason's back deck and paid studios.
     sources:
       - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
@@ -354,7 +415,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: Use the treadmill or a bike, or run, cycle and swim. Polygon gives Cardio the same limits as Strength, and gta6pedia matches it (possibly the same origin), at about 11% per exercise, nine to a level, a 33% daily cap, a window of about four days before gains are lost, protein halving the wait and a top level of 4, with smaller gains per exercise as you level. In one PS5 save, Jason's Cardio kept its level at the next chapter change, but The Games Wiki says all his fitness levels drop, so treat it as uncertain.
+    evidence:
+      basis: safe-bound
+      note: "GameSight's PS5 save kept Cardio at the chapter change; The Games Wiki says all his fitness levels drop."
+    how_to: Use the treadmill or a bike, or run, cycle and swim. Polygon gives Cardio the same limits as Strength, and gta6pedia restates it, at about 11% per exercise, nine to a level, a 33% daily cap, a window of about four days before gains are lost, protein halving the wait and a top level of 4, with smaller gains per exercise as you level. Don't count on Jason's Cardio gains lasting past the next chapter change.
     sources:
       - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
         title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
@@ -402,7 +466,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: There are 18 card sets with 480 cards in all, and each colour variant counts as its own card. You can't buy them. Duplicates sell at pawn shops for roughly $20 to over $1,000, and selling a card doesn't remove it from your progress. One challenge asks for three in each of the five counties. Set progress isn't urgent, but AllThings says unsold cards sit in a box in your safehouse and no guide says what happens to them at the gate, so sell duplicates before the gate to be safe.
+    evidence:
+      basis: best-guess
+      note: "AllThings says unsold cards sit in a box in the safehouse; Game8 EN says money stored in the house and goods stored in the car are lost at the gate. No source says what happens to the box's cards, so they are treated as tied to the house."
+    how_to: There are 18 card sets with 480 cards in all, and each colour variant counts as its own card. You can't buy them. Duplicates sell at pawn shops for roughly $20 to over $1,000, and selling a card doesn't remove it from your progress. One challenge asks for three in each of the five counties. Set progress isn't urgent, but sell your duplicates before the gate instead of leaving them in the safehouse box.
     location: Indoors on surfaces and walls, outdoors in yellow phone boxes and on tool boxes.
     sources:
       - url: https://www.powerpyx.com/gta-6-all-collectible-card-sets-locations/
@@ -418,7 +485,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration; guides disagree on whether Street Art, Murals, Kenton's Treasures and Styles are separate tabs. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and possibly unsold cards are tied to this gate."
+    evidence:
+      basis: best-guess
+      note: "Guides disagree on whether Street Art, Murals, Kenton's Treasures and Styles are separate tabs. Whether unsold cards are tied to the gate is not settled; they are treated as tied."
+    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and any cards you haven't sold are tied to this gate."
     location: Pause menu > Progress > Collections.
     sources:
       - url: https://www.powerpyx.com/gta-6-collectible-guide/
@@ -464,51 +534,57 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
-    verified: false
-    how_to: "Five magazines sit inside the house and go with it, so read them all before the gate. Orca and Off the Hook have second copies documented elsewhere, though guides disagree on Orca, and Lethal By Design has none documented. Whether the rest can be replaced is unconfirmed, so treat all five as one-time. Body Copy has reported copies elsewhere (Cutscene Wire: Downtown and Washington Beach), and Ashes of Glory has unconfirmed store copies (Game Checklists)."
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN's map and gtaboss both put Body Copy at the Zenith gym (Downtown) and the Ajax Gym (Oldby Island); Cutscene Wire's Washington Beach copy is unsupported. Orca has a tiki or outdoor bar copy; Ashes of Glory spots are player reports; Lethal By Design's other copy is inside a later story mission."
+    how_to: Five magazines sit inside the house and go with it, so read them while you're there. Each has a copy somewhere else. Body Copy is in the Zenith gym in Downtown and the Ajax Gym on Oldby Island. Off the Hook is in a house on Surfside Dr in Key Lento and a mobile home in Port Gellhorn. Orca is at a tiki bar south of Southwind, and players report Ashes of Glory in several places. Lethal By Design's only other copy is on a warehouse table during a later story mission, so read it in the house. 100% needs 30 of the titles.
     location: Inside Jason's house. Ashes of Glory in the bedroom, Lethal By Design on the living-room table, Orca A Whole Different Animal by the east window, Off the Hook in the tool shed and Body Copy on the back deck.
     sources:
       - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
         title: "PowerPyx: GTA 6 all magazines, books and comics locations"
         accessed: "2026-11-25"
-      - url: https://cutscenewire.com/games/gta-6/collectibles/gta-6-all-magazines-books-comics-locations/
-        title: "Cutscene Wire: all magazines, books and comics locations"
-        accessed: "2026-11-25"
       - url: https://game-checklists.com/gta6/magazines-books-comics-checklist/
         title: "Game Checklists: magazines, books and comics checklist"
         accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-25"
-      - url: https://bloxodes.com/articles/gta-6-missable-trophies-and-missions
-        title: "Bloxodes: GTA 6 missable trophies and missions"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
-        title: "PowerPyx: GTA 6 trophy guide and roadmap"
-        accessed: "2026-11-25"
+      - url: https://www.ign.com/maps/gta-6/leonida
+        title: "IGN: GTA 6 interactive map, Magazine layer"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/map/
+        title: "GTABase map: player-submitted magazine spawns"
+        accessed: "2026-11-26"
+      - url: https://www.gtaboss.gg/gta-6/collectibles/magazines-books-comics
+        title: "gtaboss: magazines, books and comics"
+        accessed: "2026-11-26"
 
   - id: donnies-38
-    title: Take Donnie's H&L .38
+    title: Take Donnie's H&L .38 and aviator sunglasses
     category: Collectibles
     before_gate: tourist-trap
     visible_after_mission: don-gone
-    lost_at_mission: don-gone
+    lost_at_mission: recalibration
     verified: true
-    how_to: During Don Gone, check the trunk of Donnie's car for the H&L .38 before you leave. It's a unique weapon, so you keep it for good, but you can't get it later.
-    location: The trunk of Donnie's car.
+    evidence:
+      basis: two-sources
+      note: "IGN and Beebom give the aviators on the trailer's bathroom shelf; PowerPyx's Don Gone page lists only the .38 as missable. Whether the same model is sold in a shop has no source. lost_at is the next main mission because both pickups are inside Don Gone."
+    how_to: During Don Gone, open the trunk of Donnie's car and take the H&L .38 revolver before the car is destroyed. It's a unique weapon variant you keep for good, but if you skip it you can't get it later. Inside his trailer, also grab the aviator sunglasses from the bathroom shelf, then visit a wardrobe to claim them.
+    location: The trunk of Donnie's car; the bathroom shelf in his trailer.
     sources:
-      - url: https://www.gta6heists.com/missions/points-of-no-return
-        title: "gta6heists: points of no return"
-        accessed: "2026-11-25"
-      - url: https://gta6story.org/missables/chapter-1
-        title: "gta6story.org: Chapter 1 missables"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/unique-weapons
-        title: "The Games Wiki: unique weapons"
-        accessed: "2026-11-25"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/don-gone
+        title: "gtabase: Don Gone mission"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-don-gone-head-to-donnies-trailer-walkthrough/
+        title: "PowerPyx: Don Gone (Head to Donnie's Trailer) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=_SmAXW9WxLI
+        title: "Horizon Gaming (YouTube): Don Gone, pickup toast at 2:44:44"
+        accessed: "2026-11-26"
+      - url: https://beebom.com/gta-6-chapter-1-missable-items-activities/
+        title: "Beebom: GTA 6 Chapter 1 missable items and activities"
+        accessed: "2026-11-26"
 
   - id: balcony-meditation
     title: Accept Lucia's balcony invite
@@ -517,7 +593,7 @@ items:
     visible_after_mission: down-to-earth
     lost_at_mission: tourist-trap
     verified: true
-    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. It's a nice-to-do you can miss. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it; if you skip it, Learn to Meditate Together turns up later in the story. Most spots take two sessions, one per character, and 15 of the 18 sessions give 100%. This one takes minutes.
+    how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. She asks only once. If you decline or miss that morning she won't ask again, so take it right away. It's a nice-to-do you can miss. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it; if you skip it, Learn to Meditate Together turns up later in the story. Most spots take two sessions, one per character, and 15 of the 18 sessions give 100%. This one takes minutes.
     location: Jason's house.
     sources:
       - url: https://forum.psnprofiles.com/topic/202457-positive-mental-attitude-trophy-not-missable/
@@ -532,31 +608,37 @@ items:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
         accessed: "2026-11-25"
+      - url: https://www.trueachievements.com/forum/viewthread.aspx?tid=1734686
+        title: "TrueAchievements forum: balcony meditation offered once (player reports)"
+        accessed: "2026-11-26"
 
   - id: house-repairs
     title: Fix up Jason's house early
     category: Romance
     before_gate: tourist-trap
-    visible_after_mission: prologue
-    lost_at_mission: coming-home
+    visible_after_mission: gear-up
+    lost_at_mission: clean-up-after-donnie
     verified: true
-    how_to: Do all four repairs around the house (steps, roof, railing and bedroom wall) early. The prompts vanish partway through the chapter, and skipping them lowers Lucia's starting relationship level.
+    evidence:
+      basis: safe-bound
+      note: "VGC, GIGA and KeenGamer give the deadline; IGN says repairs can still be made afterwards."
+    how_to: Do the repairs around the house (steps, roof, railing and bedroom wall) before you collect Lucia. The relationship bonus only counts if they're done by then, and skipping them lowers her starting level.
     location: Jason's house.
     sources:
-      - url: https://www.gtabase.com/articles/gta-6/gta-6-jason-and-lucia-s-relationship-system-explained
-        title: "gtabase: Jason and Lucia's relationship system explained"
-        accessed: "2026-11-25"
       - url: https://www.videogameschronicle.com/guide/gta-6-jasons-house-how-to-fix-all-projects-around-jasons-house/
         title: "VGC: how to fix all projects around Jason's house"
         accessed: "2026-11-25"
       - url: https://www.giga.de/games/gta-6-jasons-haus-und-gelaender-reparieren--01M7SE74N8JMVR9STJ8AH23NHQ
         title: "GIGA: Jason's house and railing repairs (German)"
         accessed: "2026-11-25"
-      - url: https://www.theclick.gg/gta-6-chapter-1-missable-items-checklist/
-        title: "The Click: Chapter 1 missable items checklist"
+      - url: https://www.keengamer.com/articles/guides/gta-6-how-to-repair-jasons-house-all-repair-locations/
+        title: "KeenGamer: how to repair Jason's house"
         accessed: "2026-11-26"
-      - url: https://www.gta6heists.com/missions/points-of-no-return
-        title: "gta6heists: points of no return"
+      - url: https://www.gtabase.com/gta-6/articles/how-to-repair-jasons-house-in-gta-6
+        title: "gtabase: how to repair Jason's house"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Feng_Shui_Walkthrough
+        title: "IGN: Feng Shui walkthrough (says repairs can be finished after she is home)"
         accessed: "2026-11-26"
 
   - id: relationship-building
@@ -565,7 +647,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: coming-home
     verified: true
-    how_to: Answer her calls and texts, buy her food, drinks and clothes, do activities together and never leave her behind. Check the level in the Jason & Lucia menu. You can't break up for good, as the lowest level is Running on Empty, but VGC says neglect locks you out of one ending.
+    how_to: Answer her calls and texts, buy her food, drinks and clothes, do activities together and never leave her behind. Check the level in the Jason & Lucia menu. The meter can't drop below Running on Empty, but one story choice can end the romance for good, so keep it at level 3 of 4 or higher (IGN); VGC also says neglect locks you out of one ending.
     sources:
       - url: https://www.gtabase.com/articles/gta-6/gta-6-jason-and-lucia-s-relationship-system-explained
         title: "gtabase: Jason and Lucia's relationship system explained"
@@ -576,23 +658,14 @@ items:
       - url: https://www.videogameschronicle.com/guide/gta-6-jason-lucia-relationship-levels-explained-how-to-improve-jason-and-lucias-relationship/
         title: "VGC: Jason and Lucia relationship levels explained"
         accessed: "2026-11-25"
-      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-endings-choices-and-consequences/
-        title: "games.gg: GTA 6 endings, choices and consequences"
-        accessed: "2026-11-25"
-
-  - id: clock-out
-    title: Take Lucia's call for Clock Out
-    category: Side missions
-    before_gate: tourist-trap
-    visible_after_mission: day-release
-    verified: true
-    how_to: Lucia calls during the day after Day Release and starts a timed job. Be there before 4 pm in-game or it fails. Guides don't say when it stops being offered, so do it the same day.
-    sources:
-      - url: https://www.gtabase.com/gta-6/missions/clock-out
-        title: "gtabase: Clock Out mission"
+      - url: https://www.pcgamer.com/games/grand-theft-auto/gta-6-romance-jason-lucia/
+        title: "PC Gamer: GTA 6 romance, Jason and Lucia"
         accessed: "2026-11-26"
-      - url: https://theclick.gg/gta-6-missable-missions/
-        title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+      - url: https://gamerant.com/gta-6-romance-guide-relationship-levels/
+        title: "Game Rant: GTA 6 romance guide and relationship levels"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Starting_From_Zero_Walkthrough
+        title: "IGN: Starting From Zero walkthrough"
         accessed: "2026-11-26"
 
   - id: donnies-drop-off
@@ -602,7 +675,10 @@ items:
     visible_after_mission: down-to-earth
     lost_at_mission: clear-skies
     verified: false
-    how_to: "Donnie's Drop-Off pays more for narcotics than Brian's. Sell any drug packages you find to Donnie as soon as you have them: he closes within the next few missions, and reports disagree on exactly when, so don't hold them back. Afterwards only Brian's lower-paying drop-off is left."
+    evidence:
+      basis: safe-bound
+      note: "Reports put Donnie's close at Clear Skies or Swamped; the earliest is used."
+    how_to: "Donnie's Drop-Off pays more for narcotics than Brian's. Sell any drug packages you find to Donnie as soon as you have them: he closes within the next few missions, so don't hold them back. Afterwards only Brian's lower-paying drop-off is left, until Chapter 1 ends."
     sources:
       - url: https://game8.co/games/GTA-6/archives/638531
         title: "Game8: missables and points of no return"
@@ -621,7 +697,10 @@ items:
     visible_after_mission: buck-me
     lost_at_mission: tourist-trap
     verified: false
-    how_to: "Bought outfits are likely lost: Playtheory's own save kept a few wardrobe items (including its Tourist outfit) but not clothes bought in Chapter 1. Hats and glasses saved to the wardrobe appear to stay (gameta; its wording is ambiguous). IGN says cosmetics carry over, so the evidence conflicts; don't count on keeping outfits you buy."
+    evidence:
+      basis: safe-bound
+      note: "IGN says cosmetics carry over; gameta suggests hats and glasses saved to the wardrobe stay (ambiguous wording). Playtheory's save lost bought clothes, so the loss is kept."
+    how_to: "Don't count on keeping outfits you buy in this chapter: Playtheory's own save kept a few wardrobe items but not clothes bought in Chapter 1. Tattoos and haircuts do carry over (TheGamer, KeenGamer)."
     sources:
       - url: https://playtheorymedia.com/gta-6-before-you-finish-chapter-1/
         title: "Playtheory Media: before you finish Chapter 1 (own PS5 Pro save)"
@@ -631,4 +710,51 @@ items:
         accessed: "2026-11-26"
       - url: https://www.ign.com/wikis/gta-6/Tourist_Trap_Walkthrough
         title: "IGN: Tourist Trap walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.thegamer.com/gta-6s-act-1-has-a-big-point-of-no-return-and-youll-lose-everything/
+        title: "TheGamer: Act 1's point of no return"
+        accessed: "2026-11-26"
+
+  - id: mandys-cigars
+    title: Pick up Mandy's cigar box
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: pipework
+    lost_at_mission: hey-arnold
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN's Chapter 1 missables and PowerPyx's Pipework page agree; gtabase's Pipework page also lists it. lost_at is the next main mission because the pickup is inside Pipework."
+    how_to: Once the sink is fixed, Mandy storms outside and throws a box of Macizo cigars into the street. Grab it before you leave; it's the mission's only missable pickup and you can't come back for it. A cigar gives a short Focus boost for a little health.
+    location: The street outside Mandy's place.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-pipework-collect-mandys-rent-walkthrough/
+        title: "PowerPyx: Pipework walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/pipework
+        title: "gtabase: Pipework mission"
+        accessed: "2026-11-26"
+  - id: yacht-sunglasses
+    title: Take the yacht guests' free sunglasses
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: day-release
+    lost_at_mission: swamped
+    verified: false
+    evidence:
+      basis: best-guess
+      note: "Only IGN describes the pickup (two guests hand over a free pair of expensive sunglasses). PowerPyx doesn't mention it; Vice City Tracker calls them unique but traces to Beebom and TechWiser. No brand, model or shop-stock evidence, so lost_at is the next main mission (in-mission pickup)."
+    how_to: At the yacht party, accept the free pair of sunglasses the two guests hand over, then visit a wardrobe to claim them.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Day_Release_Walkthrough
+        title: "IGN: Day Release walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: All Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://www.vicecitytracker.com/missables
+        title: "Vice City Tracker: missables"
         accessed: "2026-11-26"

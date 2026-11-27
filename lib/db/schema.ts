@@ -14,12 +14,14 @@ export const STATS = ["strength", "cardio", "focus"] as const;
 export const SPOILER_MODES = ["safe", "open"] as const;
 export const THEMES = ["system", "light", "dark"] as const;
 export const CANDIDATE_STATUSES = ["new", "promoted", "rejected"] as const;
+export const CHANGE_KINDS = ["new", "modified"] as const;
 
 export type Character = (typeof CHARACTERS)[number];
 export type Stat = (typeof STATS)[number];
 export type SpoilerMode = (typeof SPOILER_MODES)[number];
 export type Theme = (typeof THEMES)[number];
 export type CandidateStatus = (typeof CANDIDATE_STATUSES)[number];
+export type ChangeKind = (typeof CHANGE_KINDS)[number];
 
 export const MAX_STAT_LEVEL = 4;
 
@@ -98,14 +100,35 @@ export const workouts = sqliteTable(
   ],
 );
 
-/** A page a scraper fetched. Server only; never committed or rendered. */
-export const sources = sqliteTable("sources", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  url: text("url").notNull().unique(),
-  title: text("title"),
-  host: text("host").notNull(),
-  fetchedAt: timestamp("fetched_at").notNull(),
-});
+/** A page a scraper tracks. Server only; never committed or rendered. */
+export const sources = sqliteTable(
+  "sources",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    // Scraper module id (scrapers/sources/<id>.ts).
+    source: text("source").notNull().default(""),
+    url: text("url").notNull().unique(),
+    title: text("title"),
+    host: text("host").notNull(),
+    // HTTP validators from the last 200, sent back for conditional GETs.
+    etag: text("etag"),
+    lastModified: text("last_modified"),
+    // ISO UTC from the source's own listing (WP modified_gmt, sitemap lastmod, JSON-LD dateModified).
+    remoteModified: text("remote_modified"),
+    // sha256 of the normalized extract; null for baseline rows never fetched.
+    contentHash: text("content_hash"),
+    httpStatus: integer("http_status"),
+    // Last successful 200.
+    fetchedAt: timestamp("fetched_at").notNull(),
+    checkedAt: timestamp("checked_at"),
+    // Null until first content; moves only when the content hash changes.
+    changedAt: timestamp("changed_at"),
+    // Latest normalized extract, kept to diff the next version. Never rendered:
+    // guide pages mix in later spoilers.
+    extract: text("extract"),
+  },
+  (t) => [index("sources_source").on(t.source)],
+);
 
 /** A scraped fact awaiting review. Scrapers own this table; the repository does not touch it yet. */
 export const candidates = sqliteTable(
@@ -118,6 +141,12 @@ export const candidates = sqliteTable(
     // Free-text hints, not validated against curated data.
     gateHint: text("gate_hint"),
     categoryHint: text("category_hint"),
+    // Comma-separated curated mission slugs named in the page.
+    missionHint: text("mission_hint"),
+    changeKind: text("change_kind", { enum: CHANGE_KINDS }),
+    contentHash: text("content_hash"),
+    // JSON: headings and paragraphs added/removed since the previous extract.
+    diffSummary: text("diff_summary"),
     // Raw scraped text. Never rendered: guide pages mix in later spoilers.
     rawExtract: text("raw_extract").notNull(),
     status: text("status", { enum: CANDIDATE_STATUSES })
@@ -131,6 +160,10 @@ export const candidates = sqliteTable(
     check(
       "candidates_status_values",
       sql`${t.status} in (${inList(CANDIDATE_STATUSES)})`,
+    ),
+    check(
+      "candidates_change_kind_values",
+      sql`${t.changeKind} is null or ${t.changeKind} in (${inList(CHANGE_KINDS)})`,
     ),
   ],
 );

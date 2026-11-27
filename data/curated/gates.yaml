@@ -13,45 +13,56 @@
 # missions that close at or before a gate are not listed here: they live in
 # missions.yaml and the app derives their rows.
 #
-# Verification rule (items carry the verified flag; the same bar applies here):
-# a single source that is AI-drafted or AI-assisted (The Games Wiki says so in
-# its footer; gaming.net too) never counts as one explicit source. Lost-lists
-# resting only on such a source are provisional.
+# Evidence (ADR 0008): every lost entry carries the current best-evidence value.
+# Gates have no verified flag. A lost list resting on a single source is still
+# shipped; its confidence is background and never rendered.
 #
 # Not a gate here, on purpose: Unfinished Business (Ch5). Signing Abe's deal
 # loses checking and pocket cash, while Family Savings is protected and returned
 # later (Output Lag, PowerPyx, both read). Whether it becomes a gate is still
 # pending the owner; it is not a recap mission, see docs/design.md. It doesn't go into item text.
 #
-# Sunset: the lost list rests only on READY evidence. PowerPyx's Sunset page says
-# most missions after it run before open world (R4-1/7 record 9, page read, no
-# mention of Honest Abe); gtabase's Sunset page says starting it moves the story
-# into Chapter 5 and to finish side activities first (R4-3/5 2.3 #30, fetched).
-# NOT listed because needs-confirmation:
-#   - No free roam until Honest Abe exactly (GTA6BUGS relaying one Reddit
-#     reporter, u/WanderW, "Unconfirmed"; Leonida Hub citing RetroBroker).
-#   - Manual saves reported blocked (one player report, the same reporter).
-#   - BuckMe checking reportedly shows $0 until Operation Savage Glory, then
-#     returns (gameta, Leonida Hub, gta6helphub; the cross-check treats these as
-#     guides only). Use "frozen", not "lost", if it is added later.
-#   - Weapons, equipment and outfits taken at Sunset and returned at Operation
-#     Savage Glory (PowerPyx; where they are taken is unconfirmed).
-#   - Suite 701 as a base (disputed).
-#   - gtasixvicecity maps the point of no return to the mission after Sunset.
-# PowerPyx says Sunset moves the game into Chapter 5, while missions.yaml
-# (KeenGamer) puts one more mission in Chapter 4, so the lost text avoids
-# chapter numbers.
+# Post-story: the Starlet Motel, the Bayside apartment and Y Hotel Suite 701 stay lost
+# after the credits; the only post-story home is the Pegassi Towers penthouse
+# (Sirloin -YRgIHb7QOo, PERSONAL map legend at 35:05:12; a gtabase reader comment agrees).
+# After the credits the game returns the player to free roam outside Abe's office,
+# just before Protective Custody, with the meeting postponed (ItsCorey v-A4sXv54oo at
+# 23:08, Game8, PowerPyx). Signing Abe's deal loses the BuckMe checking balance and
+# pocket cash; Family Savings is kept (Output Lag, PowerPyx).
+# Not a curated entry: an item's visible_after_mission can't sit after the last gate
+# (parseCurated rejects it), so the post-credits return point lives here only
+# (open question in docs/design.md).
 #
-# Tourist Trap: PowerPyx's Recalibration page says there is no free roam once
-# you start Recalibration (two cross-checks read it), while its Tourist Trap page
-# and VGC/gtabase tie the lock to Tourist Trap itself. Items use the earlier,
-# safe line: finish and save before you start Recalibration.
+# Sunset: free roam is closed from Starting
+# From Zero until the Honest Abe cutscene at the end of the closed stretch: it
+# triggers the first time you leave the penthouse after Operation Savage Glory
+# (gtabase, PowerPyx, WarFuel video 6:52). Checking shows $0 greyed out from the
+# opening of Starting From Zero and is restored after Operation Savage Glory
+# (frozen, not lost). Weapons, equipment and outfits come back at the end of
+# Operation Savage Glory in the Pegassi penthouse (PowerPyx, gtabase, HUD toast).
+# Suite 701 stops being home at the end of Starting From Zero (IGN, gtabase, PowerPyx).
+# The Chapter 4/5 boundary is settled: Starting From Zero is the last Chapter 4
+# mission and Bird in the Hand opens Chapter 5 (IGN, PowerPyx's full walkthrough as
+# edited 2026-11-25, gtabase, KeenGamer). gtabase's Sunset page says starting it
+# "moves the story into Chapter 5"; PowerPyx's "progresses into Chapter 5" means the
+# same (no free roam), not that Sunset is a Chapter 5 mission.
+# NOT listed because needs-confirmation: manual saves reported blocked during the
+# stretch (one reporter); gtasixvicecity maps the point of no return to the mission
+# after Sunset.
+#
+# Not lost at Tourist Trap: Key Lento shops (Rusty Anchor, The Siren's Chest, Chuck's). The area
+# is hostile for part of Chapter 2, then reachable again (IGN, VGC); IGN's 100% guide
+# still counts The Siren's Chest among the Smash 'n' Grabs. The Rusty Anchor merch
+# stays in stock; only the Ring the Bell! offer ends.
+#
+# Tourist Trap: free roam returns after Recalibration; Chapter 1 free roam ends only when you approach Lucia, which starts Tourist Trap (IGN's Recalibration and Tourist Trap walkthroughs, gtabase, Leonipedia, VGC). PowerPyx's "last chance" sentence is templated on both pages and its own body contradicts it. Items use the gate itself as the line.
 # The Cartel Heist: Beebom, gta.wiki (a fan MediaWiki with revision history) and
 # gta6heists all say the Chapter 3 home is lost once it is done. Metaforge and
 # Game8 put the apartment loss later than the heist, so doing everything before
 # the heist is safe either way. gtabase's Ocean Beach page: the apartment is
 # reachable after the heist and is lost when the next chapter starts; the heist
 # bound in items is kept as the safe line.
+# Ocean Beach (Chapter 4, first mission) is where the apartment is literally lost (Game8 638531, gtabase Ocean Beach, MetaForge Ch3; PowerPyx starts Ocean Beach at the apartment). The heist bound in items is kept as the safe line.
 
 gates:
   - mission: tourist-trap
@@ -59,8 +70,9 @@ gates:
       - Cash in your pockets
       - Your BuckMe checking balance
       - Jason's original house, and the cash stashed under its floor
-      - All of Jason's personal vehicles, Ultimate Edition ones included
-      - Free roam as both characters, for several hours
+      - All of Jason's vehicles at the house, his boat and the Ultimate Edition ones included
+      - Free roam as Jason, for several hours
+      - Brian's drug drop-off at his lockup, the last Chapter 1 fence
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-walkthrough-all-chapters-and-story-missions-in-order/
         title: "KeenGamer: GTA 6 walkthrough, all chapters and story missions in order"
@@ -89,6 +101,33 @@ gates:
       - url: https://www.powerpyx.com/gta-6-tourist-trap-take-up-mattias-offer-walkthrough/
         title: "PowerPyx: Tourist Trap (Take Up Mattia's Offer) walkthrough"
         accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/How_to_Sell_Cars,_Collectibles,_and_Stolen_Goods_-_Fence_Contact_Locations
+        title: "IGN: fence contact locations"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-fence-locations-how-to-fence-stolen-goods/
+        title: "PowerPyx: all fence locations"
+        accessed: "2026-11-26"
+      - url: https://www.gta6heists.com/missions/points-of-no-return
+        title: "gta6heists: points of no return"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Tourist_Trap_Walkthrough
+        title: "IGN: Tourist Trap walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Recalibration_Walkthrough
+        title: "IGN: Recalibration walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/How_to_Keep_Stolen_Cars
+        title: "IGN: how to keep stolen cars"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Home_Sweet_Home_Walkthrough
+        title: "IGN: Home Sweet Home walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/catch-a-bigger-fish
+        title: "gtabase: Catch a Bigger Fish mission"
+        accessed: "2026-11-26"
+      - url: https://outputlag.com/guides/gta-6-missables/
+        title: "Output Lag: GTA 6 missables"
+        accessed: "2026-11-26"
   - mission: checking-out
     lost:
       - Your home at the Starlet Motel, for good
@@ -118,16 +157,38 @@ gates:
       - url: https://www.gta6heists.com/missions/points-of-no-return
         title: "gta6heists: points of no return"
         accessed: "2026-11-25"
-  # Provisional: only PowerPyx states the long free-roam lock; gtabase says only
-  # that Sunset moves the story into Chapter 5 and to finish side activities
-  # first. Gates have no verified flag.
+  # Sunset lost list: free roam return and the frozen balance, gear and suite rest on gtabase, PowerPyx and IGN (see the block above). Gates have no verified flag.
   - mission: sunset
     lost:
-      - Free roam, for a long stretch afterwards
+      - Free roam, until the story is almost over
+      - Your BuckMe checking balance, frozen for a long stretch
+      - Your weapons, equipment and outfits, for a long stretch
+      - The Y Hotel suite as your home base
     sources:
       - url: https://www.powerpyx.com/gta-6-sunset-stop-by-the-front-desk-walkthrough/
         title: "PowerPyx: Sunset (Stop by the Front Desk) walkthrough"
         accessed: "2026-11-26"
       - url: https://www.gtabase.com/gta-6/missions/sunset
         title: "gtabase: Sunset mission"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/honest-abe
+        title: "gtabase: Honest Abe mission"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-honest-abe-negotiate-a-deal-with-abe-walkthrough/
+        title: "PowerPyx: Honest Abe (Negotiate a Deal with Abe) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://gameta.gg/gta6/guides/bank-account-buckme/
+        title: "gameta: BuckMe bank account guide"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Starting_From_Zero_Walkthrough
+        title: "IGN: Starting From Zero walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-operation-savage-glory-walkthrough/
+        title: "PowerPyx: Operation Savage Glory walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/operation-savage-glory
+        title: "gtabase: Operation Savage Glory mission"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/bird-in-the-hand
+        title: "gtabase: Bird in the Hand mission"
         accessed: "2026-11-26"

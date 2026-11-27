@@ -6,9 +6,9 @@
 # explicit source, so items resting only on it stay verified: false.
 # visible_after_mission is the earliest sourced mission. The Bayside items use
 # welcome-to-vice-city, which gta.wiki gives as the Bayside Safehouse unlock.
-# Race Against Yago is triggered by the side job Bumper to Bumper, which isn't in
-# our 91-mission list, so it also uses the first Chapter 3 mission. The home goes with the gate, so
-# everything inside it is lost_at_mission: the-cartel-heist.
+# Race Against Yago is triggered by the side job Bumper to Bumper (an optional
+# mission in missions.yaml), so it also uses the first Chapter 3 mission. The home
+# goes with the gate, so everything inside it is lost_at_mission: the-cartel-heist.
 # Timing: gtabase says the apartment is reachable after the heist and is lost when
 # the next chapter starts; Beebom (self-contradicting), Wanted State,
 # gta6playertools and gta6heists put the loss at or right after the heist;
@@ -17,12 +17,15 @@
 # the next chapter's first mission.
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
-# Race Against Yago: gtabase and The Click say only the timer ends it; other
-# guides say it closes with the chapter; The Tab says the reward is a pistol, not
-# cash. The item stays unverified and keeps the heist as the safe bound.
-# Not listed, on purpose: what happens in The Cartel Heist itself, the $120,000
-# payout, the crates item (Vice Missions only), the bank-job and Yasmani items,
-# and codes (Beebom prints the garage code; the safe code is unverified).
+# Race Against Yago: a timer ends it, partway through Chapter 3 (Game8 JP,
+# GameWith, gtabase, The Click); some guides say it closes with the chapter. No
+# source names a closing mission, so the heist is an upper bound. Reward settled by
+# footage: $3,800 for first (Freeway Run), $1,500 for second; The Tab's pistol
+# claim is an outlier. The item stays unverified.
+# Not listed, on purpose: what happens in The Cartel Heist itself, the crates item
+# (Vice Missions only), the bank-job and Yasmani items, and codes (Beebom prints
+# the garage code; the safe code is left out).
+# The payout: IGN says a full success (no alarm, all $10M, armoured-van exit) pays a $150,000 BuckMe advance and other results pay less in proportion to the take; PowerPyx and Rare Thief's save show $120,000. Not listed: Nicole's fate (no later content depends on it) and the Ark Royal Ashore watch (also a Key Valuable at two Illegal Operations).
 
 items:
   - id: vanessas-laptop
@@ -32,20 +35,23 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the Pfister Vanessa's Growler out to register it for free; Beebom prices it at about $22,660. The apartment is lost for good once the next chapter starts, so claim the car before the heist to be safe.
+    evidence:
+      basis: safe-bound
+      note: "IGN gives the sell value as $22,660; MetaForge saw about $20,600. The lower figure is shown."
+    how_to: "In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the pink Pfister Growler out to register it for free; it sells for about $20,600. The laptop only works this chapter and the apartment is lost when the next one starts, so claim the car before the heist."
     location: Bayside Safehouse bedroom; Del Rio Boulevard Garage, La Perle.
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
         accessed: "2026-11-25"
-      - url: https://gta6playertools.com/guides/chapter-3-missables
-        title: "GTA6PlayerTools: Chapter 3 missables"
-        accessed: "2026-11-25"
-      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
-        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
-        accessed: "2026-11-25"
       - url: https://www.gtabase.com/gta-6/missions/ocean-beach
         title: "gtabase: Ocean Beach mission"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Laptop_Password_and_Aunties_Place_La_Perle_Location
+        title: "IGN: laptop password and Auntie's place, La Perle"
+        accessed: "2026-11-26"
+      - url: https://metaforge.app/gta-6/gta-6-vanessas-laptop-password-free-growler
+        title: "MetaForge: Vanessa's laptop password and free Growler"
         accessed: "2026-11-26"
 
   - id: bayside-books
@@ -55,15 +61,12 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: These are the two Bayside magazines. Passion B.C. is beside the bathtub and Two Pricks In The Bush is on the TV table. gtabase says you lose access once the next chapter starts, while other guides say the heist itself, so read them before the heist to be safe.
+    evidence:
+      basis: safe-bound
+      note: "gtabase says access ends when the next chapter starts; Game Rant says finishing the heist ends it. The earlier bound is kept."
+    how_to: "These are the two Bayside magazines. Passion B.C. is beside the tub and Two Pricks In The Bush is on the table in front of the TV. Read them before the heist."
     location: Bayside Safehouse.
     sources:
-      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
-        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
-        accessed: "2026-11-25"
-      - url: https://gta6playertools.com/guides/chapter-3-missables
-        title: "GTA6PlayerTools: Chapter 3 missables"
-        accessed: "2026-11-25"
       - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
         title: "PowerPyx: GTA 6 all magazines, books and comics locations"
         accessed: "2026-11-25"
@@ -79,6 +82,15 @@ items:
       - url: https://www.gtabase.com/gta-6/missions/ocean-beach
         title: "gtabase: Ocean Beach mission"
         accessed: "2026-11-26"
+      - url: https://www.pushsquare.com/guides/gta-6-magazines-books-and-comics-locations
+        title: "Push Square: GTA 6 magazines, books and comics locations"
+        accessed: "2026-11-26"
+      - url: https://gamerant.com/gta-6-chapter-3-collectibles-growler-what-to-do/
+        title: "Game Rant: Chapter 3 collectibles and the Growler"
+        accessed: "2026-11-26"
+      - url: https://beebom.com/gta-6-chapter-3-missables-items/
+        title: "Beebom: GTA 6 Chapter 3 missables"
+        accessed: "2026-11-26"
 
   - id: halifax-callback
     title: Finish things with Halifax
@@ -87,17 +99,20 @@ items:
     visible_after_mission: dubious-provenance
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: Halifax has a three-part job that starts in Dubious Provenance. If you didn't hand him the statue in Part 1, call him back before Chapter 3 ends to unlock Parts 2 and 3. Guides differ on which branch carries the callback, and it closes at the gate, so make it before then.
+    how_to: "If you turned down Halifax's offer for the statue, he texts about a day later. Call him and agree before this chapter ends, or the rest of his job is gone for good. If he doesn't pick up, keep calling. If you handed the statue over, nothing expires here, but finishing his job before the heist is the safe line."
     sources:
-      - url: https://vicemissions.com/guides/missables
-        title: "Vice Missions: missables"
-        accessed: "2026-11-25"
-      - url: https://beebom.com/gta-6-chapter-3-missables-items/
-        title: "Beebom: GTA 6 Chapter 3 missables"
-        accessed: "2026-11-25"
-      - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
-        title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
-        accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/dubious-provenance
+        title: "gtabase: Dubious Provenance mission"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-dubious-provenance-visit-the-antique-store-walkthrough/
+        title: "PowerPyx: Dubious Provenance (Visit the Antique Store) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Dubious_Provenance_Walkthrough
+        title: "IGN: Dubious Provenance walkthrough"
+        accessed: "2026-11-26"
+      - url: https://metaforge.app/gta-6/gta-6-dubious-provenance-walkthrough
+        title: "MetaForge: Dubious Provenance walkthrough"
+        accessed: "2026-11-26"
 
   - id: race-against-yago
     title: Win Race Against Yago when the hourglass appears
@@ -106,7 +121,10 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: false
-    how_to: It's a timed hourglass job in Vice City that pays $3,800 for first place. Race it as soon as the hourglass shows up. gtabase and The Click say only the timer ends it, while other guides say it closes with the chapter, and a player-written trophy guide says missing it means Yago's line of jobs can't be finished. The Tab says the reward is a pistol instead of cash, so guides disagree there too.
+    evidence:
+      basis: safe-bound
+      note: "Game8 JP, GameWith, gtabase and The Click say a timer ends it; a couple of guides say it lasts until the chapter ends. No source names a closing mission, so the chapter end is only an upper bound."
+    how_to: "It's a timed hourglass job in Vice City. Pick the Freeway Run race; the payout depends on where you finish, $3,800 for first and $1,500 for second. Race it as soon as the hourglass shows up: the timer ends it partway through the chapter. A PSNProfiles forum trophy guide says missing it means Yago's line of jobs can't be finished. Missing it won't cost you the Strangers & Freaks trophy: that needs 8 strands and there are more than enough without Yago."
     sources:
       - url: https://forum.psnprofiles.com/topic/202512-gta-6-trophy-guide-100-completion-additional-guides-wip/
         title: "PSNProfiles forum: GTA 6 trophy guide and 100% completion (player WIP)"
@@ -126,13 +144,37 @@ items:
       - url: https://theclick.gg/gta-6-missable-missions/
         title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
         accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-race-against-yago-walkthrough/
+        title: "PowerPyx: Race Against Yago walkthrough"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/589479
+        title: "GameWith: Race Against Yago (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/843937
+        title: "Game8 JP: missables (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=vbRUQMBT_i8
+        title: "ZaFrostPet (YouTube): Race Against Yago, 1st place results"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=OB37t0FbIxs
+        title: "Trophygamers (YouTube): Race Against Yago, Walkthrough Part 66"
+        accessed: "2026-11-26"
+      - url: https://www.vice.com/en/article/gta-6-chapter-3-length-missions-missables/
+        title: "VICE: GTA 6 Chapter 3 length, missions and missables"
+        accessed: "2026-11-26"
+      - url: https://www.trueachievements.com/a677804/strangers--freaks-achievement
+        title: "TrueAchievements: Strangers & Freaks achievement guide"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/?p=369805
+        title: "PowerPyx: Race Against Yago"
+        accessed: "2026-11-26"
 
   - id: montys-pistol
     title: Grab Monty's 1992 Pistol in The Missing Link
     category: Collectibles
     before_gate: the-cartel-heist
     visible_after_mission: the-missing-link
-    lost_at_mission: the-missing-link
+    lost_at_mission: safe-word
     verified: true
     how_to: After you beat the first enemy in the shootout, go back to the photo room and take the pistol from the floor. It's only there during this mission.
     location: The photo room.
@@ -152,9 +194,12 @@ items:
     category: Collectibles
     before_gate: the-cartel-heist
     visible_after_mission: safe-word
-    lost_at_mission: safe-word
+    lost_at_mission: cooties
     verified: true
-    how_to: In Safe Word, finish all three safecracking steps and open the practice safe before you leave; $1,500 in cash comes with the rifle. Beebom says quitting early forfeits it, while gtabase says you can return to practise before the heist, so don't rely on that.
+    evidence:
+      basis: safe-bound
+      note: "Beebom says quitting early forfeits it; gtabase says you can return to practise before the heist."
+    how_to: "In Safe Word, finish all three safecracking steps and open the practice safe before you leave; $1,500 in cash comes with the pistol. Quitting early can forfeit it."
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
@@ -165,13 +210,16 @@ items:
       - url: https://www.gtabase.com/gta-6/missions/safe-word
         title: "gtabase: Safe Word mission"
         accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Unique_Weapon_Variants
+        title: "IGN: unique weapon variants"
+        accessed: "2026-11-26"
 
   - id: boobies-red-bag
     title: Take Boobie's red bag in Bricked Up
     category: Money
     before_gate: the-cartel-heist
     visible_after_mission: bricked-up
-    lost_at_mission: bricked-up
+    lost_at_mission: hidden-charges
     verified: true
     how_to: Grab the red bag at the end of the table in the first room and bring it back. It holds $3,500.
     location: Boobie's apartment.
@@ -190,10 +238,13 @@ items:
     title: Take the Y Hotel driveway cars
     category: Vehicles
     before_gate: the-cartel-heist
-    visible_after_mission: welcome-to-vice-city
+    visible_after_mission: dealers-choice
     lost_at_mission: the-cartel-heist
-    verified: true
-    how_to: The cars on the Y Hotel driveway can only be taken before Chapter 4 starts, per Beebom, which the other guides appear to trace back to. Take them before the gate while free roam lasts.
+    verified: false
+    evidence:
+      basis: explicit-source
+      note: "One origin: Game8 638531 with Beebom, MetaForge, Wanted State and Stealthy Gaming. Game8 638531 calls the lockout Chapter 4 only; Game8's own Ocean Beach, Chapter 4 and Chapter 5 pages don't back it."
+    how_to: The cars on the Y Hotel driveway can only be taken before Chapter 4 starts, so take them before the gate while free roam lasts.
     location: Y Hotel driveway.
     sources:
       - url: https://wantedstate.com/gta-6/how-to/missables/
@@ -212,17 +263,44 @@ items:
     before_gate: the-cartel-heist
     visible_after_mission: credit-check
     verified: true
-    how_to: "Credit Check hands it over: take the Dye Pack Jammer from the desk in the mission. Banks and payday-loan stores pay out marked bills that you can't fence without it, so have it before you rob them."
+    how_to: "Karim gives you the Dye Pack Jammer during Credit Check, and it's permanent. Without it, the dye packs in bank and payday-loan cash can explode and ruin the money, so don't rob them before that mission."
     sources:
       - url: https://www.gamespot.com/articles/gta-6-how-to-rob-banks/
         title: "GameSpot: how to rob banks in GTA 6"
         accessed: "2026-11-26"
-      - url: https://www.powerpyx.com/?p=372653
-        title: "PowerPyx: Credit Check walkthrough"
-        accessed: "2026-11-26"
       - url: https://www.gtabase.com/gta-6/missions/credit-check
         title: "gtabase: Credit Check mission"
         accessed: "2026-11-26"
-      - url: https://games.gg/grand-theft-auto-vi/guides/grand-theft-auto-6-money-laundering-explained/
-        title: "games.gg: money laundering explained"
+      - url: https://www.ign.com/wikis/gta-6/How_to_Get_the_Dye_Pack_Jammer
+        title: "IGN: how to get the Dye Pack Jammer"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-bank-jobs-locations-bank-vaults/
+        title: "PowerPyx: GTA 6 all bank jobs locations"
+        accessed: "2026-11-26"
+
+  - id: ch3-jason-switch-softlock
+    title: Save before finishing Missing Persons in Chapter 3
+    category: General
+    before_gate: the-cartel-heist
+    visible_after_mission: welcome-to-vice-city
+    verified: true
+    evidence:
+      basis: first-hand
+      note: "Sir Grotti's clip and video show it, GTA6Bugs collects 290 reports, and Rockstar's 01.002.002 notes list no fix; Polygon and Output Lag relay the same reports. Other fallbacks (call Dunk from Lucia's phone, or play a Lucia or duo mission) are left out."
+    how_to: "A known bug, not a cutoff. If you finish the Kelly County Missing Persons case as Jason early in this chapter, you can end up stuck as Lucia with Jason greyed out on the switch wheel while the next story mission needs him. Sleeping or reloading the autosave doesn't clear it, and update 01.002.002 didn't fix it. Make a manual save before its final warehouse meeting. If you're already stuck, load that save, play the next Jason story mission until free switching returns, then finish the case."
+    sources:
+      - url: https://gta6bugs.com/bugs/gta-6-chapter-3-jason-greyed-out-softlock-after-missing-persons
+        title: "GTA6Bugs: Chapter 3 softlock, Jason greyed out (bug #0261)"
+        accessed: "2026-11-26"
+      - url: https://x.com/SirrGrotti/status/2125331777233498124
+        title: "Sir Grotti on X: Chapter 3 soft-lock clip"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=KMvjW-NyC-s
+        title: "Sir Grotti: This GTA 6 Bug Could RUIN Your Entire Save (Softlock)"
+        accessed: "2026-11-26"
+      - url: https://support.rockstargames.com/articles/sN5pEdFYZdlvijKXd6xpJ/grand-theft-auto-vi-launch-updates-ps5-xbox-series-x-or-s
+        title: "Rockstar Support: Grand Theft Auto VI launch updates"
+        accessed: "2026-11-26"
+      - url: https://www.polygon.com/gta-6-soft-lock-bug-chapter-3-game-breaking/
+        title: "Polygon: GTA 6 Chapter 3 soft-lock bug"
         accessed: "2026-11-26"
