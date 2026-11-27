@@ -9,7 +9,7 @@
 #
 # The base is pinned by digest (multi-arch index); Dependabot's docker
 # ecosystem bumps it. Build with --build-arg REVISION=<git sha>.
-FROM node:24-bookworm-slim@sha256:873f586f3794f52281bd039bf02c048a0be08fde619338f9941bad1eb6b34530 AS base
+FROM node:26-bookworm-slim@sha256:0042e17d232a87a2cd485be1da7900fca4d10a4ad11b29e9285da1d2e54798c9 AS base
 RUN corepack enable
 WORKDIR /app
 
