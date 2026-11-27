@@ -16,6 +16,19 @@ function blocked(error: unknown): boolean {
   return /\b(403|host-stopped)\b/.test(String(error));
 }
 
+/** `https://www.keengamer.com/<path>/` for a guide capture, else null. */
+export function canonicalGuideUrl(original: string): string | null {
+  let u: URL;
+  try {
+    u = new URL(original);
+  } catch {
+    return null;
+  }
+  const path = u.pathname.endsWith("/") ? u.pathname : `${u.pathname}/`;
+  const url = `https://www.keengamer.com${path}`;
+  return url.startsWith(GUIDE_PREFIX) ? url : null;
+}
+
 async function viaWayback(
   ctx: Parameters<SourceModule["discover"]>[0],
 ): Promise<PageRef[]> {
@@ -24,11 +37,14 @@ async function viaWayback(
     from,
     matchType: "prefix",
   });
-  // Newest capture per page.
+  // Newest capture per page, keyed by the live sitemap's URL form: captures
+  // can be http://, carry :80 or a query, which would duplicate live rows.
   const latest = new Map<string, string>();
   for (const c of found) {
-    const prev = latest.get(c.original);
-    if (!prev || c.timestamp > prev) latest.set(c.original, c.timestamp);
+    const url = canonicalGuideUrl(c.original);
+    if (!url) continue;
+    const prev = latest.get(url);
+    if (!prev || c.timestamp > prev) latest.set(url, c.timestamp);
   }
   return [...latest].map(([url, timestamp]) => ({
     url,

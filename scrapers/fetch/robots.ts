@@ -13,9 +13,19 @@ interface Group {
   crawlDelaySec?: number;
 }
 
+/**
+ * RFC 9309 2.2.2: compare in percent-encoded form. Encodes non-ASCII
+ * characters and upper-cases existing %xx escapes, in rules and paths alike.
+ */
+function normalizeEncoding(s: string): string {
+  return s
+    .replace(/[^\x00-\x7F]+/g, (m) => encodeURIComponent(m))
+    .replace(/%[0-9a-f]{2}/gi, (m) => m.toUpperCase());
+}
+
 function compile(pattern: string): RegExp {
   const anchored = pattern.endsWith("$");
-  const body = anchored ? pattern.slice(0, -1) : pattern;
+  const body = normalizeEncoding(anchored ? pattern.slice(0, -1) : pattern);
   const source = body
     .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
     .replace(/\*/g, ".*");
@@ -72,7 +82,7 @@ export class Robots {
         if (value === "") continue;
         current.rules.push({
           allow: key === "allow",
-          length: value.length,
+          length: normalizeEncoding(value).length,
           pattern: compile(value),
         });
       } else if (key === "crawl-delay") {
@@ -95,9 +105,10 @@ export class Robots {
 
   /** `pathAndQuery` is the URL path plus query string, e.g. `/a/b?c=1`. */
   isAllowed(pathAndQuery: string): boolean {
+    const path = normalizeEncoding(pathAndQuery);
     let best: Rule | undefined;
     for (const rule of this.rules) {
-      if (!rule.pattern.test(pathAndQuery)) continue;
+      if (!rule.pattern.test(path)) continue;
       if (
         !best ||
         rule.length > best.length ||

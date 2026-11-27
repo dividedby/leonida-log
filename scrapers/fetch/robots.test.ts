@@ -44,6 +44,19 @@ describe("matching", () => {
     ["end anchor stops at suffix", "Disallow: /*.pdf$", "/a/b.pdf?x", true],
     ["prefix", "Disallow: /wp-json/", "/wp-json/wp/v2/posts", false],
     ["empty Disallow allows all", "Disallow:", "/anything", true],
+    // RFC 9309 2.2.2: raw UTF-8 in a rule matches the percent-encoded path.
+    [
+      "UTF-8 rule, encoded path",
+      "Disallow: /攻略/",
+      "/%E6%94%BB%E7%95%A5/x",
+      false,
+    ],
+    [
+      "encoding case-insensitive",
+      "Disallow: /%e6%94%bb",
+      "/%E6%94%BB/x",
+      false,
+    ],
   ])("%s", (_name, rule, path, allowed) => {
     expect(parse(`User-agent: *\n${rule}\n`).isAllowed(path)).toBe(allowed);
   });

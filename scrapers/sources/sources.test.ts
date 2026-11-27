@@ -190,7 +190,7 @@ describe("keengamer", () => {
     );
   });
 
-  it("falls back to Wayback captures when the host answers 403, keyed by the original URL", async () => {
+  it("falls back to Wayback captures when the host answers 403, keyed by the live URL form", async () => {
     const cdx =
       "https://web.archive.org/cdx/search/cdx?url=keengamer.com%2Farticles%2Fguides%2Fgta-6-&output=json&fl=timestamp%2Coriginal%2Cstatuscode%2Cdigest&collapse=digest&filter=statuscode%3A200&from=20261120&matchType=prefix";
     const { refs, logs } = discover(
@@ -201,7 +201,18 @@ describe("keengamer", () => {
           body: JSON.stringify([
             ["timestamp", "original", "statuscode", "digest"],
             ["20261121100000", GUIDE, "200", "AAA"],
-            ["20261124153000", GUIDE, "200", "BBB"],
+            [
+              "20261124153000",
+              "http://keengamer.com:80/articles/guides/gta-6-made-up-guide?amp=1",
+              "200",
+              "BBB",
+            ],
+            [
+              "20261124160000",
+              "https://www.keengamer.com/articles/news/other/",
+              "200",
+              "CCC",
+            ],
           ]),
         },
       },
