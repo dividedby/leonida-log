@@ -1254,11 +1254,14 @@ missions:
     character: jason
     opens_after: bumper-to-bumper
     closes_at: never
-    note: Jason only. Yago texts a few in-game days after Bumper to Bumper, and the job starts at the back door of El Rincon Notorio.
+    note: Jason only. Yago texts a few in-game days after Bumper to Bumper, and the job starts at the back door of El Rincon Notorio. It still comes if you missed the timed race against him, though it can take a while.
     evidence:
-      basis: best-guess
-      note: "MetaForge says it doesn't unlock after an expired Race Against Yago; RetroBroker says it does; TrueAchievements is silent. Trophygamers plays it in Chapter 4."
+      basis: first-hand
+      note: "Two Reddit players who never ran Race Against Yago got this job later (one in Chapter 4), which settles RetroBroker over MetaForge. Trophygamers also plays it in Chapter 4."
     sources:
+      - url: https://www.reddit.com/comments/1y50ev3/_/19t5nkgfbnruq/
+        title: "Reddit r/GTA: first-hand, skipped the race and still got Yago's final job (OP confirms in 19t6e5c99fhl0)"
+        accessed: "2026-11-27"
       - url: https://www.powerpyx.com/gta-6-brother-to-brother-back-up-yago-walkthrough/
         title: "PowerPyx: Brother to Brother (Back Up Yago) walkthrough"
         accessed: "2026-11-26"
