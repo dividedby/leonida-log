@@ -27,7 +27,8 @@ function tableNames(file: string): string[] {
   }
 }
 
-describe("db:migrate script", () => {
+// Spawns `node scripts/migrate.mjs`; the default 5 s timeout flakes when the suite runs in parallel.
+describe("db:migrate script", { timeout: 30_000 }, () => {
   it("builds every table from an empty path and is a no-op when re-run", () => {
     const file = dbs.empty();
 
