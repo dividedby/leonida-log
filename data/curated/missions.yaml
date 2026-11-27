@@ -29,10 +29,12 @@
 # Optional-tagged entries. The save writes Thrillbillies and Twist Wrist, Smash,
 # Grab as CompletionType 3 (counts for story completion and optional tasks), so
 # both are optional (round 7, 6-first-hand-video-priority-sweep#2); that does not
-# confirm Polygon's 93. Thrillbillies and Take Out Kitty Litter (Polygon Recap:
-# Kitty Litter Labs) are entered below as optional missions. Twist Wrist, Smash,
-# Grab stays out: its character and opens_after are unsourced. Round 4 checks
-# against a completed in-game Story Recap.
+# confirm Polygon's 93. Thrillbillies, Twist Wrist, Smash, Grab and Take Out Kitty
+# Litter (Polygon Recap: Kitty Litter Labs) are entered below as optional missions.
+# Game-text story titles outside the 92 (Overnight Charges, Play Nurse, Behind on
+# Payments, Blood Sweat and Gear; Save Garage owner labels, IGN lists all four as
+# mains) are not entered: likely sub-steps, and no Story Recap frame shows their
+# cards. Round 4 checks against a completed in-game Story Recap.
 #
 # Second source, not adopted: gtabase's mission index
 # (https://gtabase.com/gta-6/missions, accessed 2026-11-25) counts 109 story
@@ -346,52 +348,50 @@ missions:
   # in gates.yaml. The app derives checklist rows and countdowns from these
   # entries (lib/gates.ts); they replace the hand-written items they duplicated.
   #
-  # Evidence rule: an entry ships only when kind, character, opens_after and
-  # closes_at are all supported by two independent sources, one explicit non-AI
-  # source, or first-hand video. Single AI-drafted sources (The Games Wiki,
-  # egamers, gaming.net, pro-gamer.gg, happygamer, gta6story.org, gtadb.io) never
-  # count; Reddit is dropped. The Click and gta6heists are derivative of
-  # gtabase/PowerPyx and count only as corroboration.
-  # `never` needs an affirmative statement; a page that is silent on a cutoff
-  # does not prove it. Round 7 category rule: Vandal and KeenGamer say side
-  # strands are not lost except tagged exclusions; a strand entry takes closes_at
-  # never only when its opens_after is sourced and no exclusion or soft-lock
-  # warning names it. A character tag is display-only: no optional window is
-  # shortened by a character lock. Where guides give two cutoffs the earlier one
-  # is used (the safe direction). `note` is app-voice text naming no mission past opens_after
-  # except the gate.
+  # Evidence rule (ADR 0008): every entry ships its best-evidence value. A field the
+  # sources split on takes the earliest cutoff and the latest opening; a timer with
+  # no named closer takes a structural outer bound (the latest main mission it can't
+  # outlast, or its chapter's gate); an unmarked strand on the PowerPyx Strangers and
+  # Freaks index takes closes_at never (that rule alone is enough). Single AI-drafted
+  # sources (The Games Wiki, egamers, gaming.net, pro-gamer.gg, happygamer,
+  # gta6story.org, gtadb.io) never count; Reddit is dropped; gtabase, The Click, Game
+  # Checklists and gta6heists are PowerPyx/footage copies and are not second sources.
+  # Every entry has an `evidence` block (basis, and a note naming the sources and
+  # the alternative value). A character tag is display-only: no optional window is
+  # shortened by a character lock. `note` is app-voice text naming no mission past
+  # opens_after except the gate; disagreements go in evidence.note only.
   #
-  # Not entered (no READY evidence; the matching items, where one exists, stay):
-  #   - closing mission not supported: Donnie's Lost Drugs, Impounded Vehicle,
-  #     This Is a Free Call From... (timed), Pick Up a Gun, Hit Avery Pawn, Collect
-  #     Felipe's Gift (deadline inherited from Bad Driver!), Brother to Brother, Get
-  #     Your Wheels, It's a Date!, Dre'Quan's Gift, Dunk's Robbery Tips (title
-  #     confirmed; opening disputed, after Slam Dunk per IGN and gta.guide vs Chapter 3
-  #     per PowerPyx), Yasmani's ATM Jobs (timed: each job vanishes after 2-3 in-game
-  #     days, GameWith 583812).
-  #   - disputed window: Meditate with Lucia, Race Against Yago, Donnie's Drop-Off.
-  #   - never unproven or sources missing: Twist Wrist, Smash, Grab (character and
-  #     opens_after unsourced), Hit Kingpin Bowling, Search for Tree Effigies (its
-  #     opens_after, Search for the Skunk Ape, has no READY entry) and the remaining
-  #     strangers, activities and repeatables.
-  #   - not missions of their own: Tail the Security Van (objective 1 of That's
-  #     Where the Money Is..., the Chapter 4 optional after VCIA Takedown, plus
-  #     repeatable Yasmani van tips).
-  #   - Ambulance Chaser is settled as a main mission (Chapter 2, number 2; game text is
-  #     the singular title, never recorded as optional in save data). Its cutoff is the
-  #     Checking Out item ditch-the-ambulance (lost_at slam-dunk).
-  #   - out of scope: Caught Slipping (already main), Honest Abe, Unfinished Business.
-  #   - Renamed in game text: Bret's Hunting Decks is "Bret's Target Decks".
-  #     "It's a Date!" has a lowercase a (PowerPyx writes "It's A Date!" - alias).
-  #     "Steal Vehicles for Moses" title is confirmed on screen.
+  # Not entered, on purpose:
+  #   - Not missions of their own: Tail the Security Van (first objective of That's
+  #     Where the Money Is...), Skunk Apeology 101 (the in-game name of Search for the
+  #     Skunk Ape), Scuba Diving and Treasure Hunting (IGN's name for Search the Dive
+  #     Sites), Kelly County Tip Line (a phone contact).
+  #   - Kept as items: Donnie's Drop-Off, Meditate with Lucia (balcony-meditation),
+  #     Race Against Yago, Collect Felipe's Gift (lost at Power Play, like Bad Driver!),
+  #     Hit Avery Pawn and Hit Kingpin Bowling (avery-kingpin-jobs: no cutoff sourced).
+  #   - Not researched in round 7: Donnie's Lost Drugs.
+  #   - One source or unclear kind: Capri Cops (gtabase only), Send Money to Lorena and
+  #     Send More Money to Lorena (PowerPyx: mandatory main; IGN: optional), Save for
+  #     the Future (covered by the family-savings-goal item), New Look, How Do I Look?
+  #     and Building a Life (Story-tab steps; main-list question for the owner).
+  #   - Ambulance Chaser is settled as a main mission (Chapter 2, number 2). Its cutoff
+  #     is the Checking Out item ditch-the-ambulance (lost_at slam-dunk).
+  #   - Out of scope: Caught Slipping (already main), Honest Abe, Unfinished Business.
+  #   - Renamed in game text: Bret's Hunting Decks is "Bret's Target Decks". "It's a
+  #     Date!" has a lowercase a (PowerPyx writes "It's A Date!"). "Steal Vehicles for
+  #     Moses" title is confirmed on screen. "This is a Free Call From…" uses one
+  #     ellipsis character and a lowercase "is".
   - slug: get-shirleys-rum
     title: Get Shirley's Rum
     chapter: just-like-paradise
-    kind: hourglass
+    kind: optional
     character: jason
     opens_after: pipework
     closes_at: tourist-trap
     note: Shirley calls out to Jason near his house around Mandy's rent job. Rewards Focus and a Professional rating bump. It doesn't affect trophies or 100%.
+    evidence:
+      basis: best-guess
+      note: "Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
         title: "gtabase: Get Shirley's Rum mission"
@@ -411,14 +411,20 @@ missions:
       - url: https://game8.jp/gta6/843855
         title: "Game8 JP: Chapter 1 walkthrough (Japanese)"
         accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/585654
+        title: "GameWith JP: things you can't get back (Japanese)"
+        accessed: "2026-11-26"
   - slug: steal-the-scooter
     title: Steal the Scooter
     chapter: just-like-paradise
-    kind: hourglass
+    kind: optional
     character: jason
     opens_after: get-shirleys-rum
     closes_at: tourist-trap
     note: No reward is confirmed (PowerPyx, Push Square). It doesn't affect trophies or 100%.
+    evidence:
+      basis: best-guess
+      note: "Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/steal-the-scooter
         title: "gtabase: Steal the Scooter mission"
@@ -435,20 +441,29 @@ missions:
       - url: https://game8.jp/gta6/843855
         title: "Game8 JP: Chapter 1 walkthrough (Japanese)"
         accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
+        accessed: "2026-11-26"
   - slug: ring-the-bell
     title: Ring the Bell!
     chapter: just-like-paradise
-    kind: hourglass
+    kind: optional
     character: jason
     opens_after: swamped
     closes_at: don-gone
     note: Cal's text sets it off at the Rusty Anchor. It unlocks a Rusty Anchor shirt and cap that can't be bought if you skip it; take Cal home at the end.
+    evidence:
+      basis: best-guess
+      note: "GameStar confirms the hourglass mechanic but names no mission; GameWith says no map objective; no frame shows an icon. closes_at don-gone stays: IGN's Ring the Bell! page allows a late text, but the earliest cutoff is used."
     sources:
       - url: https://www.gtabase.com/gta-6/missions/ring-the-bell
         title: "gtabase: Ring the Bell! mission"
         accessed: "2026-11-26"
       - url: https://theclick.gg/gta-6-missable-missions/
         title: "The Click: GTA 6 missable missions, deadlines and story cutoffs"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
         accessed: "2026-11-26"
   - slug: get-lucias-clothes
     title: Get Lucia's Clothes
@@ -518,6 +533,9 @@ missions:
     opens_after: party-hard
     closes_at: power-play
     note: Only if Felipe didn't show at the Cartel Heist (you didn't get the full $10M). Killing Felipe pays $20,000; sparing him opens Collect Felipe's Gift. Look as soon as the previous job is done.
+    evidence:
+      basis: two-sources
+      note: "GameWith confirms the 4章パワープレイ開始で消滅 cutoff."
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/bad-driver
         title: "gtabase: Bad Driver! stranger mission"
@@ -530,6 +548,9 @@ missions:
         accessed: "2026-11-26"
       - url: https://www.powerpyx.com/?p=369829
         title: "PowerPyx: Bad Driver! walkthrough"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
         accessed: "2026-11-26"
   # Chapter 1 (further optional missions)
   - slug: pick-up-groceries
@@ -648,9 +669,12 @@ missions:
     chapter: just-like-paradise
     kind: optional
     character: jason
-    opens_after: feng-shui
+    opens_after: coming-home
     closes_at: never
     note: Cal texts after Feng Shui. Catch a Stoplight Parrotfish over 2 lb in Gambit Bay; it unlocks Baited My Tackle. Stays open after the story.
+    evidence:
+      basis: best-guess
+      note: "Cal texts after Feng Shui ends, so the anchor is the next main mission, Coming Home. Visibility only moves later."
     sources:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
@@ -666,12 +690,12 @@ missions:
     chapter: just-like-paradise
     kind: strangers-and-freaks
     character: both
-    opens_after: island-dreams
+    opens_after: feng-shui
     closes_at: never
     note: Kenton calls a few hours after Island Dreams. He goes quiet after Chapter 1 and returns later; all his quests stay available after the story.
     evidence:
       basis: best-guess
-      note: "Guides put Kenton's return in Chapter 2 or 3."
+      note: "Guides put Kenton's return in Chapter 2 or 3. Kenton calls a few hours after Island Dreams ends, so the anchor is the next main mission, Feng Shui."
     sources:
       - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
         title: "PowerPyx: GTA 6 trophy guide and roadmap"
@@ -771,10 +795,10 @@ missions:
     character: both
     opens_after: check-out-mckittrick-farm
     closes_at: never
-    note: Kyle texts about a day later. The van can be had free by negotiating and offering the plane as collateral; pays $1,000 and mutated strawberries. Game8 says the first strawberry permanently raises max Stamina; later ones add nothing permanent.
+    note: Kyle texts about a day later. The van can be had free by negotiating and offering the plane as collateral; pays $1,000 and mutated strawberries. The first strawberry permanently raises max Stamina; later ones give only a temporary buff.
     evidence:
       basis: explicit-source
-      note: "IGN also lists $5,000 or $3,000 for the van."
+      note: "IGN also lists $5,000 or $3,000 for the van. Game8 plus a HUD toast settle that the first berry is permanent; no source gives how long later berries last."
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/collect-chemicals-for-kyle
         title: "gtabase: Collect Chemicals for Kyle stranger mission"
@@ -854,15 +878,15 @@ missions:
     opens_after: join-a-street-race
     closes_at: never
     note: Jason only, a few in-game days after the first race. A lock icon means Yago isn't around yet; sleep and try again.
+    evidence:
+      basis: explicit-source
+      note: "The PowerPyx index rule gives never. vAnother Level SFeGsOUCiwo is not cited: its 0:47 frame is a pre-finale story step under a STORY COMPLETE overlay (r7sf-video#3)."
     sources:
       - url: https://www.powerpyx.com/gta-6-bumper-to-bumper-mentor-yago-walkthrough/
         title: "PowerPyx: Bumper to Bumper (Mentor Yago) walkthrough"
         accessed: "2026-11-26"
       - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
         title: "PowerPyx: all Strangers & Freaks side missions"
-        accessed: "2026-11-26"
-      - url: https://www.youtube.com/watch?v=SFeGsOUCiwo
-        title: "vAnother Level: GTA 6 after the story (post-credits optional list at 6:05)"
         accessed: "2026-11-26"
   - slug: the-unknown-stuntman
     title: The Unknown Stuntman
@@ -1013,13 +1037,889 @@ missions:
     chapter: vice-city-baby
     kind: strangers-and-freaks
     character: both
-    opens_after: pool-day
+    opens_after: company-cars
     closes_at: never
     note: Eddie invites you at the hotel bar and texts you later; go alone. Paying him gets you nothing, and refusing costs nothing. It stays open after the story.
+    evidence:
+      basis: explicit-source
+      note: "The PowerPyx index rule gives never. vAnother Level SFeGsOUCiwo is not cited: its 0:47 frame is a pre-finale story step under a STORY COMPLETE overlay (r7sf-video#3). Eddie stops Jason at the Y Hotel bar after Pool Day ends, so the anchor is the next main mission, Company Cars (the same trigger as Pete's call)."
     sources:
       - url: https://www.powerpyx.com/gta-6-pool-day-walkthrough/
         title: "PowerPyx: GTA 6 Pool Day walkthrough"
         accessed: "2026-11-26"
-      - url: https://www.youtube.com/watch?v=SFeGsOUCiwo
-        title: "vAnother Level: post-credits optional list (6:04)"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  # ---- Round 7 build: new optional missions ----
+  # opens_after follows the reached rule: an activity that appears after mission X
+  # ends opens after the next main mission; one that appears inside X opens after X.
+  # closes_at never rests on the PowerPyx S&F index rule (ADR 0008) unless the
+  # entry's evidence says otherwise. evidence is research background only.
+  #
+  # -- Kirk (Chapter 1 strand) --
+  - slug: search-for-the-skunk-ape
+    title: Search for the Skunk Ape
+    chapter: just-like-paradise
+    kind: strangers-and-freaks
+    character: both
+    opens_after: prologue
+    closes_at: never
+    note: First step of Kirk's strand, started from a Skunk Ape poster. It has two endings, and the strand stays open after the story.
+    evidence:
+      basis: best-guess
+      note: "IGN plays the strand as Jason and files it under Chapter 1; PowerPyx's index tags the last step Lucia only. IGN puts the first poster at the Rusty Anchor bar in Key Lento; the earliest anchor is kept for an any-chapter trigger."
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Skunk_Apeology_101_Walkthrough
+        title: "IGN: Skunk Apeology 101 walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+  - slug: search-for-tree-effigies
+    title: Search for Tree Effigies
+    chapter: just-like-paradise
+    kind: strangers-and-freaks
+    character: both
+    opens_after: prologue
+    closes_at: never
+    note: Kirk texts after the first hunt. Find three of the nine tree effigies in Pelican Valley; there's no cash reward.
+    evidence:
+      basis: best-guess
+      note: "Anchored on the strand's Chapter 1 opening, not on Search for the Skunk Ape, whose character is split. HarryNinetyFour's footage (1:30) has Jason playing this step."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-skunk-ape-walkthrough-all-effigy-locations-and-endings/
+        title: "KeenGamer: Skunk Ape walkthrough, all effigy locations and endings"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=pd8HzDDcQc0
+        title: "HarryNinetyFour (YouTube): Kirk's strand, Jason on the effigy step (1:30)"
+        accessed: "2026-11-26"
+  - slug: help-kirk-find-mr-mangrove
+    title: Help Kirk Find Mr. Mangrove
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: whats-in-the-bag
+    closes_at: never
+    note: Night-only finale of Kirk's strand. Shooting Mr. Mangrove and siding with Kirk pays $10,000; the other ending is shooting Kirk.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx's walkthrough and KeenGamer say Lucia only and Chapter 2; PowerPyx's index, gtabase and IGN say Chapter 1, and IGN plays the finale as Jason. The later opening and both characters are kept."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-help-kirk-find-mr-mangrove-walkthrough/
+        title: "PowerPyx: Help Kirk Find Mr. Mangrove walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-skunk-ape-walkthrough-all-effigy-locations-and-endings/
+        title: "KeenGamer: Skunk Ape walkthrough, all effigy locations and endings"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Skunk_Apeology_101_Walkthrough
+        title: "IGN: Skunk Apeology 101 walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/help-kirk-find-mr-mangrove
+        title: "gtabase: Help Kirk Find Mr. Mangrove"
+        accessed: "2026-11-26"
+  # -- Kyle (Buddy?) --
+  - slug: buddy
+    title: Buddy?
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: collect-chemicals-for-kyle
+    closes_at: never
+    note: Starts with Kyle's odd texts some time after the chemicals job, sometimes not until Chapter 3. Kill Kyle for $5,000, or spare him and come back to the meth lab later for a shotgun, a bike and a safe (code 2121).
+    evidence:
+      basis: two-sources
+    sources:
+      - url: https://www.powerpyx.com/gta-6-buddy-check-on-kyle-walkthrough/
+        title: "PowerPyx: Buddy? (Check on Kyle) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-kyle-mckittrick-red-hulk-questline-walkthrough/
+        title: "KeenGamer: Kyle McKittrick Red Hulk questline walkthrough"
+        accessed: "2026-11-26"
+  # -- Alvan --
+  - slug: gellhorns-missing-tourists
+    title: Gellhorn's Missing Tourists
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: daily-driver
+    closes_at: never
+    note: Alvan's first case, started through the Kelly County tip line once you've met Moses. The follow-up case needs both Jason and Lucia playable.
+    evidence:
+      basis: best-guess
+      note: "Output Lag says Chapter 2 once you have met Moses; PowerPyx lists it in Chapter 2 and GameSpot says it can be started in Chapter 3. Round 6 refuted an earlier Chapter 1 anchor."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://outputlag.com/guides/gta-6-missing-persons-mission/
+        title: "Output Lag: Missing Persons mission guide"
+        accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Missions_in_GTA_VI
+        title: "gta.wiki: Missions in GTA VI"
+        accessed: "2026-11-26"
+  - slug: missing-persons
+    title: Missing Persons
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: gellhorns-missing-tourists
+    closes_at: never
+    note: Alvan's second case; the tip line calls after all three bodies are found. Finish it in Chapter 2 if you can, because early in Chapter 3 a bug can leave Jason greyed out; make a manual save before the final warehouse meeting.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx titles it 'Missing Person (Return to the Trophy Room)' and gta.wiki also uses the singular; Output Lag, Polygon, KeenGamer, GTA6Bugs and the gtabase heading say Missing Persons. No in-game title card exists."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-missing-person-return-to-the-trophy-room-walkthrough/
+        title: "PowerPyx: Missing Person (Return to the Trophy Room) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/missing-person
+        title: "gtabase: Missing Person stranger mission"
+        accessed: "2026-11-26"
+      - url: https://outputlag.com/guides/gta-6-missing-persons-mission/
+        title: "Output Lag: Missing Persons mission guide"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=wWL-ZOgXgoo
+        title: "HarryNinetyFour (YouTube): Missing Persons strand"
+        accessed: "2026-11-26"
+  # -- Moses --
+  - slug: collect-moses-gift
+    title: Collect Moses' Gift
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: steal-vehicles-for-moses
+    closes_at: never
+    note: Opens once every car Moses asks for has been delivered. His gift text follows a couple of in-game days later and a unique Sultan waits in the garage beside his shop; it stays available after the story.
+    evidence:
+      basis: explicit-source
+      note: "PowerPyx and gtabase (a PowerPyx copy) give Daily Driver as the only requirement; one gtabase comment says a Delights robbery is also needed."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-steal-vehicles-for-moses-walkthrough/
+        title: "PowerPyx: Steal Vehicles for Moses walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/collect-moses-gift
+        title: "gtabase: Collect Moses' Gift"
+        accessed: "2026-11-26"
+  # -- Billy --
+  - slug: twist-wrist-smash-grab
+    title: "Twist Wrist, Smash, Grab"
+    chapter: paradise-lost
+    kind: optional
+    character: jason
+    opens_after: thrillbillies
+    closes_at: never
+    note: Billy's second job. It's optional, but the game counts it toward Story Completion as well as optional tasks. It stays available after the story.
+    evidence:
+      basis: best-guess
+      note: "No guide states its character or opening; both follow Thrillbillies in Billy's strand. Save data records it as story plus optional (type 3). PowerPyx's roadmap says all of Billy's quests stay available after the story."
+    sources:
+      - url: https://github.com/NotHGM/save-garage/blob/main/engine/tasks.py
+        title: "save-garage: ScriptGameCompletion types from game-written saves"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap (The Lone Rider)"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/843914
+        title: "Game8 JP: sub-mission list (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list (Japanese)"
+        accessed: "2026-11-26"
+  # -- Yago --
+  - slug: brother-to-brother
+    title: Brother to Brother
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: bumper-to-bumper
+    closes_at: never
+    note: Jason only. Yago texts a few in-game days after Bumper to Bumper, and the job starts at the back door of El Rincon Notorio.
+    evidence:
+      basis: best-guess
+      note: "MetaForge says it doesn't unlock after an expired Race Against Yago; RetroBroker says it does; TrueAchievements is silent. Trophygamers plays it in Chapter 4."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-brother-to-brother-back-up-yago-walkthrough/
+        title: "PowerPyx: Brother to Brother (Back Up Yago) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.trueachievements.com/a677804/strangers--freaks-achievement
+        title: "TrueAchievements: Strangers & Freaks achievement guide"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/brother-to-brother
+        title: "gtabase: Brother to Brother"
+        accessed: "2026-11-26"
+  # -- Yasmani --
+  - slug: yasmanis-jewelry-jobs
+    title: Yasmani's Jewelry Jobs
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: first-impressions
+    closes_at: never
+    note: Yasmani phones with the offer; robbing the stores and fencing the pieces pays $20,000 and a Snap Gun. It opens the jewelry stores, and it stays available after the story.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx, gtabase and IGN file it as a Chapter 3 main mission; Game8 JP and PowerPyx's index treat it as a side strand, and KeenGamer's 91, Polygon's Recap and Game8 EN's count leave it out. The strand reading is kept (no main mission is added)."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/844620
+        title: "Game8 JP: Yasmani's Jewelry Jobs"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=-YRgIHb7QOo
+        title: "Sirloin: GTA 6 full game walkthrough (100%), 12:30-13:43"
+        accessed: "2026-11-26"
+  - slug: yasmanis-atm-jobs
+    title: Yasmani's ATM Jobs
+    chapter: tits-ass-drug-money
+    kind: hourglass
+    character: both
+    opens_after: yasmanis-jewelry-jobs
+    closes_at: the-cartel-heist
+    note: Three ATM tips follow the jewelry job, and each one disappears about a day after it appears, so start it as soon as it shows. They pay about $12,000 a job.
+    evidence:
+      basis: safe-bound
+      note: "GameWith 583812 gives 2 to 3 in-game days per job and Game8 JP 844660 gives 1 day; the shorter figure is used in the note. The timer isn't tied to a main mission, so the end of Chapter 3 is a structural outer bound. PowerPyx's index leaves it unmarked."
+    sources:
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/844660
+        title: "Game8 JP: Yasmani's ATM job (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=-YRgIHb7QOo
+        title: "Sirloin: GTA 6 full game walkthrough (100%), 17:59"
+        accessed: "2026-11-26"
+  - slug: yasmanis-payday-loans-jobs
+    title: Yasmani's Payday Loans Jobs
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: yasmanis-jewelry-jobs
+    closes_at: never
+    note: Yasmani's next line of robbery jobs, offered after the jewelry job. It stays available after the story.
+    evidence:
+      basis: best-guess
+      note: "Round 6 refuted a '7 of 7' store line for this strand. GameWith says a lapsed ATM offer doesn't block it; gtabase says ATM Jobs and Credit Check unlock it. It is anchored on the jewelry job, not on the timed ATM jobs."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/yasmanis-payday-loans-jobs
+        title: "gtabase: Yasmani's Payday Loans Jobs"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list (Japanese)"
+        accessed: "2026-11-26"
+  - slug: thats-where-the-money-is
+    title: That's Where the Money Is...
+    chapter: vice-city-baby
+    kind: optional
+    character: both
+    opens_after: sunset
+    closes_at: never
+    note: "Yasmani has new leads: meet him at Cafe Orchidea and tail the security van. It opens the bank vault jobs and stays open after the story."
+    evidence:
+      basis: best-guess
+      note: "No guide says outright that it stays open. PowerPyx says nothing is missable for 100% and the vault jobs it unlocks are needed for Maximum Withdrawal; Game8 JP gives no lockout. 'Tail the Security Van' is this mission's first objective, not a mission of its own. Opens after VCIA Takedown."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-thats-where-the-money-is-wait-at-the-cafe-walkthrough/
+        title: "PowerPyx: That's Where the Money Is... (Wait at the Cafe) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/844547
+        title: "Game8 JP: Chapter 4 mission chart (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-100-completion-checklist/
+        title: "PowerPyx: GTA 6 100% completion checklist"
+        accessed: "2026-11-26"
+  # -- Dunk --
+  - slug: dunks-robbery-tips
+    title: Dunk's Robbery Tips
+    chapter: paradise-lost
+    kind: strangers-and-freaks
+    character: both
+    opens_after: breakfast-run
+    closes_at: never
+    note: Dunk calls the next in-game day and marks stash robberies (pills at Lost Vista, crystal at Scattered Pines and at the 24/7 gas station near Emerald Springs). Sell the loot at his trailer.
+    evidence:
+      basis: best-guess
+      note: "IGN, gta.guide and PowerPyx's Dunk page open it after Slam Dunk, which is used; PowerPyx's list and gtabase file it under Chapter 3. Dunk drops out as a fence for part of the story."
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Slam_Dunk_Walkthrough
+        title: "IGN: Slam Dunk walkthrough"
+        accessed: "2026-11-26"
+      - url: https://gta.guide/gta-6/missions/dunk-robbery-tips
+        title: "gta.guide: Dunk's Robbery Tips"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  # -- Pilot Pete (Chapter 4) --
+  - slug: the-last-mile-passing-the-torch
+    title: "The Last Mile: Passing the Torch"
+    chapter: vice-city-baby
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: company-cars
+    closes_at: never
+    note: Jason only. Pete calls early in the chapter about recovering his plane from Sundown Airfield, which pays $12,000, and his flying jobs follow. They stay open after the story.
+    evidence:
+      basis: explicit-source
+      note: "Opens after Pool Day ends. Rests on PowerPyx's index rule; vAnother Level SFeGsOUCiwo is not cited (its 0:47 frame is a pre-finale story step, not post-credits). IGN says abandoning Pete in a Chapter 3 mission locks unnamed optional content; no strand page repeats it."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-the-last-mile-passing-the-torch-recover-petes-plane-walkthrough/
+        title: "PowerPyx: The Last Mile: Passing the Torch walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Strangers_&_Freaks_in_GTA_VI
+        title: "gta.wiki: Strangers & Freaks in GTA VI"
+        accessed: "2026-11-26"
+  - slug: the-last-mile-backseat-pilot
+    title: "The Last Mile: Backseat Pilot"
+    chapter: vice-city-baby
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: the-last-mile-passing-the-torch
+    closes_at: never
+    note: Pete texts about half an in-game day after the first job.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx and gtabase call this part 'Deliver Packages'; game text uses the Last Mile titles (7-optional-mission-census#8)."
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/the-last-mile-backseat-pilot
+        title: "gtabase: The Last Mile: Backseat Pilot"
+        accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Strangers_&_Freaks_in_GTA_VI
+        title: "gta.wiki: Strangers & Freaks in GTA VI"
+        accessed: "2026-11-26"
+  - slug: the-last-mile-hostile-takeover
+    title: "The Last Mile: Hostile Takeover"
+    chapter: vice-city-baby
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: the-last-mile-backseat-pilot
+    closes_at: never
+    note: Third of Pete's five jobs. It and the next one can be done in either order.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx and gtabase call it 'Pete's Deliveries: Southpoint Airfield / Avery Allen & Co.' (objective labels). The order of parts 3 and 4 is gta.wiki's list order."
+    sources:
+      - url: https://github.com/NotHGM/save-garage/blob/main/engine/tasks.py
+        title: "save-garage: optional mission records from game saves"
+        accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Strangers_&_Freaks_in_GTA_VI
+        title: "gta.wiki: Strangers & Freaks in GTA VI"
+        accessed: "2026-11-26"
+  - slug: the-last-mile-stormy-weather
+    title: "The Last Mile: Stormy Weather"
+    chapter: vice-city-baby
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: the-last-mile-backseat-pilot
+    closes_at: never
+    note: Fourth of Pete's five jobs. It and the previous one can be done in either order.
+    evidence:
+      basis: best-guess
+    sources:
+      - url: https://github.com/NotHGM/save-garage/blob/main/engine/tasks.py
+        title: "save-garage: optional mission records from game saves"
+        accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Strangers_&_Freaks_in_GTA_VI
+        title: "gta.wiki: Strangers & Freaks in GTA VI"
+        accessed: "2026-11-26"
+  - slug: the-last-mile-over-and-out
+    title: "The Last Mile: Over and Out"
+    chapter: vice-city-baby
+    kind: strangers-and-freaks
+    character: jason
+    opens_after: the-last-mile-stormy-weather
+    closes_at: never
+    note: Pete's finale, a couple of in-game days after the earlier jobs. Seven drops before 08:00, then land back at the airfield for his last paycheck.
+    evidence:
+      basis: best-guess
+      note: "opens_after names only part 4; part 3 is also required. gtabase and TrueAchievements call the finale 'Deliver Packages'."
+    sources:
+      - url: https://gta.wiki/w/Strangers_&_Freaks_in_GTA_VI
+        title: "gta.wiki: Strangers & Freaks in GTA VI"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=UA-dBwaSstM
+        title: "Sirloin: Last Flight for Pete (full mission)"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/deliver-packages-pilot-pete
+        title: "gtabase: Deliver Packages (Pilot Pete)"
+        accessed: "2026-11-26"
+  # -- Dodos Rising (Chapter 3 protest strand) --
+  - slug: sisters-of-the-sea
+    title: Sisters of the Sea
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: welcome-to-vice-city
+    closes_at: never
+    note: Rosebud at the Oceanarium starts the Dodos Rising protest strand. This and Bring Out the Chimp come first, in either order.
+    evidence:
+      basis: best-guess
+      note: "IGN and gtabase put the strand in Chapter 3; PowerPyx's index says Any Chapter, and a video of it was uploaded before the Chapter 3 move. The later start is kept. First-hand PSNProfiles reports count the strand for the S&F trophy."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-sisters-of-the-sea-help-free-the-orca-walkthrough/
+        title: "PowerPyx: Sisters of the Sea (Help Free the Orca) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Dodos_Rising
+        title: "IGN: Dodos Rising"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/sisters-of-the-sea
+        title: "gtabase: Sisters of the Sea"
+        accessed: "2026-11-26"
+  - slug: bring-out-the-chimp
+    title: Bring Out the Chimp
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: welcome-to-vice-city
+    closes_at: never
+    note: Noah from the Dodos Rising protest group meets you by the river. It and Sisters of the Sea come first, in either order.
+    evidence:
+      basis: best-guess
+    sources:
+      - url: https://www.powerpyx.com/gta-6-bring-out-the-chimp-help-save-the-chimps-walkthrough/
+        title: "PowerPyx: Bring Out the Chimp (Help Save the Chimps) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Dodos_Rising
+        title: "IGN: Dodos Rising"
+        accessed: "2026-11-26"
+  - slug: twin-flames
+    title: Twin Flames
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: lucia
+    opens_after: sisters-of-the-sea
+    closes_at: never
+    note: Tyler texts once the first two jobs are done and Lucia starts it in Watson Bay.
+    evidence:
+      basis: best-guess
+      note: "No Jason-side footage was found; PowerPyx and Gamerpillar (0:20-0:30) have Lucia meeting the contacts."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-twin-flames-shut-down-the-fracking-site-walkthrough/
+        title: "PowerPyx: Twin Flames (Shut Down the Fracking Site) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=EpXogSEL-4Y
+        title: "Gamerpillar (YouTube): Dodos Rising strand"
+        accessed: "2026-11-26"
+  - slug: dodo-rise
+    title: "Dodo, Rise!"
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: lucia
+    opens_after: twin-flames
+    closes_at: never
+    note: Played as Lucia, with Jason joining, at the Emerald Springs zoo. Yvonne pays $5,000.
+    evidence:
+      basis: best-guess
+    sources:
+      - url: https://www.powerpyx.com/gta-6-dodo-rise-meet-with-the-dodos-contact-walkthrough/
+        title: "PowerPyx: Dodo, Rise! (Meet with the Dodos Contact) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Dodos_Rising
+        title: "IGN: Dodos Rising"
+        accessed: "2026-11-26"
+  # -- Kenton, Papa Audacity, Andy and Randy follow-ups --
+  - slug: check-in-with-kenton
+    title: Check in with Kenton
+    chapter: just-like-paradise
+    kind: optional
+    character: jason
+    opens_after: search-the-dive-sites
+    closes_at: never
+    note: Kenton asks you to his Key Lento shop after the first three dive sites, then marks three more. He goes quiet after Chapter 1 and returns later.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx once says two dive sites; three is the safe reading. Round 6 proposal (6-uncatalogued-strangers-strands#7)."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-kenton-sets-locations-search-the-dive-sites/
+        title: "PowerPyx: all Kenton Sets locations (Search the Dive Sites)"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-all-7-kentons-treasure-set-locations-and-rewards/
+        title: "KeenGamer: all 7 Kenton's Treasure set locations and rewards"
+        accessed: "2026-11-26"
+  - slug: maritime-dispute
+    title: Maritime Dispute
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: welcome-to-vice-city
+    closes_at: never
+    note: Kenton's finale. It needs at least three dive sites and the visit to his shop first, and it earns the This Was No Boat Accident trophy.
+    evidence:
+      basis: best-guess
+      note: "PowerPyx titles it singular and says Chapter 3 without naming a trigger mission; gtabase says Maritime Disputes. The opening is late Chapter 2 to Chapter 3; the later one is kept."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-maritime-dispute-stop-by-kentons-shop-walkthrough/
+        title: "PowerPyx: Maritime Dispute (Stop by Kenton's Shop) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/maritime-disputes
+        title: "gtabase: Maritime Disputes"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+  - slug: trial-by-tire
+    title: Trial by Tire
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: the-unknown-stuntman
+    closes_at: never
+    note: The AudaCity crew gets in touch a few in-game days later. Play it with the same protagonist who met the stuntman.
+    evidence:
+      basis: explicit-source
+      note: "Round 6 proposal (6-uncatalogued-strangers-strands#6)."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: quit-your-job-sell-your-house
+    title: "Quit Your Job, Sell Your House"
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: trial-by-tire
+    closes_at: never
+    note: Papa Audacity calls. It needs Jason and Lucia together at Peacock Bay Condominiums, so hang out first if they're apart.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: audacity-stunts
+    title: AudaCity Stunts
+    chapter: tits-ass-drug-money
+    kind: strangers-and-freaks
+    character: both
+    opens_after: quit-your-job-sell-your-house
+    closes_at: never
+    note: Seven sponsored stunt jumps, five marked first and two more after. They don't count toward Cunning Stunts.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: pay-the-cellerica-fee
+    title: Pay the Cellerica Fee
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: lucia
+    opens_after: climbing-the-cellerichain
+    closes_at: never
+    note: Andy's strand, Lucia only. It stays available after the story.
+    evidence:
+      basis: explicit-source
+      note: "PowerPyx says Andy's givers don't count for the S&F trophy, so kind is optional; its roadmap says all of Andy's quests are still available after the story."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: peach
+    title: PEACH!
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: lucia
+    opens_after: pay-the-cellerica-fee
+    closes_at: never
+    note: Andy's next job, Lucia only.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: read-the-label
+    title: Read the Label
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: lucia
+    opens_after: peach
+    closes_at: never
+    note: Andy's next job, Lucia only.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: puff-puff-pass
+    title: Puff Puff Pass
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: lucia
+    opens_after: read-the-label
+    closes_at: never
+    note: The last of Andy's jobs; it unlocks the Road to Rehabilitation trophy.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: dale-mamba
+    title: "¡Dale Mamba!"
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: randys-wish-list
+    closes_at: never
+    note: Randy's next job after the Wish List.
+    evidence:
+      basis: explicit-source
+      note: "Separate records after Randy's Wish List, not parts of it (7-optional-mission-census#7). PowerPyx doesn't count Randy's givers for the S&F trophy, so kind is optional."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: mansion-thrax
+    title: Mansion Thrax
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: dale-mamba
+    closes_at: never
+    note: Randy's next job.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: delivery-day
+    title: Delivery Day
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: mansion-thrax
+    closes_at: never
+    note: Randy calls within a day once the Wish List is done. It pays $25,000 and unlocks a trophy.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-delivery-day-meet-randy-walkthrough/
+        title: "PowerPyx: Delivery Day walkthrough"
+        accessed: "2026-11-26"
+  - slug: collect-the-tempesta
+    title: Collect the Tempesta
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: delivery-day
+    closes_at: never
+    note: Pick up a reward car and a garage.
+    evidence:
+      basis: explicit-source
+    sources:
+      - url: https://www.powerpyx.com/gta-6-collect-the-tempesta-walkthrough/
+        title: "PowerPyx: Collect the Tempesta walkthrough"
+        accessed: "2026-11-26"
+  # -- Other optional missions with no sourced cutoff: the chapter's gate is the structural bound --
+  - slug: impounded-vehicle
+    title: Impounded Vehicle
+    chapter: paradise-lost
+    kind: optional
+    character: lucia
+    opens_after: afternoon-delight
+    closes_at: checking-out
+    note: A Chapter 2 job for Lucia. Do it before the chapter ends.
+    evidence:
+      basis: safe-bound
+      note: "Sportskeeda says the Chapter 2 optionals don't appear missable; PowerPyx says many optional missions disappear after a while without naming this one. No source gives a closer, so the chapter gate is used. Opens after Coffee Break."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-impounded-vehicle-walkthrough/
+        title: "PowerPyx: Impounded Vehicle walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.sportskeeda.com/gta/all-gta-6-missions-complete-moving-onto-chapter-3
+        title: "Sportskeeda: all GTA 6 missions complete before Chapter 3"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/strangers/impounded-vehicle
+        title: "gtabase: Impounded Vehicle"
+        accessed: "2026-11-26"
+  - slug: pick-up-a-gun
+    title: Pick Up a Gun
+    chapter: paradise-lost
+    kind: optional
+    character: lucia
+    opens_after: moses
+    closes_at: checking-out
+    note: Lucia picks up a weapon at Gellhorn Outfitters. It shows on the map in Chapter 2, so do it before the chapter ends.
+    evidence:
+      basis: safe-bound
+      note: "Trophygamers Part 39 shows it on the optional list and Lucia completing it first-hand. Sportskeeda lists it among Chapter 2 optionals that don't appear missable; PowerPyx's generic 'many optional missions disappear' pulls the other way. The chapter gate is used. Opens after Girls' Trip."
+    sources:
+      - url: https://www.youtube.com/watch?v=_7QqxLEtTPA
+        title: "Trophygamers (YouTube): Part 39, Pick Up a Gun (optional list 5:06)"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-pick-up-a-gun-walkthrough/
+        title: "PowerPyx: Pick Up a Gun walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.sportskeeda.com/gta/all-gta-6-missions-complete-moving-onto-chapter-3
+        title: "Sportskeeda: all GTA 6 missions complete before Chapter 3"
+        accessed: "2026-11-26"
+  - slug: get-your-wheels
+    title: Get Your Wheels
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: dealers-choice
+    closes_at: the-cartel-heist
+    note: Dre'Quan's wheels job, added to your map when you move to Bayside. Do it before the chapter ends.
+    evidence:
+      basis: safe-bound
+      note: "IGN, Game8 JP and PowerPyx flag other missions as timed or missable and leave this one out, but no source says it never closes; PowerPyx also says many optional missions disappear after a while. The chapter gate is used."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-get-your-wheels-walkthrough/
+        title: "PowerPyx: Get Your Wheels walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Chapter_3_Walkthrough_and_Guide
+        title: "IGN: Chapter 3 walkthrough and guide"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/843937
+        title: "Game8 JP: missables list (Japanese)"
+        accessed: "2026-11-26"
+  - slug: drequans-gift
+    title: Dre'Quan's Gift
+    chapter: vice-city-baby
+    kind: optional
+    character: both
+    opens_after: making-gainz
+    closes_at: sunset
+    note: A map objective for Dre'Quan's thank-you gift, KD's unique Nagasaki SFB 1000, which costs about $3,150 to register. Collect it before the chapter ends.
+    evidence:
+      basis: safe-bound
+      note: "No source gives a deadline or says the gift stays open; PowerPyx says many optional missions disappear after a while. The chapter gate is used. Opens after Photo Shoot (PowerPyx, Game8)."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-drequans-gift-walkthrough/
+        title: "PowerPyx: Dre'Quan's Gift walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Chapter_4_Walkthrough_and_Guide
+        title: "IGN: Chapter 4 walkthrough and guide"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/844547
+        title: "Game8 JP: Chapter 4 mission chart (Japanese)"
+        accessed: "2026-11-26"
+  - slug: its-a-date
+    title: "It's a Date!"
+    chapter: vice-city-baby
+    kind: optional
+    character: both
+    opens_after: photo-shoot
+    closes_at: making-gainz
+    note: A date at the Courtyard Bar in Stockyard, $20 cover. Do it before your next story mission, because after that the couple can't be seen together in public for a while.
+    evidence:
+      basis: safe-bound
+      note: "Zero1 says the public-contact block starts when Making Gainz starts, PowerPyx says when it ends; the start is used. HoneyBeeMC says do it before Making Gainz. Zero1 calls the block temporary; no guide says the date stays playable after it. Opens after Heavy Lifting."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-its-a-date-walkthrough/
+        title: "PowerPyx: It's a Date! walkthrough"
+        accessed: "2026-11-26"
+      - url: https://zero1.gg/guides/gta-6-chapter-4-walkthrough
+        title: "Zero1: GTA 6 Chapter 4 walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=cA3KAjzW_yY
+        title: "HoneyBeeMC (YouTube): It's a Date!"
+        accessed: "2026-11-26"
+  - slug: this-is-a-free-call-from
+    title: "This is a Free Call From…"
+    chapter: vice-city-baby
+    kind: hourglass
+    character: lucia
+    opens_after: party-hard
+    closes_at: heavy-lifting
+    note: Lucia only. Shayna, a friend from prison, messages for a ride near Hamlet. It's timed and missable, so go as soon as the call comes.
+    evidence:
+      basis: safe-bound
+      note: "PowerPyx tags it Time-Sensitive and Missable; Game8 JP says it vanishes with time (1 day) and GameWith calls it timed; none names a closing mission, so the next story mission after it opens is used. Game8 JP's Chapter 3 placement is an outlier. Opens after Lawyer Up."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+      - url: https://game8.jp/gta6/843914
+        title: "Game8 JP: sub-mission list (Japanese)"
+        accessed: "2026-11-26"
+      - url: https://gamewith.jp/gta6/583812
+        title: "GameWith JP: sub-mission list (Japanese)"
+        accessed: "2026-11-26"
+  - slug: ufo-abduction
+    title: UFO Abduction
+    chapter: paradise-lost
+    kind: optional
+    character: both
+    opens_after: whats-in-the-bag
+    closes_at: never
+    note: An early-hours event, 1 to 6 AM, from Chapter 2 on. The secret base keypad code is 2314.
+    evidence:
+      basis: best-guess
+      note: "Outside PowerPyx's S&F rule (it calls this an Easter egg). No source states post-story availability; it is tied to The Truth Is Out There, and PowerPyx lists no missable trophies."
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/UFO_Abduction_Walkthrough
+        title: "IGN: UFO Abduction walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.keengamer.com/articles/guides/gta-6-alien-dreams-walkthrough-ufo-abduction/
+        title: "KeenGamer: Alien Dreams (UFO Abduction) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.youtube.com/watch?v=5OgDGkUdeDw
+        title: "HarryNinetyFour (YouTube): UFO Abduction, keypad at 11:56"
+        accessed: "2026-11-26"
+  - slug: scarlet-sun
+    title: Scarlet Sun
+    chapter: just-like-paradise
+    kind: strangers-and-freaks
+    character: both
+    opens_after: prologue
+    closes_at: never
+    note: Scarlet in Grayson, Lummox County. A second, solo meeting follows a few in-game days later, and it counts toward the Strangers & Freaks trophy.
+    evidence:
+      basis: best-guess
+      note: "Single source (PowerPyx: any chapter, either character, unmarked); the earliest anchor is used for an any-chapter trigger. IGN, gtabase and Game8 have no entry."
+    sources:
+      - url: https://www.powerpyx.com/gta-6-scarlet-sun-return-to-scarlet-walkthrough/
+        title: "PowerPyx: Scarlet Sun (Return to Scarlet) walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-all-strangers-freaks-side-missions/
+        title: "PowerPyx: all Strangers & Freaks side missions"
+        accessed: "2026-11-26"
+  - slug: by-invitation-only
+    title: Capri Cops (By Invitation Only)
+    chapter: tits-ass-drug-money
+    kind: optional
+    character: both
+    opens_after: welcome-to-vice-city
+    closes_at: the-cartel-heist
+    note: "A secret Chapter 3 job that starts when a crooked Capri cop arrests you near Beacon Circle, or when you surrender at one or two stars. Do it before the chapter ends."
+    evidence:
+      basis: safe-bound
+      note: "Only gtabase lists it (its hub copies PowerPyx, which has no page); Game8 EN, Game8 JP and IGN omit it and no save id matches. No missable or post-story statement, and it is outside the PowerPyx S&F index, so the chapter gate is used instead of never."
+    sources:
+      - url: https://www.gtabase.com/gta-6/strangers/by-invitation-only
+        title: "gtabase: By Invitation Only (Capri Cops)"
         accessed: "2026-11-26"

@@ -4,7 +4,8 @@
 # states it outright. A single source that is AI-drafted or AI-assisted (The
 # Games Wiki says so in its footer; gaming.net too) never counts as that one
 # explicit source, so items resting only on it stay verified: false.
-# Where guides disagree the item stays verified: false and says so.
+# Where guides disagree the item ships the safe value and the disagreement goes in
+# evidence.note (ADR 0008); verified is research background only.
 # Checking balance: Rock Paper Shotgun, IGN's All Chapter 1 Missables and
 # Playtheory's own save say it is lost, so empty-checking is verified.
 # Lock-in: free roam returns after Recalibration, and Chapter 1 free roam ends
@@ -26,10 +27,15 @@
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
 # Not items any more: Get Shirley's Rum, Steal the Scooter, Ring the Bell!, Clock
-# Out, Get Lucia's Clothes, Buy Lucia a Necklace, Pick Up Groceries, Buy Flowers
-# and Get The Chop are optional missions in missions.yaml; the app derives their
-# rows and countdowns. Donnie's Drop-Off and Meditate with Lucia stay items until
-# their windows are confirmed.
+# Out, Get Lucia's Clothes, Buy Lucia a Necklace, Pick Up Groceries, Buy Flowers,
+# Get The Chop and Find the Lost Drugs are optional missions in missions.yaml; the
+# app derives their rows and countdowns. Donnie's Drop-Off and Meditate with Lucia
+# stay items: lost_at is the earliest plausible cutoff (Clear Skies; the Tourist
+# Trap gate for the one-shot balcony offer).
+# Pickups inside a mission are lost_at the next main mission (reached rule):
+# mandys-cigars (Pipework), donnies-38 (Don Gone).
+# Chuck's discount, the card box and spend-on-weapons ammo: no source settles them;
+# the safe advice is in the text and the split is in evidence.note.
 
 items:
   - id: manual-save
@@ -178,6 +184,9 @@ items:
     before_gate: tourist-trap
     visible_after_mission: buck-me
     verified: true
+    evidence:
+      basis: best-guess
+      note: "Nova Gaming (eISm7aTurTY) says weapons carry over at 3:04 and warns against leaving anything in the trunk at 3:12; bought ammo, armor and explosives sit in the car's trunk (Output Lag). No source links ammo to a gate."
     how_to: "Bought weapons carry through Tourist Trap, per Playtheory's own save and Output Lag, and unique variants are kept for good, so spare pocket cash is best spent on guns. Weapons you pick up off enemies aren't owned and are lost if you die or get arrested. Attachments you buy carry over too (Playtheory's own save; Jay Dunna), but they're tracked separately for each character, so Lucia's copy of a gun doesn't get Jason's mods (Nova Gaming; gameta). Don't count on ammo or bought clothes coming with you: Playtheory lost its bought clothes."
     location: Chuck's Tackle & Shot in Key Lento, or any Ammu-Nation. Bought guns can be kept in the weapon locker inside the gun store (Rock Paper Shotgun).
     sources:
@@ -219,7 +228,10 @@ items:
     visible_after_mission: gear-up
     lost_at_mission: just-a-scratch
     verified: false
-    how_to: In Gear Up, Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700. No guide shows the discount outside that mission, so buy it then. Only the discount is at stake; any Ammu-Nation sells it at $700 later. Bought weapons carry through Tourist Trap.
+    evidence:
+      basis: best-guess
+      note: "IGN, nerdschalk and allthings.how confirm $350 against $700 during Gear Up. No source shows Chuck's menu afterwards, and IGN's Chapter 2 guide puts Key Lento off limits throughout Chapter 2, so the discount is gone by the gate at the latest; the mission after Gear Up is the earliest plausible end."
+    how_to: In Gear Up, Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700, so buy it then. Only the discount is at stake; any Ammu-Nation sells it at $700 later. Bought weapons carry through Tourist Trap.
     location: Chuck's Tackle & Shot.
     sources:
       - url: https://gtavimaps.com/guides/weapons/
@@ -236,6 +248,9 @@ items:
         accessed: "2026-11-26"
       - url: https://www.gtabase.com/weapons/gta-6/moreland-850
         title: "gtabase: Moreland 850"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Chapter_2_Walkthrough_and_Guide
+        title: "IGN: Chapter 2 walkthrough and guide"
         accessed: "2026-11-26"
 
   - id: floor-stash
@@ -451,7 +466,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     verified: false
-    how_to: There are 18 card sets with 480 cards in all, and each colour variant counts as its own card. You can't buy them. Duplicates sell at pawn shops for roughly $20 to over $1,000, and selling a card doesn't remove it from your progress. One challenge asks for three in each of the five counties. Set progress isn't urgent, but AllThings says unsold cards sit in a box in your safehouse and no guide says what happens to them at the gate, so sell duplicates before the gate to be safe.
+    evidence:
+      basis: best-guess
+      note: "AllThings says unsold cards sit in a box in the safehouse; Game8 EN says money stored in the house and goods stored in the car are lost at the gate. No source says what happens to the box's cards, so they are treated as tied to the house."
+    how_to: There are 18 card sets with 480 cards in all, and each colour variant counts as its own card. You can't buy them. Duplicates sell at pawn shops for roughly $20 to over $1,000, and selling a card doesn't remove it from your progress. One challenge asks for three in each of the five counties. Set progress isn't urgent, but sell your duplicates before the gate instead of leaving them in the safehouse box.
     location: Indoors on surfaces and walls, outdoors in yellow phone boxes and on tool boxes.
     sources:
       - url: https://www.powerpyx.com/gta-6-all-collectible-card-sets-locations/
@@ -516,7 +534,10 @@ items:
     before_gate: tourist-trap
     visible_after_mission: prologue
     lost_at_mission: tourist-trap
-    verified: false
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN's map and gtaboss both put Body Copy at the Zenith gym (Downtown) and the Ajax Gym (Oldby Island); Cutscene Wire's Washington Beach copy is unsupported. Orca has a tiki or outdoor bar copy; Ashes of Glory spots are player reports; Lethal By Design's other copy is inside a later story mission."
     how_to: Five magazines sit inside the house and go with it, so read them while you're there. Each has a copy somewhere else. Body Copy is in the Zenith gym in Downtown and the Ajax Gym on Oldby Island. Off the Hook is in a house on Surfside Dr in Key Lento and a mobile home in Port Gellhorn. Orca is at a tiki bar south of Southwind, and players report Ashes of Glory in several places. Lethal By Design's only other copy is on a warehouse table during a later story mission, so read it in the house. 100% needs 30 of the titles.
     location: Inside Jason's house. Ashes of Glory in the bedroom, Lethal By Design on the living-room table, Orca A Whole Different Animal by the east window, Off the Hook in the tool shed and Body Copy on the back deck.
     sources:
@@ -537,14 +558,17 @@ items:
         accessed: "2026-11-26"
 
   - id: donnies-38
-    title: Take Donnie's H&L .38
+    title: Take Donnie's H&L .38 and aviator sunglasses
     category: Collectibles
     before_gate: tourist-trap
     visible_after_mission: don-gone
     lost_at_mission: recalibration
     verified: true
-    how_to: During Don Gone, open the trunk of Donnie's car and take the H&L .38 revolver before the car is destroyed. It's a unique weapon variant you keep for good, but if you skip it you can't get it later.
-    location: The trunk of Donnie's car.
+    evidence:
+      basis: two-sources
+      note: "IGN and Beebom give the aviators on the trailer's bathroom shelf; PowerPyx's Don Gone page lists only the .38 as missable. Whether the same model is sold in a shop has no source. lost_at is the next main mission because both pickups are inside Don Gone."
+    how_to: During Don Gone, open the trunk of Donnie's car and take the H&L .38 revolver before the car is destroyed. It's a unique weapon variant you keep for good, but if you skip it you can't get it later. Inside his trailer, also grab the aviator sunglasses from the bathroom shelf, then visit a wardrobe to claim them.
+    location: The trunk of Donnie's car; the bathroom shelf in his trailer.
     sources:
       - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
         title: "IGN: all Chapter 1 missables"
@@ -557,6 +581,9 @@ items:
         accessed: "2026-11-26"
       - url: https://www.youtube.com/watch?v=_SmAXW9WxLI
         title: "Horizon Gaming (YouTube): Don Gone, pickup toast at 2:44:44"
+        accessed: "2026-11-26"
+      - url: https://beebom.com/gta-6-chapter-1-missable-items-activities/
+        title: "Beebom: GTA 6 Chapter 1 missable items and activities"
         accessed: "2026-11-26"
 
   - id: balcony-meditation
@@ -686,4 +713,48 @@ items:
         accessed: "2026-11-26"
       - url: https://www.thegamer.com/gta-6s-act-1-has-a-big-point-of-no-return-and-youll-lose-everything/
         title: "TheGamer: Act 1's point of no return"
+        accessed: "2026-11-26"
+
+  - id: mandys-cigars
+    title: Pick up Mandy's cigar box
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: pipework
+    lost_at_mission: hey-arnold
+    verified: true
+    evidence:
+      basis: two-sources
+      note: "IGN's Chapter 1 missables and PowerPyx's Pipework page agree; gtabase's Pipework page also lists it. lost_at is the next main mission because the pickup is inside Pipework."
+    how_to: Once the sink is fixed, Mandy storms outside and throws a box of Macizo cigars into the street. Grab it before you leave; it's the mission's only missable pickup and you can't come back for it. A cigar gives a short Focus boost for a little health.
+    location: The street outside Mandy's place.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: all Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://www.powerpyx.com/gta-6-pipework-collect-mandys-rent-walkthrough/
+        title: "PowerPyx: Pipework walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/pipework
+        title: "gtabase: Pipework mission"
+        accessed: "2026-11-26"
+  - id: yacht-sunglasses
+    title: Take the yacht guests' free sunglasses
+    category: Collectibles
+    before_gate: tourist-trap
+    visible_after_mission: day-release
+    lost_at_mission: swamped
+    verified: false
+    evidence:
+      basis: best-guess
+      note: "Only IGN describes the pickup (two guests hand over a free pair of expensive sunglasses). PowerPyx doesn't mention it; Vice City Tracker calls them unique but traces to Beebom and TechWiser, unchecked in game. No brand, model or shop-stock evidence, so lost_at is the next main mission (in-mission pickup)."
+    how_to: At the yacht party, accept the free pair of sunglasses the two guests hand over, then visit a wardrobe to claim them.
+    sources:
+      - url: https://www.ign.com/wikis/gta-6/Day_Release_Walkthrough
+        title: "IGN: Day Release walkthrough"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
+        title: "IGN: All Chapter 1 missables"
+        accessed: "2026-11-26"
+      - url: https://www.vicecitytracker.com/missables
+        title: "Vice City Tracker: missables"
         accessed: "2026-11-26"

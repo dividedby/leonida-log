@@ -114,6 +114,52 @@ describe("real curated data", () => {
     );
   });
 
+  it.each([
+    ["whats-in-the-bag", "help-kirk-find-mr-mangrove", true],
+    ["island-dreams", "help-kirk-find-mr-mangrove", false],
+    ["daily-driver", "gellhorns-missing-tourists", true],
+    ["moses", "gellhorns-missing-tourists", false],
+    ["company-cars", "the-last-mile-passing-the-torch", true],
+    ["pool-day", "the-last-mile-passing-the-torch", false],
+    ["sunset", "thats-where-the-money-is", true],
+    ["vcia-takedown", "thats-where-the-money-is", false],
+  ])(
+    "at %s, the never-closing strand %s is safe to leave: %s",
+    (current, slug, expected) => {
+      const safe = safeToLeave(data, current).map((o) => o.slug);
+      expect(safe.includes(slug)).toBe(expected);
+    },
+  );
+
+  it.each([
+    [
+      "the-cartel-heist",
+      "yasmanis-atm-jobs",
+      "first-impressions",
+      "the-cartel-heist",
+    ],
+    ["sunset", "its-a-date", "photo-shoot", "making-gainz"],
+    ["sunset", "this-is-a-free-call-from", "party-hard", "heavy-lifting"],
+  ])(
+    "gate %s lists %s while on %s and drops it on %s",
+    (gateSlug, slug, opened, bound) => {
+      const gate = data.gates.find((g) => g.mission === gateSlug);
+      if (!gate) throw new Error(`no gate ${gateSlug}`);
+      const rows = (current: string) =>
+        gateOptionals(data, gate, current).map((r) => r.mission.slug);
+      expect(rows(opened)).toContain(slug);
+      expect(rows(bound)).not.toContain(slug);
+    },
+  );
+
+  it("never closes an unmarked Strangers and Freaks strand (ADR 0008)", () => {
+    expect(
+      data.optionalMissions.filter(
+        (o) => o.kind === "strangers-and-freaks" && o.closesAt !== "never",
+      ),
+    ).toEqual([]);
+  });
+
   // ADR 0002 (amended 2026-11-26): item text may not name a mission after the
   // item's visible_after_mission, except its own gate's title. Ch5 missions
   // outside the Story Recap list come after every gate.
