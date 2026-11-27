@@ -92,6 +92,20 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
 
+  # Builds and smoke-tests the production image on arm64 (the VPS is aarch64), the same
+  # way deploy-vps.yml does after merge, so a broken image fails the PR. Nothing is pushed.
+  image:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build
+        run: docker build --build-arg "REVISION=$GITHUB_SHA" --tag "leonida-log:ci" .
+      - name: Smoke test
+        run: deploy/image-smoke.sh "leonida-log:ci" "$GITHUB_SHA"
+
   secret-scan:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -114,7 +128,7 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [changes, lint, typecheck, test, build, secret-scan]
+    needs: [changes, lint, typecheck, test, build, image, secret-scan]
     runs-on: ubuntu-latest
     steps:
       - if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
