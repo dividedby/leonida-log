@@ -17,7 +17,7 @@
 # Wizard Wang, which is likely the collectible-list label.
 # Spoiler rule (ADR 0002, 2026-11-26): text never names a later mission;
 # cutoffs live in lost_at_mission.
-# Veteran Hunted, Thrillbillies, Twist Wrist, Smash, Grab, Check Out McKittrick Farm, Collect Chemicals for Kyle, Steal Vehicles for Moses, Collect Moses' Gift and the Circles of Hell encounter are no longer items: they are optional missions that stay open after the story, so they show under 'safe to leave'. moses-car-sales (open-ended sales) and avery-kingpin-jobs (no cutoff sourced for either job) stay items.
+# Veteran Hunted, Thrillbillies, Twist Wrist, Smash, Grab, Check Out McKittrick Farm, Collect Chemicals for Kyle, Steal Vehicles for Moses, Collect Moses' Gift and the Circles of Hell encounter are no longer items: they are optional missions that stay open after the story, so they show under 'safe to leave'. moses-car-sales (open-ended sales), avery-pawn-job (its mission card vanishes partway through Chapter 2, per player reports) and kingpin-bowling-job (no cutoff sourced) stay items.
 # Pickups inside a mission are lost_at the next main mission: andys-jacket (Home Sweet Home). motel-rent is a price rise at Slam Dunk, not a loss.
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
@@ -302,18 +302,28 @@ items:
         title: "Rare Thief: do you lose your money after Chapter 2 (own save)"
         accessed: "2026-11-26"
 
-  - id: avery-kingpin-jobs
-    title: Take the Avery Pawn and Kingpin Bowling jobs
+  - id: avery-pawn-job
+    title: Take the Hit Avery Pawn job
     category: Side missions
     before_gate: checking-out
     visible_after_mission: coffee-break
+    lost_at_mission: afternoon-delight
     verified: false
     evidence:
-      basis: best-guess
-      note: "Neither job is lost at Checking Out: GameStar and PowerPyx's blanket rule say Avery Pawn can be done later, and PowerPyx, Game8 JP and GameWith say the Kingpin alley returns in Chapter 3. No source affirms either job after the story, so no lost_at is set. Hit Avery Pawn and Hit Kingpin Bowling stay one item (no duplicate mission rows). No source gives cash amounts."
-    how_to: "Both are robberies rather than stranger jobs, offered around Coffee Break, and Eurogamer says they pay plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown."
-    location: Avery Pawn Shop and Kingpin Bowling Alley.
+      basis: safe-bound
+      note: "Six-plus Reddit players say the optional mission dropped off the map and objectives partway through Chapter 2 before they did it; two place it right after Veteran Hunted, which opens after Afternoon Delight, and one ties it to Afternoon Delight being offered. No report names the exact trigger, so the earliest plausible cutoff is used (ADR 0008). The shop itself stays robbable. GameStar and PowerPyx's blanket rule said it could be done later; the reports override that for the mission. No source gives a cash amount."
+    how_to: "It's a robbery rather than a stranger job, offered around Coffee Break, and Eurogamer says it pays plenty of cash and unique gear, which helps toward the $15,000. Take it as soon as it shows: players report the job vanishing from the map and objectives partway through the chapter. If it does, you can still rob the shop as an ordinary robbery (it still shows on the map's robbery filter), but you lose the mission's scenes."
+    location: Avery Pawn Shop.
     sources:
+      - url: https://www.reddit.com/comments/1y169y1/_/19t2om1gvuko2/
+        title: "Reddit r/GTA6 Chapter 2 Help Thread: first-hand, the job vanished partway through the chapter; replies 19t37p6ldt8v5 (same, still robbed it) and 19t3i5vr2y6g3 (robbery filter)"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/r/GTA6unmoderated/comments/1y3my1o/
+        title: "Reddit r/GTA6unmoderated: first-hand, the job was gone before it was done; the shop is still robbable"
+        accessed: "2026-11-27"
+      - url: https://www.reddit.com/r/grandtheftauto/comments/1y2omwr/
+        title: "Reddit r/grandtheftauto: first-hand, the job left the objectives tab before it was done (several players agree)"
+        accessed: "2026-11-27"
       - url: https://www.eurogamer.net/gta-6-money-making-methods
         title: "Eurogamer: GTA 6 money-making methods by chapter"
         accessed: "2026-11-25"
@@ -322,6 +332,22 @@ items:
         accessed: "2026-11-25"
       - url: https://gta.tech4gamers.com/gta-6/guides/make-money-each-chapter/
         title: "Tech4Gamers: make money each chapter"
+        accessed: "2026-11-25"
+
+  - id: kingpin-bowling-job
+    title: Take the Hit Kingpin Bowling job
+    category: Side missions
+    before_gate: checking-out
+    visible_after_mission: coffee-break
+    verified: false
+    evidence:
+      basis: best-guess
+      note: "Not lost at Checking Out: PowerPyx, Game8 JP and GameWith say the Kingpin alley returns in Chapter 3. No source affirms the job after the story, so no lost_at is set. No source gives a cash amount."
+    how_to: "It's a robbery rather than a stranger job, offered around Coffee Break, and Eurogamer says it pays plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown."
+    location: Kingpin Bowling Alley.
+    sources:
+      - url: https://www.eurogamer.net/gta-6-money-making-methods
+        title: "Eurogamer: GTA 6 money-making methods by chapter"
         accessed: "2026-11-25"
       - url: https://www.ign.com/wikis/gta-6/Unique_Weapon_Variants
         title: "IGN: unique weapon variants"
