@@ -335,7 +335,10 @@ items:
     before_gate: checking-out
     visible_after_mission: afternoon-delight
     verified: true
-    how_to: "After Billy's Thrillbillies job, Wyman texts and marks a garage on the map (IGN calls it the Paradise RV Park garage; Tech4Gamers says Grassrivers, about a day later). Collect the buggy there; Rockstar's edition text says it's kept at the Paradise Garage in Watson Bay."
+    evidence:
+      basis: explicit-source
+      note: "IGN calls it the Paradise RV Park garage; Tech4Gamers says Grassrivers, about a day later."
+    how_to: "After Billy's Thrillbillies job, Wyman texts and marks a garage on the map. Collect the buggy there; Rockstar's edition text says it's kept at the Paradise Garage in Watson Bay."
     location: "Marked garage in Grassrivers, Mariana County (IGN: Paradise RV Park garage); Paradise Garage, Watson Bay."
     sources:
       - url: https://gta.tech4gamers.com/gta-6/vehicles/67-vapid-dominator-buggy/

@@ -64,7 +64,10 @@ items:
     visible_after_mission: heavy-lifting
     lost_at_mission: power-play
     verified: false
-    how_to: "Only appears if you didn't get the full $10M at the Cartel Heist and then spare Felipe in Bad Driver!. It closes at the same point as that job, before Sunset, so collect it first. Felipe texts you where he left his Declasse '80 Impaler, by a chapel in Millport (one guide names Lost Heaven Cemetery); it sells for about $2,450."
+    evidence:
+      basis: best-guess
+      note: "Gamers Heroes names Lost Heaven Cemetery instead of the Millport chapel."
+    how_to: "Only appears if you didn't get the full $10M at the Cartel Heist and then spare Felipe in Bad Driver!. It closes at the same point as that job, before Sunset, so collect it first. Felipe texts you where he left his Declasse '80 Impaler, by a chapel in Millport; it sells for about $2,450."
     location: By a chapel in Millport.
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/bad-driver

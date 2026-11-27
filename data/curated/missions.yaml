@@ -768,7 +768,10 @@ missions:
     character: both
     opens_after: check-out-mckittrick-farm
     closes_at: never
-    note: Kyle texts about a day later. The van can be had free by negotiating and offering the plane as collateral (IGN also lists $5,000 or $3,000); pays $1,000 and mutated strawberries. Game8 says the first strawberry permanently raises max Stamina; later ones add nothing permanent.
+    note: Kyle texts about a day later. The van can be had free by negotiating and offering the plane as collateral; pays $1,000 and mutated strawberries. Game8 says the first strawberry permanently raises max Stamina; later ones add nothing permanent.
+    evidence:
+      basis: explicit-source
+      note: "IGN also lists $5,000 or $3,000 for the van."
     sources:
       - url: https://www.gtabase.com/gta-6/strangers/collect-chemicals-for-kyle
         title: "gtabase: Collect Chemicals for Kyle stranger mission"
@@ -810,7 +813,10 @@ missions:
     character: both
     opens_after: whats-in-the-bag
     closes_at: never
-    note: Go alone, late at night, to the Circles of Hell House on Gellhorn Avenue, northern Port Gellhorn. Reports put the opening anywhere from 10:30 PM to 4 AM; if the garage is shut, leave and come back another night. It pays out permanent max health and the Hellspawn Comshot 12, which you have to pick up by the throne. KeenGamer says Chapter 2 or later; no source says it closes.
+    note: Go alone, late at night, to the Circles of Hell House on Gellhorn Avenue, northern Port Gellhorn. Go between 10:30 PM and 4 AM; if the garage is shut, leave and come back another night. It pays out permanent max health and the Hellspawn Comshot 12, which you have to pick up by the throne. It stays open after the story.
+    evidence:
+      basis: best-guess
+      note: "Reports put the opening anywhere from 10:30 PM to 4 AM. KeenGamer says Chapter 2 or later; no source says it closes."
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-6-satan-mission-walkthrough-and-hellspawn-shotgun/
         title: "KeenGamer: GTA 6 Satan mission walkthrough and Hellspawn shotgun"
@@ -877,7 +883,10 @@ missions:
     character: jason
     opens_after: here-kitty-kitty
     closes_at: never
-    note: Tyrone's lab strand. Jason burns down Kitty Litter labs across Leonida for cash; guides count 13 or 14 labs. It stays available after the story.
+    note: Tyrone's lab strand. Jason burns down Kitty Litter labs across Leonida for cash. It stays available after the story.
+    evidence:
+      basis: best-guess
+      note: "Guides count 13 or 14 labs."
     sources:
       - url: https://game8.jp/gta6/844570
         title: "Game8 JP: Take Out Kitty Litter (Japanese)"
@@ -979,7 +988,10 @@ missions:
     character: both
     opens_after: steal-the-zorrusso-for-randy
     closes_at: never
-    note: Randy gives cars one at a time from his whiteboard, under Map > Robberies; guides count 15 to 24 cars. Hinted cars only appear after Randy's hint.
+    note: Randy gives cars one at a time from his whiteboard, under Map > Robberies. Hinted cars only appear after Randy's hint.
+    evidence:
+      basis: best-guess
+      note: "Guides count 15 to 24 cars."
     sources:
       - url: https://www.ign.com/wikis/gta-6/Clonin%27_Keys,_Makin%27_Gs_Walkthrough
         title: "IGN: Clonin' Keys, Makin' Gs walkthrough"

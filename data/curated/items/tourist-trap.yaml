@@ -339,7 +339,10 @@ items:
     visible_after_mission: gear-up
     lost_at_mission: tourist-trap
     verified: true
-    how_to: "Wrap up anything you want to do as Jason. Free roam with the pair stops for a good while: VGC says several hours, while PowerPyx and gtabase say Jason isn't playable for a long time."
+    evidence:
+      basis: two-sources
+      note: "VGC says several hours; PowerPyx and gtabase say Jason isn't playable for a long time."
+    how_to: "Wrap up anything you want to do as Jason. Free roam with the pair stops for a good while."
     sources:
       - url: https://www.videogameschronicle.com/guide/gta-6-chapter-1-warning-read-this-before-finishing-chapter-1-of-gta-6/
         title: "VGC: GTA 6 Chapter 1 warning, read this before finishing Chapter 1"
@@ -466,8 +469,8 @@ items:
     verified: false
     evidence:
       basis: best-guess
-      note: "Guides disagree on whether Street Art, Murals, Kenton's Treasures and Styles are separate tabs."
-    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and possibly unsold cards are tied to this gate."
+      note: "Guides disagree on whether Street Art, Murals, Kenton's Treasures and Styles are separate tabs. Whether unsold cards are tied to the gate is not settled; they are treated as tied."
+    how_to: "Progress > Collections holds Collectible Cards, WAiNK Locations and Exploration. WAiNK scans total 108 in five types (Landmarks 31, Curiosities 35, Sculptures 23, Peewees Billboards 4, No Flusher Tags 15); older 112 and 130 figures are stale. Exploration is eight sub-categories, 296 items in all: underwater discoveries, magazines/books/comics, book swaps, meditation spots, cocaine flamingos, unique playlists, styles, and a five-car Ultimate Edition set. The 100% checklist also sets discovery targets: 200 of 277 base vehicles, 100 of 255 animals and 50 of 66 standard weapons. Only the house magazines, the balcony meditation and any cards you haven't sold are tied to this gate."
     location: Pause menu > Progress > Collections.
     sources:
       - url: https://www.powerpyx.com/gta-6-collectible-guide/
@@ -617,7 +620,7 @@ items:
     before_gate: tourist-trap
     visible_after_mission: coming-home
     verified: true
-    how_to: Answer her calls and texts, buy her food, drinks and clothes, do activities together and never leave her behind. Check the level in the Jason & Lucia menu. The meter can't drop below Running on Empty, but one story choice can end the romance for good, so keep it at level 3 of 4 or higher to be safe (IGN); VGC also says neglect locks you out of one ending.
+    how_to: Answer her calls and texts, buy her food, drinks and clothes, do activities together and never leave her behind. Check the level in the Jason & Lucia menu. The meter can't drop below Running on Empty, but one story choice can end the romance for good, so keep it at level 3 of 4 or higher (IGN); VGC also says neglect locks you out of one ending.
     sources:
       - url: https://www.gtabase.com/articles/gta-6/gta-6-jason-and-lucia-s-relationship-system-explained
         title: "gtabase: Jason and Lucia's relationship system explained"

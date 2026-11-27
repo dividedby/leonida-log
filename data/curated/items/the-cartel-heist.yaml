@@ -36,7 +36,10 @@ items:
     visible_after_mission: welcome-to-vice-city
     lost_at_mission: the-cartel-heist
     verified: true
-    how_to: "In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the pink Pfister Growler out to register it for free; IGN gives its sell value as $22,660, and MetaForge saw about $20,600. The laptop only works this chapter and the apartment is lost when the next one starts, so claim the car before the heist to be safe."
+    evidence:
+      basis: explicit-source
+      note: "IGN gives the sell value as $22,660; MetaForge saw about $20,600."
+    how_to: "In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the pink Pfister Growler out to register it for free; it sells for about $22,660. The laptop only works this chapter and the apartment is lost when the next one starts, so claim the car before the heist."
     location: Bayside Safehouse bedroom; Del Rio Boulevard Garage, La Perle.
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
