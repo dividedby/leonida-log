@@ -48,14 +48,6 @@ describe("constraints reject bad rows", () => {
       "insert into stat_levels (character, stat, level, updated_at) values ('jason', 'strength', -1, 0)",
     ],
     [
-      "workouts_character",
-      "insert into workouts (character, stat, at) values ('franklin', 'strength', 0)",
-    ],
-    [
-      "workouts_stat",
-      "insert into workouts (character, stat, at) values ('jason', 'stamina', 0)",
-    ],
-    [
       "candidates_status_values",
       "insert into sources (id, url, host, fetched_at) values (1, 'https://a.test/x', 'a.test', 0); insert into candidates (source_id, raw_extract, status, created_at) values (1, 'x', 'maybe', 0)",
     ],

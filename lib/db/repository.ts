@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import type { CuratedData } from "../curated";
 import type { Db } from "./open";
 import {
@@ -10,7 +10,6 @@ import {
   itemChecks,
   progress,
   statLevels,
-  workouts,
   type Character,
   type SpoilerMode,
   type Stat,
@@ -181,23 +180,6 @@ export function createRepository(db: Db, curated: CuratedData) {
           set: { level, updatedAt: now },
         })
         .run();
-    },
-
-    logWorkout(character: Character, stat: Stat, at: Date = new Date()): void {
-      oneOf("character", CHARACTERS, character);
-      oneOf("stat", STATS, stat);
-      db.insert(workouts).values({ character, stat, at }).run();
-    },
-
-    lastWorkout(character: Character, stat: Stat): Date | null {
-      const row = db
-        .select({ at: workouts.at })
-        .from(workouts)
-        .where(and(eq(workouts.character, character), eq(workouts.stat, stat)))
-        .orderBy(desc(workouts.at))
-        .limit(1)
-        .get();
-      return row?.at ?? null;
     },
   };
 }
