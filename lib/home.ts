@@ -170,7 +170,10 @@ export function homeView(
       title: gateMission.title,
       ...gateProgress(rows, checked),
     };
-    emptyMessage = `All done for Exit ${gateMission.chapterOrder}.`;
+    emptyMessage =
+      gateInfo.done === gateInfo.total
+        ? `All done for Exit ${gateMission.chapterOrder}.`
+        : `Nothing left you can still do for Exit ${gateMission.chapterOrder}.`;
   } else {
     rows = safeToLeave(data, current).map((o) => ({
       id: o.slug,

@@ -3,7 +3,6 @@ import { loadCurated } from "./curated-load";
 import type { Countdown } from "./gates";
 import { nextGate } from "./gates";
 import {
-  SOON_LOST_WITHIN,
   chipsFor,
   gateChecklist,
   gateProgress,
@@ -149,10 +148,6 @@ describe("upNext", () => {
 });
 
 describe("chipsFor", () => {
-  it("names the soon-lost threshold as a constant", () => {
-    expect(SOON_LOST_WITHIN).toBe(3);
-  });
-
   it.each([
     {
       missions: 1,
@@ -253,6 +248,14 @@ describe("homeView", () => {
     const view = homeView(data, "m1", new Set(["a", "o1", "o2"]), []);
     expect(view.upNext).toEqual([]);
     expect(view.emptyMessage).toBe("All done for Exit 3.");
+  });
+
+  it("does not say all done while an unticked row is past its cutoff", () => {
+    // at m3, b is closed; a and c are ticked
+    const view = homeView(data, "m3", new Set(["a", "c"]), []);
+    expect(view.gate).toMatchObject({ done: 2, total: 3 });
+    expect(view.upNext).toEqual([]);
+    expect(view.emptyMessage).toBe("Nothing left you can still do for Exit 3.");
   });
 
   it("after the last gate has no gate and lists the opened safe-to-leave rows", () => {
