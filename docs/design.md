@@ -19,6 +19,20 @@ Built from the [idea page](https://github.com/dividedby/ideas/tree/main/projects
 - **Data pipeline:** curated data in the repo, scrapers enriching a server database.
 - **Out of v1:** the map (v2) and push notifications for stat decay.
 
+## Components
+
+In `components/<Name>/` (a component plus its CSS module). All are server components except ChecklistRow. `/components` shows each one in both themes at 375px; it is `noindex`. Tokens and contrast: [branding.md](branding.md).
+
+- **PostcardHeader** `{ eyebrow?, title, subtitle?, badge?, level? }`: `level` 1 (default, `h1`) or 2. Sun and sea are decorative.
+- **ExitSign** `{ exit, gateTitle, done, total, href? }`: no description prop, so it can't carry text about the gate (ADR 0002).
+- **StatRing** `{ level, label, size? }`: `md` (number and label) or `sm` (ring only). `level` is clamped to 0-4 (`lib/stat-level.ts`, client-safe). The ring is `role="img"`.
+- **StatStrip** `{ rows, href? }`: one row per character, mini rings plus level.
+- **CategoryHeader** `{ title, done, total }`, **ProgressBar** `{ done, total, label? }` (`role="progressbar"`, 0-100), **PrimaryButton** `{ children, type?, onClick?, formAction?, disabled? }` (44px minimum).
+- **Chip** `{ variant, children }`: `soon-lost`, `tip` or `countdown`. The countdown text comes from `countdownLabel`. The reference's "Research" chip is dropped: nothing in the app is labelled by confidence (ADR 0008).
+- **LockedRow** `{ count, unlockMission }`: "4 more unlock after Day Release"; shows no item text.
+- **TabBar** `{ active }`: `nav` "Main" with Story, Checklist, Stats and More (no Map until v2).
+- **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes.
+
 ## Screens
 
 Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, ChecklistRow, Chip, LockedRow, ProgressBar, PrimaryButton.

@@ -21,6 +21,11 @@ const workSans = Work_Sans({
 export const metadata: Metadata = {
   title: "Leonida Log",
   description: "A phone-first, spoiler-gated guide to GTA 6.",
+  // Listing `icons` replaces the app/icon.svg file convention, so name it too.
+  icons: {
+    icon: { url: "/icon.svg", type: "image/svg+xml" },
+    apple: "/icons/icon-180.png",
+  },
 };
 
 export const viewport: Viewport = {

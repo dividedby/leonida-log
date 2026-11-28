@@ -7,6 +7,9 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
+import { MAX_STAT_LEVEL } from "../stat-level";
+
+export { MAX_STAT_LEVEL };
 
 /** Enums live here once; CHECK constraints and TypeScript types derive from them. */
 export const CHARACTERS = ["jason", "lucia"] as const;
@@ -22,8 +25,6 @@ export type SpoilerMode = (typeof SPOILER_MODES)[number];
 export type Theme = (typeof THEMES)[number];
 export type CandidateStatus = (typeof CANDIDATE_STATUSES)[number];
 export type ChangeKind = (typeof CHANGE_KINDS)[number];
-
-export const MAX_STAT_LEVEL = 4;
 
 /** SQL list literal for a CHECK ... IN (...) clause. Values are code constants. */
 function inList(values: readonly string[]): ReturnType<typeof sql.raw> {

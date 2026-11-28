@@ -1,0 +1,18 @@
+.track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: var(--rule);
+}
+
+.fill {
+  height: 100%;
+  border-radius: 9px;
+  background: var(--pink);
+}
+
+.label {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}

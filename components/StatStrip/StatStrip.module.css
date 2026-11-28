@@ -1,0 +1,43 @@
+.strip {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 52px repeat(3, auto);
+  gap: 4px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 4px 0;
+}
+
+.name {
+  color: var(--pink-text);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.mini {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.level {
+  color: var(--ink);
+  font-weight: 600;
+}

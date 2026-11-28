@@ -1,0 +1,57 @@
+/* The band carries small text, so it uses --pink-fill; the sun and sea are decoration. */
+.band {
+  position: relative;
+  overflow: hidden;
+  padding: 28px 20px 32px;
+  background: var(--pink-fill);
+  color: var(--on-pink);
+}
+
+/* Sun disc, cropped at the right edge. */
+.sun {
+  position: absolute;
+  top: 20px;
+  right: -26px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--orange);
+  opacity: 0.9;
+}
+
+/* Gulf strip along the bottom. */
+.sea {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 16px;
+  background: var(--teal);
+}
+
+/* Keeps text clear of the sun, whose small-text contrast is poor. */
+.text {
+  position: relative;
+  padding-right: 88px;
+}
+
+.badge {
+  margin-bottom: 6px;
+}
+
+.small {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.title {
+  margin: 4px 0 8px;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+}

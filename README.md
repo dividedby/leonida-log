@@ -2,7 +2,7 @@
 
 A phone-first, spoiler-gated guide to GTA 6, built around where you are in the story: what to do before each point of no return, and how to go into the next chapter as strong as possible. It lives at gta.dvdby.cc.
 
-Status: v1 in development. App skeleton in place; features land per [docs/plans/v1.md](docs/plans/v1.md).
+Status: v1 in development. App skeleton and design system in place; features land per [docs/plans/v1.md](docs/plans/v1.md).
 
 ## v1
 
@@ -32,6 +32,8 @@ DATABASE_PATH=data/local.db pnpm db:migrate
 pnpm dev
 pnpm test
 ```
+
+`/components` (noindex) shows every UI component in light and dark at 375px. The PWA icons in `public/icons/` are committed; after changing `app/icon.svg`, regenerate them with `node scripts/make-icons.mjs`.
 
 ## Scrapers
 

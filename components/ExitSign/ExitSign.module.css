@@ -1,0 +1,41 @@
+.sign {
+  display: block;
+  padding: 12px 14px;
+  border: 2px solid var(--on-teal);
+  border-radius: 12px;
+  background: var(--teal-fill);
+  box-shadow: 0 0 0 2px var(--teal-fill);
+  color: var(--on-teal);
+}
+
+.link {
+  text-decoration: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 7px 3px;
+  border-radius: 4px;
+  background: var(--on-teal);
+  color: var(--teal-text);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 6px 0 4px;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.meta {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+}
