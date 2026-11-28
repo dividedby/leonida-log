@@ -2,14 +2,15 @@
 
 A phone-first, spoiler-gated guide to GTA 6, built around where you are in the story: what to do before each point of no return, and how to go into the next chapter as strong as possible. It lives at gta.dvdby.cc.
 
-Status: v1 in development. App skeleton, design system, onboarding and Home are in place; the rest lands per [docs/plans/v1.md](docs/plans/v1.md).
+Status: v1 in development. App skeleton, design system, onboarding, Home, the checklist, Stats and More are in place; the rest lands per [docs/plans/v1.md](docs/plans/v1.md).
 
 ## v1
 
 - **Story position:** set your current mission. Nothing past it renders.
 - **Before you move on:** a checklist for each point of no return, starting with Tourist Trap, grouped by category.
-- **Stats:** Strength, Cardio and Focus for Jason and Lucia, with a manual workout log.
-- **Romance and criminal profile:** research-first sections that fill in as data is curated.
+- **Stats:** Strength, Cardio and Focus (levels 0-4) for Jason and Lucia, set by tapping a ring.
+- **Romance and criminal profile:** research-first sections that fill in as data is curated; they read "Research in progress" until then.
+- **Settings:** theme (system, light or dark).
 - The map comes in v2.
 
 ## Docs
@@ -33,7 +34,7 @@ DATABASE_PATH=data/local.db pnpm dev
 pnpm test
 ```
 
-Routes: `/` (Home; redirects to `/onboarding` until a story position is saved), `/onboarding` (story position picker), `/checklist` (the next point of no return's list; ticked rows stay listed so they can be unticked, and it has the "Mark mission done" control), `/checklist/item/[id]` (a row's detail sheet, only for visible content), `/done` (confirmation before moving on from a point of no return), `/stats` and `/more` (placeholders until their PRs), `/components` and `/api/health`. The app reads the database per request and never migrates it, so run `pnpm db:migrate` against `DATABASE_PATH` before `pnpm dev`, with `DATABASE_PATH` set for both (`.env.example` names it).
+Routes: `/` (Home; redirects to `/onboarding` until a story position is saved), `/onboarding` (story position picker), `/checklist` (the next point of no return's list; ticked rows stay listed so they can be unticked, and it has the "Mark mission done" control), `/checklist/item/[id]` (a row's detail sheet, only for visible content), `/done` (confirmation before moving on from a point of no return), `/stats` (tap a ring to set a level), `/more` (story position, the research sections and the theme setting), `/components` and `/api/health`. The app reads the database per request and never migrates it, so run `pnpm db:migrate` against `DATABASE_PATH` before `pnpm dev`, with `DATABASE_PATH` set for both (`.env.example` names it).
 
 `/components` (noindex) shows every UI component in light and dark at 375px. The PWA icons in `public/icons/` are committed; after changing `app/icon.svg`, regenerate them with `node scripts/make-icons.mjs`.
 

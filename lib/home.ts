@@ -10,6 +10,7 @@ import {
   type Countdown,
 } from "./gates";
 import type { StatLevel } from "./db/repository";
+import { statsView } from "./stats";
 
 /**
  * View model for Home: everything the screen shows, derived from curated data,
@@ -110,34 +111,42 @@ export function chipsFor(closes: Countdown): ChipSpec[] {
   return chips;
 }
 
-const CHARACTER_ROWS = [
-  { name: "Jason", character: "jason" },
-  { name: "Lucia", character: "lucia" },
-] as const;
-const STAT_ROWS = [
-  { label: "Strength", stat: "strength" },
-  { label: "Cardio", stat: "cardio" },
-  { label: "Focus", stat: "focus" },
-] as const;
-
 /** Both characters, all three stats; a stat with no row yet is level 0. */
 export function statRows(levels: StatLevel[]): StatStripRow[] {
-  return CHARACTER_ROWS.map(({ name, character }) => ({
+  return statsView(levels).map(({ name, stats }) => ({
     name,
-    stats: STAT_ROWS.map(({ label, stat }) => ({
-      label,
-      level:
-        levels.find((l) => l.character === character && l.stat === stat)
-          ?.level ?? 0,
-    })),
+    stats: stats.map(({ label, level }) => ({ label, level })),
   }));
 }
 
-export interface HomeView {
+export interface StoryPosition {
   eyebrow: string;
   title: string;
   /** Chapter-relative: mission `number` of `total` in its chapter. */
   position: { number: number; total: number };
+}
+
+/**
+ * Where the current mission sits, for any screen that shows it. The mission
+ * and its chapter are reached, so their names may show. Throws on an unknown
+ * or optional slug.
+ */
+export function storyPosition(
+  data: CuratedData,
+  current: string,
+): StoryPosition {
+  const mission = data.missions.find((m) => m.slug === current);
+  if (!mission) throw new Error(`Unknown mission "${current}"`);
+  const chapter = data.chapters.find((c) => c.slug === mission.chapter);
+  if (!chapter) throw new Error(`Unknown chapter "${mission.chapter}"`);
+  return {
+    eyebrow: `Chapter ${chapter.order} · ${chapter.title}`,
+    title: mission.title,
+    position: { number: mission.chapterOrder, total: chapter.missionCount },
+  };
+}
+
+export interface HomeView extends StoryPosition {
   gate: { exit: number; title: string; done: number; total: number } | null;
   upNext: { id: string; title: string; chips: ChipSpec[] }[];
   /** Shown when upNext is empty. */
@@ -153,10 +162,7 @@ export function homeView(
 ): HomeView {
   // nextGate throws on an unknown or optional slug.
   const gate = nextGate(data, current);
-  const mission = data.missions.find((m) => m.slug === current);
-  if (!mission) throw new Error(`Unknown mission "${current}"`);
-  const chapter = data.chapters.find((c) => c.slug === mission.chapter);
-  if (!chapter) throw new Error(`Unknown chapter "${mission.chapter}"`);
+  const where = storyPosition(data, current);
 
   let rows: ChecklistRowData[];
   let gateInfo: HomeView["gate"] = null;
@@ -184,9 +190,7 @@ export function homeView(
   }
 
   return {
-    eyebrow: `Chapter ${chapter.order} · ${chapter.title}`,
-    title: mission.title,
-    position: { number: mission.chapterOrder, total: chapter.missionCount },
+    ...where,
     gate: gateInfo,
     upNext: upNext(rows, checked).map((r) => ({
       id: r.id,

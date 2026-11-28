@@ -1,0 +1,100 @@
+.frame {
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  padding: 16px 20px;
+}
+
+.heading {
+  margin: 0 0 4px;
+  color: var(--pink-text);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mission {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.muted {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--pink-text);
+  font-weight: 600;
+}
+
+/* A section with no screen of its own yet: not a link, nothing to tap. */
+.row {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--card);
+}
+
+.row .heading {
+  margin-bottom: 2px;
+}
+
+.row .muted {
+  margin: 0;
+}
+
+.theme {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+
+.themeLabel {
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  gap: 6px;
+}
+
+.option {
+  flex: 1;
+  min-height: 44px;
+  border: 1.5px solid var(--rule);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.selected {
+  border-color: transparent;
+  background: var(--pink-fill);
+  color: var(--on-pink);
+}
