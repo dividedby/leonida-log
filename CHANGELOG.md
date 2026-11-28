@@ -96,4 +96,5 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Fixed
 
+- Tests: the `tempDbs()` setup hook in `lib/db/test-helpers.ts`, which spawns the migrate script, now has a 30 s timeout instead of Vitest's 10 s default; under parallel load the DB suites failed in setup.
 - Deploy: `leonida-log-scrape` passed its arguments to `docker compose run scraper`, which replaces the service's whole command, so the 4-hourly feed poll ran `node --feed-only` and failed (`node: bad option`) on its first run on the server, 2026-11-27. The script now passes the scraper command (`node node_modules/tsx/dist/cli.mjs scrapers/cli.ts`) before its arguments; a test checks it matches `compose.yaml`'s `scraper` command. The weekly scrape, which passes no arguments, was unaffected.
