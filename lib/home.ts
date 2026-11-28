@@ -76,13 +76,18 @@ export function gateProgress(
   };
 }
 
-/** Unchecked rows: those about to close first (fewest missions left), then the rest in order. */
+/**
+ * Unchecked rows that can still be done: those about to close first (fewest
+ * missions left), then the rest in order. Rows past their cutoff are left out.
+ */
 export function upNext(
   rows: ChecklistRowData[],
   checked: Set<string>,
   limit: number = UP_NEXT_LIMIT,
 ): ChecklistRowData[] {
-  const left = rows.filter((r) => !checked.has(r.id));
+  const left = rows.filter(
+    (r) => !checked.has(r.id) && r.closes.state !== "closed",
+  );
   const missions = (r: ChecklistRowData) =>
     r.closes.state === "open" ? r.closes.missions : Infinity;
   // Array.sort is stable, so equal countdowns keep their list order.

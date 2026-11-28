@@ -109,7 +109,7 @@ describe("upNext", () => {
     expect(ids(upNext(rows, new Set(["a", "c"])))).toEqual(["b"]);
   });
 
-  it("puts open countdowns first, fewest missions first, then the rest in order", () => {
+  it("puts open countdowns first, fewest missions first, then the rest in order, skipping closed ones", () => {
     const rows = [
       row("never-1"),
       row("far", open(5)),
@@ -123,9 +123,17 @@ describe("upNext", () => {
       "mid",
       "far",
       "never-1",
-      "closed",
       "never-2",
     ]);
+  });
+
+  it("leaves out rows whose cutoff has passed, even with room to spare", () => {
+    const rows = [
+      row("gone", { state: "closed" }),
+      row("kept"),
+      row("gone-too", { state: "closed" }),
+    ];
+    expect(ids(upNext(rows, new Set()))).toEqual(["kept"]);
   });
 
   it("keeps the original order between equal countdowns", () => {
