@@ -271,7 +271,27 @@ describe("areaSheet", () => {
       left: 2,
       done: 1,
       total: 3,
+      subtitle: "2 to do here",
     });
+  });
+
+  it.each([
+    {
+      name: "something left",
+      checks: new Set<string>(),
+      subtitle: "2 to do here",
+    },
+    {
+      name: "everything ticked",
+      checks: new Set(["a", "c", "o1"]),
+      subtitle: "All done here",
+    },
+  ])("words the header subtitle for $name", ({ checks, subtitle }) => {
+    expect(sheetOf("m3", "r1", checks).header.subtitle).toBe(subtitle);
+  });
+
+  it("says nothing is here yet for an area with no rows", () => {
+    expect(sheetOf("m6", "d1").header.subtitle).toBe("Nothing here yet");
   });
 
   it("includes a region's districts and a district only its own rows", () => {
@@ -285,7 +305,13 @@ describe("areaSheet", () => {
 
   it("is empty but present for a reached area with no rows", () => {
     expect(sheetOf("m6", "d1")).toEqual({
-      header: { name: "District One", left: 0, done: 0, total: 0 },
+      header: {
+        name: "District One",
+        left: 0,
+        done: 0,
+        total: 0,
+        subtitle: "Nothing here yet",
+      },
       sections: [],
     });
   });

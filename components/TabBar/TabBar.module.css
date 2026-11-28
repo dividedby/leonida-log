@@ -16,10 +16,18 @@
   align-items: center;
   justify-content: center;
   gap: 3px;
+  min-width: 0;
   min-height: 48px;
   color: var(--muted);
   font-size: 12px;
   text-decoration: none;
+}
+
+.label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .active {

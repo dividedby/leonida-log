@@ -107,3 +107,9 @@
   max-width: 45%;
   padding: 11px 0;
 }
+
+/* The row's area: inline text after the label, not a chip. */
+.tag {
+  color: var(--muted);
+  font-size: 11px;
+}

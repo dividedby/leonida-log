@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import styles from "./TabBar.module.css";
 
-export type Tab = "story" | "checklist" | "stats" | "more";
+export type Tab = "story" | "checklist" | "map" | "stats" | "more";
 
 const ICON_PROPS = {
   width: 22,
@@ -16,7 +16,6 @@ const ICON_PROPS = {
   "aria-hidden": true,
 } as const;
 
-// Map stays out until v2 (docs/design.md).
 const TABS: { id: Tab; label: string; href: string; icon: ReactNode }[] = [
   {
     id: "story",
@@ -36,6 +35,17 @@ const TABS: { id: Tab; label: string; href: string; icon: ReactNode }[] = [
       <svg {...ICON_PROPS}>
         <rect x="4" y="4" width="16" height="16" rx="3" />
         <path d="m8.5 12 2.5 2.5 4.5-5" />
+      </svg>
+    ),
+  },
+  {
+    id: "map",
+    label: "Map",
+    href: "/map",
+    icon: (
+      <svg {...ICON_PROPS}>
+        <path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5V4l-6 2.5z" />
+        <path d="M9 4v14M15 6.5v14" />
       </svg>
     ),
   },
@@ -74,7 +84,7 @@ export function TabBar({ active }: { active: Tab }) {
           aria-current={tab.id === active ? "page" : undefined}
         >
           {tab.icon}
-          {tab.label}
+          <span className={styles.label}>{tab.label}</span>
         </Link>
       ))}
     </nav>

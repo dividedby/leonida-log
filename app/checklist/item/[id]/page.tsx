@@ -47,6 +47,14 @@ export default async function ItemDetail({
         <Link className={styles.back} href="/checklist">
           Back to checklist
         </Link>
+        {detail.area ? (
+          <p className={styles.area}>
+            Area:{" "}
+            <Link className={styles.areaLink} href={`/map/${detail.area.slug}`}>
+              {detail.area.name}
+            </Link>
+          </p>
+        ) : null}
         {chips.length > 0 ? (
           <div className={styles.chips}>
             {chips.map((chip) => (

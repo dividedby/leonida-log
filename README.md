@@ -11,7 +11,7 @@ Status: v1 in development. App skeleton, design system, onboarding, Home, the ch
 - **Stats:** Strength, Cardio and Focus (levels 0-4) for Jason and Lucia, set by tapping a ring.
 - **Romance and criminal profile:** research-first sections that fill in as data is curated; they read "Research in progress" until then.
 - **Settings:** theme (system, light or dark).
-- The map comes in v2.
+- **Map:** the checklist placed by area on an original schematic of Leonida; tap a reached area for its sheet. Rows show their area inline, and detail pages link to it.
 
 ## Docs
 

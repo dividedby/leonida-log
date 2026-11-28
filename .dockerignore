@@ -12,6 +12,7 @@ research_notes
 reports
 docs
 **/*.test.ts
+**/*.test.tsx
 **/test-helpers.ts
 **/__fixtures__
 lib/test-fixtures

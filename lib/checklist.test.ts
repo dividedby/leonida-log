@@ -428,6 +428,24 @@ describe("itemDetail", () => {
     expect(itemDetail(data, id, current)).toBeNull();
   });
 
+  describe("area", () => {
+    const placed = placedData();
+
+    it.each([
+      { id: "a", current: "m1", area: { slug: "r1", name: "Region One" } },
+      { id: "o1", current: "m1", area: { slug: "r1", name: "Region One" } },
+      { id: "e", current: "m7", area: { slug: "d1", name: "District One" } },
+    ])("tags $id with its visible area", ({ id, current, area }) => {
+      expect(itemDetail(placed, id, current)?.area).toEqual(area);
+    });
+
+    it("leaves an unplaced entry untagged", () => {
+      const detail = itemDetail(data, "a", "m1");
+      expect(detail).not.toBeNull();
+      expect("area" in detail!).toBe(false);
+    });
+  });
+
   it("never carries research background", () => {
     const raw = fixtureRaw();
     raw.itemFiles.m3.items[0].evidence = {

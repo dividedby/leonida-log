@@ -60,6 +60,7 @@ export default function Home() {
                 label={row.title}
                 checked={checked.has(row.id)}
                 action={setItemChecked}
+                tag={row.area?.name}
                 chips={
                   row.chips.length > 0
                     ? row.chips.map((chip) => (

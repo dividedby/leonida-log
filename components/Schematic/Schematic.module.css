@@ -1,0 +1,51 @@
+.schem {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.sea {
+  fill: color-mix(in srgb, var(--teal) 16%, var(--ground));
+}
+
+.region {
+  fill: var(--card);
+  stroke: var(--pink);
+  stroke-width: 1.6;
+}
+
+/* A region not yet reached: a plain shape, no text. */
+.unreached {
+  fill: var(--rule);
+  stroke: var(--ground);
+  stroke-width: 1.6;
+}
+
+.name {
+  fill: var(--ink);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 9.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.badge {
+  fill: var(--pink-fill);
+}
+
+.badgeText {
+  fill: var(--on-pink);
+  font-family: var(--font-text), system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* The ring would sit on the viewBox edge; mark focus on the shape instead. */
+.link:focus-visible {
+  outline: none;
+}
+
+.link:focus-visible .region {
+  stroke: var(--pink-text);
+  stroke-width: 3.2;
+}

@@ -23,6 +23,22 @@
   font-weight: 600;
 }
 
+.area {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  margin: 0;
+  color: var(--muted);
+}
+
+.areaLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--pink-text);
+  font-weight: 600;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
