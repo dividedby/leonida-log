@@ -12,11 +12,11 @@ All notable changes to this project are documented in this file. The format is b
 
 ### Changed
 
-- Checklist stat items now name what a gate takes away (ADR 0009 moved stat levels to `/stats`). The Tourist Trap item `strength` ("Train Strength") is now `jason-gym`, "Use Jason's back-deck gym while you have it": the gym goes with the house at the gate (How to Video Game, GameSpot), and the note that Strength can drop at the chapter change moved into its how-to. A tick saved under the old `strength` id is ignored, so the item shows unticked. `motel-pool-weights` is retitled "Use the motel pool weights while it's your base" and worded as a risk, since whether the pool goes with the motel is disputed (ADR 0008).
+- The Tourist Trap strength item now names what the gate takes away (ADR 0009 moved stat levels to `/stats`). The Tourist Trap item `strength` ("Train Strength") is now `jason-gym`, "Use Jason's back-deck gym while you have it": the gym goes with the house at the gate (How to Video Game, GameSpot), and the note that Strength can drop at the chapter change moved into its how-to. A tick saved under the old `strength` id is ignored, so the item shows unticked. `motel-pool-weights` is retitled "Use the motel pool weights while it's your base" and worded as a risk, since whether the pool goes with the motel is disputed (ADR 0008).
 
 ### Removed
 
-- Checklist items that name no loss: `cardio` and `focus` (Tourist Trap; Focus never decays and Cardio has no gate-tied facility), `range-focus` and `partner-workouts` (Checking Out).
+- The generic Tourist Trap items `cardio` and `focus`: Focus never decays and Cardio has no gate-tied facility. `range-focus` and `partner-workouts` (Checking Out) stay.
 - The unused `workouts` table, as migration `0002_drop_workouts` (the contract step ADR 0009 promised), and the repository's `logWorkout` and `lastWorkout`. Release 0.1.0 never reads or writes the table, so rolling the image back to 0.1.0 after this migration still works. A new migrate test upgrades a database made at 0.1.0 (with a workouts row) and checks the other tables keep their data.
 
 ## [0.1.0] - 2026-11-27

@@ -19,10 +19,10 @@
 # cutoffs live in lost_at_mission.
 # Veteran Hunted, Thrillbillies, Twist Wrist, Smash, Grab, Check Out McKittrick Farm, Collect Chemicals for Kyle, Steal Vehicles for Moses, Collect Moses' Gift and the Circles of Hell encounter are no longer items: they are optional missions that stay open after the story, so they show under 'safe to leave'. moses-car-sales (open-ended sales), avery-pawn-job (its mission card vanishes partway through Chapter 2, per player reports) and kingpin-bowling-job (no cutoff sourced) stay items.
 # Pickups inside a mission are lost_at the next main mission: andys-jacket (Home Sweet Home). motel-rent is a price rise at Slam Dunk, not a loss.
-# Stats: levels are tracked on /stats (ADR 0009), so only what the gate takes away
-# is an item. motel-pool-weights stays (the motel goes at the gate; whether the pool
-# does is disputed, so it ships the safe reading, ADR 0008). range-focus and
-# partner-workouts are gone: Focus never decays, and neither names a loss.
+# Stats: levels are tracked on /stats (ADR 0009). motel-pool-weights is the stat item
+# tied to a loss (the motel goes at the gate; whether the pool does is disputed, so it
+# ships the safe reading, ADR 0008). range-focus and partner-workouts are kept by
+# owner decision although neither names a loss.
 # Not listed, on purpose: what to do for Lucia during the escape. It can't be
 # described without giving away the mission.
 
@@ -212,6 +212,64 @@ items:
         accessed: "2026-11-26"
       - url: https://www.youtube.com/watch?v=u5Rq9VpNOhg
         title: "HarmNone (YouTube): early Moses car values, 04:07"
+        accessed: "2026-11-26"
+
+  - id: range-focus
+    title: Train Focus at Rodgers Ranch
+    category: Focus
+    before_gate: checking-out
+    visible_after_mission: girls-trip
+    verified: true
+    how_to: Pay the $5 waiver and play the Market Range Beginner challenge. It takes about five seconds, gives Focus every time and repeats if you pick Quit on the results screen. Finishing or quitting a range challenge raises Focus permanently, by at least 4% according to Polygon. There are 12 challenges across the two ranges and 42 golds in all. Focus never decays.
+    location: Rodgers Ranch & Shooting Range, north-east edge of Port Gellhorn.
+    sources:
+      - url: https://thephrasemaker.com/2026/11/19/all-stats-how-to-increase-them-in-gta-6/
+        title: "The Phrasemaker: all stats and how to increase them in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
+        title: "PowerPyx: GTA 6 stats guide"
+        accessed: "2026-11-25"
+      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
+        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
+        accessed: "2026-11-25"
+      - url: https://gta.tech4gamers.com/gta-6/guides/level-up-focus/
+        title: "Tech4Gamers: how to level up Focus in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-all-shooting-range-gold-medal-challenges/
+        title: "PowerPyx: GTA 6 shooting range gold medal challenges"
+        accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Shooting_Ranges
+        title: "IGN: GTA 6 shooting ranges"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
+        title: "IGN: fitness and wellness explained"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Girls%27_Trip_Walkthrough
+        title: "IGN: Girls' Trip walkthrough"
+        accessed: "2026-11-26"
+
+  - id: partner-workouts
+    title: Work out with your partner
+    category: Stats
+    before_gate: checking-out
+    visible_after_mission: coffee-break
+    verified: true
+    how_to: "Partner workouts unlock once you can switch characters freely, after Coffee Break. When your partner follows you into a gym workout they finish their own automatically, so both characters train at once; How to Video Game saw this for Strength and Cardio. The Personal Best trophy needs maximum Strength on both characters, and working out together is the efficient route, not a requirement."
+    sources:
+      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
+        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
+        accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/
+        title: "PowerPyx: GTA 6 trophy guide and roadmap"
+        accessed: "2026-11-25"
+      - url: https://howtovideogame.com/gta-6-workout-together/
+        title: "How to Video Game: working out together in GTA 6"
+        accessed: "2026-11-25"
+      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
+        title: "IGN: fitness and wellness explained"
+        accessed: "2026-11-26"
+      - url: https://www.ign.com/wikis/gta-6/Coffee_Break_Walkthrough
+        title: "IGN: Coffee Break walkthrough"
         accessed: "2026-11-26"
 
   - id: register-car
