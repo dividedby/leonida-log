@@ -489,18 +489,22 @@ describe.skipIf(!haveTools)(
       expect(output).toContain("alert");
     });
 
-    it("reports an unsaved count instead of failing when the state folder is read-only", () => {
-      chmodSync(sb.state, 0o555);
-      try {
-        const { status, output } = poll("fail");
+    // Root ignores the folder mode, so the write would succeed.
+    it.skipIf(process.getuid?.() === 0)(
+      "reports an unsaved count instead of failing when the state folder is read-only",
+      () => {
+        chmodSync(sb.state, 0o555);
+        try {
+          const { status, output } = poll("fail");
 
-        expect(status).toBe(0);
-        expect(output).toContain("could not save the failure count");
-        expect(readdirSync(sb.state)).toEqual([]);
-      } finally {
-        chmodSync(sb.state, 0o755);
-      }
-    });
+          expect(status).toBe(0);
+          expect(output).toContain("could not save the failure count");
+          expect(readdirSync(sb.state)).toEqual([]);
+        } finally {
+          chmodSync(sb.state, 0o755);
+        }
+      },
+    );
 
     it("leaves no temporary files behind", () => {
       poll("fail");
