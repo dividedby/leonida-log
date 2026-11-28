@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Work_Sans } from "next/font/google";
+import { themeAttribute } from "@/lib/settings";
+import { getRepository } from "@/lib/server/data";
 import "./globals.css";
 
 const anton = Anton({
@@ -37,11 +39,19 @@ export const viewport: Viewport = {
   ],
 };
 
+// Reads the saved theme from the database per request; build has no DATABASE_PATH.
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const theme = getRepository().getProgress().theme;
   return (
-    <html lang="en" className={`${anton.variable} ${workSans.variable}`}>
+    <html
+      lang="en"
+      className={`${anton.variable} ${workSans.variable}`}
+      data-theme={themeAttribute(theme)}
+    >
       <body>{children}</body>
     </html>
   );

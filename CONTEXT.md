@@ -24,7 +24,6 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Evidence:** optional `evidence` on an item or mission: `basis` (`two-sources`, `explicit-source`, `first-hand`, `best-guess`, `safe-bound`) and an optional `note`. Background only, never rendered.
 - **Candidate:** a scraped fact awaiting review; never shown, raw or otherwise, until it is promoted to curated.
 - **Source:** a guide page or database an item or candidate cites, with URL and fetch time.
-- **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character.
-- **Workout log:** manual record of training, used to show when Strength or Cardio may slip.
+- **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character, set by hand (ADR 0009). There is no workout log.
 - **Characters:** Jason, Lucia.
-- **Spoiler mode:** `safe` (hide everything past the current mission) or `open` (show it); stored in `progress`, default `safe`.
+- **Spoiler mode:** `safe` (hide everything past the current mission) or `open` (show it); stored in `progress`, default `safe`. v1 only ever uses `safe`; More shows it read-only.

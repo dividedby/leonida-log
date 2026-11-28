@@ -1,7 +1,7 @@
 # 6. Stat decay: manual workout log, no notifications in v1
 
 Date: 2026-11-25
-Status: Accepted
+Status: Superseded by [0009](0009-stats-set-by-hand.md)
 
 ## Context
 

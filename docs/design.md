@@ -14,7 +14,7 @@ Built from the [idea page](https://github.com/dividedby/ideas/tree/main/projects
 
 - **Story position:** set the current mission. It drives every spoiler gate.
 - **Before-you-move-on checklists:** one for each point of no return, starting with Tourist Trap in Chapter 1, grouped by category.
-- **Stats:** Strength, Cardio and Focus (levels 0-4) for Jason and Lucia, with a manual workout log.
+- **Stats:** Strength, Cardio and Focus (levels 0-4) for Jason and Lucia, set by hand. No workout log (ADR 0009).
 - **Romance / relationships** and **criminal profile** sections. Both are research-first, so they start thin and fill in as data is curated.
 - **Data pipeline:** curated data in the repo, scrapers enriching a server database.
 - **Out of v1:** the map (v2) and push notifications for stat decay.
@@ -50,7 +50,7 @@ This is round 2, option A.
 - **See all** next to the Up next heading links to `/checklist`, where ticked rows stay listed and can be unticked.
 - **Mark mission done** (Flow 3) below the list: one tap for an ordinary mission, a link to `/done` when the current mission is a point of no return, nothing on the last mission.
 - **Change story position** link to `/onboarding`.
-- **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2. `/stats` and `/more` are "Coming soon" placeholders until their PRs.
+- **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2.
 - **Error:** `app/error.tsx` shows a fixed message and a retry button, never the error text.
 
 ### Before you move on (checklist)
@@ -73,19 +73,24 @@ Built in `app/checklist/page.tsx` from `checklistView` (`lib/checklist.ts`); the
 
 ### Stats
 
-This is round 1, option A.
+This is round 1, option A, without the workout button and "Last workout" line (ADR 0009).
 
-- One card per character, with StatRings for Strength, Cardio and Focus and "Last workout: 2 days ago".
-- A "Log a workout" PrimaryButton, a tip that Strength and Cardio can slip while Focus levels stay, and how-to links per stat.
+- PostcardHeader "Stats" with "Max level is 4". One card per character (Jason, then Lucia) with three StatRings: Strength, Cardio, Focus. Then the Tip chip: "Strength and Cardio can slip. Focus levels stay." There are no how-to links: no curated source backs one.
+- **Tap a ring to set its level.** Each ring is the `<summary>` of a native `<details>` (no client JS). It opens a 0 to 4 picker of five 44px buttons under the ring, the current level marked with `aria-pressed`. One tap submits `setStatLevel` (`app/stats/actions.ts`) with the character, the stat and the target level, never a delta, so a double tap can't drift. A level change re-keys the `<details>`, which closes it. The summary's label ("Strength for Jason, level 3 of 4. Change") names the ring, so the ring itself is hidden from assistive tech; the buttons read "Set Strength for Jason to 2".
+- `parseStatLevelInput` accepts only exact `0` to `4` for a known character and stat; anything else is rejected before any write. `statsView` (`lib/stats.ts`) builds the cards; Home's `statRows` derives from it. A stat with no row is level 0.
+- Stats are not spoiler-gated: they hold the user's own levels and no curated content.
 
 ### More
 
-- Romance / relationships, criminal profile, story position picker, and settings (theme, spoiler mode).
+- **Story position:** the current chapter, mission and "Mission N of M" (chapter-relative, as on Home), with "Change story position" linking to `/onboarding`. Nothing past the current mission is named (`lib/more.ts` leak tests run every mission as the current one).
+- **Romance** and **Criminal profile:** non-link rows reading "Research in progress". `data/curated` has nothing for either, and the relationship facts under Open questions are later-story spoilers, so none is rendered. Research-first plan: a later `data/curated/*.yaml` must carry `visible_after_mission` on every entry, with zod validation and leak tests, before a screen shows any of it.
+- **Settings:** the theme as three buttons (System, Light, Dark) with `aria-pressed`, posting `setTheme` (`app/more/actions.ts`). The root layout reads the saved theme per request and sets `data-theme` on `<html>` (absent for System, so the OS preference applies), so a change shows on the next render with no flash. The viewport `themeColor` stays media-based, so the browser chrome follows the OS, not the setting. A read-only line says "Spoilers: safe. Opening later content isn't available in v1."; the spoiler-mode control is deferred (ADR 0002), and `setSpoilerMode` and the column go unused.
+- With no saved mission, `/more` redirects to `/onboarding`, as Home does.
 
 ### Flows
 
 1. **First run:** pick the current mission and land on Home. Chapters show as "Chapter N" until reached. Within the chosen chapter, missions are listed by number, and a title shows only for the one you select. `/onboarding` is a server-rendered GET flow: `?chapter=<n>` then `?chapter=<n>&mission=<global order>`, numbers only (slugs spell titles, so no slug reaches the client, a URL or a form). The selected row's form posts the global order to `saveStoryPosition`, which maps it to a slug (`lib/picker.ts`) and redirects Home. The same route is the story position picker once a mission is saved, with a Cancel link. A hand-edited `?mission=` shows that mission's title; accepted for a single user behind Access.
-2. **Play session:** open Home, tick items, and log a workout.
+2. **Play session:** open Home, tick items, and set a stat level when it changes.
 3. **Mark mission done** (Home and the bottom of `/checklist`): an ordinary mission moves on with one tap and no confirmation. At a point of no return the control links to `/done`, which names only the current mission, lists what the gate loses (even though the checklist hides that once the gate is current: the last chance to see it), counts the gate's unticked rows that can still be done and offers "Mark done and move on" (posting `confirmed=true`) or Cancel. The server action (`markMissionDone`) takes the current mission's global order as `from`: a stale or repeated form changes nothing and goes Home, crossing a gate without `confirmed` is rejected, and the move is one mission (`advanceTarget`). After a gate it lands on `/checklist`, which now shows the next gate; otherwise it returns to the page the form came from (`return`, limited to `/` and `/checklist`). On the last mission there is no control and no "completed" state. The story position picker reverses a mis-tap.
 
 ## Data model (sketch)
@@ -98,12 +103,12 @@ This is round 1, option A.
 - Item text (title, how_to, location) names no mission after its `visible_after_mission`, except its own gate's title; earlier cutoffs live only in `lost_at_mission` (ADR 0002, amended 2026-11-26). The app shows "Closes in N missions" / "Do this before your next story mission" from it and from `closes_at` (ADR 0002, second amendment, 2026-11-26); UI not built yet. Optional-mission titles and notes follow the same rule from their `opens_after` anchor, and no gate `lost` entry names a mission. A mission slug and an item id may not collide (`item_checks` stores both under one key); the repository lets an optional mission's slug be ticked like an item.
 - `lib/curated.ts` validates all files and the rules across them (known refs, `visible_after` and `lost_at` no later than the gate, `lost_at` not before `visible_after`; for optional missions, a resolvable `opens_after` chain with no cycle, `closes_at` a main mission or `never`, `opens_after` no later than `closes_at`, `closes_at` no later than the last gate) and fails on any issue. `lib/curated-load.ts` reads the files, server only.
 - `lib/gates.ts`: `isVisible`, `nextGate` (a gate you're on isn't passed yet), `lockedSummary` (count plus unlock mission, optionals included), `closesIn` (a countdown: `open` N missions, `closed`, or `never`; standing on the closing mission counts as closed), `countdownLabel` (the UI text, null when closed or never), `gateOptionals` (opened, unclosed optionals for a gate, most urgent first), `safeToLeave` (opened optionals that never close), `isTickable` (a visible item or an opened optional; the write-side guard), `missionsInChapter` (ids and numbers), `missionTitle`, `pickerChapters`. It never returns titles, except through `missionTitle`. The current mission is always a main mission; an optional slug throws.
-- `lib/picker.ts` (`pickerView`, `missionFromOrder`) and `lib/home.ts` (`gateChecklist`, `gateProgress`, `upNext`, `chipsFor`, `statRows`, `homeView`) are the pure view models the picker and Home render; pages hold no logic. `lib/server/data.ts` (server only) memoises `getCurated()` and `getRepository()` per process, so a curated YAML change needs a restart. Pages that read the database are `force-dynamic` (the build has no `DATABASE_PATH`); the theme is not read from `progress` yet.
+- `lib/picker.ts` (`pickerView`, `missionFromOrder`) and `lib/home.ts` (`gateChecklist`, `gateProgress`, `upNext`, `chipsFor`, `statRows`, `storyPosition`, `homeView`), `lib/stats.ts` (`statsView`, `parseStatLevelInput`), `lib/settings.ts` (`parseTheme`, `themeAttribute`, `settingsView`) and `lib/more.ts` (`moreView`) are the pure view models and form parsers the screens render; pages hold no logic. `lib/server/data.ts` (server only) memoises `getCurated()` and `getRepository()` per process, so a curated YAML change needs a restart. Pages that read the database are `force-dynamic` (the build has no `DATABASE_PATH`); so is the root layout, which reads the theme from `progress` (every route except the manifest and icon is dynamic).
 - SQLite via Drizzle (`lib/db/schema.ts`, SQL in `drizzle/`, applied by `pnpm db:migrate`; see ADR 0004). Timestamps are ms-epoch integers. Curated ids (mission and item slugs) are plain text with no foreign key; `lib/db/repository.ts` validates them against curated data before writing.
 - `progress`: single row (id = 1), created on the first write. `current_mission` is null until onboarding; `spoiler_mode` is `safe` or `open` (default `safe`); `theme` is `system`, `light` or `dark` (default `system`).
 - `item_checks`: checked item ids with `checked_at`.
 - `stat_levels`: level 0-4 per character × stat (Strength, Cardio, Focus).
-- `workouts`: character, stat, at. Any of the three stats can be logged; only Strength and Cardio slip (ADR 0006).
+- `workouts`: character, stat, at. Unused since ADR 0009 dropped the workout log; the table and repository methods stay until a later contract migration.
 - `sources` (scraper module id, url, title, host, HTTP validators, remote and content hashes, check and change times, the latest normalized `extract`) and `candidates` (source, gate, category and mission hints, `change_kind` `new`/`modified`, `diff_summary`, `raw_extract`, status `new`/`promoted`/`rejected`): scraper-owned, server only, `extract` and `raw_extract` are never rendered. The repository doesn't expose them yet. How the scrapers fill them: [scrapers/README.md](../scrapers/README.md).
 - Romance and criminal profile get their own tables once research shows what's trackable.
 
@@ -129,12 +134,12 @@ This is round 1, option A.
 - **Spoiler leaks** through scraped text or item titles. Mitigated by gating every item and never rendering raw scrapes.
 - **Rockstar IP:** don't use official art or logos. Any public launch would need another look at names and assets.
 - **Small VPS:** scrapers must stay light, with no headless-browser farms on the box.
-- **Stat decay tracking:** the exact rules are unknown, so v1 uses a manual workout log with no notifications.
+- **Stat decay tracking:** the exact rules are unknown, so v1 has levels set by hand, no workout log and no notifications (ADR 0009).
 
 ## Settled at build start (2026-11-25)
 
 - Checklist keeps A's done/total count per CategoryHeader; no per-category progress bar.
-- Stat decay: manual workout log only, no reminders (ADR 0006).
+- Stat decay: no workout log (ADR 0006 planned one; the owner dropped it, ADR 0009), no reminders.
 - Romance and criminal profile ship research-first under More.
 - Scrapers may fetch any source, terms of use notwithstanding, within robots.txt and polite rate limits (ADR 0007; owner reconfirmed 2026-11-27). The terms findings are kept below under Scraping terms of sources.
 

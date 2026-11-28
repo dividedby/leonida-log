@@ -50,4 +50,4 @@ Checklist, detail and done pages (fourth amendment, 2026-11-27):
 - Every item must carry `visible_after_mission`, the single visibility field; curated data validation fails without it.
 - The onboarding mission picker must itself be spoiler-safe: chapter first (named "Chapter N" until reached), then missions within the chosen chapter listed by number, with a title revealed only for the one the user selects.
 - `lib/gates.ts` returns mission ids and numbers, never titles. Titles come from a separate lookup, so each place a title is shown is a deliberate, reviewable call.
-- Opening later content on purpose (a spoiler mode) is a setting, off by default.
+- Opening later content on purpose (a spoiler mode) is a setting, off by default. Not built in v1: nothing reads `spoilerMode`, and More shows "Spoilers: safe" read-only (2026-11-27).

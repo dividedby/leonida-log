@@ -134,7 +134,7 @@ function Column({ theme }: { theme: "light" | "dark" }) {
       </Specimen>
 
       <Specimen name="PrimaryButton">
-        <PrimaryButton>Log a workout</PrimaryButton>
+        <PrimaryButton>Mark mission done</PrimaryButton>
       </Specimen>
 
       <Specimen name="TabBar">
