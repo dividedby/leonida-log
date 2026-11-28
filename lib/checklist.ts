@@ -14,6 +14,7 @@ import {
   lockedSummary,
   missionTitle,
   nextGate,
+  type AreaTag,
   type Countdown,
 } from "./gates";
 import {
@@ -42,7 +43,7 @@ export interface ChecklistRowView {
   /** Past its cutoff and not ticked: it can't be done. */
   disabled: boolean;
   /** The row's area, only while that area is visible. */
-  area?: { slug: string; name: string };
+  area?: AreaTag;
 }
 
 export interface ChecklistSection {
@@ -94,6 +95,14 @@ export function section(
     total: rows.length,
     rows,
   };
+}
+
+/** The section with only the rows `keep` accepts, counts recomputed. */
+export function filterSection(
+  s: ChecklistSection,
+  keep: (row: ChecklistRowView) => boolean,
+): ChecklistSection {
+  return section(s.key, s.title, s.rows.filter(keep));
 }
 
 export function checklistView(

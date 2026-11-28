@@ -3,6 +3,7 @@ import type { Category, CuratedData, Gate } from "./curated";
 import {
   areaTag,
   closesIn,
+  type AreaTag,
   countdownLabel,
   gateOptionals,
   isVisible,
@@ -172,7 +173,7 @@ export interface HomeView extends StoryPosition {
     title: string;
     chips: ChipSpec[];
     /** The row's area, only while that area is visible. */
-    area?: { slug: string; name: string };
+    area?: AreaTag;
   }[];
   /** Shown when upNext is empty. */
   emptyMessage: string;

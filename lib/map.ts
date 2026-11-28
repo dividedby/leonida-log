@@ -1,4 +1,9 @@
-import { checklistView, section, type ChecklistSection } from "./checklist";
+import {
+  checklistView,
+  filterSection,
+  section,
+  type ChecklistSection,
+} from "./checklist";
 import type { Area, CuratedData } from "./curated";
 import { isAreaVisible, missionTitle, nextGate } from "./gates";
 
@@ -71,11 +76,7 @@ function sheetFor(
   ]);
   const own = sections
     .map((s) =>
-      section(
-        s.key,
-        s.title,
-        s.rows.filter((r) => r.area !== undefined && placed.has(r.area.slug)),
-      ),
+      filterSection(s, (r) => r.area !== undefined && placed.has(r.area.slug)),
     )
     .filter((s) => s.total > 0);
   const rows = own.flatMap((s) => s.rows);
