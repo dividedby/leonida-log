@@ -1,5 +1,6 @@
 import { execFileSync, spawn, spawnSync } from "node:child_process";
 import {
+  chmodSync,
   existsSync,
   mkdirSync,
   mkdtempSync,
@@ -486,6 +487,19 @@ describe.skipIf(!haveTools)(
 
       expect(status).toBe(0);
       expect(output).toContain("alert");
+    });
+
+    it("reports an unsaved count instead of failing when the state folder is read-only", () => {
+      chmodSync(sb.state, 0o555);
+      try {
+        const { status, output } = poll("fail");
+
+        expect(status).toBe(0);
+        expect(output).toContain("could not save the failure count");
+        expect(readdirSync(sb.state)).toEqual([]);
+      } finally {
+        chmodSync(sb.state, 0o755);
+      }
     });
 
     it("leaves no temporary files behind", () => {

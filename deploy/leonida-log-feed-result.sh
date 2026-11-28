@@ -51,9 +51,11 @@ record() {
   [[ $count =~ ^[0-9]{1,9}$ ]] || count=0
   count=$((10#$count + 1))
 
-  tmp=$(mktemp "$STATE_DIR/.feed-failures.XXXXXX")
-  echo "$count" >"$tmp"
-  mv -f "$tmp" "$COUNT_FILE"
+  # Checked by hand: `record ||` below turns off set -e in here.
+  if ! tmp=$(mktemp "$STATE_DIR/.feed-failures.XXXXXX") || ! echo "$count" >"$tmp" || ! mv -f "$tmp" "$COUNT_FILE"; then
+    [[ -z ${tmp:-} ]] || rm -f "$tmp"
+    echo "feed-result: ERROR: could not save the failure count ($count) in $COUNT_FILE" >&2
+  fi
 
   if ((count == ALERT_AT)); then
     "$SYSTEMCTL" start --no-block "host-alert@attention:$UNIT.service" ||
