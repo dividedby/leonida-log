@@ -5,7 +5,7 @@ Status: Accepted
 
 ## Context
 
-Leonida Log is used mainly on a phone while playing: tick an item, log a workout, check what's next. It's a single-user guide, and the fleet's web apps are Next.js + TypeScript.
+Leonida Log is used mainly on a phone while playing: tick an item, set a stat, check what's next. It's a single-user guide, and the fleet's web apps are Next.js + TypeScript.
 
 ## Decision
 

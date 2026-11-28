@@ -5,11 +5,11 @@ Status: Accepted
 
 ## Context
 
-One user, a small VPS, and modest data (91 missions, hundreds of items, a workout log, scraped candidates).
+One user, a small VPS, and modest data (91 missions, hundreds of items, stat levels, scraped candidates).
 
 ## Decision
 
-Use SQLite via better-sqlite3 with Drizzle ORM and Drizzle migrations. The DB is one file at `DATABASE_PATH` on a compose volume, backed up with the host's usual jobs. Curated YAML is loaded and validated at build or start; user progress, workouts and candidates live in the DB.
+Use SQLite via better-sqlite3 with Drizzle ORM and Drizzle migrations. The DB is one file at `DATABASE_PATH` on a compose volume, backed up with the host's usual jobs. Curated YAML is loaded and validated at build or start; user progress, stat levels and candidates live in the DB.
 
 ## Consequences
 

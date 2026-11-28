@@ -85,22 +85,6 @@ export const statLevels = sqliteTable(
   ],
 );
 
-/** Workout log. Unused since ADR 0009 dropped it; kept until a later contract migration. */
-export const workouts = sqliteTable(
-  "workouts",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    character: text("character", { enum: CHARACTERS }).notNull(),
-    stat: text("stat", { enum: STATS }).notNull(),
-    at: timestamp("at").notNull(),
-  },
-  (t) => [
-    index("workouts_character_stat_at").on(t.character, t.stat, t.at),
-    check("workouts_character", sql`${t.character} in (${inList(CHARACTERS)})`),
-    check("workouts_stat", sql`${t.stat} in (${inList(STATS)})`),
-  ],
-);
-
 /** A page a scraper tracks. Server only; never committed or rendered. */
 export const sources = sqliteTable(
   "sources",
