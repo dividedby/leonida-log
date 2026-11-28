@@ -76,8 +76,8 @@ function area(
  * at m3 and m7, and 4 optionals listed after the mains: o1 (opens m1, closes
  * m3), o2 (opens o1, closes m3), o3 (opens m2, closes m7), o4 (opens m5,
  * never closes). Areas: r1 "Region One" (visible m1, alias "the Region"), r2
-"Region Two" (m5) and district d1 "District One" under r2 (m6); none is
-placed on an item or optional. A fresh copy per call so tests can mutate it freely.
+ * "Region Two" (m5) and district d1 "District One" under r2 (m6); none is
+ * placed on an item or optional. A fresh copy per call so tests can mutate it freely.
  */
 export function fixtureRaw(): FixtureRaw {
   return {
