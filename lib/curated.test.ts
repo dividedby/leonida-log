@@ -326,6 +326,127 @@ describe("parseCurated", () => {
       edit: (r) => (r.gates.gates[0].mission = "o1"),
       error: 'gate mission "o1" is not a mission',
     },
+    {
+      name: "duplicate area slug",
+      edit: (r) => (r.areas.areas[1].slug = "r1"),
+      error: 'duplicate area slug "r1"',
+    },
+    {
+      name: "area name already used (case-insensitive)",
+      edit: (r) => (r.areas.areas[1].name = "REGION one"),
+      error: 'area "r2" has name "REGION one" already used by area "r1"',
+    },
+    {
+      name: "alias already used by another area",
+      edit: (r) => (r.areas.areas[1].aliases = ["The REGION"]),
+      error: 'area "r2" has alias "The REGION" already used by area "r1"',
+    },
+    {
+      name: "alias equal to another area's name",
+      edit: (r) => (r.areas.areas[1].aliases = ["region one"]),
+      error: 'area "r2" has alias "region one" already used by area "r1"',
+    },
+    {
+      name: "alias repeated inside one area",
+      edit: (r) => (r.areas.areas[0].aliases = ["Same", "same"]),
+      error: 'area "r1" has alias "same" already used by area "r1"',
+    },
+    {
+      name: "empty alias",
+      edit: (r) => (r.areas.areas[0].aliases = [" "]),
+      error: "areas.yaml: areas.0.aliases.0",
+    },
+    {
+      name: "alias with no letters or digits",
+      edit: (r) => (r.areas.areas[0].aliases = ["!!!"]),
+      error: 'area "r1" has alias "!!!" with no letters or digits',
+    },
+    {
+      name: "area with an unknown parent",
+      edit: (r) => (r.areas.areas[2].parent = "nope"),
+      error: 'area "d1" has unknown parent "nope"',
+    },
+    {
+      name: "area that is its own parent",
+      edit: (r) => (r.areas.areas[0].parent = "r1"),
+      error: 'area "r1" is its own parent',
+    },
+    {
+      name: "parent that has a parent itself",
+      edit: (r) => (r.areas.areas[1].parent = "r1"),
+      error: 'area "d1" has parent "r2" which has a parent itself',
+    },
+    {
+      name: "district visible before its parent",
+      edit: (r) => (r.areas.areas[2].visible_after_mission = "m4"),
+      error: 'area "d1" is visible before its parent "r2"',
+    },
+    {
+      name: "area with an unknown visible_after_mission",
+      edit: (r) => (r.areas.areas[0].visible_after_mission = "nope"),
+      error: 'area "r1" has unknown visible_after_mission "nope"',
+    },
+    {
+      name: "area visible after an optional mission",
+      edit: (r) => (r.areas.areas[0].visible_after_mission = "o1"),
+      error: 'area "r1" has unknown visible_after_mission "o1"',
+    },
+    {
+      name: "area without a source",
+      edit: (r) => (r.areas.areas[0].sources = []),
+      error: "areas.yaml: areas.0.sources",
+    },
+    {
+      name: "area with a non-https source",
+      edit: (r) => {
+        r.areas.areas[0].sources = [
+          { url: "http://example.com", title: "t", accessed: "2026-11-25" },
+        ];
+      },
+      error: "areas.yaml: areas.0.sources.0.url",
+    },
+    {
+      name: "area with an unknown field (strict)",
+      edit: (r) => (r.areas.areas[0].order = 1),
+      error: "areas.yaml",
+    },
+    {
+      name: "area with an unknown evidence basis",
+      edit: (r) => (r.areas.areas[0].evidence = { basis: "unknown" }),
+      error: "areas.yaml: areas.0.evidence.basis",
+    },
+    {
+      name: "item with an unknown area",
+      edit: (r) => (r.itemFiles.m3.items[0].area = "nope"),
+      error: 'item "a" has unknown area "nope"',
+    },
+    {
+      name: "item whose area becomes visible after the item",
+      edit: (r) => (r.itemFiles.m3.items[1].area = "r2"),
+      error: 'item "b" has area "r2" which becomes visible after the item',
+    },
+    {
+      name: "optional mission with an unknown area",
+      edit: (r) => (r.missions.missions[8].area = "nope"),
+      error: 'optional mission "o1" has unknown area "nope"',
+    },
+    {
+      name: "optional mission whose area becomes visible after its opens_after",
+      edit: (r) => (r.missions.missions[10].area = "r2"),
+      error:
+        'optional mission "o3" has area "r2" which becomes visible after its anchor "m2"',
+    },
+    {
+      name: "optional mission opened through a chain, area after the anchor",
+      edit: (r) => (r.missions.missions[9].area = "r2"),
+      error:
+        'optional mission "o2" has area "r2" which becomes visible after its anchor "m1"',
+    },
+    {
+      name: "main mission with an area",
+      edit: (r) => (r.missions.missions[0].area = "r1"),
+      error: "missions.yaml: missions.0.area",
+    },
   ];
 
   it.each(invalid)("rejects $name", ({ edit, error }) => {
@@ -374,5 +495,77 @@ describe("parseCurated", () => {
     const raw = fixtureRaw();
     raw.itemFiles.m3.items[2].lost_at_mission = "m3";
     expect(() => parseCurated(raw)).not.toThrow();
+  });
+
+  describe("areas", () => {
+    it("keeps slug, name, aliases, visibility, parent and sources, in file order", () => {
+      const { areas } = parseCurated(fixtureRaw());
+      expect(areas).toEqual([
+        {
+          slug: "r1",
+          name: "Region One",
+          aliases: ["the Region"],
+          visible_after_mission: "m1",
+          sources: [
+            {
+              url: "https://example.com/guide",
+              title: "Example guide",
+              accessed: "2026-11-25",
+            },
+          ],
+        },
+        expect.objectContaining({ slug: "r2", visible_after_mission: "m5" }),
+        expect.objectContaining({
+          slug: "d1",
+          parent: "r2",
+          visible_after_mission: "m6",
+        }),
+      ]);
+      expect(areas[1]).not.toHaveProperty("aliases");
+      expect(areas[1]).not.toHaveProperty("parent");
+    });
+
+    it("accepts an empty areas list", () => {
+      const raw = fixtureRaw();
+      raw.areas.areas = [];
+      expect(parseCurated(raw).areas).toEqual([]);
+    });
+
+    it("accepts evidence on an area and never returns it", () => {
+      const raw = fixtureRaw();
+      raw.areas.areas[0].evidence = { basis: "best-guess", note: "Why." };
+      const data = parseCurated(raw);
+      expect(JSON.stringify(data)).not.toContain('"evidence"');
+      expect(data.areas[0].slug).toBe("r1");
+    });
+
+    it("accepts a district visible at the same mission as its parent", () => {
+      const raw = fixtureRaw();
+      raw.areas.areas[2].visible_after_mission = "m5";
+      expect(() => parseCurated(raw)).not.toThrow();
+    });
+
+    it("keeps an item's area and an optional mission's area, and leaves them off when unset", () => {
+      const raw = fixtureRaw();
+      raw.itemFiles.m7.items[0].area = "r2"; // item d, visible m5, area m5
+      raw.itemFiles.m7.items[1].area = "d1"; // item e, visible m7, area m6
+      raw.missions.missions[8].area = "r1"; // o1, anchor m1, area m1
+      raw.missions.missions[9].area = "r1"; // o2, anchor m1 through o1
+      raw.missions.missions[11].area = "r2"; // o4, anchor m5, area m5
+      const data = parseCurated(raw);
+      const itemArea = (id: string) =>
+        data.items.find((i) => i.id === id)?.area;
+      expect(itemArea("d")).toBe("r2");
+      expect(itemArea("e")).toBe("d1");
+      expect(data.items.find((i) => i.id === "a")).not.toHaveProperty("area");
+      const optionalArea = (slug: string) =>
+        data.optionalMissions.find((o) => o.slug === slug)?.area;
+      expect(optionalArea("o1")).toBe("r1");
+      expect(optionalArea("o2")).toBe("r1");
+      expect(optionalArea("o4")).toBe("r2");
+      expect(
+        data.optionalMissions.find((o) => o.slug === "o3"),
+      ).not.toHaveProperty("area");
+    });
   });
 });

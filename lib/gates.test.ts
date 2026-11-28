@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  areaName,
   closesIn,
   countdownLabel,
   gateAt as gateStoodOn,
   gateOptionals,
+  isAreaVisible,
   isTickable,
   isVisible,
   lockedSummary,
@@ -399,6 +401,45 @@ describe("missionTitle", () => {
 
   it("throws on an unknown mission", () => {
     expect(() => missionTitle(data, "nope")).toThrow(/nope/);
+  });
+});
+
+describe("isAreaVisible", () => {
+  const areaBySlug = (slug: string) => {
+    const found = data.areas.find((a) => a.slug === slug);
+    if (!found) throw new Error(`no fixture area ${slug}`);
+    return found;
+  };
+
+  // r1 is visible from m1, r2 from m5, district d1 from m6
+  it.each([
+    { area: "r1", current: "m1", expected: true },
+    { area: "r1", current: "m8", expected: true },
+    { area: "r2", current: "m4", expected: false },
+    { area: "r2", current: "m5", expected: true },
+    { area: "d1", current: "m5", expected: false },
+    { area: "d1", current: "m6", expected: true },
+    { area: "d1", current: "m8", expected: true },
+  ])(
+    "area $area, current $current -> $expected",
+    ({ area, current, expected }) => {
+      expect(isAreaVisible(data, areaBySlug(area), current)).toBe(expected);
+    },
+  );
+
+  it("throws on an unknown or optional current mission", () => {
+    expect(() => isAreaVisible(data, areaBySlug("r1"), "nope")).toThrow(/nope/);
+    expect(() => isAreaVisible(data, areaBySlug("r1"), "o1")).toThrow(/o1/);
+  });
+});
+
+describe("areaName", () => {
+  it("looks up one area's name", () => {
+    expect(areaName(data, "r2")).toBe("Region Two");
+  });
+
+  it("throws on an unknown area", () => {
+    expect(() => areaName(data, "nope")).toThrow(/nope/);
   });
 });
 

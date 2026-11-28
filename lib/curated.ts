@@ -8,6 +8,10 @@ import { z } from "zod";
  * missions.yaml, never stored, so it cannot disagree with the list. Optional
  * missions (any other kind) are listed after the mains and carry no order of
  * their own: they open and close relative to main missions.
+ *
+ * Areas (ADR 0010) are map regions and districts named in areas.yaml. They are
+ * a separate namespace from missions and items: only their own slugs and names
+ * must be unique.
  */
 
 const slug = z
@@ -51,6 +55,21 @@ const evidenceSchema = z.strictObject({
   note: text.optional(),
 });
 
+const areaSchema = z.strictObject({
+  slug,
+  name: text,
+  /** Other names the text rule also treats as naming this area. */
+  aliases: z.array(text).optional(),
+  visible_after_mission: slug,
+  parent: slug.optional(),
+  evidence: evidenceSchema.optional(),
+  sources: z.array(sourceSchema).min(1),
+});
+
+type RawArea = z.infer<typeof areaSchema>;
+
+const areasFileSchema = z.strictObject({ areas: z.array(areaSchema) });
+
 const itemSchema = z.strictObject({
   id: slug,
   title: text,
@@ -62,6 +81,7 @@ const itemSchema = z.strictObject({
   evidence: evidenceSchema.optional(),
   how_to: text,
   location: text.optional(),
+  area: slug.optional(),
   sources: z.array(sourceSchema).min(1),
 });
 
@@ -85,6 +105,7 @@ const OPTIONAL_ONLY_FIELDS = [
   "closes_at",
   "sources",
   "note",
+  "area",
 ] as const;
 /** Of those, the ones a non-main mission must set. */
 const OPTIONAL_REQUIRED_FIELDS = [
@@ -105,6 +126,7 @@ const missionSchema = z
     closes_at: slug.optional(),
     sources: z.array(sourceSchema).min(1).optional(),
     note: text.optional(),
+    area: slug.optional(),
     evidence: evidenceSchema.optional(),
   })
   .superRefine((m, ctx) => {
@@ -150,6 +172,8 @@ export type Source = z.infer<typeof sourceSchema>;
 export type EvidenceBasis = (typeof EVIDENCE_BASES)[number];
 /** An item as the app sees it: research background (`verified`, `evidence`) removed. */
 export type Item = Omit<RawItem, "verified" | "evidence">;
+/** A map region (or district, with a `parent`); research background (`evidence`) removed. */
+export type Area = Omit<RawArea, "evidence">;
 export type Category = (typeof CATEGORIES)[number];
 export type MissionKind = (typeof MISSION_KINDS)[number];
 export type Character = (typeof CHARACTERS)[number];
@@ -184,6 +208,8 @@ export interface OptionalMission {
   chapter: string;
   character: Character;
   note?: string;
+  /** Slug of the area it starts in; unset means Anywhere. */
+  area?: string;
   sources: Source[];
   /** The main mission the opens_after chain ends at. */
   opensAnchor: string;
@@ -213,12 +239,15 @@ export interface CuratedData {
   /** Sorted by order. */
   gates: Gate[];
   items: Item[];
+  /** In file order. */
+  areas: Area[];
 }
 
 /** Parsed-but-unvalidated file contents, keyed the way the loader reads them. */
 export interface CuratedRaw {
   missions: unknown;
   gates: unknown;
+  areas: unknown;
   /** Keyed by file name without extension (`items/<key>.yaml`). */
   itemFiles: Record<string, unknown>;
 }
@@ -248,6 +277,24 @@ function withoutBackground(item: RawItem): Item {
   return out as Item;
 }
 
+/**
+ * The one normalisation for area names: lowercase, runs of anything but letters
+ * and digits become one space, trimmed. Uniqueness here and the text rule's
+ * matching (lib/area-text.ts) both use it, so they cannot drift.
+ */
+export function normalizeAreaName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function withoutAreaBackground(area: RawArea): Area {
+  const out: Partial<RawArea> = { ...area };
+  delete out.evidence;
+  return out as Area;
+}
+
 function duplicates(values: string[]): string[] {
   return [...new Set(values.filter((v, i) => values.indexOf(v) !== i))];
 }
@@ -267,6 +314,10 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   if (!gatesFile.success) {
     issues.push(...schemaIssues("gates.yaml", gatesFile.error));
   }
+  const areasFile = areasFileSchema.safeParse(raw.areas);
+  if (!areasFile.success) {
+    issues.push(...schemaIssues("areas.yaml", areasFile.error));
+  }
   const itemFiles: [string, RawItem[]][] = [];
   for (const [name, content] of Object.entries(raw.itemFiles).sort(([a], [b]) =>
     a.localeCompare(b),
@@ -276,7 +327,12 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
     if (parsed.success) itemFiles.push([name, parsed.data.items]);
     else issues.push(...schemaIssues(file, parsed.error));
   }
-  if (!missionsFile.success || !gatesFile.success || issues.length > 0) {
+  if (
+    !missionsFile.success ||
+    !gatesFile.success ||
+    !areasFile.success ||
+    issues.length > 0
+  ) {
     throw new CuratedValidationError(issues);
   }
 
@@ -285,6 +341,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   const missions = allMissions.filter((m) => m.kind === "main");
   const optionals = allMissions.filter((m) => m.kind !== "main");
   const gates = gatesFile.data.gates;
+  const areas = areasFile.data.areas.map(withoutAreaBackground);
   const items = itemFiles.flatMap(([, list]) => list.map(withoutBackground));
 
   const chapterIndex = new Map(chapters.map((c, i) => [c.slug, i]));
@@ -302,6 +359,9 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
   }
   for (const d of duplicates(gates.map((g) => g.mission))) {
     issues.push(`gates.yaml: duplicate gate "${d}"`);
+  }
+  for (const d of duplicates(areas.map((a) => a.slug))) {
+    issues.push(`areas.yaml: duplicate area slug "${d}"`);
   }
   for (const d of duplicates(items.map((i) => i.id))) {
     issues.push(`items: duplicate item id "${d}"`);
@@ -408,6 +468,85 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
     resolved.set(o.slug, { anchor, closesOrder });
   }
 
+  const areaBySlug = new Map(areas.map((a) => [a.slug, a]));
+  const areaOrder = new Map<string, number>();
+  const claimed = new Map<string, string>();
+  for (const a of areas) {
+    const where = `areas.yaml: area "${a.slug}"`;
+    const visible = missionOrder.get(a.visible_after_mission);
+    if (visible === undefined) {
+      issues.push(
+        `${where} has unknown visible_after_mission "${a.visible_after_mission}"`,
+      );
+    } else if (!areaOrder.has(a.slug)) {
+      areaOrder.set(a.slug, visible);
+    }
+    // Names and aliases are matched as whole words, so they must be unique
+    // under the same normalisation across every area.
+    const variants: [string, string][] = [
+      ["name", a.name],
+      ...(a.aliases ?? []).map((v): [string, string] => ["alias", v]),
+    ];
+    for (const [kind, value] of variants) {
+      const key = normalizeAreaName(value);
+      if (key === "") {
+        issues.push(
+          `${where} has ${kind} "${value}" with no letters or digits`,
+        );
+        continue;
+      }
+      const owner = claimed.get(key);
+      if (owner === undefined) claimed.set(key, a.slug);
+      else {
+        issues.push(
+          `${where} has ${kind} "${value}" already used by area "${owner}"`,
+        );
+      }
+    }
+  }
+  for (const a of areas) {
+    if (a.parent === undefined) continue;
+    const where = `areas.yaml: area "${a.slug}"`;
+    const parent = areaBySlug.get(a.parent);
+    if (a.parent === a.slug) {
+      issues.push(`${where} is its own parent`);
+    } else if (parent === undefined) {
+      issues.push(`${where} has unknown parent "${a.parent}"`);
+    } else if (parent.parent !== undefined) {
+      issues.push(
+        `${where} has parent "${a.parent}" which has a parent itself (areas nest one level)`,
+      );
+    } else {
+      const own = areaOrder.get(a.slug);
+      const theirs = areaOrder.get(a.parent);
+      if (own !== undefined && theirs !== undefined && own < theirs) {
+        issues.push(`${where} is visible before its parent "${a.parent}"`);
+      }
+    }
+  }
+
+  for (const o of optionals) {
+    if (o.area === undefined) continue;
+    const where = `missions.yaml: optional mission "${o.slug}"`;
+    if (!areaBySlug.has(o.area)) {
+      issues.push(`${where} has unknown area "${o.area}"`);
+      continue;
+    }
+    const anchor = resolved.get(o.slug)?.anchor;
+    const anchorOrder =
+      anchor === undefined ? undefined : missionOrder.get(anchor);
+    const visible = areaOrder.get(o.area);
+    if (
+      anchorOrder !== undefined &&
+      visible !== undefined &&
+      visible > anchorOrder
+    ) {
+      issues.push(
+        `${where} has area "${o.area}" which becomes visible after its anchor "${anchor}"`,
+      );
+    }
+  }
+
   for (const [name, list] of itemFiles) {
     for (const item of list) {
       const where = `items/${name}.yaml: item "${item.id}"`;
@@ -435,6 +574,20 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
         issues.push(
           `${where} has unknown lost_at_mission "${item.lost_at_mission}"`,
         );
+      }
+      if (item.area !== undefined) {
+        const areaVisible = areaOrder.get(item.area);
+        if (!areaBySlug.has(item.area)) {
+          issues.push(`${where} has unknown area "${item.area}"`);
+        } else if (
+          visible !== undefined &&
+          areaVisible !== undefined &&
+          areaVisible > visible
+        ) {
+          issues.push(
+            `${where} has area "${item.area}" which becomes visible after the item (area visible_after_mission > item visible_after_mission)`,
+          );
+        }
       }
       const gate = gateOrder.get(item.before_gate);
       if (visible !== undefined && lost !== undefined && lost < visible) {
@@ -480,6 +633,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
         chapter: o.chapter,
         character: o.character as Character,
         ...(o.note === undefined ? {} : { note: o.note }),
+        ...(o.area === undefined ? {} : { area: o.area }),
         sources: o.sources as Source[],
         opensAnchor: anchor,
         opensOrder: missionOrder.get(anchor) as number,
@@ -500,5 +654,6 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
       .map((g) => ({ ...g, order: missionOrder.get(g.mission) as number }))
       .sort((a, b) => a.order - b.order),
     items,
+    areas,
   };
 }

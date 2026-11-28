@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { loadCurated } from "./curated-load";
 import { gateOptionals, safeToLeave } from "./gates";
+import { areaTextLeaks } from "./area-text";
 
 // Fails on any invalid edit to data/curated.
 describe("real curated data", () => {
@@ -223,6 +224,27 @@ describe("real curated data", () => {
       }
     }
     expect(leaks).toEqual([]);
+  });
+
+  it("has the six regions, all on the open map from the first mission", () => {
+    expect(data.areas.map((a) => a.slug)).toEqual([
+      "vice-city",
+      "leonida-keys",
+      "grassrivers",
+      "port-gellhorn",
+      "ambrosia",
+      "mount-kalaga",
+    ]);
+    expect(data.areas.map((a) => a.visible_after_mission)).toEqual(
+      data.areas.map(() => data.missions[0].slug),
+    );
+    expect(data.areas.filter((a) => a.parent !== undefined)).toEqual([]);
+  });
+
+  // ADR 0010 (updated 2026-11-27): no curated text the app can render names an
+  // area before the area is visible at the point the text can show.
+  it("no item, optional, mission title, chapter name or gate lost entry names an area before it is visible", () => {
+    expect(areaTextLeaks(data)).toEqual([]);
   });
 
   it("no gate lost entry names a mission (the app shows it as a countdown)", () => {
