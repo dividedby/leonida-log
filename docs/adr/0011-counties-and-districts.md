@@ -17,20 +17,20 @@ Facts behind the decision (gta.wiki text is CC BY-NC-SA 3.0; read 2026-11-28):
 
 ## Decision
 
-- **Counties are the top level:** county > region > district. Five counties, all visible from the prologue: Kelly, Vice-Dale, Mariana, Lummox, Leonard. The beta-only Ambrosia County is left out.
+- **Counties are the top level:** county > region > district. Five counties, all visible from the prologue: Kelly County, Vice-Dale County, Mariana County, Lummox County and Leonard County. The beta-only Ambrosia County is left out.
 - **Finest sourced level:** an entry takes the most specific area its sources support (a district, a region or a county). Anywhere is only for entries with no place at all.
 - **Towns outside any region** (Capri, Millport, Hamlet, and so on) become districts directly under their county. A district's parent is a region or a county.
 - **Vice Beach** is a district of Vice City (owner decision, settling the split above). Districts don't nest, so the hierarchy has three levels at most: an entry in Washington Beach is placed on Vice Beach, and "Washington Beach" stays in its location text. The Vice Beach data row's evidence note records the source conflict and this ruling.
 - **Art:** a better hand-drawn schematic: county borders, a closer coastline, region shapes and Vice City's district shapes. Still not to scale, no coordinates, no tracing. Drawings are the Leonida map (redrawn) and Vice City's districts only; other sheets list their districts as rows.
 - **Navigation:** one Leonida map with county borders and labels and the region shapes inside. A region opens its sheet, with a district map where one exists. A county label opens a county sheet with its regions and its county-level rows.
-- **District sheets:** each district opens its own sheet, as a region does, from Vice City's district map or from its row on a region or county sheet. A region sheet shows its rows and a list of its districts with badges.
+- **District sheets:** each district opens its own sheet, as a region does, from Vice City's district map or from its row on a region or county sheet. A region sheet includes its districts' rows, as in v2, and lists its districts with badges, each linking to its own sheet. A region's badge counts the rows its sheet shows, districts rolled up.
 - **Badges:** no county badge. A region's badge rolls up its districts. The county sheet lists the county-level rows (the county's own plus those of its county-parented districts, rolled up) and links to its regions with their badges.
-- **Tags and detail:** a row's area tag shows the finest name only. A detail page shows the full path ("Area: Stockyard, Vice City, Vice-Dale"), each level a link.
+- **Tags and detail:** a row's area tag shows the finest name only. A detail page shows the full path ("Area: Stockyard, Vice City, Vice-Dale County"), each level a link.
 - **Visibility:** a district is visible from the prologue by default. A district reached only in the story gets its first-visit mission (the latest plausible one, ADR 0008). A child is never visible before its parent.
 - **Schema (data only, no DB migration):** `areas.yaml` gains `kind` (`county`, `region` or `district`). A county has no parent. A region's parent is a county (required). A district's parent is a region or a county.
 - **Text rule (ADR 0010 update):** covers county and district names and aliases too. A county's `name` is the full "X County" ("Kelly County"); no bare-word aliases ("Kelly", "Leonard"), since they collide with ordinary words and character names. Matching stays whole-word and case-insensitive. A generic district name that collides with ordinary words ("Downtown") gets a qualified name or an alias-free entry so the whole-word rule doesn't false-positive; each case is decided in the data PR.
 - **Leak tests:** extended to counties and districts, on the real data and on a fixture with a district hidden until a later mission. All-prologue real data proves nothing on its own.
-- **Evidence:** Lummox and Leonard rest on gta.wiki plus the road signs and the leaked map, recorded as `best-guess` evidence (ADR 0008). Shipping on that is accepted.
+- **Evidence:** each county is `best-guess` evidence (ADR 0008), on its own basis: Kelly, Mariana and Vice-Dale on gta.wiki plus the I-404 road signs; Lummox on gta.wiki plus the leaked map; Leonard on gta.wiki only. Shipping on that is accepted.
 - **First build scope:** the five counties, Vice City's districts (Vice Beach included) and the unregioned towns current entries need (Capri, Millport, Hamlet). More areas are added as entries need them. Every placed and Anywhere entry is then re-checked against the new layers (plan v3 step 6).
 
 ## Supersedes
@@ -52,5 +52,5 @@ Unchanged: area visibility and gating, no locked counts on the map, the Anywhere
 - County names, district names and aliases are spoilers like any area name: gated, covered by the text rule and by the leak tests. More names raise the false-positive risk on ordinary words.
 - The area sheet route now serves counties and districts as well as regions. Hidden, unknown and not-yet-visible slugs stay the same 404.
 - More labels on a phone-width map: legibility is a design risk, checked in the mockup (plan v3 step 2).
-- Each new area and every changed `area` value is curated by hand with sources, as in ADR 0010. County membership rests on one fan wiki (CC BY-NC-SA 3.0) plus road signs and a leak; it is best evidence, re-checked weekly (ADR 0008).
+- Each new area and every changed `area` value is curated by hand with sources, as in ADR 0010. County membership rests on one fan wiki (CC BY-NC-SA 3.0), with road signs for three counties and the leaked map for one; it is best evidence, re-checked weekly (ADR 0008).
 - Exact points (x/y) stay rejected for the same reason as in ADR 0010.
