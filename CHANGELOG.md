@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format is b
 
 ## [Unreleased]
 
+### Added
+
+- Deploy: the KeenGamer feed poll now alerts on its second consecutive failure. `leonida-log-feed.service` gains `ExecStopPost=-/usr/local/sbin/leonida-log-feed-result` (new `deploy/leonida-log-feed-result.sh`), which counts failed polls in `/var/lib/leonida-log-deploy/feed-failures` and starts one `host-alert@attention:` alert at exactly 2, then stays quiet until a successful poll resets the count. A non-zero exit other than 75, a timeout or a signal is a failure; exit 75 (the poll yielded the lock and never ran) leaves the count unchanged. There is still no `OnFailure=` on the unit. Tests cover the count, the single alert, the reset and 75. `leonida-log-apply` warns when the installed script lags the clone. **Owner action:** the new script and the edited unit are root-installed, so copy `deploy/leonida-log-feed-result.sh` and `deploy/leonida-log-feed.service` (plus the updated `install-host.sh`) to `/root/` on box1 and rerun `bash /root/install-host.sh`; until then the feed has no alert.
+
 ## [0.1.0] - 2026-11-27
 
 First release, live at gta.dvdby.cc: every v1 screen (onboarding, Home, the Before you move on checklist with item details and mark mission done, Stats and More), spoiler gating by current mission, curated data for four points of no return, the scrapers and the deploy pipeline.

@@ -7,8 +7,8 @@
 #
 # Run it from a copy that does NOT live in the service user's clone (the `leonida-log` user can rewrite
 # /srv/leonida-log, and this script runs as root): copy deploy/install-host.sh, deploy/leonida-log-deploy.sh,
-# deploy/leonida-log-apply.sh, deploy/leonida-log-scrape.sh, deploy/leonida-log-scrape.service,
-# deploy/leonida-log-scrape.timer, deploy/leonida-log-feed.service, deploy/leonida-log-feed.timer and compose.yaml
+# deploy/leonida-log-apply.sh, deploy/leonida-log-scrape.sh, deploy/leonida-log-feed-result.sh,
+# deploy/leonida-log-scrape.service, deploy/leonida-log-scrape.timer, deploy/leonida-log-feed.service, deploy/leonida-log-feed.timer and compose.yaml
 # from the owner's own checkout to /root/ (scp). It installs the files sitting next to itself, refuses files or a folder not owned by root, and never runs git as root.
 #
 # Docker, the compose plugin, sqlite3, flock, curl and git must already be installed; this script installs
@@ -18,7 +18,7 @@
 #   1. creates the `leonida-log` user (no password, login shell for the forced command, a root-owned home outside the clone, not in docker) and the
 #      folders: /etc/leonida-log, /var/lib/leonida-log (data, 0700), /var/lib/leonida-log-deploy (state), and a
 #      clone of the public repo at /srv/leonida-log;
-#   2. installs the three scripts in /usr/local/sbin and the root-owned compose.yaml in /etc/leonida-log, and
+#   2. installs the four scripts in /usr/local/sbin and the root-owned compose.yaml in /etc/leonida-log, and
 #      creates /etc/leonida-log/compose.env if it is missing (never overwrites it);
 #   3. allows the user exactly one privileged command, the apply script (validated with visudo);
 #   4. keeps the CI key in /etc/leonida-log/authorized_keys (root:leonida-log 0640), restricted to the deploy
@@ -72,6 +72,7 @@ FILES=(
   leonida-log-deploy.sh
   leonida-log-apply.sh
   leonida-log-scrape.sh
+  leonida-log-feed-result.sh
   leonida-log-scrape.service
   leonida-log-scrape.timer
   leonida-log-feed.service
@@ -159,6 +160,7 @@ install_file() {
 install_file "deploy script" "$SRC_DIR/leonida-log-deploy.sh" "$DEPLOY_DEST" 0755
 install_file "apply script" "$SRC_DIR/leonida-log-apply.sh" "$APPLY_DEST" 0755
 install_file "scrape script" "$SRC_DIR/leonida-log-scrape.sh" "$SBIN_DIR/leonida-log-scrape" 0755
+install_file "feed result script" "$SRC_DIR/leonida-log-feed-result.sh" "$SBIN_DIR/leonida-log-feed-result" 0755
 install_file "compose.yaml" "$SRC_DIR/compose.yaml" "$ETC_DIR/compose.yaml" 0644
 echo "installed the scripts in $SBIN_DIR and $ETC_DIR/compose.yaml"
 
@@ -298,12 +300,12 @@ if ((feed_changed)); then
   systemctl restart leonida-log-feed.timer
 fi
 if ! systemctl cat host-alert@.service >/dev/null 2>&1; then
-  echo "WARNING: host-alert@.service is not installed on this host; scrape failures will not be delivered" >&2
+  echo "WARNING: host-alert@.service is not installed on this host; scrape failures and the feed poll's second-failure alert will not be delivered" >&2
 fi
 
 echo
 echo "summary"
-echo "  scripts:       $DEPLOY_DEST, $APPLY_DEST, $SBIN_DIR/leonida-log-scrape"
+echo "  scripts:       $DEPLOY_DEST, $APPLY_DEST, $SBIN_DIR/leonida-log-scrape, $SBIN_DIR/leonida-log-feed-result"
 echo "  compose:       $ETC_DIR/compose.yaml, $ETC_DIR/compose.env"
 echo "  privilege:     $PRIV_DROPIN"
 echo "  authorized:    $AK ($(grep -c . "$AK" || true) key line(s))"

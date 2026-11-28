@@ -9,7 +9,8 @@
 #
 # Exit status is the scraper's: 0 done, 1 bad setup, 2 a source's listing could not be read (a --feed-only run
 # also exits 2 when its 180 s deadline passes). The weekly scrape unit fails on any non-zero status and alerts
-# (OnFailure=). The feed unit fails on any non-zero status except 75, has no OnFailure=, and doesn't alert. A full
+# (OnFailure=). The feed unit fails on any non-zero status except 75 and has no OnFailure=: its ExecStopPost
+# (leonida-log-feed-result) alerts once on the second consecutive failed poll. A full
 # run writes the report to /var/lib/leonida-log/reports; a --feed-only run writes none.
 #
 # --feed-only (the 4-hourly feed poll) gives way instead of queueing: it waits at most FEED_LOCK_WAIT seconds for

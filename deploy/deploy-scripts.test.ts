@@ -77,6 +77,11 @@ exec "$@"
 echo "sqlite3 $*" >>"$STUB_DIR/calls.log"
 : >"$(printf '%s' "$2" | sed "s/.*INTO '\\(.*\\)'.*/\\1/")"
 `,
+  systemctl: String.raw`#!/usr/bin/env bash
+echo "systemctl $*" >>"$STUB_DIR/calls.log"
+[[ -e $STUB_DIR/fail-systemctl ]] && exit 1
+exit 0
+`,
   // Stands in for leonida-log-apply when only the deploy script is under test.
   apply: String.raw`#!/usr/bin/env bash
 echo "apply $*" >>"$STUB_DIR/calls.log"
@@ -368,6 +373,131 @@ describe.skipIf(!haveTools)("leonida-log-scrape --feed-only", () => {
     );
   });
 });
+
+// What systemd hands ExecStopPost for each way a feed poll can end. SuccessExitStatus=75 makes a lock-yield a
+// "success" result, so it is told apart by EXIT_STATUS.
+const POLL_RESULTS = {
+  ok: { SERVICE_RESULT: "success", EXIT_CODE: "exited", EXIT_STATUS: "0" },
+  skipped: {
+    SERVICE_RESULT: "success",
+    EXIT_CODE: "exited",
+    EXIT_STATUS: "75",
+  },
+  fail: { SERVICE_RESULT: "exit-code", EXIT_CODE: "exited", EXIT_STATUS: "2" },
+  timeout: {
+    SERVICE_RESULT: "timeout",
+    EXIT_CODE: "killed",
+    EXIT_STATUS: "TERM",
+  },
+  signal: {
+    SERVICE_RESULT: "signal",
+    EXIT_CODE: "killed",
+    EXIT_STATUS: "KILL",
+  },
+} as const;
+type PollResult = keyof typeof POLL_RESULTS;
+
+describe.skipIf(!haveTools)(
+  "leonida-log-feed-result",
+  { timeout: 30_000 },
+  () => {
+    let sb: Sandbox;
+    beforeEach(() => {
+      sb = makeSandbox();
+    });
+
+    const poll = (result: PollResult) =>
+      run(sb, "leonida-log-feed-result.sh", [], POLL_RESULTS[result]);
+    const alerts = () =>
+      calls(sb)
+        .split("\n")
+        .filter((line) => line.includes("host-alert@"));
+
+    it.each<[string, PollResult[], number]>([
+      ["no alert on the first failed poll", ["fail"], 0],
+      ["one alert on the second consecutive failure", ["fail", "fail"], 1],
+      [
+        "no repeat alert on the third and fourth",
+        ["fail", "fail", "fail", "fail"],
+        1,
+      ],
+      ["a success in between resets the count", ["fail", "ok", "fail"], 0],
+      [
+        "two failures after a reset alert again",
+        ["fail", "ok", "fail", "fail"],
+        1,
+      ],
+      [
+        "a new alert after the count was reset",
+        ["fail", "fail", "ok", "fail", "fail"],
+        2,
+      ],
+      [
+        "a skipped poll (75) neither resets nor counts",
+        ["fail", "skipped", "fail"],
+        1,
+      ],
+      ["skipped polls alone never alert", ["skipped", "skipped", "skipped"], 0],
+      ["a timeout counts as a failure", ["fail", "timeout"], 1],
+      ["a kill signal counts as a failure", ["signal", "fail"], 1],
+    ])("%s", (_name, sequence, expected) => {
+      for (const result of sequence) expect(poll(result).status).toBe(0);
+
+      expect(alerts()).toHaveLength(expected);
+    });
+
+    it("starts the same alert instance the weekly scrape unit uses, without blocking", () => {
+      poll("fail");
+      poll("fail");
+
+      expect(alerts()).toEqual([
+        "systemctl start --no-block host-alert@attention:leonida-log-feed.service.service",
+      ]);
+    });
+
+    it("does nothing when systemd gave it no result (run by hand)", () => {
+      for (let i = 0; i < 3; i++) {
+        expect(run(sb, "leonida-log-feed-result.sh", []).status).toBe(0);
+      }
+
+      expect(alerts()).toEqual([]);
+      expect(readdirSync(sb.state)).toEqual([]);
+    });
+
+    it("treats a corrupt state file as zero failures", () => {
+      writeFileSync(join(sb.state, "feed-failures"), "not a number");
+
+      poll("fail");
+
+      expect(alerts()).toEqual([]);
+      poll("fail");
+      expect(alerts()).toHaveLength(1);
+    });
+
+    it("never fails the unit, even when the state folder is missing or the alert cannot start", () => {
+      rmSync(sb.state, { recursive: true });
+      expect(poll("fail").status).toBe(0);
+      expect(poll("ok").status).toBe(0);
+
+      mkdirSync(sb.state);
+      writeFileSync(join(sb.stub, "fail-systemctl"), "");
+      poll("fail");
+      const { status, output } = poll("fail");
+
+      expect(status).toBe(0);
+      expect(output).toContain("alert");
+    });
+
+    it("leaves no temporary files behind", () => {
+      poll("fail");
+      poll("fail");
+      poll("ok");
+      poll("fail");
+
+      expect(readdirSync(sb.state)).toEqual(["feed-failures"]);
+    });
+  },
+);
 
 describe.skipIf(!haveTools)("leonida-log-deploy", { timeout: 30_000 }, () => {
   let sb: Sandbox;

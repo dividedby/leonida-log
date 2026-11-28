@@ -189,6 +189,7 @@ if [[ -d $REPO/deploy ]]; then
   warn_drift "$REPO/deploy/leonida-log-deploy.sh" "$SBIN_DIR/leonida-log-deploy"
   warn_drift "$REPO/deploy/leonida-log-apply.sh" "$SBIN_DIR/leonida-log-apply"
   warn_drift "$REPO/deploy/leonida-log-scrape.sh" "$SBIN_DIR/leonida-log-scrape"
+  warn_drift "$REPO/deploy/leonida-log-feed-result.sh" "$SBIN_DIR/leonida-log-feed-result"
   warn_drift "$REPO/compose.yaml" "$COMPOSE_FILE"
   warn_drift "$REPO/deploy/leonida-log-scrape.service" "$UNIT_DIR/leonida-log-scrape.service"
   warn_drift "$REPO/deploy/leonida-log-scrape.timer" "$UNIT_DIR/leonida-log-scrape.timer"
