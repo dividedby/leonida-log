@@ -27,3 +27,10 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character, set by hand (ADR 0009). There is no workout log.
 - **Characters:** Jason, Lucia.
 - **Spoiler mode:** `safe` (hide everything past the current mission) or `open` (show it); stored in `progress`, default `safe`. v1 only ever uses `safe`; More shows it read-only.
+- **Area:** a named part of Leonida that an item or optional mission is placed in, with its own visibility (an area name past the current mission is a spoiler). A region or a district. Avoid "zone" and "location" (`location` is an item's free-text how-to-find line).
+- **Region:** a top-level area (county-sized, about 6 to 8). The v2 map draws regions.
+- **District:** an area inside a region (a neighbourhood). Not visible before its region. Later than v2.0.
+- **Placed:** an item or optional mission with an area. For an optional mission, its area is where it starts.
+- **Anywhere:** the list of the map's rows with no area, shown under the map. It doesn't say whether a row can be done anywhere or just isn't placed yet.
+- **Area sheet:** the screen for one reached area: its rows, tickable, as on the checklist.
+- **Schematic:** the original drawing of Leonida's areas the map uses. Not to scale, not traced from game art.

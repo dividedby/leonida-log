@@ -19,6 +19,11 @@ Built from the [idea page](https://github.com/dividedby/ideas/tree/main/projects
 - **Data pipeline:** curated data in the repo, scrapers enriching a server database.
 - **Out of v1:** the map (v2) and push notifications for stat decay.
 
+## v2 scope
+
+- **Map:** the checklist's rows placed by area on an original schematic of Leonida, with an area sheet per reached area and an "Anywhere" list (ADR 0010, plan in [plans/v2.md](plans/v2.md)). Regions in v2.0, districts later.
+- **Out of v2:** collectibles, points of interest (gyms, stores), exact pin positions, pan and zoom, offline mode.
+
 ## Components
 
 In `components/<Name>/` (a component plus its CSS module). All are server components except ChecklistRow. MarkDone isn't in the design reference: it's a form (or link) styled as PrimaryButton. `/components` shows each one in both themes at 375px; it is `noindex`. Tokens and contrast: [branding.md](branding.md).
@@ -30,7 +35,7 @@ In `components/<Name>/` (a component plus its CSS module). All are server compon
 - **CategoryHeader** `{ title, done, total }`, **ProgressBar** `{ done, total, label? }` (`role="progressbar"`, 0-100), **PrimaryButton** `{ children, type?, onClick?, formAction?, disabled? }` (44px minimum).
 - **Chip** `{ variant, children }`: `soon-lost`, `tip` or `countdown`. The countdown text comes from `countdownLabel`. The reference's "Research" chip is dropped: nothing in the app is labelled by confidence (ADR 0008).
 - **LockedRow** `{ count, unlockMission }`: "4 more unlock after Day Release"; shows no item text.
-- **TabBar** `{ active }`: `nav` "Main" with Story, Checklist, Stats and More (no Map until v2).
+- **TabBar** `{ active }`: `nav` "Main" with Story, Checklist, Stats and More. v2 makes it five: Story, Checklist, Map, Stats, More (ADR 0010).
 - **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled?, href? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes. `href` adds a details chevron (44px, `aria-label` "Details: {label}") beside the label, outside it, since a link inside the label would toggle the box. `disabled` greys the box and label.
 - **MarkDone** `{ control, returnTo, action }`: "Mark mission done" for Home and the checklist. `control` is `doneControl`'s result: `advance` renders a one-tap form (FormData `from` = the current mission's global order, `return`), `confirm` renders a link to `/done`, null (last mission) renders nothing. The label names no mission.
 
@@ -50,7 +55,7 @@ This is round 2, option A.
 - **See all** next to the Up next heading links to `/checklist`, where ticked rows stay listed and can be unticked.
 - **Mark mission done** (Flow 3) below the list: one tap for an ordinary mission, a link to `/done` when the current mission is a point of no return, nothing on the last mission.
 - **Change story position** link to `/onboarding`.
-- **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2.
+- **Tab bar:** Story, Checklist, Stats, More. v2 adds Map between Checklist and Stats.
 - **Error:** `app/error.tsx` shows a fixed message and a retry button, never the error text.
 
 ### Before you move on (checklist)
@@ -80,6 +85,19 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 - `parseStatLevelInput` accepts only exact `0` to `4` for a known character and stat; anything else is rejected before any write. `statsView` (`lib/stats.ts`) builds the cards; Home's `statRows` derives from it. A stat with no row is level 0.
 - Stats are not spoiler-gated: they hold the user's own levels and no curated content.
 
+### Map (v2, planned)
+
+Decided in ADR 0010; plan in [plans/v2.md](plans/v2.md). The design reference gets the Map screen, area sheet, five-tab TabBar and row area tag (light and dark) before any UI build, and the picked mockup overrides the layout notes below.
+
+- **PostcardHeader:** "Map" with the next gate as the eyebrow ("Before Tourist Trap"), as the checklist names it.
+- **Schematic:** one static SVG of Leonida's regions, original and not to scale, fit to the phone width, no client JS, no pan or zoom. A reached region is a link (44px minimum hit area) with its name and a badge counting the unticked rows its area sheet shows (districts roll up). An unreached region is an unnamed shape in the rule colour: no name, no badge, not a link, `aria-hidden`. Sea and coast are decorative.
+- **No locked counts** anywhere on the map: a per-area count would say where hidden content is. The checklist's LockedRow is the only place locked counts show.
+- **Anywhere:** below the schematic, a CategoryHeader "Anywhere" with the map's rows (the next gate's visible items and opened optionals plus safe-to-leave optionals, closed rows left out) that have no area, as ChecklistRows.
+- **Area sheet** (`/map/[area]`): server-rendered. PostcardHeader with the area name, a "Back to map" link and the area's rows as ChecklistRows: the next gate's visible items and opened optionals plus safe-to-leave optionals, filtered to the area (a region includes its districts), with countdown and "Soon lost" chips and the detail chevron. Closed rows are left out. A hidden area, an unknown slug and a district before its region give the same 404, and the tab title stays "Leonida Log".
+- **Row area tag:** a ChecklistRow whose entry has an area shows the area name in muted text after the label, on `/checklist`, Home's Up next and area sheets (left out on an area sheet when it would repeat the sheet's own area). No colour, so it doesn't read as a chip.
+- **Detail pages:** "Area: {name}" under the title, linking to `/map/[area]`.
+- **Logic** lives in `lib/map.ts` (`mapView`, `areaSheet`) on top of the rows of `checklistView`'s sections, tested on the fixture and, for leaks, every mission as the current one on the real data.
+
 ### More
 
 - **Story position:** the current chapter, mission and "Mission N of M" (chapter-relative, as on Home), with "Change story position" linking to `/onboarding`. Nothing past the current mission is named (`lib/more.ts` leak tests run every mission as the current one).
@@ -101,6 +119,7 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 - `gates.yaml`: missions that are points of no return, keyed by mission slug, with what you lose (e.g. Tourist Trap → Ultimate Edition vehicles, free roam as Jason). Tourist Trap, Checking Out, The Cartel Heist (the Bayside Safehouse, per Beebom and gta.wiki) and Sunset (free roam, the BuckMe balance, weapons/equipment/outfits and the Y Hotel suite, all temporary) are listed.
 - `items/<gate-slug>.yaml`, one file per gate: id, title, category, `before_gate` (the gate's mission slug), `visible_after_mission` (the single visibility field), optional `lost_at_mission`, `verified`, optional `evidence` (`basis`, optional `note`; background only, never rendered, ADR 0008), `how_to`, optional `location`, `sources[]` (url, title, accessed date). Items exist for the four gates (Tourist Trap, Checking Out, The Cartel Heist and Sunset); Unfinished Business has no gate or items, by decision (see Open questions).
 - Item text (title, how_to, location) names no mission after its `visible_after_mission`, except its own gate's title; earlier cutoffs live only in `lost_at_mission` (ADR 0002, amended 2026-11-26). The app shows "Closes in N missions" / "Do this before your next story mission" from it and from `closes_at` (ADR 0002, second amendment, 2026-11-26); UI not built yet. Optional-mission titles and notes follow the same rule from their `opens_after` anchor, and no gate `lost` entry names a mission. A mission slug and an item id may not collide (`item_checks` stores both under one key); the repository lets an optional mission's slug be ticked like an item.
+- `areas.yaml` (v2, ADR 0010): areas with `slug`, `name`, `visible_after_mission` and optional `parent` (a region slug; districts only, later than v2.0). Items and optional missions gain an optional `area` slug. Rules: a known area; an item's area visible no later than its `visible_after_mission`, an optional's no later than its opens-after anchor; a district visible no earlier than its region; no item or optional text names an area before the area is visible.
 - `lib/curated.ts` validates all files and the rules across them (known refs, `visible_after` and `lost_at` no later than the gate, `lost_at` not before `visible_after`; for optional missions, a resolvable `opens_after` chain with no cycle, `closes_at` a main mission or `never`, `opens_after` no later than `closes_at`, `closes_at` no later than the last gate) and fails on any issue. `lib/curated-load.ts` reads the files, server only.
 - `lib/gates.ts`: `isVisible`, `nextGate` (a gate you're on isn't passed yet), `lockedSummary` (count plus unlock mission, optionals included), `closesIn` (a countdown: `open` N missions, `closed`, or `never`; standing on the closing mission counts as closed), `countdownLabel` (the UI text, null when closed or never), `gateOptionals` (opened, unclosed optionals for a gate, most urgent first), `safeToLeave` (opened optionals that never close), `isTickable` (a visible item or an opened optional; the write-side guard), `missionsInChapter` (ids and numbers), `missionTitle`, `pickerChapters`. It never returns titles, except through `missionTitle`. The current mission is always a main mission; an optional slug throws.
 - `lib/picker.ts` (`pickerView`, `missionFromOrder`) and `lib/home.ts` (`gateChecklist`, `gateProgress`, `upNext`, `chipsFor`, `statRows`, `storyPosition`, `homeView`), `lib/stats.ts` (`statsView`, `parseStatLevelInput`), `lib/settings.ts` (`parseTheme`, `themeAttribute`, `settingsView`) and `lib/more.ts` (`moreView`) are the pure view models and form parsers the screens render; pages hold no logic. `lib/server/data.ts` (server only) memoises `getCurated()` and `getRepository()` per process, so a curated YAML change needs a restart. Pages that read the database are `force-dynamic` (the build has no `DATABASE_PATH`); so is the root layout, which reads the theme from `progress` (every route except the manifest and icon is dynamic).

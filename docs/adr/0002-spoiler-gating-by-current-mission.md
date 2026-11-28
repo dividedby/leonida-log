@@ -1,7 +1,7 @@
 # 2. Spoiler gating by current mission
 
 Date: 2026-11-25
-Status: Accepted
+Status: Accepted. Extended 2026-11-27 by [ADR 0010](0010-map-by-area.md): areas are gated like missions.
 
 ## Context
 
