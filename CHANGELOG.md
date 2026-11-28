@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format is b
 
 ## [Unreleased]
 
+### Added
+
+- Checking Out entries placed on the map (docs/plans/v2.md step 3). 15 entries get an `area`: 13 items and 2 optional missions. Port Gellhorn (12): `motel-cards`, `motel-storage`, `motel-pool-weights`, `ditch-the-ambulance`, `motel-rent`, `moses-car-sales`, `register-car`, `range-focus`, `avery-pawn-job`, `kingpin-bowling-job` and the optional missions `impounded-vehicle` (first objective is the impound) and `pick-up-a-gun`. Grassrivers: `dominator-buggy`. Ambrosia: `mud-club-vendors`. Leonida Keys: `andys-jacket`. `save-fifteen-thousand`, `finish-chapter-2-missions` and `partner-workouts` stay in Anywhere. New sources: gta.wiki Starlet Motel (four motel items), GTABase Moses (`moses-car-sales`, `register-car`), PowerPyx Hit Avery Pawn (`avery-pawn-job`) and gta.wiki Mud Club (`mud-club-vendors`). The owner re-confirmed that counties stay out of the map: Kelly County spans Port Gellhorn and Ambrosia and Mariana spans the Keys and Grassrivers.
+
 ## [0.2.0] - 2026-11-28
 
 The Map: an original coastline schematic of Leonida's six regions with badges, an area sheet per region and an Anywhere list, the five-tab TabBar, area tags on checklist and Home rows and "Area:" links on detail pages. Areas are curated in `data/curated/areas.yaml` and gated like missions, with the Tourist Trap entries placed. Detail sheets now also withhold sources that name an optional mission that hasn't opened.

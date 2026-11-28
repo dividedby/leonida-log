@@ -88,6 +88,7 @@ items:
     verified: true
     how_to: The Starlet Motel holds three collectible cards, Vicki, Victor Maravilla and Bryson Powers, plus two magazines, Help Me, Help You, Help Me and Children of Wizard Wang (the cover reads this on screen; some guides shorten it to Wizard Wang). The motel stops being your home at the gate. IGN lists an open-world copy of each card, so the motel cards aren't your only chance at the sets; take the magazines and cards while you can.
     location: Starlet Motel. Vicki is in the office bathroom, Victor Maravilla in the communal kitchen fridge and Bryson Powers in the laundry room washing machine. The magazines are at reception and in the cafeteria.
+    area: port-gellhorn
     sources:
       - url: https://leonidastreets.com/gta-6-checking-out-walkthrough/
         title: "Leonida Streets: Checking Out walkthrough"
@@ -122,6 +123,9 @@ items:
       - url: https://www.youtube.com/watch?v=6V1aBbzt-tk
         title: "Cavaliers Gaming (YouTube): Starlet Motel magazine cover on screen, 00:38"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Starlet_Motel
+        title: "gta.wiki: Starlet Motel"
+        accessed: "2026-11-28"
 
   - id: motel-storage
     title: Empty the motel's wardrobe and storage
@@ -132,6 +136,7 @@ items:
     verified: true
     how_to: Wear the outfits you want and take out anything you stored there. You lose the motel as a home at the gate.
     location: Starlet Motel.
+    area: port-gellhorn
     sources:
       - url: https://www.gtabase.com/gta-6/missions/checking-out
         title: "gtabase: Checking Out mission"
@@ -139,9 +144,9 @@ items:
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-25"
-      - url: https://gta.wiki/wiki/Starlet_Motel
+      - url: https://gta.wiki/w/Starlet_Motel
         title: "gta.wiki: Starlet Motel"
-        accessed: "2026-11-26"
+        accessed: "2026-11-28"
       - url: https://www.youtube.com/watch?v=o5Najqm2tog
         title: "Jacob Fox (YouTube): Starlet Motel safehouse removed at Checking Out; description read"
         accessed: "2026-11-26"
@@ -158,6 +163,7 @@ items:
       note: "No source says the weights can be used after Checking Out. MapGenie's gym markers leave out the motel and no Chapter 3 footage shows the pool. One guide says nothing is locked out there; lost_at checking-out is kept as the earliest plausible end."
     how_to: "The Starlet Motel stops being your home at the gate and its pool area may go with it, so use the free weight bench, kettlebells and squat rack there while you can. They train Strength at no cost, so you don't need a gym membership yet, and either character can use them."
     location: Starlet Motel, by the pool fence and loungers.
+    area: port-gellhorn
     sources:
       - url: https://www.youtube.com/watch?v=TuuspTxxL0w
         title: "Accelerated Ideas (YouTube): Chapter 2 gym location, Strength Workout on screen 0:03 and 0:58"
@@ -171,6 +177,9 @@ items:
       - url: https://www.gamesradar.com/games/grand-theft-auto/gta-6-chapter-2-final-mission/
         title: "GamesRadar+: GTA 6 Chapter 2 final mission"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Starlet_Motel
+        title: "gta.wiki: Starlet Motel"
+        accessed: "2026-11-28"
 
   - id: ditch-the-ambulance
     title: Get rid of the escape ambulance
@@ -181,6 +190,7 @@ items:
     verified: true
     how_to: "The ambulance from the hospital escape is still parked near the Starlet Motel. Deal with it as soon as the objective appears after you leave the motel room: if you move on with the story first, the police find it and the objective disappears for good. Losing the chase or leaving the ambulance intact costs relationship points and can raise the motel rent. Save first."
     location: Near the Starlet Motel.
+    area: port-gellhorn
     sources:
       - url: https://www.ign.com/wikis/gta-6/Ambulance_Chaser_Walkthrough
         title: "IGN: Ambulance Chaser walkthrough"
@@ -188,6 +198,9 @@ items:
       - url: https://www.gtabase.com/gta-6/missions/ambulance-chaser
         title: "gtabase: Ambulance Chaser mission"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Starlet_Motel
+        title: "gta.wiki: Starlet Motel"
+        accessed: "2026-11-28"
 
   - id: moses-car-sales
     title: Sell cars to Moses
@@ -200,6 +213,7 @@ items:
       note: "PowerPyx and gtabase say the cooldown between sales is about 1-2 minutes, GazzaMontana says a few seconds and HarmNone about 5 minutes; nobody timed it or said whether it is real or in-game time."
     how_to: "Steal cars with no tracker and sell them to Moses. Pay varies a lot with the car: the scan card shows the sell value, such as $1,150 for an Imponte '77 Phoenix and $7,645 for a Vapid Firebug Dominator (GazzaMontana's footage), while typical early cars are worth only around $400 (HarmNone) and GTABoom gives $1,000 to $3,000. Expect a cooldown of a minute or two between sales. Take them from the main road in Port Gellhorn rather than near his garage. It's slow for big money but fine for reaching $15,000."
     location: Moses' auto shop, Port Gellhorn.
+    area: port-gellhorn
     sources:
       - url: https://www.powerpyx.com/?p=370489
         title: "PowerPyx: GTA 6 money guide"
@@ -213,6 +227,9 @@ items:
       - url: https://www.youtube.com/watch?v=u5Rq9VpNOhg
         title: "HarmNone (YouTube): early Moses car values, 04:07"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/moses
+        title: "gtabase: Moses mission"
+        accessed: "2026-11-28"
 
   - id: range-focus
     title: Train Focus at Rodgers Ranch
@@ -222,6 +239,7 @@ items:
     verified: true
     how_to: Pay the $5 waiver and play the Market Range Beginner challenge. It takes about five seconds, gives Focus every time and repeats if you pick Quit on the results screen. Finishing or quitting a range challenge raises Focus permanently, by at least 4% according to Polygon. There are 12 challenges across the two ranges and 42 golds in all. Focus never decays.
     location: Rodgers Ranch & Shooting Range, north-east edge of Port Gellhorn.
+    area: port-gellhorn
     sources:
       - url: https://thephrasemaker.com/2026/11/19/all-stats-how-to-increase-them-in-gta-6/
         title: "The Phrasemaker: all stats and how to increase them in GTA 6"
@@ -280,6 +298,7 @@ items:
     verified: true
     how_to: "Moses only registers cars with no tracker. Get the car resprayed at his shop, then register it. The first registration is free; KeenGamer says later ones cost a fee based on the car's value. To keep more cars you need an empty garage slot: buy garages in the Real Estate app, the cheapest at about $4,000. Pay 'n' Spray takes cars with a standard tracker, but only later in the story. Registered cars stay yours after the gate, but they start the next chapter in the Port Gellhorn impound: collect them once the town's heat dies down, or have Scooter Bros Premium fetch one, which uses all three free daily drop-offs (GamesRadar team test; KeenGamer and Rare Thief say they carry over)."
     location: Moses' auto shop, Port Gellhorn.
+    area: port-gellhorn
     sources:
       - url: https://www.keengamer.com/articles/guides/gta-vi-how-to-register-personal-cars-and-vehicles/
         title: "KeenGamer: GTA VI how to register personal cars and vehicles"
@@ -305,6 +324,9 @@ items:
       - url: https://rarethief.com/do-you-lose-your-money-after-chapter-2-in-gta-vi/
         title: "Rare Thief: do you lose your money after Chapter 2 (own save)"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/moses
+        title: "gtabase: Moses mission"
+        accessed: "2026-11-28"
 
   - id: avery-pawn-job
     title: Take the Hit Avery Pawn job
@@ -318,6 +340,7 @@ items:
       note: "Six-plus Reddit players say the optional mission dropped off the map and objectives partway through Chapter 2 before they did it; two place it right after Veteran Hunted, which opens after Afternoon Delight, and one ties it to Afternoon Delight being offered. No report names the exact trigger, so the earliest plausible cutoff is used (ADR 0008). The shop itself stays robbable. GameStar and PowerPyx's blanket rule said it could be done later; the reports override that for the mission. No source gives a cash amount."
     how_to: "It's a robbery rather than a stranger job, offered around Coffee Break, and Eurogamer says it pays plenty of cash and unique gear, which helps toward the $15,000. Take it as soon as it shows: players report the job vanishing from the map and objectives partway through the chapter. If it does, you can still rob the shop as an ordinary robbery (it still shows on the map's robbery filter), but you lose the mission's scenes."
     location: Avery Pawn Shop.
+    area: port-gellhorn
     sources:
       - url: https://www.reddit.com/comments/1y169y1/_/19t2om1gvuko2/
         title: "Reddit r/GTA6 Chapter 2 Help Thread: first-hand, the job vanished partway through the chapter; replies 19t37p6ldt8v5 (same, still robbed it) and 19t3i5vr2y6g3 (robbery filter)"
@@ -337,6 +360,9 @@ items:
       - url: https://gta.tech4gamers.com/gta-6/guides/make-money-each-chapter/
         title: "Tech4Gamers: make money each chapter"
         accessed: "2026-11-25"
+      - url: https://www.powerpyx.com/gta-6-hit-avery-pawn-walkthrough/
+        title: "PowerPyx: Hit Avery Pawn walkthrough"
+        accessed: "2026-11-28"
 
   - id: kingpin-bowling-job
     title: Take the Hit Kingpin Bowling job
@@ -349,6 +375,7 @@ items:
       note: "Not lost at Checking Out: PowerPyx, Game8 JP and GameWith say the Kingpin alley returns in Chapter 3. No source affirms the job after the story, so no lost_at is set. No source gives a cash amount."
     how_to: "It's a robbery rather than a stranger job, offered around Coffee Break, and Eurogamer says it pays plenty of cash and unique gear, which helps toward the $15,000. Kingpin Bowling is a Kolt & Associates operation, and IGN, Vice City Tracker and PowerPyx all name the Gutterball Moreland 850 as a key valuable looted inside it, on the north-east pool table. PowerPyx says the alley can be hit again in Chapter 3 after a cooldown."
     location: Kingpin Bowling Alley.
+    area: port-gellhorn
     sources:
       - url: https://www.eurogamer.net/gta-6-money-making-methods
         title: "Eurogamer: GTA 6 money-making methods by chapter"
@@ -380,6 +407,7 @@ items:
       note: "IGN calls it the Paradise RV Park garage; Tech4Gamers puts it in Grassrivers, Mariana County, about a day later."
     how_to: "After Billy's Thrillbillies job, Wyman texts and marks a garage on the map. Collect the buggy there; Rockstar's edition text says it's kept at the Paradise Garage in Watson Bay."
     location: "The garage marked on the map; Paradise Garage, Watson Bay."
+    area: grassrivers
     sources:
       - url: https://gta.tech4gamers.com/gta-6/vehicles/67-vapid-dominator-buggy/
         title: "Tech4Gamers: '67 Vapid Dominator Buggy"
@@ -400,6 +428,7 @@ items:
       note: "IGN's Behind on Payments page and GTABoom's first-hand run give $900 before the grocery run and $1,080 after; All Things How's in-game captures and gtabase's own run give $1,500 after the late fee. The trigger is not pinned (Linda 'eventually' texts; tying it to Slam Dunk is inference) and the amount when the escape ambulance was left is unknown. A '10%' claim traces to an AI-narrated short and an uncited wiki edit. lost_at slam-dunk marks a price rise, not a true loss."
     how_to: "When you settle in at the motel, go to the front desk before you do the grocery run: the rent is $900 that way and $1,080 if you shop first. Pay in cash (the lobby has an ATM) as soon as you can. If it goes unpaid Linda adds a late fee and the bill rises to $1,500, so paying early saves $600."
     location: Starlet Motel reception.
+    area: port-gellhorn
     sources:
       - url: https://www.ign.com/wikis/gta-6/Behind_on_Payments_Walkthrough
         title: "IGN: Behind on Payments walkthrough"
@@ -413,6 +442,9 @@ items:
       - url: https://www.gtabase.com/gta-6/missions/behind-on-payments
         title: "gtabase: Behind on Payments mission"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Starlet_Motel
+        title: "gta.wiki: Starlet Motel"
+        accessed: "2026-11-28"
 
   - id: andys-jacket
     title: Call Andy for a ride
@@ -425,6 +457,7 @@ items:
       basis: two-sources
       note: "IGN and Beebom agree. Game Checklists' player reports (two) say skipping Andy's earlier offer doesn't lose the jacket. lost_at is the next main mission because the unlock is inside Home Sweet Home. No source names the jacket's in-game item or says whether a shop sells it."
     how_to: Once Lucia is out of the house, call Andy and reach her car without being spotted. That unlocks Andy's jacket for Lucia, and it's your only chance.
+    area: leonida-keys
     sources:
       - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
         title: "IGN: All Chapter 1 missables"
@@ -447,6 +480,7 @@ items:
       note: "Game Checklists relays player reports (given as player claims) that the Mud Club BBQ tent, merch stand and yard-sale Genuine Cowboy Hat ($35) stop after Chapter 2; PowerPyx lists the stalls with no chapter limit; Beebom and Output Lag say Billy's questline carries on. Sirloin's run shows no return after Checking Out. The earliest plausible end is kept."
     how_to: Buy anything you want from the Mud Club's BBQ tent, merch stand and yard sale, including the $35 Genuine Cowboy Hat, before you leave the motel for good.
     location: The Mud Club, Kelly County.
+    area: ambrosia
     sources:
       - url: https://game-checklists.com/gta6/guides/missables/
         title: "Game Checklists: GTA 6 missables"
@@ -457,3 +491,6 @@ items:
       - url: https://beebom.com/gta-6-chapter-2-missables-items/
         title: "Beebom: GTA 6 Chapter 2 missable items"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Mud_Club
+        title: "gta.wiki: Mud Club"
+        accessed: "2026-11-28"
