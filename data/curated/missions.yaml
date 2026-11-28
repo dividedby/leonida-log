@@ -1797,6 +1797,7 @@ missions:
     opens_after: afternoon-delight
     closes_at: checking-out
     note: A Chapter 2 job for Lucia. Do it before the chapter ends.
+    area: port-gellhorn
     evidence:
       basis: safe-bound
       note: "Sportskeeda says the Chapter 2 optionals don't appear missable; PowerPyx says many optional missions disappear after a while without naming this one. No source gives a closer, so the chapter gate is used. Opens after Coffee Break."
@@ -1818,6 +1819,7 @@ missions:
     opens_after: moses
     closes_at: checking-out
     note: Lucia picks up a weapon at Gellhorn Outfitters. It shows on the map in Chapter 2, so do it before the chapter ends.
+    area: port-gellhorn
     evidence:
       basis: safe-bound
       note: "Trophygamers Part 39 shows it on the optional list and Lucia completing it first-hand. Sportskeeda lists it among Chapter 2 optionals that don't appear missable; PowerPyx's generic 'many optional missions disappear' pulls the other way. The chapter gate is used. Opens after Girls' Trip."
