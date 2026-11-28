@@ -1,6 +1,7 @@
 import type { StatStripRow } from "@/components/StatStrip/StatStrip";
 import type { Category, CuratedData, Gate } from "./curated";
 import {
+  areaTag,
   closesIn,
   countdownLabel,
   gateOptionals,
@@ -30,6 +31,8 @@ export interface ChecklistRowData {
   kind: "item" | "optional";
   title: string;
   category?: Category;
+  /** Slug of the area the entry is placed in; unset means Anywhere. */
+  area?: string;
   closes: Countdown;
 }
 
@@ -51,6 +54,7 @@ export function gateChecklist(
       kind: "item",
       title: i.title,
       category: i.category,
+      ...(i.area !== undefined && { area: i.area }),
       closes:
         i.lost_at_mission === undefined
           ? { state: "never" }
@@ -61,10 +65,25 @@ export function gateChecklist(
       id: mission.slug,
       kind: "optional",
       title: mission.title,
+      ...(mission.area !== undefined && { area: mission.area }),
       closes: countdown,
     }),
   );
   return [...items, ...optionals];
+}
+
+/** The opened optional missions that never close, as rows. */
+export function safeChecklist(
+  data: CuratedData,
+  current: string,
+): ChecklistRowData[] {
+  return safeToLeave(data, current).map((o): ChecklistRowData => ({
+    id: o.slug,
+    kind: "optional",
+    title: o.title,
+    ...(o.area !== undefined && { area: o.area }),
+    closes: { state: "never" },
+  }));
 }
 
 export function gateProgress(
@@ -148,7 +167,13 @@ export function storyPosition(
 
 export interface HomeView extends StoryPosition {
   gate: { exit: number; title: string; done: number; total: number } | null;
-  upNext: { id: string; title: string; chips: ChipSpec[] }[];
+  upNext: {
+    id: string;
+    title: string;
+    chips: ChipSpec[];
+    /** The row's area, only while that area is visible. */
+    area?: { slug: string; name: string };
+  }[];
   /** Shown when upNext is empty. */
   emptyMessage: string;
   stats: StatStripRow[];
@@ -181,22 +206,22 @@ export function homeView(
         ? `All done for Exit ${gateMission.chapterOrder}.`
         : `Nothing left you can still do for Exit ${gateMission.chapterOrder}.`;
   } else {
-    rows = safeToLeave(data, current).map((o) => ({
-      id: o.slug,
-      kind: "optional",
-      title: o.title,
-      closes: { state: "never" },
-    }));
+    rows = safeChecklist(data, current);
   }
 
   return {
     ...where,
     gate: gateInfo,
-    upNext: upNext(rows, checked).map((r) => ({
-      id: r.id,
-      title: r.title,
-      chips: chipsFor(r.closes),
-    })),
+    upNext: upNext(rows, checked).map((r) => {
+      const area =
+        r.area === undefined ? undefined : areaTag(data, current, r.area);
+      return {
+        id: r.id,
+        title: r.title,
+        chips: chipsFor(r.closes),
+        ...(area && { area }),
+      };
+    }),
     emptyMessage,
     stats: statRows(levels),
   };

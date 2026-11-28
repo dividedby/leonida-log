@@ -6,6 +6,7 @@ import {
   type Source,
 } from "./curated";
 import {
+  areaTag,
   boundGate,
   closesIn,
   countdownLabel,
@@ -13,13 +14,13 @@ import {
   lockedSummary,
   missionTitle,
   nextGate,
-  safeToLeave,
   type Countdown,
 } from "./gates";
 import {
   chipsFor,
   gateChecklist,
   gateProgress,
+  safeChecklist,
   type ChecklistRowData,
   type ChipSpec,
 } from "./home";
@@ -40,6 +41,8 @@ export interface ChecklistRowView {
   href: string;
   /** Past its cutoff and not ticked: it can't be done. */
   disabled: boolean;
+  /** The row's area, only while that area is visible. */
+  area?: { slug: string; name: string };
 }
 
 export interface ChecklistSection {
@@ -59,11 +62,15 @@ export interface ChecklistView {
 }
 
 function rowView(
+  data: CuratedData,
+  current: string,
   row: ChecklistRowData,
   checked: Set<string>,
   disabled = false,
 ): ChecklistRowView {
   const isChecked = checked.has(row.id);
+  const area =
+    row.area === undefined ? undefined : areaTag(data, current, row.area);
   return {
     id: row.id,
     title: row.title,
@@ -71,10 +78,11 @@ function rowView(
     chips: isChecked ? [] : chipsFor(row.closes),
     href: `/checklist/item/${row.id}`,
     disabled,
+    ...(area && { area }),
   };
 }
 
-function section(
+export function section(
   key: string,
   title: string,
   rows: ChecklistRowView[],
@@ -118,7 +126,11 @@ export function checklistView(
     const isGone = (r: ChecklistRowData) =>
       r.closes.state === "closed" && !checked.has(r.id);
     const live = rows.filter((r) => !isGone(r));
-    gone.push(...rows.filter(isGone).map((r) => rowView(r, checked, true)));
+    gone.push(
+      ...rows
+        .filter(isGone)
+        .map((r) => rowView(data, current, r, checked, true)),
+    );
 
     for (const category of CATEGORIES) {
       const inCategory = live.filter(
@@ -129,7 +141,7 @@ export function checklistView(
         section(
           `category-${category}`,
           category,
-          inCategory.map((r) => rowView(r, checked)),
+          inCategory.map((r) => rowView(data, current, r, checked)),
         ),
       );
     }
@@ -139,7 +151,7 @@ export function checklistView(
         section(
           "optional",
           "Optional missions",
-          optionals.map((r) => rowView(r, checked)),
+          optionals.map((r) => rowView(data, current, r, checked)),
         ),
       );
     }
@@ -157,18 +169,13 @@ export function checklistView(
     if (label !== null) lost = { label, entries: gate.lost };
   }
 
-  const safe = safeToLeave(data, current).map((o): ChecklistRowData => ({
-    id: o.slug,
-    kind: "optional",
-    title: o.title,
-    closes: { state: "never" },
-  }));
+  const safe = safeChecklist(data, current);
   if (safe.length > 0) {
     sections.push(
       section(
         "safe",
         "Safe to leave",
-        safe.map((r) => rowView(r, checked)),
+        safe.map((r) => rowView(data, current, r, checked)),
       ),
     );
   }

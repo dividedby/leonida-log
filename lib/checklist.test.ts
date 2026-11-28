@@ -4,6 +4,7 @@ import { parseCurated, type CuratedData } from "./curated";
 import { loadCurated } from "./curated-load";
 import { nextGate } from "./gates";
 import { fixtureData, fixtureRaw } from "./test-fixtures/curated";
+import { placedData } from "./test-fixtures/placed";
 
 const data = fixtureData();
 const real = loadCurated();
@@ -187,6 +188,38 @@ describe("checklistView sections", () => {
         "0 of 2 done",
       );
     });
+  });
+});
+
+describe("checklistView area tags", () => {
+  const placed = placedData();
+  const rowsAt = (current: string) =>
+    checklistView(placed, current, new Set()).sections.flatMap((s) => s.rows);
+
+  it("tags a placed row with its visible area's slug and name, and leaves an unplaced one bare", () => {
+    const rows = rowsAt("m1");
+    const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
+    expect(byId.a.area).toEqual({ slug: "r1", name: "Region One" });
+    expect(byId.o1.area).toEqual({ slug: "r1", name: "Region One" });
+    expect("area" in byId.o2).toBe(false);
+  });
+
+  it("tags a row in a district with the district, not its region", () => {
+    const e = rowsAt("m7").find((r) => r.id === "e");
+    expect(e?.area).toEqual({ slug: "d1", name: "District One" });
+  });
+
+  it("tags the safe-to-leave rows after the last gate", () => {
+    expect(rowsAt("m8").map((r) => [r.id, r.area])).toEqual([
+      ["o4", { slug: "r2", name: "Region Two" }],
+    ]);
+  });
+
+  it("leaves rows untagged when nothing is placed", () => {
+    const bare = checklistView(data, "m1", new Set()).sections.flatMap(
+      (s) => s.rows,
+    );
+    expect(bare.some((r) => "area" in r)).toBe(false);
   });
 });
 

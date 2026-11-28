@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   areaName,
+  areaTag,
   closesIn,
   countdownLabel,
   gateAt as gateStoodOn,
@@ -440,6 +441,27 @@ describe("areaName", () => {
 
   it("throws on an unknown area", () => {
     expect(() => areaName(data, "nope")).toThrow(/nope/);
+  });
+});
+
+describe("areaTag", () => {
+  it("names a visible area", () => {
+    expect(areaTag(data, "m5", "r2")).toEqual({
+      slug: "r2",
+      name: "Region Two",
+    });
+  });
+
+  it.each([
+    { name: "an area not yet visible", current: "m4", slug: "r2" },
+    { name: "a district before it is visible", current: "m5", slug: "d1" },
+    { name: "an unknown area", current: "m8", slug: "nope" },
+  ])("is undefined for $name", ({ current, slug }) => {
+    expect(areaTag(data, current, slug)).toBeUndefined();
+  });
+
+  it("throws on an unknown mission", () => {
+    expect(() => areaTag(data, "nope", "r1")).toThrow(/nope/);
   });
 });
 

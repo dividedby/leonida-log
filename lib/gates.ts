@@ -231,6 +231,21 @@ export function areaName(data: CuratedData, area: string): string {
   return found.name;
 }
 
+/**
+ * The area a row may show: its slug and name, or undefined when the area is
+ * unknown or not yet visible. The one place a row's area name is resolved, so
+ * a hidden area can't be named even if data placed a row in it.
+ */
+export function areaTag(
+  data: CuratedData,
+  current: string,
+  slug: string,
+): { slug: string; name: string } | undefined {
+  const area = data.areas.find((a) => a.slug === slug);
+  if (!area || !isAreaVisible(data, area, current)) return undefined;
+  return { slug: area.slug, name: area.name };
+}
+
 export interface PickerChapter {
   slug: string;
   order: number;
