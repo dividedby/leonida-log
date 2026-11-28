@@ -1,7 +1,7 @@
 # 10. Map by area on a self-drawn schematic
 
 Date: 2026-11-27
-Status: Accepted
+Status: Accepted. Partly superseded by [ADR 0011](0011-counties-and-districts.md): counties, districts and the detailed schematic.
 
 ## Context
 

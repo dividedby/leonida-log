@@ -27,10 +27,12 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Stats:** Strength (max health), Cardio (max stamina), Focus (slow-motion length); levels 0-4, per character, set by hand (ADR 0009). There is no workout log.
 - **Characters:** Jason, Lucia.
 - **Spoiler mode:** `safe` (hide everything past the current mission) or `open` (show it); stored in `progress`, default `safe`. v1 only ever uses `safe`; More shows it read-only.
-- **Area:** a named part of Leonida that an item or optional mission is placed in, with its own visibility (an area name past the current mission is a spoiler). A region or a district. Avoid "zone" and "location" (`location` is an item's free-text how-to-find line).
-- **Region:** a top-level area (county-sized, about 6 to 8). The v2 map draws regions.
-- **District:** an area inside a region (a neighbourhood). Not visible before its region. Later than v2.0.
-- **Placed:** an item or optional mission with an area. For an optional mission, its area is where it starts.
-- **Anywhere:** the list of the map's rows with no area, shown under the map. It doesn't say whether a row can be done anywhere or just isn't placed yet.
+- **County:** the top level of the map: one of Kelly, Vice-Dale, Mariana, Lummox or Leonard, each holding regions and towns (ADR 0011). It has no parent.
+- **Area:** a named part of Leonida that an item or optional mission is placed in, with its own visibility (an area name past the current mission is a spoiler). A county, a region or a district. Avoid "zone" and "location" (`location` is an item's free-text how-to-find line).
+- **Region:** an area whose parent is a county (the six in v2: Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, Mount Kalaga National Park).
+- **District:** an area inside a region (a neighbourhood) or directly inside a county (a town outside any region, such as Capri). Not visible before its parent.
+- **Placed:** an item or optional mission with an area (a county, region or district). For an optional mission, its area is where it starts.
+- **Finest sourced level:** the most specific area (district, region or county) an entry's sources support; the entry takes that one (ADR 0011).
+- **Anywhere:** the list of the map's rows with no place at all, shown under the map. It doesn't say whether a row can be done anywhere or just isn't placed yet.
 - **Area sheet:** the screen for one reached area: its rows, tickable, as on the checklist.
-- **Schematic:** the original drawing of Leonida's areas the map uses. Not to scale, not traced from game art.
+- **Schematic:** the original drawing of Leonida the map uses: county borders and labels, region shapes and Vice City's districts. Not to scale, not traced from game art.
