@@ -1862,6 +1862,7 @@ missions:
     opens_after: making-gainz
     closes_at: sunset
     note: A map objective for Dre'Quan's thank-you gift, KD's unique Nagasaki SFB 1000, which costs about $3,150 to register. Collect it before the chapter ends.
+    area: vice-city
     evidence:
       basis: safe-bound
       note: "No source gives a deadline or says the gift stays open; PowerPyx says many optional missions disappear after a while. The chapter gate is used. Opens after Photo Shoot (PowerPyx, Game8)."
@@ -1875,6 +1876,9 @@ missions:
       - url: https://game8.jp/gta6/844547
         title: "Game8 JP: Chapter 4 mission chart (Japanese)"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Vice_City
+        title: "gta.wiki: Vice City"
+        accessed: "2026-11-28"
   - slug: its-a-date
     title: "It's a Date!"
     chapter: vice-city-baby
@@ -1883,6 +1887,7 @@ missions:
     opens_after: photo-shoot
     closes_at: making-gainz
     note: A date at the Courtyard Bar in Stockyard, $20 cover. Do it before your next story mission, because after that the couple can't be seen together in public for a while.
+    area: vice-city
     evidence:
       basis: safe-bound
       note: "Zero1 says the public-contact block starts when Making Gainz starts, PowerPyx says when it ends; the start is used. HoneyBeeMC says do it before Making Gainz. Zero1 calls the block temporary; no guide says the date stays playable after it. Opens after Heavy Lifting."
@@ -1896,6 +1901,9 @@ missions:
       - url: https://www.youtube.com/watch?v=cA3KAjzW_yY
         title: "HoneyBeeMC (YouTube): It's a Date!"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Stockyard
+        title: "gta.wiki: Stockyard"
+        accessed: "2026-11-28"
   - slug: this-is-a-free-call-from
     title: "This is a Free Call From…"
     chapter: vice-city-baby

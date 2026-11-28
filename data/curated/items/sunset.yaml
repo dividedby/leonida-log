@@ -138,6 +138,7 @@ items:
       note: "PowerPyx says it is only available during Chapter 4 (copied by Tech4Gamers, egamers, Consolyte and gtabase); GameSpot, GamesRadar+, VGC, Red Bull and Game8 EN give no expiry, and no source names a closing mission, so the chapter gate is used. Location and opening are settled."
     how_to: If you own the Ultimate Edition, claim the Shitzu Squalo from the canal dock just left of the Y Hotel on Washington Beach during this chapter, before the gate.
     location: Washington Beach canal, just left of the Y Hotel.
+    area: vice-city
     sources:
       - url: https://www.ign.com/wikis/gta-6/Chapter_4_Walkthrough_and_Guide
         title: "IGN: Chapter 4 walkthrough and guide"
@@ -151,3 +152,6 @@ items:
       - url: https://game8.co/games/GTA-6/archives/638292
         title: "Game8: Ultimate Edition bonuses"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Washington_Beach
+        title: "gta.wiki: Washington Beach"
+        accessed: "2026-11-28"
