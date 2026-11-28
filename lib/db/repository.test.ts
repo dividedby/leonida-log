@@ -115,6 +115,41 @@ describe("item checks", () => {
   });
 });
 
+describe("setItemChecked", () => {
+  it("is idempotent in both directions", () => {
+    const { repo } = setup();
+    repo.setItemChecked("a", true, new Date(5));
+    repo.setItemChecked("a", true, new Date(9));
+    expect(repo.checkedItemIds()).toEqual(new Set(["a"]));
+    repo.setItemChecked("a", false);
+    repo.setItemChecked("a", false);
+    expect(repo.checkedItemIds().size).toBe(0);
+  });
+
+  it("keeps the first check time when checked again", () => {
+    const file = dbs.fresh();
+    const { opened, repo } = open(file);
+    repo.setItemChecked("a", true, new Date(5));
+    repo.setItemChecked("a", true, new Date(9));
+    const row = opened.sqlite
+      .prepare("SELECT checked_at FROM item_checks WHERE item_id = 'a'")
+      .get() as { checked_at: number };
+    expect(row.checked_at).toBe(5);
+  });
+
+  it("ticks an optional mission's slug", () => {
+    const { repo } = setup();
+    repo.setItemChecked("o1", true);
+    expect(repo.checkedItemIds()).toEqual(new Set(["o1"]));
+  });
+
+  it.each([true, false])("rejects an unknown item (checked=%s)", (checked) => {
+    const { repo } = setup();
+    expect(() => repo.setItemChecked("nope", checked)).toThrow(UnknownRefError);
+    expect(repo.checkedItemIds().size).toBe(0);
+  });
+});
+
 describe("stat levels", () => {
   it("upserts per character and stat", () => {
     const { repo } = setup();

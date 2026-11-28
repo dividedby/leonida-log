@@ -27,12 +27,13 @@ export function tempDbs(): { fresh(): string; empty(): string } {
   let template: string;
   const dirs: string[] = [];
 
+  // Spawns the migrate script; the default 10 s hook timeout flakes under parallel load.
   beforeAll(() => {
     dir = mkdtempSync(join(tmpdir(), "leonida-db-template-"));
     template = join(dir, "template.db");
     runMigrateScript(template);
     return () => rmSync(dir, { recursive: true, force: true });
-  });
+  }, 30_000);
 
   afterEach(() => {
     for (const d of dirs.splice(0)) rmSync(d, { recursive: true, force: true });

@@ -223,3 +223,21 @@ export function pickerChapters(
     name: c.order <= reached ? c.title : null,
   }));
 }
+
+/**
+ * Whether the user may tick `id` at `current`: a visible item or an opened
+ * optional mission. Anything hidden or unknown is not, so a forged form
+ * can't reach content past the current mission.
+ */
+export function isTickable(
+  data: CuratedData,
+  id: string,
+  current: string,
+): boolean {
+  const item = data.items.find((i) => i.id === id);
+  if (item) return isVisible(data, item, current);
+  const optional = data.optionalMissions.find((o) => o.slug === id);
+  return (
+    optional !== undefined && optional.opensOrder <= orderOf(data, current)
+  );
+}

@@ -2,7 +2,7 @@
 
 A phone-first, spoiler-gated guide to GTA 6, built around where you are in the story: what to do before each point of no return, and how to go into the next chapter as strong as possible. It lives at gta.dvdby.cc.
 
-Status: v1 in development. App skeleton and design system in place; features land per [docs/plans/v1.md](docs/plans/v1.md).
+Status: v1 in development. App skeleton, design system, onboarding and Home are in place; the rest lands per [docs/plans/v1.md](docs/plans/v1.md).
 
 ## v1
 
@@ -29,9 +29,11 @@ Node 26 and pnpm.
 ```sh
 pnpm install
 DATABASE_PATH=data/local.db pnpm db:migrate
-pnpm dev
+DATABASE_PATH=data/local.db pnpm dev
 pnpm test
 ```
+
+Routes: `/` (Home; redirects to `/onboarding` until a story position is saved), `/onboarding` (story position picker), `/checklist`, `/stats` and `/more` (placeholders until their PRs), `/components` and `/api/health`. The app reads the database per request and never migrates it, so run `pnpm db:migrate` against `DATABASE_PATH` before `pnpm dev`, with `DATABASE_PATH` set for both (`.env.example` names it).
 
 `/components` (noindex) shows every UI component in light and dark at 375px. The PWA icons in `public/icons/` are committed; after changing `app/icon.svg`, regenerate them with `node scripts/make-icons.mjs`.
 
