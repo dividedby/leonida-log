@@ -567,8 +567,13 @@ describe("itemDetail leaks (real data)", () => {
         if (detail === null) continue;
         const json = JSON.stringify(detail);
         const slugged = slugify(json);
+        const linkWords = detail.sources.map((s) => `-${slugify(s.url)}-`);
         for (const o of unopened) {
-          if (json.includes(o.title) || json.includes(`"${o.slug}"`)) {
+          if (
+            json.includes(o.title) ||
+            json.includes(`"${o.slug}"`) ||
+            linkWords.some((w) => w.includes(`-${o.slug}-`))
+          ) {
             leaks.push(`${id} at ${current.slug} leaks optional ${o.slug}`);
           }
         }
