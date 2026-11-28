@@ -12,6 +12,7 @@ import {
   type ChecklistRowData,
 } from "./home";
 import { fixtureData } from "./test-fixtures/curated";
+import { placedData } from "./test-fixtures/placed";
 
 const data = fixtureData();
 const real = loadCurated();
@@ -267,6 +268,23 @@ describe("homeView", () => {
     expect(homeView(data, "m8", new Set(["o4"]), []).emptyMessage).toBe(
       "No more points of no return.",
     );
+  });
+
+  it("tags Up next rows with their visible area, and leaves unplaced ones bare", () => {
+    const view = homeView(placedData(), "m1", new Set(), []);
+    expect(view.upNext.map((r) => [r.id, r.area])).toEqual([
+      ["o1", { slug: "r1", name: "Region One" }],
+      ["o2", undefined],
+      ["a", { slug: "r1", name: "Region One" }],
+    ]);
+    expect("area" in view.upNext[1]).toBe(false);
+  });
+
+  it("tags the safe-to-leave rows after the last gate", () => {
+    const view = homeView(placedData(), "m8", new Set(), []);
+    expect(view.upNext.map((r) => [r.id, r.area])).toEqual([
+      ["o4", { slug: "r2", name: "Region Two" }],
+    ]);
   });
 
   it("includes the stat rows", () => {

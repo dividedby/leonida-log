@@ -20,7 +20,7 @@ v2 adds the Map tab (docs/design.md listed it as out of v1). The repo bans Rocks
   - A region's badge counts the unticked rows its area sheet shows (districts roll up), so closed rows never count.
   - No item or optional text (`title`, `how_to`, `location`, `note`) names an area before that area's `visible_after_mission`, enforced by `lib/curated.data.test.ts` next to the mission-name rule.
   - Map view-model leak tests run every mission as the current one against the real data and fail on a later area name or slug, a later mission title, or a hidden entry.
-- **Area sheet:** tapping a region opens `/map/[area]`, server-rendered: the area's rows as ChecklistRows (tickable, countdown and "Soon lost" chips, detail chevron). Closed rows are left out.
+- **Area sheet:** tapping a region opens `/map/[area]`, server-rendered: the area's rows as ChecklistRows (tickable, countdown and "Soon lost" chips, detail chevron). Unticked closed rows are left out; a ticked closed row stays so it can be unticked, as on the checklist.
 - **Cross-links:** a ChecklistRow with an area shows a muted area tag (on `/checklist` and Home's Up next alike), and detail pages show "Area: {name}" linking to that area on the map.
 - **TabBar:** five tabs: Story, Checklist, Map, Stats, More.
 - **Online only,** like v1 (ADR 0001). No service worker; offline stays a separate later decision.
