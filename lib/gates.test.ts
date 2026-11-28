@@ -3,6 +3,7 @@ import {
   closesIn,
   countdownLabel,
   gateOptionals,
+  isTickable,
   isVisible,
   lockedSummary,
   missionTitle,
@@ -44,6 +45,22 @@ describe("isVisible", () => {
 
   it("throws on an unknown current mission", () => {
     expect(() => isVisible(data, itemById("b"), "nope")).toThrow(/nope/);
+  });
+});
+
+describe("isTickable", () => {
+  // a opens m1, d opens m5; optionals o3 opens m2, o4 opens m5
+  it.each([
+    { id: "a", current: "m1", expected: true },
+    { id: "d", current: "m4", expected: false },
+    { id: "d", current: "m5", expected: true },
+    { id: "o3", current: "m1", expected: false },
+    { id: "o3", current: "m2", expected: true },
+    { id: "o4", current: "m4", expected: false },
+    { id: "o4", current: "m8", expected: true },
+    { id: "nope", current: "m8", expected: false },
+  ])("$id at $current -> $expected", ({ id, current, expected }) => {
+    expect(isTickable(data, id, current)).toBe(expected);
   });
 });
 

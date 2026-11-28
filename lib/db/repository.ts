@@ -133,6 +133,23 @@ export function createRepository(db: Db, curated: CuratedData) {
       });
     },
 
+    /** Idempotent, so a repeated or out-of-order form submit can't flip the state. */
+    setItemChecked(
+      itemId: string,
+      checked: boolean,
+      now: Date = new Date(),
+    ): void {
+      if (!itemIds.has(itemId)) throw new UnknownRefError("item", itemId);
+      if (checked) {
+        db.insert(itemChecks)
+          .values({ itemId, checkedAt: now })
+          .onConflictDoNothing()
+          .run();
+      } else {
+        db.delete(itemChecks).where(eq(itemChecks.itemId, itemId)).run();
+      }
+    },
+
     getStatLevels(): StatLevel[] {
       return db
         .select({

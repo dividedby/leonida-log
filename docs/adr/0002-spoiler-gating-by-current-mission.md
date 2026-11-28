@@ -31,6 +31,12 @@ Optional missions (second amendment, 2026-11-26):
 - `lockedSummary` counts optional missions that haven't opened yet; its unlock mission is the optional's anchor (a main mission), never the optional itself.
 - Enforced by `lib/curated.data.test.ts`.
 
+Picker addressing (third amendment, 2026-11-27):
+
+- The picker addresses chapters and missions by number only: the chapter's `order` and the mission's global `order`. Mission and chapter slugs are kebab-cased titles, so a slug in a URL, hidden field or client payload would name the mission. The server action maps the submitted order to a slug (`missionFromOrder`). A title appears only for the selected mission.
+- Home's "Mission N of M" is chapter-relative (the mission's number in its chapter, the chapter's mission count). The current mission's chapter and title are reached, so they show.
+- Enforced by `lib/picker.test.ts` and `lib/home.test.ts`, which run every mission as the current one against the real curated data and fail if any later main mission title or slug, an unopened optional or an unreached chapter name appears.
+
 ## Consequences
 
 - Every item must carry `visible_after_mission`, the single visibility field; curated data validation fails without it.
