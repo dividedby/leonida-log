@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format is b
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-28
+
+The Map: an original coastline schematic of Leonida's six regions with badges, an area sheet per region and an Anywhere list, the five-tab TabBar, area tags on checklist and Home rows and "Area:" links on detail pages. Areas are curated in `data/curated/areas.yaml` and gated like missions, with the Tourist Trap entries placed. Detail sheets now also withhold sources that name an optional mission that hasn't opened.
+
 ### Added
 
 - Map screens, TabBar and cross-links (docs/plans/v2.md step 5): `/map` (the Schematic, one hand-made SVG shape per region in areas.yaml order, with the Anywhere list below), `/map/[area]` (area sheet, "Back to map", a hidden or unknown slug is the default 404) and a five-tab TabBar (Story, Checklist, Map, Stats, More). Unreached regions are bare `aria-hidden` shapes with no text or link. ChecklistRow gains an inline `tag` (the area name, muted text) shown on `/checklist`, Home's Up next and area sheets (not on a sheet's own area); item and optional-mission detail pages show "Area: {name}" linking to the sheet (`itemDetail` gains `area`). Ticking now also revalidates `/map` and its sheets. `/components` shows the Schematic, a tagged row and the five-tab bar. Render tests cover the Schematic, TabBar, ChecklistRow tag and the pages (every mission as current). `.dockerignore` now also skips `**/*.test.tsx`, so the image build doesn't type-check render tests that need the ignored fixtures. Phone check after deploy still open.
