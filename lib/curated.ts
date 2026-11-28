@@ -277,6 +277,18 @@ function withoutBackground(item: RawItem): Item {
   return out as Item;
 }
 
+/**
+ * The one normalisation for area names: lowercase, runs of anything but letters
+ * and digits become one space, trimmed. Uniqueness here and the text rule's
+ * matching (lib/area-text.ts) both use it, so they cannot drift.
+ */
+export function normalizeAreaName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 function withoutAreaBackground(area: RawArea): Area {
   const out: Partial<RawArea> = { ...area };
   delete out.evidence;
@@ -476,10 +488,7 @@ export function parseCurated(raw: CuratedRaw): CuratedData {
       ...(a.aliases ?? []).map((v): [string, string] => ["alias", v]),
     ];
     for (const [kind, value] of variants) {
-      const key = value
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, " ")
-        .trim();
+      const key = normalizeAreaName(value);
       if (key === "") {
         issues.push(
           `${where} has ${kind} "${value}" with no letters or digits`,

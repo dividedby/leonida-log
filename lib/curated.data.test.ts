@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { loadCurated } from "./curated-load";
 import { gateOptionals, safeToLeave } from "./gates";
-import { areaTextLeaks } from "./test-fixtures/area-text";
+import { areaTextLeaks } from "./area-text";
 
 // Fails on any invalid edit to data/curated.
 describe("real curated data", () => {

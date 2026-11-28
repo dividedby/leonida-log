@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { parseCurated, type Area } from "./curated";
 import { fixtureRaw, type FixtureRaw } from "./test-fixtures/curated";
-import { areaTextLeaks, namesArea } from "./test-fixtures/area-text";
+import { areaTextLeaks, namesArea } from "./area-text";
 
 const keys: Area = {
   slug: "keys",

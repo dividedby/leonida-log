@@ -1,21 +1,19 @@
-import type { Area, CuratedData } from "../curated";
+import { normalizeAreaName, type Area, type CuratedData } from "./curated";
 
 /**
- * Test helper for the area text rule (ADR 0010): curated text must not name an
- * area before the area is visible at the point the text can show.
+ * The area text rule (ADR 0010), used by the curated data tests: curated text
+ * must not name an area before the area is visible at the point the text can
+ * show. Pure; the app never calls it.
  */
 
-const norm = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim();
+/** Global order of the first main mission, where every region is visible. */
+const FIRST_MISSION_ORDER = 1;
 
 /** True when `text` contains the area's name or an alias as whole words, ignoring case and punctuation. */
 export function namesArea(text: string, area: Area): boolean {
-  const padded = ` ${norm(text)} `;
+  const padded = ` ${normalizeAreaName(text)} `;
   return [area.name, ...(area.aliases ?? [])].some((variant) =>
-    padded.includes(` ${norm(variant)} `),
+    padded.includes(` ${normalizeAreaName(variant)} `),
   );
 }
 
@@ -54,14 +52,16 @@ export function areaTextLeaks(data: CuratedData): string[] {
   for (const o of data.optionalMissions) {
     check(`optional ${o.slug}`, `${o.title} ${o.note ?? ""}`, o.opensOrder);
   }
-  for (const m of data.missions) check(`mission ${m.slug}`, m.title, 1);
+  for (const m of data.missions) {
+    check(`mission ${m.slug}`, m.title, FIRST_MISSION_ORDER);
+  }
   for (const c of data.chapters) {
     const first = data.missions.find((m) => m.chapter === c.slug);
-    check(`chapter ${c.slug}`, c.title, first?.order ?? 1);
+    check(`chapter ${c.slug}`, c.title, first?.order ?? FIRST_MISSION_ORDER);
   }
   for (const gate of data.gates) {
     for (const entry of gate.lost) {
-      check(`gate ${gate.mission} lost "${entry}"`, entry, 1);
+      check(`gate ${gate.mission} lost "${entry}"`, entry, FIRST_MISSION_ORDER);
     }
   }
   return leaks;
