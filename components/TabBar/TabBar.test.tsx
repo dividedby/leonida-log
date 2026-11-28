@@ -5,7 +5,7 @@ import { TabBar, type Tab } from "./TabBar";
 const links = (active: Tab) =>
   [
     ...renderToStaticMarkup(<TabBar active={active} />).matchAll(
-      /<a ([^>]*)>(?:<svg.*?<\/svg>)?([^<]+)<\/a>/g,
+      /<a ([^>]*)>(?:<svg.*?<\/svg>)?<span[^>]*>([^<]+)<\/span><\/a>/g,
     ),
   ].map(([, attrs, label]) => ({
     label,

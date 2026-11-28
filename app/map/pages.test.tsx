@@ -58,7 +58,9 @@ describe("/map", () => {
     const markup = renderMap();
     const nav = /<nav .*?<\/nav>/.exec(markup)?.[0] ?? "";
     expect(nav.match(/<a /g)).toHaveLength(5);
-    expect(nav).toMatch(/aria-current="page"[^>]*>(<svg.*?<\/svg>)?Map</);
+    expect(nav).toMatch(
+      /aria-current="page"[^>]*>(<svg.*?<\/svg>)?<span[^>]*>Map</,
+    );
   });
 
   it("links a reached region and names no later one, at every mission", () => {

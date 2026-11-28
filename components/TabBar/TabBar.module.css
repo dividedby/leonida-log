@@ -21,6 +21,10 @@
   color: var(--muted);
   font-size: 12px;
   text-decoration: none;
+}
+
+.label {
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

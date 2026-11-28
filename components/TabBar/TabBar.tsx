@@ -84,7 +84,7 @@ export function TabBar({ active }: { active: Tab }) {
           aria-current={tab.id === active ? "page" : undefined}
         >
           {tab.icon}
-          {tab.label}
+          <span className={styles.label}>{tab.label}</span>
         </Link>
       ))}
     </nav>
