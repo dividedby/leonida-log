@@ -1,4 +1,20 @@
-:root {
+/*
+ * Tokens per theme. Each element with [data-theme] declares its own values, so
+ * the attribute re-themes that subtree (the /components page forces each
+ * column) and overrides the OS preference both ways. light-dark() would keep
+ * the dark values in one place, but Next's CSS pipeline rewrites it into
+ * root-level toggles that nested overrides can't flip.
+ *
+ * The dark values are therefore written twice, in the media query and in
+ * [data-theme="dark"]; globals.test.ts fails if they drift.
+ *
+ * The -text and -fill tokens are darkened in light mode so small text reaches
+ * 4.5:1 (docs/branding.md, Contrast) and equal the palette in dark mode. Raw
+ * --pink / --orange / --teal are for decoration, large type on a fill and
+ * non-text shapes (3:1).
+ */
+:root,
+[data-theme="light"] {
   --pink: #e5336d;
   --orange: #ff8a3d;
   --teal: #0f8b8d;
@@ -7,12 +23,17 @@
   --card: #fff0f4;
   --rule: #f3dbe4;
   --ground: #ffffff;
+  --pink-text: #cf2e63;
+  --pink-fill: #db3168;
+  --teal-text: #0d7c7e;
+  --teal-fill: #0e8486;
   --on-pink: #ffffff;
-  color-scheme: light dark;
+  --on-teal: #ffffff;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --pink: #ff5c8a;
     --orange: #ff9d5c;
     --teal: #3cc7c2;
@@ -21,8 +42,32 @@
     --card: #2a1726;
     --rule: #3a2435;
     --ground: #1c0f1a;
+    --pink-text: #ff5c8a;
+    --pink-fill: #ff5c8a;
+    --teal-text: #3cc7c2;
+    --teal-fill: #3cc7c2;
     --on-pink: #1c0f1a;
+    --on-teal: #1c0f1a;
+    color-scheme: dark;
   }
+}
+
+[data-theme="dark"] {
+  --pink: #ff5c8a;
+  --orange: #ff9d5c;
+  --teal: #3cc7c2;
+  --ink: #fbeef3;
+  --muted: #c29bb0;
+  --card: #2a1726;
+  --rule: #3a2435;
+  --ground: #1c0f1a;
+  --pink-text: #ff5c8a;
+  --pink-fill: #ff5c8a;
+  --teal-text: #3cc7c2;
+  --teal-fill: #3cc7c2;
+  --on-pink: #1c0f1a;
+  --on-teal: #1c0f1a;
+  color-scheme: dark;
 }
 
 *,
@@ -42,4 +87,20 @@ body {
   color: var(--ink);
   font-family: var(--font-text), system-ui, sans-serif;
   font-size: 16px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink-text);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

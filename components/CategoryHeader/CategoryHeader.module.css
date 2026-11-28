@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 9px 0 3px;
+  border-bottom: 2px solid var(--pink);
+}
+
+.title {
+  margin: 0;
+  color: var(--pink-text);
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.count {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}

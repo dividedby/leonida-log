@@ -1,0 +1,11 @@
+.ring {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 12px;
+}

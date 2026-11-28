@@ -1,0 +1,77 @@
+.page {
+  padding: 24px 16px 48px;
+}
+
+.heading {
+  margin: 0 0 8px;
+  font-family: var(--font-display), Impact, sans-serif;
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.lede {
+  max-width: 60ch;
+  margin: 0 auto 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 375px;
+  max-width: 100%;
+  padding: 16px;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  background: var(--ground);
+  color: var(--ink);
+}
+
+.caption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.name {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Lets the header run edge to edge inside the padded column. */
+.bleed {
+  margin: 0 -16px;
+}
+
+.rings {
+  display: flex;
+  gap: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
