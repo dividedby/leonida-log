@@ -237,7 +237,7 @@ export interface AreaTag {
 }
 
 /**
- * The area a row may show:its slug and name, or undefined when the area is
+ * The area a row may show: its slug and name, or undefined when the area is
  * unknown or not yet visible. The one place a row's area name is resolved, so
  * a hidden area can't be named even if data placed a row in it.
  */
