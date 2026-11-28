@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { progressPercent } from "@/lib/progress";
 import styles from "./ProgressBar.module.css";
 
@@ -12,19 +13,25 @@ export function ProgressBar({
   label?: string;
 }) {
   const percent = progressPercent(done, total);
+  const captionId = useId();
   return (
     <div>
       <div
         className={styles.track}
         role="progressbar"
-        aria-label={label ?? `${done} of ${total} done`}
+        aria-label={label ? undefined : `${done} of ${total} done`}
+        aria-labelledby={label ? captionId : undefined}
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
       >
         <div className={styles.fill} style={{ width: `${percent}%` }} />
       </div>
-      {label ? <p className={styles.label}>{label}</p> : null}
+      {label ? (
+        <p id={captionId} className={styles.label}>
+          {label}
+        </p>
+      ) : null}
     </div>
   );
 }

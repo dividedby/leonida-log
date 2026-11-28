@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { CategoryHeader } from "@/components/CategoryHeader/CategoryHeader";
-import { ChecklistRow } from "@/components/ChecklistRow/ChecklistRow";
 import { Chip } from "@/components/Chip/Chip";
 import { ExitSign } from "@/components/ExitSign/ExitSign";
 import { LockedRow } from "@/components/LockedRow/LockedRow";
@@ -11,6 +10,7 @@ import { StatRing } from "@/components/StatRing/StatRing";
 import { StatStrip } from "@/components/StatStrip/StatStrip";
 import { TabBar } from "@/components/TabBar/TabBar";
 import { countdownLabel } from "@/lib/gates";
+import { ChecklistDemo } from "./ChecklistDemo";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -88,26 +88,30 @@ function Column({ theme }: { theme: "light" | "dark" }) {
       </Specimen>
 
       <Specimen name="ChecklistRow">
-        <ChecklistRow
-          id="sample-weights"
-          label="Train Strength on the deck weights at Jason's house"
-          checked
-        />
-        <ChecklistRow
-          id="sample-cars"
-          label="Drive the Ultimate Edition cars"
-          checked={false}
-          chips={<Chip variant="soon-lost">Soon lost</Chip>}
-        />
-        <ChecklistRow
-          id="sample-cash"
-          label="Check what cash carries into Chapter 2"
-          checked={false}
-          chips={
-            <Chip variant="countdown">
-              {countdownLabel({ state: "open", missions: 3 })}
-            </Chip>
-          }
+        <ChecklistDemo
+          rows={[
+            {
+              id: `${theme}-weights`,
+              label: "Train Strength on the deck weights at Jason's house",
+              checked: true,
+            },
+            {
+              id: `${theme}-cars`,
+              label: "Drive the Ultimate Edition cars",
+              checked: false,
+              chips: <Chip variant="soon-lost">Soon lost</Chip>,
+            },
+            {
+              id: `${theme}-cash`,
+              label: "Check what cash carries into Chapter 2",
+              checked: false,
+              chips: (
+                <Chip variant="countdown">
+                  {countdownLabel({ state: "open", missions: 3 })}
+                </Chip>
+              ),
+            },
+          ]}
         />
       </Specimen>
 
