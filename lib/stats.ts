@@ -48,7 +48,8 @@ export function statsView(levels: StatLevel[]): StatCard[] {
   }));
 }
 
-const LEVEL = /^[0-4]$/;
+/** Plain decimal digits, no sign, padding, fraction or exponent. */
+const LEVEL = /^(0|[1-9]\d*)$/;
 
 /**
  * The FormData the picker's buttons submit: `character`, `stat` and the
@@ -71,5 +72,7 @@ export function parseStatLevelInput(
   const knownCharacter = CHARACTERS.find((c) => c === character);
   const knownStat = STATS.find((s) => s === stat);
   if (!knownCharacter || !knownStat || !LEVEL.test(level)) return null;
-  return { character: knownCharacter, stat: knownStat, level: Number(level) };
+  const value = Number(level);
+  if (value > MAX_STAT_LEVEL) return null;
+  return { character: knownCharacter, stat: knownStat, level: value };
 }

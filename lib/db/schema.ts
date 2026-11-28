@@ -85,7 +85,7 @@ export const statLevels = sqliteTable(
   ],
 );
 
-/** Manual workout log. Any stat can be logged; only Strength and Cardio slip (ADR 0006). */
+/** Workout log. Unused since ADR 0009 dropped it; kept until a later contract migration. */
 export const workouts = sqliteTable(
   "workouts",
   {

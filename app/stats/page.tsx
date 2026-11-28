@@ -37,7 +37,7 @@ export default function Stats() {
             </h2>
             <div className={styles.rings}>
               {card.stats.map((stat) => (
-                <details key={`${stat.stat}-${stat.level}`}>
+                <details key={`${stat.stat}-${stat.level}`} name="stat-picker">
                   <summary
                     className={styles.summary}
                     aria-label={`${stat.label} for ${card.name}, level ${stat.level} of ${MAX_STAT_LEVEL}. Change`}
