@@ -19,3 +19,7 @@ ADR 0006 planned a manual workout log per character and stat, with "Last workout
 - Nothing guesses at rules we don't know, and the play-session flow has no logging step.
 - Revisit once decay rules are documented. A log or an overdue hint would come back as a new decision.
 - The unused table and methods are dead weight until that contract migration.
+
+## Update (2026-11-27)
+
+Migration `0002_drop_workouts` dropped the `workouts` table, and `logWorkout` and `lastWorkout` are gone. Release 0.1.0 never touched the table, so a rollback to it still runs.

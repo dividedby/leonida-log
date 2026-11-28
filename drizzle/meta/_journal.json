@@ -15,6 +15,13 @@
       "when": 1795746855050,
       "tag": "0001_scraper_change_detection",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795835845165,
+      "tag": "0002_drop_workouts",
+      "breakpoints": true
     }
   ]
 }

@@ -179,37 +179,3 @@ describe("stat levels", () => {
     expect(repo.getStatLevels()).toHaveLength(0);
   });
 });
-
-describe("workouts", () => {
-  it("returns null before any workout", () => {
-    expect(setup().repo.lastWorkout("jason", "strength")).toBeNull();
-  });
-
-  it("returns the latest workout per character and stat, including out-of-order logs", () => {
-    const file = dbs.fresh();
-    const first = open(file);
-    first.repo.logWorkout("jason", "strength", new Date(2_000));
-    first.repo.logWorkout("jason", "strength", new Date(1_000));
-    first.repo.logWorkout("jason", "cardio", new Date(500));
-    first.repo.logWorkout("lucia", "strength", new Date(9_000));
-    first.repo.logWorkout("jason", "focus", new Date(700));
-    first.opened.close();
-
-    const { repo } = open(file);
-    expect(repo.lastWorkout("jason", "strength")).toEqual(new Date(2_000));
-    expect(repo.lastWorkout("jason", "cardio")).toEqual(new Date(500));
-    expect(repo.lastWorkout("lucia", "strength")).toEqual(new Date(9_000));
-    expect(repo.lastWorkout("jason", "focus")).toEqual(new Date(700));
-    expect(repo.lastWorkout("lucia", "cardio")).toBeNull();
-  });
-
-  it("rejects an unknown character or stat without writing", () => {
-    const { repo } = setup();
-    expect(() => repo.logWorkout("franklin" as never, "strength")).toThrow(
-      InvalidValueError,
-    );
-    expect(() => repo.logWorkout("jason", "stamina" as never)).toThrow(
-      InvalidValueError,
-    );
-  });
-});

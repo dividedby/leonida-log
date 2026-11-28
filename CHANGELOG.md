@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format is b
 
 ## [Unreleased]
 
+### Removed
+
+- The unused `workouts` table, as migration `0002_drop_workouts` (the contract step ADR 0009 promised), and the repository's `logWorkout` and `lastWorkout`. Release 0.1.0 never reads or writes the table, so rolling the image back to 0.1.0 after this migration still works. A new migrate test upgrades a database made at 0.1.0 (with a workouts row) and checks the other tables keep their data.
+
 ## [0.1.0] - 2026-11-27
 
 First release, live at gta.dvdby.cc: every v1 screen (onboarding, Home, the Before you move on checklist with item details and mark mission done, Stats and More), spoiler gating by current mission, curated data for four points of no return, the scrapers and the deploy pipeline.

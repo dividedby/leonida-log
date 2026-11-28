@@ -108,7 +108,7 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 - `progress`: single row (id = 1), created on the first write. `current_mission` is null until onboarding; `spoiler_mode` is `safe` or `open` (default `safe`); `theme` is `system`, `light` or `dark` (default `system`).
 - `item_checks`: checked item ids with `checked_at`.
 - `stat_levels`: level 0-4 per character × stat (Strength, Cardio, Focus).
-- `workouts`: character, stat, at. Unused since ADR 0009 dropped the workout log; the table and repository methods stay until a later contract migration.
+- No workouts table: ADR 0009 dropped the workout log, and migration `0002_drop_workouts` removed the table.
 - `sources` (scraper module id, url, title, host, HTTP validators, remote and content hashes, check and change times, the latest normalized `extract`) and `candidates` (source, gate, category and mission hints, `change_kind` `new`/`modified`, `diff_summary`, `raw_extract`, status `new`/`promoted`/`rejected`): scraper-owned, server only, `extract` and `raw_extract` are never rendered. The repository doesn't expose them yet. How the scrapers fill them: [scrapers/README.md](../scrapers/README.md).
 - Romance and criminal profile get their own tables once research shows what's trackable.
 
