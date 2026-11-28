@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   closesIn,
   countdownLabel,
+  gateAt as gateStoodOn,
   gateOptionals,
   isTickable,
   isVisible,
@@ -9,6 +10,7 @@ import {
   missionTitle,
   missionsInChapter,
   nextGate,
+  nextMission,
   pickerChapters,
   safeToLeave,
 } from "./gates";
@@ -81,6 +83,38 @@ describe("nextGate", () => {
 
   it("throws on an unknown current mission", () => {
     expect(() => nextGate(data, "nope")).toThrow(/nope/);
+  });
+});
+
+describe("nextMission", () => {
+  it.each([
+    { name: "first", current: "m1", expected: "m2" },
+    { name: "middle", current: "m3", expected: "m4" },
+    { name: "across a chapter", current: "m4", expected: "m5" },
+    { name: "last", current: "m8", expected: null },
+  ])("$name", ({ current, expected }) => {
+    expect(nextMission(data, current)).toBe(expected);
+  });
+
+  it("throws on an unknown or optional current mission", () => {
+    expect(() => nextMission(data, "nope")).toThrow(/nope/);
+    expect(() => nextMission(data, "o1")).toThrow(/o1/);
+  });
+});
+
+describe("gateAt", () => {
+  it.each([
+    { name: "on a gate", current: "m3", expected: "m3" },
+    { name: "on the last gate", current: "m7", expected: "m7" },
+    { name: "before a gate", current: "m2", expected: null },
+    { name: "after a gate", current: "m4", expected: null },
+    { name: "after the last gate", current: "m8", expected: null },
+  ])("$name", ({ current, expected }) => {
+    expect(gateStoodOn(data, current)?.mission ?? null).toBe(expected);
+  });
+
+  it("throws on an unknown current mission", () => {
+    expect(() => gateStoodOn(data, "nope")).toThrow(/nope/);
   });
 });
 

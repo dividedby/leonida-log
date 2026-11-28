@@ -21,7 +21,7 @@ Built from the [idea page](https://github.com/dividedby/ideas/tree/main/projects
 
 ## Components
 
-In `components/<Name>/` (a component plus its CSS module). All are server components except ChecklistRow. `/components` shows each one in both themes at 375px; it is `noindex`. Tokens and contrast: [branding.md](branding.md).
+In `components/<Name>/` (a component plus its CSS module). All are server components except ChecklistRow. MarkDone isn't in the design reference: it's a form (or link) styled as PrimaryButton. `/components` shows each one in both themes at 375px; it is `noindex`. Tokens and contrast: [branding.md](branding.md).
 
 - **PostcardHeader** `{ eyebrow?, title, subtitle?, badge?, level? }`: `level` 1 (default, `h1`) or 2. Sun and sea are decorative.
 - **ExitSign** `{ exit, gateTitle, done, total, href? }`: no description prop, so it can't carry text about the gate (ADR 0002).
@@ -31,11 +31,12 @@ In `components/<Name>/` (a component plus its CSS module). All are server compon
 - **Chip** `{ variant, children }`: `soon-lost`, `tip` or `countdown`. The countdown text comes from `countdownLabel`. The reference's "Research" chip is dropped: nothing in the app is labelled by confidence (ADR 0008).
 - **LockedRow** `{ count, unlockMission }`: "4 more unlock after Day Release"; shows no item text.
 - **TabBar** `{ active }`: `nav` "Main" with Story, Checklist, Stats and More (no Map until v2).
-- **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes.
+- **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled?, href? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes. `href` adds a details chevron (44px, `aria-label` "Details: {label}") beside the label, outside it, since a link inside the label would toggle the box. `disabled` greys the box and label.
+- **MarkDone** `{ control, returnTo, action }`: "Mark mission done" for Home and the checklist. `control` is `doneControl`'s result: `advance` renders a one-tap form (FormData `from` = the current mission's global order, `return`), `confirm` renders a link to `/done`, null (last mission) renders nothing. The label names no mission.
 
 ## Screens
 
-Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, ChecklistRow, Chip, LockedRow, ProgressBar, PrimaryButton.
+Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, ChecklistRow, Chip, LockedRow, ProgressBar, PrimaryButton, MarkDone.
 
 ### Home
 
@@ -46,21 +47,29 @@ This is round 2, option A.
 - **StatStrip:** a compact strip with one slim row per character and three mini rings, tapping through to Stats. It's smaller than the round 2 mockup, per the feedback that the 3-stat card takes up too much space. Missing stat levels show as 0.
 - **Up next:** up to 3 unchecked ChecklistRows from the gate's list, leaving out rows whose cutoff has passed (they can't be done; they stay in the checklist and in done/total). Rows with an open cutoff come first, fewest missions left first; the rest follow in list order. Every row with an open cutoff shows its countdown chip; "Soon lost" shows too when the cutoff is 3 or fewer main missions away (`SOON_LOST_WITHIN` in `lib/home.ts`; 4 or more shows only the countdown). Ticking submits `setItemChecked` (`app/actions.ts`), which only accepts rows `isTickable` allows at the current mission. Empty: "All done for Exit N." when every row is ticked, otherwise "Nothing left you can still do for Exit N." (the rest are past their cutoff).
 - **After the last gate:** no ExitSign; Up next lists the opened safe-to-leave optional missions not yet ticked, and when none remain, "No more points of no return."
-- **Change story position** link to `/onboarding`. "Mark mission done" (Flow 3) is built with the checklist.
-- **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2. `/checklist`, `/stats` and `/more` are "Coming soon" placeholders until their PRs.
+- **See all** next to the Up next heading links to `/checklist`, where ticked rows stay listed and can be unticked.
+- **Mark mission done** (Flow 3) below the list: one tap for an ordinary mission, a link to `/done` when the current mission is a point of no return, nothing on the last mission.
+- **Change story position** link to `/onboarding`.
+- **Tab bar:** Story, Checklist, Stats, More. Map stays hidden until v2. `/stats` and `/more` are "Coming soon" placeholders until their PRs.
 - **Error:** `app/error.tsx` shows a fixed message and a retry button, never the error text.
 
 ### Before you move on (checklist)
 
 This is round 2, option A.
 
-- **PostcardHeader:** the Tourist Trap name and "3 of 6 done".
-- **CategoryHeader** for each category, with counts (Stats 2/2, Vehicles 0/1, Focus 0/1, Collectibles 1/1, Money 0/1), and ChecklistRows under each.
-- **Chips:** "Soon lost" for items whose reward or access ends at their `lost_at_mission` (the gate or an earlier mission), no confidence chip: every entry shows its best-evidence value unlabelled (ADR 0008). Cutoffs show as a countdown from `closesIn` and `countdownLabel` ("Closes in N missions", "Do this before your next story mission" at 1), never by naming the closing mission. UI not built yet.
-- **LockedRow:** "4 more unlock after Day Release", naming the mission that unlocks the earliest locked item for the gate. The count includes optional missions that haven't opened yet, and the mission named is always a main mission (an optional's anchor). The count and that mission title show; the content doesn't (ADR 0002).
-- **Derived rows:** each opened optional mission bound to the gate shows as a checklist row with its countdown, most urgent first, and can be ticked. Optionals that stay open after the story (closes at `never`) show under "safe to leave" instead.
-- **Lost list:** a gate's `lost` entries show before it as a countdown from `closesIn(data, current, gate.mission)`, for the next gate only (ExitSign's gate), and hide once closed.
-- Each item opens a detail sheet with how-to, location text (when sourced) and source links.
+Built in `app/checklist/page.tsx` from `checklistView` (`lib/checklist.ts`); the page only renders it.
+
+- **PostcardHeader:** "Before you move on" as the eyebrow, the next gate's name and "N of M done". N and M count every row for the gate (visible items plus opened optionals), closed rows included, so the figure matches Home's ExitSign. After the last gate: the title "Before you move on" and "No more points of no return.", no count.
+- **CategoryHeader** for each category in the curated order (`CATEGORIES`), empty ones skipped, with done/total, and ChecklistRows under each. Order inside a category is file order. "Optional missions" follows (most urgent first), then "Safe to leave" (opened optionals that never close; it shows whenever any are open, also before the last gate), then "No longer available". Safe to leave isn't part of the gate's N of M.
+- **Ticked rows stay listed**, checked and without chips, so a row ticked on Home (where it leaves Up next) can be unticked here.
+- **Closed rows:** an unticked row past its cutoff goes to "No longer available" at the bottom: disabled, no chip, counted in the header's M but not in any category count. A ticked closed row stays in its category, enabled, so it can be unticked.
+- **Chips:** "Soon lost" for rows whose cutoff is 3 or fewer main missions away, no confidence chip: every entry shows its best-evidence value unlabelled (ADR 0008). Cutoffs show as a countdown from `closesIn` and `countdownLabel` ("Closes in N missions", "Do this before your next story mission" at 1), never by naming the closing mission.
+- **LockedRow:** "4 more unlock after Day Release", naming the mission that unlocks the earliest locked item for the gate. The count includes optional missions that haven't opened yet, and the mission named is always a main mission (an optional's anchor). The count and that mission title show; the content doesn't (ADR 0002). Absent when nothing is locked.
+- **Derived rows:** each opened optional mission bound to the gate shows as a checklist row with its countdown, most urgent first, and can be ticked.
+- **Lost list:** a card under the rows with the gate's `lost` entries and a countdown line from `closesIn(data, current, gate.mission)`, for the next gate only (ExitSign's gate), hidden once the gate is the current mission. `/done` shows the list again (see Flow 3).
+- **Mark mission done** at the bottom (MarkDone, as on Home).
+- **Details:** each row's chevron opens `/checklist/item/[id]` (server-rendered, no client JS): the title, a "Back to checklist" link, the countdown chip or "No longer available", how-to and location (items) or the character and note (optional missions), and source links (`target="_blank"`, `rel="noopener noreferrer"`). Only visible items and opened optional missions have one (`isTickable`); anything hidden or unknown is the same 404, and the tab title stays "Leonida Log". Curated fields only: never `verified`, `evidence` or scraped data. A source whose title or link names a main mission after the current one is withheld (the entry's own gate may be named, as in its text): source titles and URLs are curated from outside and name missions the item text may not.
+- **Logic** lives in `lib/checklist.ts` (`checklistView`, `itemDetail`) and `lib/done.ts`, tested against the fixture and, for leaks, every mission as the current one on the real data.
 
 ### Stats
 
@@ -77,7 +86,7 @@ This is round 1, option A.
 
 1. **First run:** pick the current mission and land on Home. Chapters show as "Chapter N" until reached. Within the chosen chapter, missions are listed by number, and a title shows only for the one you select. `/onboarding` is a server-rendered GET flow: `?chapter=<n>` then `?chapter=<n>&mission=<global order>`, numbers only (slugs spell titles, so no slug reaches the client, a URL or a form). The selected row's form posts the global order to `saveStoryPosition`, which maps it to a slug (`lib/picker.ts`) and redirects Home. The same route is the story position picker once a mission is saved, with a Cancel link. A hand-edited `?mission=` shows that mission's title; accepted for a single user behind Access.
 2. **Play session:** open Home, tick items, and log a workout.
-3. **Hitting a point of no return:** finish the list and mark the mission done. The next gate's checklist unlocks.
+3. **Mark mission done** (Home and the bottom of `/checklist`): an ordinary mission moves on with one tap and no confirmation. At a point of no return the control links to `/done`, which names only the current mission, lists what the gate loses (even though the checklist hides that once the gate is current: the last chance to see it), counts the gate's unticked rows that can still be done and offers "Mark done and move on" (posting `confirmed=true`) or Cancel. The server action (`markMissionDone`) takes the current mission's global order as `from`: a stale or repeated form changes nothing and goes Home, crossing a gate without `confirmed` is rejected, and the move is one mission (`advanceTarget`). After a gate it lands on `/checklist`, which now shows the next gate; otherwise it returns to the page the form came from (`return`, limited to `/` and `/checklist`). On the last mission there is no control and no "completed" state. The story position picker reverses a mis-tap.
 
 ## Data model (sketch)
 

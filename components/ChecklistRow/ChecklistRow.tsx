@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useOptimistic, useRef } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import styles from "./ChecklistRow.module.css";
@@ -9,6 +10,9 @@ import styles from "./ChecklistRow.module.css";
  * FormData with `id` and `checked` ("true" or "false", the new state), so a
  * server action can be bound without changing this component. The box flips
  * at once and settles on the `checked` prop when the action finishes.
+ *
+ * With `href` the row gets a details link beside the label, not inside it: a
+ * link in the label would toggle the box.
  */
 export function ChecklistRow({
   id,
@@ -18,6 +22,7 @@ export function ChecklistRow({
   onToggle,
   chips,
   disabled,
+  href,
 }: {
   id: string;
   label: string;
@@ -26,6 +31,7 @@ export function ChecklistRow({
   onToggle?: (id: string, next: boolean) => void;
   chips?: ReactNode;
   disabled?: boolean;
+  href?: string;
 }) {
   const [optimistic, setOptimistic] = useOptimistic(
     checked,
@@ -57,20 +63,43 @@ export function ChecklistRow({
         name="checked"
         defaultValue={String(!checked)}
       />
-      <label className={styles.row}>
-        <span className={styles.control}>
-          <input
-            className={styles.input}
-            type="checkbox"
-            checked={optimistic}
-            disabled={disabled}
-            onChange={handleChange}
-          />
-          <span className={styles.box} aria-hidden="true" />
-        </span>
-        <span className={styles.label}>{label}</span>
-        {chips ? <span className={styles.chips}>{chips}</span> : null}
-      </label>
+      <div className={disabled ? `${styles.item} ${styles.off}` : styles.item}>
+        <label className={styles.row}>
+          <span className={styles.control}>
+            <input
+              className={styles.input}
+              type="checkbox"
+              checked={optimistic}
+              disabled={disabled}
+              onChange={handleChange}
+            />
+            <span className={styles.box} aria-hidden="true" />
+          </span>
+          <span className={styles.label}>{label}</span>
+          {chips ? <span className={styles.chips}>{chips}</span> : null}
+        </label>
+        {href ? (
+          <Link
+            className={styles.details}
+            href={href}
+            aria-label={`Details: ${label}`}
+          >
+            <svg
+              width="8"
+              height="14"
+              viewBox="0 0 8 14"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m1 1 6 6-6 6" />
+            </svg>
+          </Link>
+        ) : null}
+      </div>
     </form>
   );
 }
