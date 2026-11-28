@@ -443,6 +443,24 @@ describe("itemDetail sources", () => {
     });
   });
 
+  it("withholds a source whose link carries a later mission's slug, not its title", () => {
+    const raw = fixtureRaw();
+    // like "Clonin' Keys, Makin' Gs", whose slug spells another title
+    raw.missions.missions.find((m) => m.slug === "m5")!.title = "Another Name";
+    raw.itemFiles.m3.items[0].sources = [
+      {
+        title: "A guide",
+        url: "https://example.com/guides/m5-walkthrough",
+        accessed: "2026-11-25",
+      },
+    ];
+    const curated = parseCurated(raw);
+    expect(itemDetail(curated, "a", "m1")).toMatchObject({ sources: [] });
+    expect(itemDetail(curated, "a", "m5")).toMatchObject({
+      sources: [{ title: "A guide" }],
+    });
+  });
+
   it("keeps a source that names the item's own gate", () => {
     const own = { title: "Mission m3 guide", url: "https://example.com/m3" };
     expect(itemDetail(withSources([own]), "a", "m1")).toMatchObject({
@@ -496,11 +514,27 @@ describe("itemDetail leaks (real data)", () => {
     const titles = mains.map((m) => ({ ...m, slugged: slugify(m.title) }));
     const leaks: string[] = [];
     for (const current of mains) {
+      const unopened = real.optionalMissions.filter(
+        (o) => o.opensOrder > current.order,
+      );
+      const reached =
+        real.chapters.find((c) => c.slug === current.chapter)?.order ?? 0;
+      const unreached = real.chapters.filter((c) => c.order > reached);
       for (const { id, gate } of entries) {
         const detail = itemDetail(real, id, current.slug);
         if (detail === null) continue;
         const json = JSON.stringify(detail);
         const slugged = slugify(json);
+        for (const o of unopened) {
+          if (json.includes(o.title) || json.includes(`"${o.slug}"`)) {
+            leaks.push(`${id} at ${current.slug} leaks optional ${o.slug}`);
+          }
+        }
+        for (const c of unreached) {
+          if (json.includes(c.title)) {
+            leaks.push(`${id} at ${current.slug} leaks chapter ${c.slug}`);
+          }
+        }
         for (const m of titles) {
           if (m.order <= current.order || m.slug === gate) continue;
           if (

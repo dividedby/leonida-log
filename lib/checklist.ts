@@ -220,13 +220,21 @@ function safeSources(
 ): { title: string; url: string }[] {
   const currentOrder =
     data.missions.find((m) => m.slug === current)?.order ?? Infinity;
-  const later = data.missions
-    .filter((m) => m.order > currentOrder && m.slug !== ownGate)
-    .map((m) => slugified(m.title));
+  const later = data.missions.filter(
+    (m) => m.order > currentOrder && m.slug !== ownGate,
+  );
+  // A slug can differ from the slugified title (it spells an older title), so
+  // match both; slugs only as whole "-" separated words.
+  const titles = later.map((m) => slugified(m.title));
+  const slugs = later.map((m) => `-${m.slug}-`);
   return list
     .filter(({ title, url }) => {
       const text = `${slugified(title)} ${slugified(url)}`;
-      return !later.some((name) => text.includes(name));
+      const words = `-${text.replaceAll(" ", "-")}-`;
+      return (
+        !titles.some((name) => text.includes(name)) &&
+        !slugs.some((slug) => words.includes(slug))
+      );
     })
     .map(({ title, url }) => ({ title, url }));
 }
