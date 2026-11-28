@@ -48,6 +48,8 @@ export interface AreaSheet {
     left: number;
     done: number;
     total: number;
+    /** "N to do here", "All done here" or, with no rows, "Nothing here yet". */
+    subtitle: string;
   };
   /** The checklist's grouping and order, empty sections dropped. */
   sections: ChecklistSection[];
@@ -87,6 +89,12 @@ function sheetFor(
       left: rows.length - done,
       done,
       total: rows.length,
+      subtitle:
+        rows.length === 0
+          ? "Nothing here yet"
+          : done === rows.length
+            ? "All done here"
+            : `${rows.length - done} to do here`,
     },
     sections: own,
   };

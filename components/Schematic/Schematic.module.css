@@ -8,20 +8,20 @@
   fill: color-mix(in srgb, var(--teal) 16%, var(--ground));
 }
 
-.rg {
+.region {
   fill: var(--card);
   stroke: var(--pink);
   stroke-width: 1.6;
 }
 
 /* A region not yet reached: a plain shape, no text. */
-.lk {
+.unreached {
   fill: var(--rule);
   stroke: var(--ground);
   stroke-width: 1.6;
 }
 
-.nm {
+.name {
   fill: var(--ink);
   font-family: var(--font-display), Impact, sans-serif;
   font-size: 9.5px;
@@ -29,11 +29,11 @@
   text-transform: uppercase;
 }
 
-.bg {
+.badge {
   fill: var(--pink-fill);
 }
 
-.bn {
+.badgeText {
   fill: var(--on-pink);
   font-family: var(--font-text), system-ui, sans-serif;
   font-size: 9px;
@@ -45,7 +45,7 @@
   outline: none;
 }
 
-.link:focus-visible .rg {
+.link:focus-visible .region {
   stroke: var(--pink-text);
   stroke-width: 3.2;
 }

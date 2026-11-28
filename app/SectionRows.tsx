@@ -2,10 +2,11 @@ import { CategoryHeader } from "@/components/CategoryHeader/CategoryHeader";
 import { ChecklistRow } from "@/components/ChecklistRow/ChecklistRow";
 import { Chip } from "@/components/Chip/Chip";
 import type { ChecklistSection } from "@/lib/checklist";
-import { setItemChecked } from "../actions";
+import { setItemChecked } from "./actions";
 
 /**
- * One checklist section as the map screens show it. `hideTagFor` is the slug
+ * One checklist section: CategoryHeader and its ChecklistRows, shared by the
+ * checklist and the map screens. `hideTagFor` is the slug
  * of the area a sheet is for: its rows need no tag, rows from a district or
  * elsewhere keep theirs.
  */

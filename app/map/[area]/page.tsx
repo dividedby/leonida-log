@@ -4,7 +4,7 @@ import { PostcardHeader } from "@/components/PostcardHeader/PostcardHeader";
 import { TabBar } from "@/components/TabBar/TabBar";
 import { areaSheet } from "@/lib/map";
 import { getCurated, getRepository } from "@/lib/server/data";
-import { SectionRows } from "../SectionRows";
+import { SectionRows } from "../../SectionRows";
 import styles from "../page.module.css";
 
 // Reads the database per request; build has no DATABASE_PATH.
@@ -33,17 +33,13 @@ export default async function AreaScreen({
   );
   if (sheet === null) notFound();
 
-  const { name, left, total } = sheet.header;
-  const subtitle =
-    left > 0
-      ? `${left} to do here`
-      : total > 0
-        ? "All done here"
-        : "Nothing here yet";
-
   return (
     <div className={styles.frame}>
-      <PostcardHeader eyebrow="Map" title={name} subtitle={subtitle} />
+      <PostcardHeader
+        eyebrow="Map"
+        title={sheet.header.name}
+        subtitle={sheet.header.subtitle}
+      />
       <main className={styles.main}>
         <Link className={styles.back} href="/map">
           Back to map

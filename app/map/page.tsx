@@ -4,7 +4,7 @@ import { Schematic } from "@/components/Schematic/Schematic";
 import { TabBar } from "@/components/TabBar/TabBar";
 import { mapView } from "@/lib/map";
 import { getCurated, getRepository } from "@/lib/server/data";
-import { SectionRows } from "./SectionRows";
+import { SectionRows } from "../SectionRows";
 import styles from "./page.module.css";
 
 // Reads the database per request; build has no DATABASE_PATH.

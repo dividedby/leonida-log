@@ -59,7 +59,7 @@ export const SHAPE_SLUGS = SHAPES.map((s) => s.slug);
 function Region({ region, shape }: { region: MapRegion; shape: Shape }) {
   if (!region.reached) {
     // An unreached region is a bare shape: no name, link, count or title.
-    return <path className={styles.lk} d={shape.d} aria-hidden="true" />;
+    return <path className={styles.unreached} d={shape.d} aria-hidden="true" />;
   }
   const badge = shape.badge ?? { x: shape.label.x, y: shape.label.y + 13 };
   return (
@@ -71,9 +71,9 @@ function Region({ region, shape }: { region: MapRegion; shape: Shape }) {
       }
     >
       {shape.hit ? <rect {...shape.hit} fill="transparent" /> : null}
-      <path className={styles.rg} d={shape.d} />
+      <path className={styles.region} d={shape.d} />
       <text
-        className={styles.nm}
+        className={styles.name}
         x={shape.label.x}
         y={shape.label.y}
         textAnchor="middle"
@@ -82,9 +82,9 @@ function Region({ region, shape }: { region: MapRegion; shape: Shape }) {
       </text>
       {region.badge > 0 ? (
         <>
-          <circle className={styles.bg} cx={badge.x} cy={badge.y} r={8} />
+          <circle className={styles.badge} cx={badge.x} cy={badge.y} r={8} />
           <text
-            className={styles.bn}
+            className={styles.badgeText}
             x={badge.x}
             y={badge.y + 3.2}
             textAnchor="middle"
