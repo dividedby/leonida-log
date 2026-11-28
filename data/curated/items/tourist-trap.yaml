@@ -36,6 +36,10 @@
 # mandys-cigars (Pipework), donnies-38 (Don Gone).
 # Chuck's discount, the card box and spend-on-weapons ammo: no source settles them;
 # the safe advice is in the text and the split is in evidence.note.
+# Stats: levels are tracked on /stats (ADR 0009), so there are no "Train X" items.
+# Only what a gate takes away is listed: jason-gym (the back-deck gym goes with the
+# house). Cardio has no gate-tied facility and Focus never decays, so neither has
+# an item. jason-gym replaced `strength`; the old id's ticks are ignored.
 
 items:
   - id: manual-save
@@ -369,96 +373,34 @@ items:
         title: "gtabase: Tourist Trap mission"
         accessed: "2026-11-26"
 
-  - id: strength
-    title: Train Strength
+  - id: jason-gym
+    title: Use Jason's back-deck gym while you have it
     category: Stats
     before_gate: tourist-trap
     visible_after_mission: prologue
+    lost_at_mission: tourist-trap
     verified: false
     evidence:
       basis: safe-bound
-      note: "GameSight's PS5 save shows Strength dropping at the chapter change while Cardio and Focus stay; The Games Wiki says all his fitness levels drop."
-    how_to: "Lift weights on Jason's back deck or pay for a studio session, and finish the workout or the gains don't count. Polygon's numbers (gta6pedia restates Polygon) are about 11% per successful exercise, nine exercises to a level, a 33% daily cap (so three a day) and a top level of 4; Polygon adds that gains per exercise shrink as you level. After a workout the next window opens in about a day, or half that with protein, and stays open about four days; miss it and the gains are lost. Jason's back-deck gym goes with the house at the gate, per How to Video Game and GameSpot. Don't count on Jason's Strength gains from this chapter lasting past the next chapter change."
-    location: Jason's back deck and paid studios.
+      note: "How to Video Game and GameSpot say the back-deck gym goes with the house. GameSight's PS5 save shows Strength dropping at the chapter change while Cardio and Focus stay; The Games Wiki (AI-drafted) says all his fitness levels drop, so the Strength note takes the cautious reading."
+    how_to: "Jason's back-deck gym goes with the house at the gate (How to Video Game, GameSpot), so lift weights there while you can. Finish the workout or the gains don't count (Polygon). Don't count on Jason's Strength gains from this chapter lasting past the next chapter change."
+    location: Jason's back deck.
     sources:
-      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
-        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
-        accessed: "2026-11-25"
-      - url: https://gta6pedia.net/guides/gta-6-workout-strength-cardio-guide/
-        title: "gta6pedia: GTA 6 workout, Strength and Cardio guide"
-        accessed: "2026-11-25"
-      - url: https://www.gamespot.com/articles/all-gym-locations-in-gta-6/
-        title: "GameSpot: all gym locations in GTA 6"
-        accessed: "2026-11-25"
-      - url: https://game-checklists.com/gta6/guides/missables/
-        title: "Game Checklists: GTA 6 missables"
-        accessed: "2026-11-25"
-      - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
-        title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
-        title: "PowerPyx: GTA 6 stats guide"
-        accessed: "2026-11-25"
-      - url: https://www.youtube.com/watch?v=CK_1xnGLZ8g
-        title: "GameSight (YouTube): 22 Things The Game Doesn't Tell You (Strength claim at 3:29 not verified)"
-        accessed: "2026-11-26"
       - url: https://howtovideogame.com/gta-6-workout-chapter-2/
         title: "How to Video Game: Chapter 2 workout spots"
         accessed: "2026-11-26"
-      - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
-        title: "The Games Wiki: missable content and points of no return"
-        accessed: "2026-11-26"
-
-  - id: cardio
-    title: Train Cardio
-    category: Stats
-    before_gate: tourist-trap
-    visible_after_mission: prologue
-    verified: false
-    evidence:
-      basis: safe-bound
-      note: "GameSight's PS5 save kept Cardio at the chapter change; The Games Wiki says all his fitness levels drop."
-    how_to: Use the treadmill or a bike, or run, cycle and swim. Polygon gives Cardio the same limits as Strength, and gta6pedia restates it, at about 11% per exercise, nine to a level, a 33% daily cap, a window of about four days before gains are lost, protein halving the wait and a top level of 4, with smaller gains per exercise as you level. Don't count on Jason's Cardio gains lasting past the next chapter change.
-    sources:
+      - url: https://www.gamespot.com/articles/all-gym-locations-in-gta-6/
+        title: "GameSpot: all gym locations in GTA 6"
+        accessed: "2026-11-25"
       - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
         title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
-        accessed: "2026-11-25"
-      - url: https://gta6pedia.net/guides/gta-6-workout-strength-cardio-guide/
-        title: "gta6pedia: GTA 6 workout, Strength and Cardio guide"
         accessed: "2026-11-25"
       - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
         title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
         accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
-        title: "PowerPyx: GTA 6 stats guide"
-        accessed: "2026-11-25"
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-26"
-
-  - id: focus
-    title: Train Focus
-    category: Focus
-    before_gate: tourist-trap
-    visible_after_mission: prologue
-    verified: true
-    how_to: Shooting ranges (a small waiver fee, repeatable), golf, pool, fishing, basketball and meditation all raise it. Unlike Strength and Cardio it has no workout window and no daily cap, and earned Focus never decays, so this one can wait. Polygon says combat adds about 1% per shot, only for hits that match your criminal profile (weak spots or headshots) against hostile enemies. In one player's PS5 save, Jason's Focus kept its level at the next chapter change.
-    sources:
-      - url: https://www.polygon.com/gta-6-fitness-app-gym-health-focus-stamina/
-        title: "Polygon: GTA 6 fitness app, gym, health, Focus and stamina"
-        accessed: "2026-11-25"
-      - url: https://www.ign.com/wikis/gta-6/Fitness_and_Wellness_Explained
-        title: "IGN: fitness and wellness explained"
-        accessed: "2026-11-25"
-      - url: https://grandtheftautowiki.com/articles/gta-6-hidden-features-things-game-doesnt-tell-you
-        title: "GameSight (grandtheftautowiki.com): hidden features, from one PS5 save"
-        accessed: "2026-11-25"
-      - url: https://www.powerpyx.com/gta-6-how-to-increase-character-stats-health-cardio-focus/
-        title: "PowerPyx: GTA 6 stats guide"
-        accessed: "2026-11-25"
-      - url: https://thephrasemaker.com/2026/11/19/all-stats-how-to-increase-them-in-gta-6/
-        title: "The Phrasemaker: all stats and how to increase them in GTA 6"
-        accessed: "2026-11-25"
 
   - id: collect-cards
     title: Collect the cards

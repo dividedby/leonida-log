@@ -92,7 +92,7 @@ function Column({ theme }: { theme: "light" | "dark" }) {
           rows={[
             {
               id: `${theme}-weights`,
-              label: "Train Strength on the deck weights at Jason's house",
+              label: "Use Jason's back-deck gym while you have it",
               checked: true,
             },
             {

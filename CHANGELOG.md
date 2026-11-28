@@ -10,8 +10,13 @@ All notable changes to this project are documented in this file. The format is b
 
 - Deploy: the KeenGamer feed poll now alerts on its second consecutive failure. `leonida-log-feed.service` gains `ExecStopPost=-/usr/local/sbin/leonida-log-feed-result` (new `deploy/leonida-log-feed-result.sh`), which counts failed polls in `/var/lib/leonida-log-deploy/feed-failures` and starts one `host-alert@attention:` alert at exactly 2, then stays quiet until a successful poll resets the count. A non-zero exit other than 75, a timeout or a signal is a failure; exit 75 (the poll yielded the lock and never ran) leaves the count unchanged. There is still no `OnFailure=` on the unit. Tests cover the count, the single alert, the reset and 75. `leonida-log-apply` warns when the installed script lags the clone. **Owner action:** the new script and the edited unit are root-installed, so copy `deploy/leonida-log-feed-result.sh` and `deploy/leonida-log-feed.service` (plus the updated `install-host.sh`) to `/root/` on box1 and rerun `bash /root/install-host.sh`; until then the feed has no alert.
 
+### Changed
+
+- Checklist stat items now name what a gate takes away (ADR 0009 moved stat levels to `/stats`). The Tourist Trap item `strength` ("Train Strength") is now `jason-gym`, "Use Jason's back-deck gym while you have it": the gym goes with the house at the gate (How to Video Game, GameSpot), and the note that Strength can drop at the chapter change moved into its how-to. A tick saved under the old `strength` id is ignored, so the item shows unticked. `motel-pool-weights` is retitled "Use the motel pool weights while it's your base" and worded as a risk, since whether the pool goes with the motel is disputed (ADR 0008).
+
 ### Removed
 
+- Checklist items that name no loss: `cardio` and `focus` (Tourist Trap; Focus never decays and Cardio has no gate-tied facility), `range-focus` and `partner-workouts` (Checking Out).
 - The unused `workouts` table, as migration `0002_drop_workouts` (the contract step ADR 0009 promised), and the repository's `logWorkout` and `lastWorkout`. Release 0.1.0 never reads or writes the table, so rolling the image back to 0.1.0 after this migration still works. A new migrate test upgrades a database made at 0.1.0 (with a workouts row) and checks the other tables keep their data.
 
 ## [0.1.0] - 2026-11-27
