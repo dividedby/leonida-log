@@ -6,6 +6,10 @@ All notable changes to this project are documented in this file. The format is b
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-27
+
+First release, live at gta.dvdby.cc: every v1 screen (onboarding, Home, the Before you move on checklist with item details and mark mission done, Stats and More), spoiler gating by current mission, curated data for four points of no return, the scrapers and the deploy pipeline.
+
 ### Added
 
 - Stats and More screens (docs/plans/v1.md step 5, third part). `/stats` replaces the placeholder: a card per character with Strength, Cardio and Focus rings and the slip tip. Tapping a ring opens a 0 to 4 picker (a native `<details>`, no client JS; five 44px buttons, the current level marked with `aria-pressed`); one tap posts the target level to `setStatLevel` (`app/stats/actions.ts`), which rejects anything but exact `0` to `4` for a known character and stat before writing. The new level shows on `/stats` and in Home's StatStrip. `/more` shows the story position (chapter-relative, with "Change story position"), Romance and Criminal profile as non-link "Research in progress" rows (no curated data exists for either), and a theme setting (System, Light, Dark) posting `setTheme` (`app/more/actions.ts`), with a read-only "Spoilers: safe" line. Nothing past the current mission is named on `/more`.
