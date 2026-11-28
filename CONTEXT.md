@@ -31,6 +31,6 @@ Use these terms in code, issues, tests and docs. Component names (PostcardHeader
 - **Region:** a top-level area (county-sized, about 6 to 8). The v2 map draws regions.
 - **District:** an area inside a region (a neighbourhood). Not visible before its region. Later than v2.0.
 - **Placed:** an item or optional mission with an area. For an optional mission, its area is where it starts.
-- **Anywhere:** the list of visible rows with no area, shown under the map. It doesn't say whether a row can be done anywhere or just isn't placed yet.
+- **Anywhere:** the list of the map's rows with no area, shown under the map. It doesn't say whether a row can be done anywhere or just isn't placed yet.
 - **Area sheet:** the screen for one reached area: its rows, tickable, as on the checklist.
 - **Schematic:** the original drawing of Leonida's areas the map uses. Not to scale, not traced from game art.
