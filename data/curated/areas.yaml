@@ -1,0 +1,99 @@
+# Map regions (ADR 0010). Each is visible from the first mission: the map is open
+# from the start and every region name is on the in-game map. Counties (Kelly
+# County, Mariana County, Vice-Dale) are not areas. No districts yet; `parent`
+# is in the schema for later.
+#
+# `aliases` are other names the text rule also treats as naming the region
+# (lib/curated.data.test.ts): no item, optional mission, mission title,
+# chapter name or gate entry may name a region before it is visible. Matching is
+# case-insensitive on whole words.
+#
+# Evidence (ADR 0008): background only, never rendered. Visibility takes the
+# latest plausible mission when sources split; here they agree on the open map.
+
+areas:
+  - slug: vice-city
+    name: Vice City
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"
+  - slug: leonida-keys
+    name: Leonida Keys
+    aliases:
+      - the Keys
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"
+  - slug: grassrivers
+    name: Grassrivers
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"
+  - slug: port-gellhorn
+    name: Port Gellhorn
+    aliases:
+      - Gellhorn
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"
+  - slug: ambrosia
+    name: Ambrosia
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"
+  - slug: mount-kalaga
+    name: Mount Kalaga National Park
+    aliases:
+      - Mount Kalaga
+      - Kalaga
+    visible_after_mission: prologue
+    evidence:
+      basis: best-guess
+      note: Open map from the start per secondary sources; the names are on the in-game map.
+    sources:
+      - url: https://gtabase.com/gta-6/map/
+        title: "GTABase: GTA 6 map"
+        accessed: "2026-11-27"
+      - url: https://www.dexerto.com/gta/rockstar-says-gtas-6s-map-is-so-big-you-wont-see-it-all-just-by-playing-story-missions-3414118/
+        title: "Dexerto: Rockstar says GTA 6's map is so big you won't see it all"
+        accessed: "2026-11-27"

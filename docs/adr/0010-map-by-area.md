@@ -34,3 +34,10 @@ v2 adds the Map tab (docs/design.md listed it as out of v1). The repo bans Rocks
 - The "Anywhere" list starts large and shrinks as weekly research places entries.
 - Districts need no schema change, only new rows and a drill-in schematic.
 - Exact points (x/y) were rejected: on a schematic that isn't to scale they would imply accuracy the data doesn't have.
+
+## Update (2026-11-27)
+
+- **Regions are visible from the first mission.** The map is open from the start and every region name is on the in-game map, so the six regions (Vice City, Leonida Keys, Grassrivers, Port Gellhorn, Ambrosia, Mount Kalaga National Park) all have `visible_after_mission: prologue`. Grey unreached shapes matter only for later districts.
+- **The text rule covers all renderable curated text,** not only item and optional text: item `title`, `how_to` and `location` (at `visible_after_mission`), optional mission `title` and `note` (at the opens-after anchor), main mission titles (checked at the first mission, since a title can show as the unlock mission or next gate before it is reached), chapter names (at the chapter's first mission) and gate `lost` entries (checked at the first mission, since the next gate shows from the start). `lib/curated.data.test.ts` enforces it.
+- **`aliases`:** an area may list other names (`aliases: ["the Keys"]`, non-empty strings). Names and aliases are unique across areas, and the text rule matches the name and every alias case-insensitively on whole words.
+- **Counties are not areas.** Kelly County, Mariana County and Vice-Dale are not on the map as regions and get no row.

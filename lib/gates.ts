@@ -1,4 +1,4 @@
-import type { CuratedData, Gate, Item, OptionalMission } from "./curated";
+import type { Area, CuratedData, Gate, Item, OptionalMission } from "./curated";
 
 /**
  * Spoiler gating. Pure functions over CuratedData; the only gate input is the
@@ -16,6 +16,9 @@ import type { CuratedData, Gate, Item, OptionalMission } from "./curated";
  *  - an optional mission's own title, from its opens_after anchor on
  *    (gateOptionals and safeToLeave only return opened ones).
  * Cutoffs are shown as a countdown (closesIn, countdownLabel), never by name.
+ * Areas (ADR 0010) follow the same pattern: an area's name comes only from
+ * areaName(), and only from the area's visible_after_mission on
+ * (isAreaVisible). Area slugs, like all slugs, are never rendered.
  * Slugs are internal ids and must not be rendered.
  */
 
@@ -211,6 +214,21 @@ export function missionTitle(data: CuratedData, mission: string): string {
   const found = data.missions.find((m) => m.slug === mission);
   if (!found) throw new Error(`Unknown mission "${mission}"`);
   return found.title;
+}
+
+/** An area shows (and may be named) once the user has reached its visible_after_mission. */
+export function isAreaVisible(
+  data: CuratedData,
+  area: Area,
+  current: string,
+): boolean {
+  return orderOf(data, area.visible_after_mission) <= orderOf(data, current);
+}
+
+export function areaName(data: CuratedData, area: string): string {
+  const found = data.areas.find((a) => a.slug === area);
+  if (!found) throw new Error(`Unknown area "${area}"`);
+  return found.name;
 }
 
 export interface PickerChapter {

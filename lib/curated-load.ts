@@ -31,6 +31,7 @@ export function loadCurated(dir: string = CURATED_DIR): CuratedData {
   return parseCurated({
     missions: readYaml(path.join(dir, "missions.yaml")),
     gates: readYaml(path.join(dir, "gates.yaml")),
+    areas: readYaml(path.join(dir, "areas.yaml")),
     itemFiles,
   });
 }
