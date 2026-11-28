@@ -15,9 +15,17 @@
 }
 
 .card {
+  /* An open picker's height: margin-top + border + padding + a level button. */
+  --picker-space: calc(6px + 2 * 1px + 2 * 8px + 44px);
+
   padding: 11px 12px;
   border-radius: 14px;
   background: var(--card);
+}
+
+/* The picker is absolute, so the card makes room for it instead of letting it cover the next card. */
+.card:has(details[open]) {
+  padding-bottom: calc(11px + var(--picker-space));
 }
 
 .name {
