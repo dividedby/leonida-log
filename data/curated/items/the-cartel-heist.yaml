@@ -40,6 +40,7 @@ items:
       note: "IGN gives the sell value as $22,660; MetaForge saw about $20,600. The lower figure is shown."
     how_to: "In the Bayside apartment bedroom, log in to the laptop with the password Muffins, Queen, and 15, then use the code from the message at the garage. Drive the pink Pfister Growler out to register it for free; it sells for about $20,600. The laptop only works this chapter and the apartment is lost when the next one starts, so claim the car before the heist."
     location: Bayside Safehouse bedroom; Del Rio Boulevard Garage, La Perle.
+    area: vice-city
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
@@ -53,6 +54,9 @@ items:
       - url: https://metaforge.app/gta-6/gta-6-vanessas-laptop-password-free-growler
         title: "MetaForge: Vanessa's laptop password and free Growler"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Vice_City
+        title: "gta.wiki: Vice City"
+        accessed: "2026-11-28"
 
   - id: bayside-books
     title: Read the two magazines in the Bayside apartment
@@ -66,6 +70,7 @@ items:
       note: "gtabase says access ends when the next chapter starts; Game Rant says finishing the heist ends it. The earlier bound is kept."
     how_to: "These are the two Bayside magazines. Passion B.C. is beside the tub and Two Pricks In The Bush is on the table in front of the TV. Read them before the heist."
     location: Bayside Safehouse.
+    area: vice-city
     sources:
       - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
         title: "PowerPyx: GTA 6 all magazines, books and comics locations"
@@ -91,6 +96,9 @@ items:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Vice_City
+        title: "gta.wiki: Vice City"
+        accessed: "2026-11-28"
 
   - id: halifax-callback
     title: Finish things with Halifax
@@ -125,6 +133,7 @@ items:
       basis: safe-bound
       note: "Game8 JP, GameWith, gtabase and The Click say a timer ends it; a couple of guides say it lasts until the chapter ends. No source names a closing mission, so the chapter end is only an upper bound."
     how_to: "It's a timed hourglass job in Vice City. Pick the Freeway Run race; the payout depends on where you finish, $3,800 for first and $1,500 for second. Race it as soon as the hourglass shows up: the timer ends it partway through the chapter, and quitting the race also ends it for good. Missing it doesn't end Yago's line: players who never ran it still got his last job later. Missing it won't cost you the Strangers & Freaks trophy: that needs 8 strands and there are more than enough without Yago."
+    area: vice-city
     sources:
       - url: https://www.reddit.com/comments/1y50ev3/_/19t5nkgfbnruq/
         title: "Reddit r/GTA: first-hand, never ran the race and Yago's last job still came (OP confirms in 19t6e5c99fhl0)"
@@ -174,6 +183,9 @@ items:
       - url: https://www.powerpyx.com/?p=369805
         title: "PowerPyx: Race Against Yago"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Salton
+        title: "gta.wiki: Salton"
+        accessed: "2026-11-28"
 
   - id: montys-pistol
     title: Grab Monty's 1992 Pistol in The Missing Link
@@ -184,6 +196,7 @@ items:
     verified: true
     how_to: After you beat the first enemy in the shootout, go back to the photo room and take the pistol from the floor. It's only there during this mission.
     location: The photo room.
+    area: grassrivers
     sources:
       - url: https://vicemissions.com/guides/missables
         title: "Vice Missions: missables"
@@ -194,6 +207,12 @@ items:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
         title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
         accessed: "2026-11-25"
+      - url: https://www.gtabase.com/gta-6/missions/the-missing-link
+        title: "gtabase: The Missing Link mission"
+        accessed: "2026-11-28"
+      - url: https://gta.wiki/w/Watson_Bay
+        title: "gta.wiki: Watson Bay"
+        accessed: "2026-11-28"
 
   - id: gils-kalinga
     title: Crack the practice safe for Gil's Kalinga .50
@@ -206,6 +225,7 @@ items:
       basis: safe-bound
       note: "Beebom says quitting early forfeits it; gtabase says you can return to practise before the heist."
     how_to: "In Safe Word, finish all three safecracking steps and open the practice safe before you leave; $1,500 in cash comes with the pistol. Quitting early can forfeit it."
+    area: vice-city
     sources:
       - url: https://beebom.com/gta-6-chapter-3-missables-items/
         title: "Beebom: GTA 6 Chapter 3 missables"
@@ -219,6 +239,9 @@ items:
       - url: https://www.ign.com/wikis/gta-6/Unique_Weapon_Variants
         title: "IGN: unique weapon variants"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Stockyard
+        title: "gta.wiki: Stockyard"
+        accessed: "2026-11-28"
 
   - id: boobies-red-bag
     title: Take Boobie's red bag in Bricked Up
@@ -229,6 +252,7 @@ items:
     verified: true
     how_to: Grab the red bag at the end of the table in the first room and bring it back. It holds $3,500.
     location: Boobie's apartment.
+    area: vice-city
     sources:
       - url: https://thetab.com/2026/11/24/seven-things-you-need-to-do-before-chapter-3-ends-in-gta-6-as-theyll-be-gone-for-good
         title: "The Tab: seven things to do before Chapter 3 ends in GTA 6"
@@ -239,6 +263,9 @@ items:
       - url: https://www.gtabase.com/gta-6/missions/bricked-up
         title: "gtabase: Bricked Up mission"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Vice_City
+        title: "gta.wiki: Vice City"
+        accessed: "2026-11-28"
 
   - id: y-hotel-cars
     title: Take the Y Hotel driveway cars
@@ -252,6 +279,7 @@ items:
       note: "One origin: Game8 638531 with Beebom, MetaForge, Wanted State and Stealthy Gaming. Game8 638531 calls the lockout Chapter 4 only; Game8's own Ocean Beach, Chapter 4 and Chapter 5 pages don't back it."
     how_to: The cars on the Y Hotel driveway can only be taken before Chapter 4 starts, so take them before the gate while free roam lasts.
     location: Y Hotel driveway.
+    area: vice-city
     sources:
       - url: https://wantedstate.com/gta-6/how-to/missables/
         title: "Wanted State: GTA 6 missables"
@@ -262,6 +290,9 @@ items:
       - url: https://metaforge.app/gta-6/gta-6-chapter-3-missables-point-of-no-return
         title: "Metaforge: Chapter 3 missables and point of no return"
         accessed: "2026-11-25"
+      - url: https://gta.wiki/w/Y_Hotel
+        title: "gta.wiki: Y Hotel"
+        accessed: "2026-11-28"
 
   - id: dye-pack-jammer
     title: Get the Dye Pack Jammer before robbing
@@ -270,6 +301,7 @@ items:
     visible_after_mission: credit-check
     verified: true
     how_to: "Karim gives you the Dye Pack Jammer during Credit Check, and it's permanent. Without it, the dye packs in bank and payday-loan cash can explode and ruin the money, so don't rob them before that mission."
+    area: vice-city
     sources:
       - url: https://www.gamespot.com/articles/gta-6-how-to-rob-banks/
         title: "GameSpot: how to rob banks in GTA 6"
@@ -283,6 +315,9 @@ items:
       - url: https://www.powerpyx.com/gta-6-all-bank-jobs-locations-bank-vaults/
         title: "PowerPyx: GTA 6 all bank jobs locations"
         accessed: "2026-11-26"
+      - url: https://gta.wiki/w/Credit_Check
+        title: "gta.wiki: Credit Check"
+        accessed: "2026-11-28"
 
   - id: ch3-jason-switch-softlock
     title: Save before finishing Missing Persons in Chapter 3
