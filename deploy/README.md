@@ -15,16 +15,17 @@ The privileged host files (everything in this folder except the tests and `image
 
 ## Files
 
-| File                                       | Installed as                         | Runs as                              |
-| ------------------------------------------ | ------------------------------------ | ------------------------------------ |
-| `leonida-log-deploy.sh`                    | `/usr/local/sbin/leonida-log-deploy` | `leonida-log` (forced command)       |
-| `leonida-log-apply.sh`                     | `/usr/local/sbin/leonida-log-apply`  | root, through one sudoers rule       |
-| `leonida-log-scrape.sh`                    | `/usr/local/sbin/leonida-log-scrape` | root, from the scrape and feed units |
-| `leonida-log-scrape.service`, `.timer`     | `/etc/systemd/system/`               | root (systemd)                       |
-| `leonida-log-feed.service`, `.timer`       | `/etc/systemd/system/`               | root (systemd)                       |
-| `../compose.yaml`                          | `/etc/leonida-log/compose.yaml`      | read by docker compose as root       |
-| `install-host.sh`                          | not installed: run once from `/root` | root, by the owner                   |
-| `image-smoke.sh`, `deploy-scripts.test.ts` | not installed: CI and `pnpm test`    |                                      |
+| File                                       | Installed as                              | Runs as                                    |
+| ------------------------------------------ | ----------------------------------------- | ------------------------------------------ |
+| `leonida-log-deploy.sh`                    | `/usr/local/sbin/leonida-log-deploy`      | `leonida-log` (forced command)             |
+| `leonida-log-apply.sh`                     | `/usr/local/sbin/leonida-log-apply`       | root, through one sudoers rule             |
+| `leonida-log-scrape.sh`                    | `/usr/local/sbin/leonida-log-scrape`      | root, from the scrape and feed units       |
+| `leonida-log-feed-result.sh`               | `/usr/local/sbin/leonida-log-feed-result` | root, from the feed unit's `ExecStopPost=` |
+| `leonida-log-scrape.service`, `.timer`     | `/etc/systemd/system/`                    | root (systemd)                             |
+| `leonida-log-feed.service`, `.timer`       | `/etc/systemd/system/`                    | root (systemd)                             |
+| `../compose.yaml`                          | `/etc/leonida-log/compose.yaml`           | read by docker compose as root             |
+| `install-host.sh`                          | not installed: run once from `/root`      | root, by the owner                         |
+| `image-smoke.sh`, `deploy-scripts.test.ts` | not installed: CI and `pnpm test`         |                                            |
 
 Settings in `/etc/leonida-log/compose.env` (root-owned, no secrets, created once by `install-host.sh`, never overwritten): `LEONIDA_UID`, `LEONIDA_GID` (the service user's ids), `LEONIDA_PORT` (default 5100) and optionally `SCRAPERS_DISABLED`.
 
@@ -32,7 +33,7 @@ Settings in `/etc/leonida-log/compose.env` (root-owned, no secrets, created once
 
 - Linux with systemd, Docker Engine and the compose plugin, `sqlite3`, `flock`, `curl` and `git`. `install-host.sh` installs none of them and stops if one is missing. Check the compose plugin and that Docker starts at boot before the first install.
 - A free port 5100 (`ss -ltn`), enough memory next to the other services (the app is capped at 384 MB, a scrape run at 256 MB) and disk for the images.
-- The infra repo's `host-alert@.service` template, so scrape failures reach Discord. The installer warns when it is missing.
+- The infra repo's `host-alert@.service` template, so scrape failures and the feed poll's second-failure alert reach Discord. The installer warns when it is missing.
 - A Cloudflare tunnel and Access app for gta.dvdby.cc (below).
 
 ## Automatic deploys
@@ -62,7 +63,7 @@ The root scripts are run by the owner by hand: agent sessions cannot run privile
 
 1. On your computer, make a key with no passphrase: `ssh-keygen -t ed25519 -N '' -C leonida-log-ci -f <path>`.
 2. Merge the pull request that adds this folder. Its push runs `image` successfully and `deploy` fails at the secrets check until step 6 is done; re-run it then. After the first push, set the `leonida-log` package public (GitHub, Packages, Package settings) so the host can pull without a token.
-3. In your own checkout of the merged `main`, read `deploy/install-host.sh`, the three `deploy/leonida-log-*.sh` scripts, the four scrape and feed units and `compose.yaml`, then copy them to the host: `scp deploy/install-host.sh deploy/leonida-log-deploy.sh deploy/leonida-log-apply.sh deploy/leonida-log-scrape.sh deploy/leonida-log-scrape.service deploy/leonida-log-scrape.timer deploy/leonida-log-feed.service deploy/leonida-log-feed.timer compose.yaml root@<host>:/root/`.
+3. In your own checkout of the merged `main`, read `deploy/install-host.sh`, the four `deploy/leonida-log-*.sh` scripts, the four scrape and feed units and `compose.yaml`, then copy them to the host: `scp deploy/install-host.sh deploy/leonida-log-deploy.sh deploy/leonida-log-apply.sh deploy/leonida-log-scrape.sh deploy/leonida-log-feed-result.sh deploy/leonida-log-scrape.service deploy/leonida-log-scrape.timer deploy/leonida-log-feed.service deploy/leonida-log-feed.timer compose.yaml root@<host>:/root/`.
 4. Keep a second root SSH session open. As root: `bash /root/install-host.sh '<the .pub line>'`. It creates the `leonida-log` user (not in the docker group; it stops if it is), the folders and the clone of the public repo (HTTPS, no deploy key), installs the files, the sudoers rule (checked with `visudo`), the restricted key and an sshd drop-in for that user only. It runs `sshd -t` and checks root's authorized-keys setting does not point at the new file before reloading sshd, and restores the previous drop-in if either fails. It prints the sha256 of each file it installs; compare them with `shasum -a 256` on your computer.
 5. From your computer, check: `ssh -i <path> -o IdentitiesOnly=yes leonida-log@<host> 0000000000000000000000000000000000000000` prints a refusal; the same with `id` as the command does not run `id`; a fresh root login still works.
 6. Create the GitHub environment `production` (deployment branches: `main` only, no required reviewers) and add these environment secrets: `VPS_SSH_KEY` (the private key file's contents), `VPS_USER` (`leonida-log`), `VPS_HOST` (the host's name or address), `VPS_SSH_KNOWN_HOSTS` (the output of `ssh-keyscan <host>`, with the fingerprint cross-checked on the host).
@@ -102,9 +103,9 @@ KeenGamer's article pages sit behind a Cloudflare challenge that the scrapers ne
 
 - **Lock.** The script takes the deploy lock for the container's life, which is well under a minute. A deploy that starts meanwhile waits for it, far inside its own 10 minutes. A poll that starts during a deploy or the weekly scrape waits at most 60 seconds for the lock, then exits 75 without polling (it gives way; the next poll picks the items up). The unit has `SuccessExitStatus=75`, so that is not a failed unit. The timer's 04:40 and 08:40 slots straddle the Monday scrape (06:15, 45 minutes at most), so a poll overlapping it should not happen.
 - **Bounded run.** The scraper ends a feed poll by itself: `--feed-only` sets a hard 180 s deadline that aborts every request and wait (robots.txt, retries, `Retry-After` and `Crawl-delay` included) and exits 2, and a retry budget of 2. `TimeoutStartSec=7min` (420 s) is a backstop above the worst case, 60 s lock wait + 60 s container start + 180 s deadline = 300 s, so systemd never kills a poll that holds the lock.
-- **No alert.** The unit has no `OnFailure=`: a failed poll is routine (a 5xx, a timeout) and would page up to six times a day. A feed that stays unreadable also fails the weekly scrape's KeenGamer listing, which exits 2 and alerts. Check polls with `systemctl list-timers leonida-log-feed.timer`, `systemctl status leonida-log-feed.service` and `journalctl -u leonida-log-feed`.
+- **Alert on the second failure in a row.** The unit has no `OnFailure=`: one failed poll (a 5xx, a timeout) is routine and would page up to six times a day. Its `ExecStopPost=-/usr/local/sbin/leonida-log-feed-result` runs after every poll with systemd's `$SERVICE_RESULT`, `$EXIT_CODE` and `$EXIT_STATUS` and keeps a count in `/var/lib/leonida-log-deploy/feed-failures` (the root-owned state folder, not the data folder the scraper container mounts). A failure (non-zero exit other than 75, a timeout, a signal) adds one; on exactly the second in a row it starts `host-alert@attention:leonida-log-feed.service.service` (the same instance form the weekly unit's `OnFailure=` produces) once, and stays quiet at 3, 4, ... until a successful poll resets the count to 0. Two polls in a row is where articles start to drop out of the feed. **Exit 75 leaves the count alone**: `SuccessExitStatus=75` makes systemd report it as `SERVICE_RESULT=success`, so the hook tells it apart by `EXIT_STATUS=75`; the poll never ran, which says nothing about the feed, so it neither counts as a failure nor resets one. The hook always exits 0, so it cannot change the unit's own result, and the `-` keeps a missing script from failing the unit (the alert is then silently absent: `leonida-log-apply` warns when the installed script lags the clone). Check polls with `systemctl list-timers leonida-log-feed.timer`, `systemctl status leonida-log-feed.service` and `journalctl -u leonida-log-feed`; `cat /var/lib/leonida-log-deploy/feed-failures` shows the current count (absent means 0). A feed that stays unreadable also fails the weekly scrape's KeenGamer listing, which exits 2 and alerts.
 - **Gaps.** A feed that grows past 20 items in under 4 hours (a news burst) drops the oldest items before the next poll; they are not recovered.
-- **Install.** `install-host.sh` installs and enables the timer in the same run as everything else (it needs an image that has `--feed-only`, so run it after the deploy that ships it). To check it: `systemctl start leonida-log-feed.service`, then `journalctl -u leonida-log-feed -n 20`.
+- **Install.** `install-host.sh` installs and enables the timer in the same run as everything else (it needs an image that has `--feed-only`, so run it after the deploy that ships it). The alert hook is a root-installed file like the rest: after pulling a change that adds or edits `leonida-log-feed-result.sh` or the feed unit, copy those files to `/root/` and rerun `bash /root/install-host.sh` (see the end of One-time setup); until then the feed unit has no alert. To check it: `systemctl start leonida-log-feed.service`, then `journalctl -u leonida-log-feed -n 20`.
 
 ## Backups
 

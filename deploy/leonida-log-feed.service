@@ -15,9 +15,14 @@
 # the container + 180 s deadline = 300 s, and 7 min is 420 s. systemd therefore never kills a poll that holds the
 # lock.
 #
-# No OnFailure=: a poll failing (a 5xx, a timeout, a lock held by the weekly scrape) is routine and would page up
-# to six times a day. A feed that stays unreadable also fails the weekly scrape's keengamer listing (exit 2), which
-# does alert. See failed polls with `systemctl status leonida-log-feed` and `journalctl -u leonida-log-feed`.
+# No OnFailure=: one failed poll (a 5xx, a timeout) is routine and would page up to six times a day. Instead
+# ExecStopPost runs /usr/local/sbin/leonida-log-feed-result after every poll, which counts consecutive failures and
+# starts one host-alert@ alert on the second (two polls in a row is where articles start to drop out of the feed),
+# then stays quiet until a successful poll resets the count. An exit 75 (the lock-yield above) is neither: the poll
+# didn't run, so the count is left as it is. The leading `-` keeps a missing script from failing the unit, and the
+# script itself always exits 0, so the unit's own result is never hidden. A feed that stays unreadable also fails the
+# weekly scrape's keengamer listing (exit 2), which alerts too. See failed polls with
+# `systemctl status leonida-log-feed` and `journalctl -u leonida-log-feed`.
 # Installed as it is by deploy/install-host.sh; nothing in it is per-host.
 [Unit]
 Description=Leonida Log KeenGamer feed poll
@@ -28,6 +33,7 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/usr/local/sbin/leonida-log-scrape --feed-only
+ExecStopPost=-/usr/local/sbin/leonida-log-feed-result
 TimeoutStartSec=7min
 SuccessExitStatus=75
 Nice=10
