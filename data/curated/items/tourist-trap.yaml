@@ -237,6 +237,7 @@ items:
       note: "IGN, nerdschalk and allthings.how confirm $350 against $700 during Gear Up. No source shows Chuck's menu afterwards, and IGN's Chapter 2 guide puts Key Lento off limits throughout Chapter 2, so the discount is gone by the gate at the latest; the mission after Gear Up is the earliest plausible end."
     how_to: In Gear Up, Chuck's Tackle & Shot sells the Moreland 850 shotgun for $350 instead of $700, so buy it then. Only the discount is at stake; any Ammu-Nation sells it at $700 later. Bought weapons carry through Tourist Trap.
     location: Chuck's Tackle & Shot.
+    area: leonida-keys
     sources:
       - url: https://gtavimaps.com/guides/weapons/
         title: "gtavimaps: GTA 6 weapons guide"
@@ -266,6 +267,7 @@ items:
     verified: true
     how_to: "Before BuckMe exists you can hide cash under the floorboard in Jason's bedroom. If you did, take it back out: guides say cash you put there yourself is gone after the gate."
     location: Jason's bedroom.
+    area: leonida-keys
     sources:
       - url: https://www.rockpapershotgun.com/gta-6-how-to-keep-your-money-at-end-of-chapter-1
         title: "Rock Paper Shotgun: how to keep your money at the end of Chapter 1"
@@ -279,6 +281,9 @@ items:
       - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
         title: "IGN: all Chapter 1 missables"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: ultimate-edition-vehicles
     title: Drive Jason's Chapter 1 Ultimate Edition vehicles
@@ -289,6 +294,7 @@ items:
     verified: true
     how_to: Drive the Dinka Enduro and Crest Kayak at the safehouse while you still can; they are for Chapter 1 only, per the in-game text Output Lag quotes. VGC and KeenGamer say they are gone after the gate. Other Ultimate Edition vehicles unlock later and aren't affected.
     location: Jason's safehouse.
+    area: leonida-keys
     sources:
       - url: https://www.keengamer.com/articles/guides/how-to-claim-gta-6-ultimate-edition-and-pre-order-rewards/
         title: "KeenGamer: how to claim GTA 6 Ultimate Edition and pre-order rewards"
@@ -308,6 +314,9 @@ items:
       - url: https://www.keengamer.com/articles/guides/gta-6-chapter-2-lost-money-what-carries-over-and-how-to-get-it-back/
         title: "KeenGamer: GTA 6 Chapter 2 lost money, what carries over"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: ultimate-edition-retro-build
     title: Apply the Ultimate Edition Ganado Retro Build
@@ -318,6 +327,7 @@ items:
     verified: true
     how_to: At Coastal Auto Care, Pro Builds > Full Kits has the Retro Build for Jason's Ganado, free for Ultimate Edition owners. It's optional in Just a Scratch, and guides list it as a Chapter 1 bonus.
     location: Coastal Auto Care, Key Lento.
+    area: leonida-keys
     sources:
       - url: https://www.ign.com/wikis/gta-6/Things_You_Can_Do_First
         title: "IGN: things you can do first"
@@ -385,6 +395,7 @@ items:
       note: "How to Video Game and GameSpot say the back-deck gym goes with the house. GameSight's PS5 save shows Strength dropping at the chapter change while Cardio and Focus stay; The Games Wiki (AI-drafted) says all his fitness levels drop, so the Strength note takes the cautious reading."
     how_to: "Jason's back-deck gym goes with the house at the gate (How to Video Game, GameSpot), so lift weights there while you can. Finish the workout or the gains don't count (Polygon). Don't count on Jason's Strength gains from this chapter lasting past the next chapter change."
     location: Jason's back deck.
+    area: leonida-keys
     sources:
       - url: https://howtovideogame.com/gta-6-workout-chapter-2/
         title: "How to Video Game: Chapter 2 workout spots"
@@ -401,6 +412,9 @@ items:
       - url: https://thegameswiki.com/gta6/wiki/missable-content-and-points-of-no-return
         title: "The Games Wiki: missable content and points of no return"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: collect-cards
     title: Collect the cards
@@ -482,6 +496,7 @@ items:
       note: "IGN's map and gtaboss both put Body Copy at the Zenith gym (Downtown) and the Ajax Gym (Oldby Island); Cutscene Wire's Washington Beach copy is unsupported. Orca has a tiki or outdoor bar copy; Ashes of Glory spots are player reports; Lethal By Design's other copy is inside a later story mission."
     how_to: Five magazines sit inside the house and go with it, so read them while you're there. Each has a copy somewhere else. Body Copy is in the Zenith gym in Downtown and the Ajax Gym on Oldby Island. Off the Hook is in a house on Surfside Dr in Key Lento and a mobile home in Port Gellhorn. Orca is at a tiki bar south of Southwind, and players report Ashes of Glory in several places. Lethal By Design's only other copy is on a warehouse table during a later story mission, so read it in the house. 100% needs 30 of the titles.
     location: Inside Jason's house. Ashes of Glory in the bedroom, Lethal By Design on the living-room table, Orca A Whole Different Animal by the east window, Off the Hook in the tool shed and Body Copy on the back deck.
+    area: leonida-keys
     sources:
       - url: https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/
         title: "PowerPyx: GTA 6 all magazines, books and comics locations"
@@ -498,6 +513,9 @@ items:
       - url: https://www.gtaboss.gg/gta-6/collectibles/magazines-books-comics
         title: "gtaboss: magazines, books and comics"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: donnies-38
     title: Take Donnie's H&L .38 and aviator sunglasses
@@ -511,6 +529,7 @@ items:
       note: "IGN and Beebom give the aviators on the trailer's bathroom shelf; PowerPyx's Don Gone page lists only the .38 as missable. Whether the same model is sold in a shop has no source. lost_at is the next main mission because both pickups are inside Don Gone."
     how_to: During Don Gone, open the trunk of Donnie's car and take the H&L .38 revolver before the car is destroyed. It's a unique weapon variant you keep for good, but if you skip it you can't get it later. Inside his trailer, also grab the aviator sunglasses from the bathroom shelf, then visit a wardrobe to claim them.
     location: The trunk of Donnie's car; the bathroom shelf in his trailer.
+    area: leonida-keys
     sources:
       - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
         title: "IGN: all Chapter 1 missables"
@@ -537,6 +556,7 @@ items:
     verified: true
     how_to: The morning after Down to Earth, at Jason's house, say yes when Lucia asks you to meditate on the balcony. She asks only once. If you decline or miss that morning she won't ask again, so take it right away. It's a nice-to-do you can miss. Positive Mental Attitude doesn't depend on it, and players have earned the trophy without it; if you skip it, Learn to Meditate Together turns up later in the story. Most spots take two sessions, one per character, and 15 of the 18 sessions give 100%. This one takes minutes.
     location: Jason's house.
+    area: leonida-keys
     sources:
       - url: https://forum.psnprofiles.com/topic/202457-positive-mental-attitude-trophy-not-missable/
         title: "PSNProfiles forum: Positive Mental Attitude trophy not missable (player reports)"
@@ -553,6 +573,9 @@ items:
       - url: https://www.trueachievements.com/forum/viewthread.aspx?tid=1734686
         title: "TrueAchievements forum: balcony meditation offered once (player reports)"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: house-repairs
     title: Fix up Jason's house early
@@ -566,6 +589,7 @@ items:
       note: "VGC, GIGA and KeenGamer give the deadline; IGN says repairs can still be made afterwards."
     how_to: Do the repairs around the house (steps, roof, railing and bedroom wall) before you collect Lucia. The relationship bonus only counts if they're done by then, and skipping them lowers her starting level.
     location: Jason's house.
+    area: leonida-keys
     sources:
       - url: https://www.videogameschronicle.com/guide/gta-6-jasons-house-how-to-fix-all-projects-around-jasons-house/
         title: "VGC: how to fix all projects around Jason's house"
@@ -582,6 +606,9 @@ items:
       - url: https://www.ign.com/wikis/gta-6/Feng_Shui_Walkthrough
         title: "IGN: Feng Shui walkthrough (says repairs can be finished after she is home)"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/get-shirleys-rum
+        title: "GTABase: Get Shirley's Rum"
+        accessed: "2026-11-27"
 
   - id: relationship-building
     title: Build your relationship with Lucia
@@ -669,6 +696,7 @@ items:
       note: "IGN's Chapter 1 missables and PowerPyx's Pipework page agree; gtabase's Pipework page also lists it. lost_at is the next main mission because the pickup is inside Pipework."
     how_to: Once the sink is fixed, Mandy storms outside and throws a box of Macizo cigars into the street. Grab it before you leave; it's the mission's only missable pickup and you can't come back for it. A cigar gives a short Focus boost for a little health.
     location: The street outside Mandy's place.
+    area: leonida-keys
     sources:
       - url: https://www.ign.com/wikis/gta-6/All_Chapter_1_Missables
         title: "IGN: all Chapter 1 missables"

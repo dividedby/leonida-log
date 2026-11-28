@@ -390,6 +390,7 @@ missions:
     opens_after: pipework
     closes_at: tourist-trap
     note: Shirley calls out to Jason near his house around Mandy's rent job. Rewards Focus and a Professional rating bump. It doesn't affect trophies or 100%.
+    area: leonida-keys
     evidence:
       basis: best-guess
       note: "Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
@@ -423,6 +424,7 @@ missions:
     opens_after: get-shirleys-rum
     closes_at: tourist-trap
     note: Finish it and Shirley lets you use her car whenever you like. It doesn't affect trophies or 100%.
+    area: leonida-keys
     evidence:
       basis: best-guess
       note: "Reward (two sources): gta.wiki, HoldToReset and GameWith 588323 say finishing it lets Jason use Shirley's car; none names the model; PowerPyx and Push Square list no cash reward but don't rule the car out. Kind (best guess): Game8 JP marks both '2章開始時に消滅' (story-gated, unlike the time-based markers) and names no hourglass; PowerPyx tags them missable; GameWith and gtabase say hourglass/time-sensitive. kind drives no logic."
@@ -459,6 +461,7 @@ missions:
     opens_after: swamped
     closes_at: don-gone
     note: Cal's text sets it off at the Rusty Anchor. It unlocks a Rusty Anchor shirt and cap that can't be bought if you skip it; take Cal home at the end.
+    area: leonida-keys
     evidence:
       basis: best-guess
       note: "GameStar confirms the hourglass mechanic but names no mission; GameWith says no map objective; no frame shows an icon. closes_at don-gone stays: IGN's Ring the Bell! page allows a late text, but the earliest cutoff is used."
@@ -472,6 +475,9 @@ missions:
       - url: https://gamewith.jp/gta6/583812
         title: "GameWith JP: sub-mission list with cutoffs (Japanese)"
         accessed: "2026-11-26"
+      - url: https://www.gtabase.com/gta-6/missions/day-release
+        title: "GTABase: Day Release"
+        accessed: "2026-11-27"
   - slug: get-lucias-clothes
     title: Get Lucia's Clothes
     chapter: just-like-paradise
@@ -480,6 +486,7 @@ missions:
     opens_after: coming-home
     closes_at: clean-up-after-donnie
     note: Andy calls soon after Lucia's morning call. Collect the clothes bag at Manatee's Rest and keep it in your car before you collect Lucia.
+    area: leonida-keys
     sources:
       - url: https://www.powerpyx.com/gta-6-100-completion-checklist-guide/
         title: "PowerPyx: GTA 6 100% completion checklist and guide"
@@ -504,6 +511,7 @@ missions:
     opens_after: coming-home
     closes_at: clear-skies
     note: $475 Tomas necklace at The Siren's Chest, southwest Key Lento. Counts toward the relationship if bought before you pick up Lucia.
+    area: leonida-keys
     evidence:
       basis: safe-bound
       note: "One guide says it lasts until Tourist Trap; the earlier cutoff is used."
@@ -637,6 +645,7 @@ missions:
     opens_after: swamped
     closes_at: don-gone
     note: Lucia calls during the day after Day Release and asks for a ride. Accept the call, because turning it down skips the job. Be there before 4 pm in-game, ideally by car, or it fails. There's no replay, so do it the same day.
+    area: leonida-keys
     sources:
       - url: https://www.youtube.com/watch?v=VitS3_-HmBQ&t=1687s
         title: "GTA Series Videos: Chapter 1 optional missions (caption: unavailable after Swamped)"

@@ -209,8 +209,9 @@ function slugified(text: string): string {
 /**
  * Source titles and links come from outside and can name a mission the item's
  * own text may not ("IGN: Feng Shui walkthrough"). A source that names a main
- * mission after `current` is withheld; the entry's own gate may be named, as
- * in its text (ADR 0002).
+ * mission after `current`, or an optional mission that hasn't opened yet, is
+ * withheld; the entry's own gate may be named, as in its text (ADR 0002). An
+ * optional's own detail only exists once it has opened, so it may name itself.
  */
 function safeSources(
   data: CuratedData,
@@ -225,8 +226,12 @@ function safeSources(
   );
   // A slug can differ from the slugified title (it spells an older title), so
   // match both; slugs only as whole "-" separated words.
-  const titles = later.map((m) => slugified(m.title));
-  const slugs = later.map((m) => `-${m.slug}-`);
+  const unopened = data.optionalMissions.filter(
+    (o) => o.opensOrder > currentOrder,
+  );
+  const named = [...later, ...unopened];
+  const titles = named.map((m) => slugified(m.title));
+  const slugs = named.map((m) => `-${m.slug}-`);
   return list
     .filter(({ title, url }) => {
       const text = `${slugified(title)} ${slugified(url)}`;

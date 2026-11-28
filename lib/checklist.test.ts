@@ -461,6 +461,48 @@ describe("itemDetail sources", () => {
     });
   });
 
+  // o4 opens at m5 and is "Optional o4": naming it earlier shows it exists.
+  it.each([
+    {
+      name: "title",
+      source: {
+        title: "Walkthrough: Optional o4",
+        url: "https://example.com/x",
+      },
+    },
+    {
+      name: "slug in the link",
+      source: { title: "A guide", url: "https://example.com/guides/o4-run" },
+    },
+  ])(
+    "withholds a source whose $name names an unopened optional",
+    ({ source }) => {
+      const curated = withSources([clean, source]);
+      expect(itemDetail(curated, "a", "m1")).toMatchObject({
+        sources: [clean],
+      });
+      expect(itemDetail(curated, "a", "m4")).toMatchObject({
+        sources: [clean],
+      });
+      expect(itemDetail(curated, "a", "m5")).toMatchObject({
+        sources: [clean, source],
+      });
+    },
+  );
+
+  it("applies the same rule on an optional mission's own detail, which may name itself", () => {
+    const raw = fixtureRaw();
+    const o3 = raw.missions.missions.find((m) => m.slug === "o3")!;
+    const other = { title: "Optional o4 guide", url: "https://example.com/y" };
+    const own = { title: "Optional o3 guide", url: "https://example.com/z" };
+    o3.sources = [other, own].map((s) => ({ ...s, accessed: "2026-11-25" }));
+    const curated = parseCurated(raw);
+    expect(itemDetail(curated, "o3", "m2")).toMatchObject({ sources: [own] });
+    expect(itemDetail(curated, "o3", "m5")).toMatchObject({
+      sources: [other, own],
+    });
+  });
+
   it("keeps a source that names the item's own gate", () => {
     const own = { title: "Mission m3 guide", url: "https://example.com/m3" };
     expect(itemDetail(withSources([own]), "a", "m1")).toMatchObject({
