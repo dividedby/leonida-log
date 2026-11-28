@@ -202,6 +202,8 @@ export type ItemDetail =
       category: Category;
       howTo: string;
       location?: string;
+      /** The item's area, only while that area is visible. */
+      area?: AreaTag;
       sources: { title: string; url: string }[];
       closes: Countdown;
     }
@@ -210,6 +212,8 @@ export type ItemDetail =
       title: string;
       note?: string;
       character: Character;
+      /** The optional mission's area, only while that area is visible. */
+      area?: AreaTag;
       sources: { title: string; url: string }[];
       closes: Countdown;
     };
@@ -272,25 +276,32 @@ export function itemDetail(
 ): ItemDetail | null {
   if (!isTickable(data, id, current)) return null;
 
+  const tagOf = (slug: string | undefined) =>
+    slug === undefined ? undefined : areaTag(data, current, slug);
+
   const item = data.items.find((i) => i.id === id);
   if (item) {
+    const area = tagOf(item.area);
     return {
       kind: "item",
       title: item.title,
       category: item.category,
       howTo: item.how_to,
       ...(item.location !== undefined && { location: item.location }),
+      ...(area && { area }),
       sources: safeSources(data, current, item.before_gate, item.sources),
       closes: closesIn(data, current, item.lost_at_mission ?? "never"),
     };
   }
   const optional = data.optionalMissions.find((o) => o.slug === id);
   if (!optional) return null;
+  const area = tagOf(optional.area);
   return {
     kind: "optional",
     title: optional.title,
     ...(optional.note !== undefined && { note: optional.note }),
     character: optional.character,
+    ...(area && { area }),
     sources: safeSources(
       data,
       current,

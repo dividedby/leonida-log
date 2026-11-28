@@ -8,7 +8,13 @@ import { ChecklistRow } from "@/components/ChecklistRow/ChecklistRow";
 export function ChecklistDemo({
   rows,
 }: {
-  rows: { id: string; label: string; checked: boolean; chips?: ReactNode }[];
+  rows: {
+    id: string;
+    label: string;
+    checked: boolean;
+    chips?: ReactNode;
+    tag?: string;
+  }[];
 }) {
   const [checked, setChecked] = useState(
     () => new Map(rows.map((row) => [row.id, row.checked])),
@@ -22,6 +28,7 @@ export function ChecklistDemo({
           label={row.label}
           checked={checked.get(row.id) ?? false}
           chips={row.chips}
+          tag={row.tag}
           onToggle={(id, next) =>
             setChecked((current) => new Map(current).set(id, next))
           }

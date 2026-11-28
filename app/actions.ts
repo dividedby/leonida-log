@@ -24,6 +24,8 @@ export async function setItemChecked(formData: FormData): Promise<void> {
   repo.setItemChecked(id, checked === "true");
   revalidatePath("/");
   revalidatePath("/checklist");
+  // The map's badges and every area sheet count the same rows.
+  revalidatePath("/map", "layout");
 }
 
 /**

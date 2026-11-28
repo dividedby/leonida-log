@@ -35,13 +35,14 @@ In `components/<Name>/` (a component plus its CSS module). All are server compon
 - **CategoryHeader** `{ title, done, total }`, **ProgressBar** `{ done, total, label? }` (`role="progressbar"`, 0-100), **PrimaryButton** `{ children, type?, onClick?, formAction?, disabled? }` (44px minimum).
 - **Chip** `{ variant, children }`: `soon-lost`, `tip` or `countdown`. The countdown text comes from `countdownLabel`. The reference's "Research" chip is dropped: nothing in the app is labelled by confidence (ADR 0008).
 - **LockedRow** `{ count, unlockMission }`: "4 more unlock after Day Release"; shows no item text.
-- **TabBar** `{ active }`: `nav` "Main" with Story, Checklist, Stats and More. v2 makes it five: Story, Checklist, Map, Stats, More (ADR 0010).
-- **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled?, href? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes. `href` adds a details chevron (44px, `aria-label` "Details: {label}") beside the label, outside it, since a link inside the label would toggle the box. `disabled` greys the box and label.
+- **TabBar** `{ active }`: `nav` "Main" with five tabs: Story, Checklist, Map, Stats, More (ADR 0010). The Map tab is active on `/map` and every area sheet; item detail pages keep Checklist active.
+- **Schematic** `{ regions }` (server): the Map screen's coastline, an SVG `role="group"` labelled "Map of Leonida" that draws one hand-made shape per `MapRegion`, picked by its `index` (areas.yaml order; a new region goes at the end of the file and of the shape list). A reached region is a link with its name and a badge; an unreached one is a bare `aria-hidden` path with no text.
+- **ChecklistRow** (client) `{ id, label, checked, action?, onToggle?, chips?, disabled?, href?, tag? }`: a real checkbox in a 44px label. Toggling submits a form whose FormData holds `id` and `checked` (`"true"` or `"false"`, the new state); `action` is a server action taking that FormData, so screens bind it without changing the component. The box flips at once (`useOptimistic`) and settles on the `checked` prop when the action finishes. `href` adds a details chevron (44px, `aria-label` "Details: {label}") beside the label, outside it, since a link inside the label would toggle the box. `disabled` greys the box and label. `tag` (an area name) shows inline after the label text, in muted 11px type after a dot, as plain text, not a chip.
 - **MarkDone** `{ control, returnTo, action }`: "Mark mission done" for Home and the checklist. `control` is `doneControl`'s result: `advance` renders a one-tap form (FormData `from` = the current mission's global order, `return`), `confirm` renders a link to `/done`, null (last mission) renders nothing. The label names no mission.
 
 ## Screens
 
-Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, ChecklistRow, Chip, LockedRow, ProgressBar, PrimaryButton, MarkDone.
+Components: PostcardHeader, ExitSign, StatStrip, StatRing, CategoryHeader, ChecklistRow, Chip, LockedRow, ProgressBar, PrimaryButton, MarkDone, TabBar, Schematic.
 
 ### Home
 
@@ -55,7 +56,7 @@ This is round 2, option A.
 - **See all** next to the Up next heading links to `/checklist`, where ticked rows stay listed and can be unticked.
 - **Mark mission done** (Flow 3) below the list: one tap for an ordinary mission, a link to `/done` when the current mission is a point of no return, nothing on the last mission.
 - **Change story position** link to `/onboarding`.
-- **Tab bar:** Story, Checklist, Stats, More. v2 adds Map between Checklist and Stats.
+- **Tab bar:** Story, Checklist, Map, Stats, More.
 - **Error:** `app/error.tsx` shows a fixed message and a retry button, never the error text.
 
 ### Before you move on (checklist)
@@ -85,17 +86,18 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 - `parseStatLevelInput` accepts only exact `0` to `4` for a known character and stat; anything else is rejected before any write. `statsView` (`lib/stats.ts`) builds the cards; Home's `statRows` derives from it. A stat with no row is level 0.
 - Stats are not spoiler-gated: they hold the user's own levels and no curated content.
 
-### Map (v2, designed, not built yet)
+### Map (v2)
 
 Decided in ADR 0010; plan in [plans/v2.md](plans/v2.md). The design reference's Map (v2) section has the chosen Map screen, area sheet, Home with area tags and the five-tab TabBar in light and dark (picked 2026-11-27: the coastline schematic and the inline tag).
 
-- **PostcardHeader:** "Map" with the next gate as the eyebrow ("Before Tourist Trap"), as the checklist names it.
+- **PostcardHeader:** "Map" with the next gate as the eyebrow ("Before Tourist Trap"), as the checklist names it, and the subtitle "Tap an area to see what's there".
 - **Schematic:** one static SVG coastline of Leonida with its regions as shapes, drawn by hand, not to scale and not traced from any map, the Leonida Keys as one tappable island chain, fit to the phone width, no client JS, no pan or zoom. A reached region is a link (44px minimum hit area) with its name and a badge counting the unticked rows its area sheet shows (districts roll up). An unreached region is an unnamed shape in the rule colour: no name, no badge, not a link, `aria-hidden`. Sea and coast are decorative.
 - **No locked counts** anywhere on the map: a per-area count would say where hidden content is. The checklist's LockedRow is the only place locked counts show.
 - **Anywhere:** below the schematic, a CategoryHeader "Anywhere" with the map's rows (the next gate's visible items and opened optionals plus safe-to-leave optionals, unticked closed rows left out) that have no area, as ChecklistRows.
-- **Area sheet** (`/map/[area]`): server-rendered. PostcardHeader with the area name, a "Back to map" link and the area's rows as ChecklistRows: the next gate's visible items and opened optionals plus safe-to-leave optionals, filtered to the area (a region includes its districts), with countdown and "Soon lost" chips and the detail chevron. Unticked closed rows are left out; a ticked closed row stays so it can be unticked, as on the checklist. A hidden area, an unknown slug and a district before its region give the same 404, and the tab title stays "Leonida Log".
+- **Area sheet** (`/map/[area]`): server-rendered. PostcardHeader (eyebrow "Map", the area name, subtitle "N to do here", or "All done here" or "Nothing here yet" at zero), a "Back to map" link (44px) and the area's rows as ChecklistRows: the next gate's visible items and opened optionals plus safe-to-leave optionals, filtered to the area (a region includes its districts), with countdown and "Soon lost" chips and the detail chevron. Unticked closed rows are left out; a ticked closed row stays so it can be unticked, as on the checklist. A hidden area, an unknown slug and a district before its region give the same 404, and the tab title stays "Leonida Log".
 - **Row area tag:** a ChecklistRow whose entry has an area shows the area name in muted text after the label on the same line, after a dot ("· Leonida Keys"), on `/checklist`, Home's Up next and area sheets (left out on an area sheet when it would repeat the sheet's own area). No colour, so it doesn't read as a chip.
-- **Detail pages:** "Area: {name}" under the title, linking to `/map/[area]`.
+- **Detail pages:** "Area: {name}" under the "Back to checklist" link, linking to `/map/[area]` (44px; `itemDetail` carries `area` only while the area is visible).
+- **Ticking:** `setItemChecked` also revalidates `/map` and its sheets, so a tick on a sheet stays on that sheet and updates the map's badges, the checklist and Home.
 - **Logic** lives in `lib/map.ts` (`mapView`, `areaSheet`) on top of the rows of `checklistView`'s sections (every section but "No longer available"), tested on the fixture, with its later areas placed, and, for leaks, every mission as the current one on the real data and the fixture.
   - `mapView(data, current, checks)` gives `header` (`eyebrow` "Before <next gate>", absent after the last gate; `title` "Map"), `regions` and `anywhere` (a `ChecklistSection` keyed `anywhere`, null when empty). A region is `{ reached: true, index, name, href: "/map/<slug>", badge }` or `{ reached: false, index }`: an unreached region has no name, slug, href or count. `badge` is the `left` of the region's sheet.
   - `index` is the region's position among the top-level areas (no `parent`) in `areas.yaml` file order, so a new region goes at the end of the file. Step 5's schematic must draw exactly one shape per region in that order and map `index` to a shape; a test then pins the shape count to the region count.

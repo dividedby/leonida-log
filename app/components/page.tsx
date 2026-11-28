@@ -6,10 +6,12 @@ import { LockedRow } from "@/components/LockedRow/LockedRow";
 import { PostcardHeader } from "@/components/PostcardHeader/PostcardHeader";
 import { PrimaryButton } from "@/components/PrimaryButton/PrimaryButton";
 import { ProgressBar } from "@/components/ProgressBar/ProgressBar";
+import { Schematic } from "@/components/Schematic/Schematic";
 import { StatRing } from "@/components/StatRing/StatRing";
 import { StatStrip } from "@/components/StatStrip/StatStrip";
 import { TabBar } from "@/components/TabBar/TabBar";
 import { countdownLabel } from "@/lib/gates";
+import type { MapRegion } from "@/lib/map";
 import { ChecklistDemo } from "./ChecklistDemo";
 import styles from "./page.module.css";
 
@@ -34,6 +36,28 @@ const LUCIA = {
     { label: "Focus", level: 0 },
   ],
 };
+
+// Two regions reached, one with nothing left; the other four unreached.
+const SCHEMATIC_REGIONS: MapRegion[] = [
+  {
+    reached: true,
+    index: 0,
+    name: "Vice City",
+    href: "/map/vice-city",
+    badge: 0,
+  },
+  {
+    reached: true,
+    index: 1,
+    name: "Leonida Keys",
+    href: "/map/leonida-keys",
+    badge: 3,
+  },
+  { reached: false, index: 2 },
+  { reached: false, index: 3 },
+  { reached: false, index: 4 },
+  { reached: false, index: 5 },
+];
 
 function Specimen({
   name,
@@ -100,6 +124,7 @@ function Column({ theme }: { theme: "light" | "dark" }) {
               label: "Drive the Ultimate Edition cars",
               checked: false,
               chips: <Chip variant="soon-lost">Soon lost</Chip>,
+              tag: "Vice City",
             },
             {
               id: `${theme}-cash`,
@@ -137,8 +162,12 @@ function Column({ theme }: { theme: "light" | "dark" }) {
         <PrimaryButton>Mark mission done</PrimaryButton>
       </Specimen>
 
+      <Specimen name="Schematic">
+        <Schematic regions={SCHEMATIC_REGIONS} />
+      </Specimen>
+
       <Specimen name="TabBar">
-        <TabBar active="story" />
+        <TabBar active="map" />
       </Specimen>
     </div>
   );

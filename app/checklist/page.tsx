@@ -47,6 +47,7 @@ export default function Checklist() {
                 disabled={row.disabled}
                 href={row.href}
                 action={setItemChecked}
+                tag={row.area?.name}
                 chips={
                   row.chips.length > 0
                     ? row.chips.map((chip) => (

@@ -11,6 +11,9 @@ import styles from "./ChecklistRow.module.css";
  * server action can be bound without changing this component. The box flips
  * at once and settles on the `checked` prop when the action finishes.
  *
+ * `tag` is the row's area name, shown inline after the label text as plain
+ * muted text (not a chip), so it joins the checkbox's accessible name.
+ *
  * With `href` the row gets a details link beside the label, not inside it: a
  * link in the label would toggle the box.
  */
@@ -23,6 +26,7 @@ export function ChecklistRow({
   chips,
   disabled,
   href,
+  tag,
 }: {
   id: string;
   label: string;
@@ -32,6 +36,7 @@ export function ChecklistRow({
   chips?: ReactNode;
   disabled?: boolean;
   href?: string;
+  tag?: string;
 }) {
   const [optimistic, setOptimistic] = useOptimistic(
     checked,
@@ -75,7 +80,15 @@ export function ChecklistRow({
             />
             <span className={styles.box} aria-hidden="true" />
           </span>
-          <span className={styles.label}>{label}</span>
+          <span className={styles.label}>
+            {label}
+            {tag ? (
+              <span className={styles.tag}>
+                {" "}
+                <span aria-hidden="true">·</span> {tag}
+              </span>
+            ) : null}
+          </span>
           {chips ? <span className={styles.chips}>{chips}</span> : null}
         </label>
         {href ? (
