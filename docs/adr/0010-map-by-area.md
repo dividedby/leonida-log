@@ -17,7 +17,7 @@ v2 adds the Map tab (docs/design.md listed it as out of v1). The repo bans Rocks
 - **Gating (extends ADR 0002):**
   - An area past the current mission is an unnamed shape in the rule colour: no name, no count, not a link. Its route is the same 404 as an unknown slug.
   - The map shows no locked counts, overall or per area: a count by area would say where future content is. The checklist's LockedRow stays the one place locked counts show.
-  - A region's badge counts the unticked rows you can still do there (districts roll up).
+  - A region's badge counts the unticked rows its area sheet shows (districts roll up), so closed rows never count.
   - No item or optional text (`title`, `how_to`, `location`, `note`) names an area before that area's `visible_after_mission`, enforced by `lib/curated.data.test.ts` next to the mission-name rule.
   - Map view-model leak tests run every mission as the current one against the real data and fail on a later area name or slug, a later mission title, or a hidden entry.
 - **Area sheet:** tapping a region opens `/map/[area]`, server-rendered: the area's rows as ChecklistRows (tickable, countdown and "Soon lost" chips, detail chevron). Closed rows are left out.

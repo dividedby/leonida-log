@@ -90,13 +90,13 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 Decided in ADR 0010; plan in [plans/v2.md](plans/v2.md). The design reference gets the Map screen, area sheet, five-tab TabBar and row area tag (light and dark) before any UI build, and the picked mockup overrides the layout notes below.
 
 - **PostcardHeader:** "Map" with the next gate as the eyebrow ("Before Tourist Trap"), as the checklist names it.
-- **Schematic:** one static SVG of Leonida's regions, original and not to scale, fit to the phone width, no client JS, no pan or zoom. A reached region is a link (44px minimum hit area) with its name and a badge counting its unticked rows you can still do (districts roll up). An unreached region is an unnamed shape in the rule colour: no name, no badge, not a link, `aria-hidden`. Sea and coast are decorative.
+- **Schematic:** one static SVG of Leonida's regions, original and not to scale, fit to the phone width, no client JS, no pan or zoom. A reached region is a link (44px minimum hit area) with its name and a badge counting the unticked rows its area sheet shows (districts roll up). An unreached region is an unnamed shape in the rule colour: no name, no badge, not a link, `aria-hidden`. Sea and coast are decorative.
 - **No locked counts** anywhere on the map: a per-area count would say where hidden content is. The checklist's LockedRow is the only place locked counts show.
-- **Anywhere:** below the schematic, a CategoryHeader "Anywhere" with the visible rows that have no area, as ChecklistRows.
+- **Anywhere:** below the schematic, a CategoryHeader "Anywhere" with the map's rows (the next gate's visible items and opened optionals plus safe-to-leave optionals, closed rows left out) that have no area, as ChecklistRows.
 - **Area sheet** (`/map/[area]`): server-rendered. PostcardHeader with the area name, a "Back to map" link and the area's rows as ChecklistRows: the next gate's visible items and opened optionals plus safe-to-leave optionals, filtered to the area (a region includes its districts), with countdown and "Soon lost" chips and the detail chevron. Closed rows are left out. A hidden area, an unknown slug and a district before its region give the same 404, and the tab title stays "Leonida Log".
 - **Row area tag:** a ChecklistRow whose entry has an area shows the area name in muted text after the label, on `/checklist`, Home's Up next and area sheets (left out on an area sheet when it would repeat the sheet's own area). No colour, so it doesn't read as a chip.
 - **Detail pages:** "Area: {name}" under the title, linking to `/map/[area]`.
-- **Logic** lives in `lib/map.ts` (`mapView`, `areaSheet`) on top of `checklistView`'s rows, tested on the fixture and, for leaks, every mission as the current one on the real data.
+- **Logic** lives in `lib/map.ts` (`mapView`, `areaSheet`) on top of the rows of `checklistView`'s sections, tested on the fixture and, for leaks, every mission as the current one on the real data.
 
 ### More
 
