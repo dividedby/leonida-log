@@ -85,7 +85,7 @@ This is round 1, option A, without the workout button and "Last workout" line (A
 - `parseStatLevelInput` accepts only exact `0` to `4` for a known character and stat; anything else is rejected before any write. `statsView` (`lib/stats.ts`) builds the cards; Home's `statRows` derives from it. A stat with no row is level 0.
 - Stats are not spoiler-gated: they hold the user's own levels and no curated content.
 
-### Map (v2)
+### Map (v2, designed, not built yet)
 
 Decided in ADR 0010; plan in [plans/v2.md](plans/v2.md). The design reference's Map (v2) section has the chosen Map screen, area sheet, Home with area tags and the five-tab TabBar in light and dark (picked 2026-11-27: the coastline schematic and the inline tag).
 
