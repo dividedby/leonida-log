@@ -1,0 +1,6 @@
+/* The confirm case is a link that looks like the primary button. */
+.link {
+  composes: button from "../PrimaryButton/PrimaryButton.module.css";
+  text-align: center;
+  text-decoration: none;
+}

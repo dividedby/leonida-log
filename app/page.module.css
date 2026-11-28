@@ -24,6 +24,21 @@
   text-transform: uppercase;
 }
 
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--pink-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
 .empty {
   margin: 0;
   padding: 10px 0;

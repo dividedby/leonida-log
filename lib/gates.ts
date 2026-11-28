@@ -57,6 +57,18 @@ export function nextGate(data: CuratedData, current: string): Gate | null {
   return data.gates.find((g) => g.order >= currentOrder) ?? null;
 }
 
+/** The main mission after `current`; null on the last one. */
+export function nextMission(data: CuratedData, current: string): string | null {
+  const order = orderOf(data, current);
+  return data.missions.find((m) => m.order === order + 1)?.slug ?? null;
+}
+
+/** The gate whose mission is `current` (standing on a point of no return), else null. */
+export function gateAt(data: CuratedData, current: string): Gate | null {
+  orderOf(data, current);
+  return data.gates.find((g) => g.mission === current) ?? null;
+}
+
 export type Countdown =
   | { state: "open"; missions: number }
   | { state: "closed" }
@@ -87,7 +99,10 @@ export function countdownLabel(countdown: Countdown): string | null {
 }
 
 /** The first gate at or after an optional's closing mission; null for "never". */
-function boundGate(data: CuratedData, optional: OptionalMission): Gate | null {
+export function boundGate(
+  data: CuratedData,
+  optional: OptionalMission,
+): Gate | null {
   if (optional.closesOrder === null) return null;
   const closes = optional.closesOrder;
   return data.gates.find((g) => g.order >= closes) ?? null;

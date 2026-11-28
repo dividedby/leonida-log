@@ -33,7 +33,7 @@ DATABASE_PATH=data/local.db pnpm dev
 pnpm test
 ```
 
-Routes: `/` (Home; redirects to `/onboarding` until a story position is saved), `/onboarding` (story position picker), `/checklist`, `/stats` and `/more` (placeholders until their PRs), `/components` and `/api/health`. The app reads the database per request and never migrates it, so run `pnpm db:migrate` against `DATABASE_PATH` before `pnpm dev`, with `DATABASE_PATH` set for both (`.env.example` names it).
+Routes: `/` (Home; redirects to `/onboarding` until a story position is saved), `/onboarding` (story position picker), `/checklist` (the next point of no return's list; ticked rows stay listed so they can be unticked, and it has the "Mark mission done" control), `/checklist/item/[id]` (a row's detail sheet, only for visible content), `/done` (confirmation before moving on from a point of no return), `/stats` and `/more` (placeholders until their PRs), `/components` and `/api/health`. The app reads the database per request and never migrates it, so run `pnpm db:migrate` against `DATABASE_PATH` before `pnpm dev`, with `DATABASE_PATH` set for both (`.env.example` names it).
 
 `/components` (noindex) shows every UI component in light and dark at 375px. The PWA icons in `public/icons/` are committed; after changing `app/icon.svg`, regenerate them with `node scripts/make-icons.mjs`.
 
